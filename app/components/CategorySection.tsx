@@ -42,27 +42,7 @@ const CategorySection: React.FC<CategorySectionProps> = ({ title, products }) =>
         >
           <div>
             <h2>{title}</h2>
-            <p className="text-gray-600">Handcrafted with love and precision</p>
-          </div>
-
-          {/* Navigation Arrows */}
-          <div className="flex gap-2">
-            <motion.button
-              onClick={() => scroll('left')}
-              className="arrow-btn"
-              whileHover={{ scale: 1.1 }}
-              whileTap={{ scale: 0.95 }}
-            >
-              <ChevronLeft size={20} />
-            </motion.button>
-            <motion.button
-              onClick={() => scroll('right')}
-              className="arrow-btn"
-              whileHover={{ scale: 1.1 }}
-              whileTap={{ scale: 0.95 }}
-            >
-              <ChevronRight size={20} />
-            </motion.button>
+            {/* Subtitle removed to keep product focus as per request */}
           </div>
         </motion.div>
 
@@ -74,6 +54,26 @@ const CategorySection: React.FC<CategorySectionProps> = ({ title, products }) =>
           viewport={{ once: true }}
           transition={{ delay: 0.2, duration: 0.6 }}
         >
+          {/* Side Arrows */}
+          <motion.button
+            onClick={() => scroll('left')}
+            className="carousel-arrow left"
+            aria-label="Scroll left"
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+          >
+            <ChevronLeft size={22} />
+          </motion.button>
+          <motion.button
+            onClick={() => scroll('right')}
+            className="carousel-arrow right"
+            aria-label="Scroll right"
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+          >
+            <ChevronRight size={22} />
+          </motion.button>
+
           <div
             ref={scrollRef}
             className="product-grid"
@@ -92,19 +92,7 @@ const CategorySection: React.FC<CategorySectionProps> = ({ title, products }) =>
             ))}
           </div>
         </motion.div>
-
-        {/* View All Button */}
-        <motion.div 
-          className="text-center mt-8"
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ delay: 0.4, duration: 0.6 }}
-        >
-          <button className="btn btn-primary px-8 py-3">
-            View All {title}
-          </button>
-        </motion.div>
+        {/* View All button removed for minimal product-focused design */}
       </div>
     </section>
   )

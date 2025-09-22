@@ -30,25 +30,7 @@ const VideoBanner = () => {
     }
   }, [])
 
-  const togglePlayPause = () => {
-    const video = videoRef.current
-    if (video) {
-      if (isPlaying) {
-        video.pause()
-      } else {
-        video.play()
-      }
-      setIsPlaying(!isPlaying)
-    }
-  }
-
-  const toggleMute = () => {
-    const video = videoRef.current
-    if (video) {
-      video.muted = !isMuted
-      setIsMuted(!isMuted)
-    }
-  }
+  // Controls removed per design; keep autoplay muted for smooth UX.
 
   return (
     <section className="relative w-full banner-h overflow-hidden bg-gray-900">
@@ -63,6 +45,7 @@ const VideoBanner = () => {
         muted
         playsInline
         preload="metadata"
+        poster="/logo.png"
       >
         <source src="/banner.mp4" type="video/mp4" />
         Your browser does not support the video tag.
@@ -124,26 +107,7 @@ const VideoBanner = () => {
         </div>
       </div>
 
-      {/* Video Controls */}
-      <div className="absolute bottom-6 right-6 flex space-x-3">
-        <motion.button
-          onClick={togglePlayPause}
-          className="bg-white/20 backdrop-blur-md text-white p-3 rounded-full hover:bg-white/30 transition-all duration-300"
-          whileHover={{ scale: 1.1 }}
-          whileTap={{ scale: 0.95 }}
-        >
-          {isPlaying ? <Pause size={20} /> : <Play size={20} />}
-        </motion.button>
-        
-        <motion.button
-          onClick={toggleMute}
-          className="bg-white/20 backdrop-blur-md text-white p-3 rounded-full hover:bg-white/30 transition-all duration-300"
-          whileHover={{ scale: 1.1 }}
-          whileTap={{ scale: 0.95 }}
-        >
-          {isMuted ? <VolumeX size={20} /> : <Volume2 size={20} />}
-        </motion.button>
-      </div>
+      {/* Controls removed as requested */}
 
       {/* Scroll Indicator */}
       <motion.div 
@@ -194,17 +158,7 @@ const VideoBanner = () => {
         ))}
       </div>
 
-      {/* Brand Tagline */}
-      <motion.div 
-        className="absolute top-6 left-6 bg-white/10 backdrop-blur-md text-white px-4 py-2 rounded-full"
-        initial={{ x: -100, opacity: 0 }}
-        animate={{ x: 0, opacity: 1 }}
-        transition={{ delay: 1.5, duration: 0.6 }}
-      >
-        <p className="text-sm font-medium">
-          Woman-Led Entrepreneurship
-        </p>
-      </motion.div>
+      {/* Tagline removed for a cleaner hero */}
     </section>
   )
 }

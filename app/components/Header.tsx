@@ -25,9 +25,9 @@ const Header = () => {
   return (
     <header className="header">
       <div className="container">
-        <div className="flex items-center justify-between h-16">
+        <div className="flex items-center justify-between h-16 gap-4">
           {/* Logo Section */}
-          <Link href="/" className="logo-container">
+          <Link href="/" className="logo-container" aria-label="Mridang Home">
             <div className="logo-image">
               <Image
                 src="/logo.png"
@@ -37,12 +37,7 @@ const Header = () => {
                 priority
               />
             </div>
-            <div className="hidden-mobile">
-              <h1 className="logo-text">
-                Mridang
-              </h1>
-              {/* subtitle intentionally removed per design request */}
-            </div>
+            <h1 className="logo-text hidden-mobile">Mridang</h1>
           </Link>
 
           {/* Desktop Navigation */}
@@ -60,7 +55,7 @@ const Header = () => {
           </nav>
 
           {/* Search Bar - Desktop */}
-          <div className="hidden-mobile search-container">
+          <div className="hidden-mobile search-container" aria-label="Search">
             <Search className="search-icon" size={20} />
             <input
               type="text"

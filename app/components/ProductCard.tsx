@@ -1,7 +1,7 @@
 'use client'
 
 import { motion } from 'framer-motion'
-import { Heart, ShoppingCart, Eye } from 'lucide-react'
+import { ShoppingCart } from 'lucide-react'
 import Image from 'next/image'
 import { useState } from 'react'
 import { Product } from '../types'
@@ -49,44 +49,12 @@ const ProductCard: React.FC<Product> = ({
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
           />
         )}
-        
-        {/* Sale Badge */}
-        {hasDiscount && (
-          <div className="sale-badge">
-            SALE
-          </div>
-        )}
-
-        {/* Hover Actions */}
-        <motion.div 
-          className="product-actions"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: isHovered ? 1 : 0 }}
-          transition={{ duration: 0.2 }}
-        >
-          <button className="action-btn">
-            <Heart className="w-5 h-5" />
-          </button>
-          
-          <button className="action-btn">
-            <Eye className="w-5 h-5" />
-          </button>
-          
-          <button className="action-btn">
-            <ShoppingCart className="w-5 h-5" />
-          </button>
-        </motion.div>
       </div>
 
       {/* Product Info */}
       <div className="p-5">
-        {/* Product Name */}
-        <h3 className="font-semibold text-lg mb-3 text-gray-900">
-          {name}
-        </h3>
-
         {/* Price: show cut and original prices */}
-        <div className="flex items-center gap-2 mb-4">
+        <div className="flex items-center gap-3 mb-4 justify-center">
           {cut_price && (
             <span className="text-xl font-bold text-gray-900">
               ₹{cut_price.toLocaleString()}
@@ -100,8 +68,9 @@ const ProductCard: React.FC<Product> = ({
         </div>
 
         {/* Add to Cart Button */}
-        <button className="btn btn-primary w-full">
-          Add to Cart
+        <button className="btn btn-primary w-full inline-flex items-center justify-center gap-2">
+          <ShoppingCart className="w-4 h-4" />
+          <span>Add to Cart</span>
         </button>
       </div>
     </motion.div>
