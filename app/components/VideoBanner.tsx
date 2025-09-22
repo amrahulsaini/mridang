@@ -1,4 +1,4 @@
-'use client'
+﻿'use client'
 
 import { useRef, useEffect } from 'react'
 import { motion } from 'framer-motion'
@@ -51,7 +51,7 @@ const VideoBanner = () => {
   }
 
   return (
-    <section className="relative w-full h-[50vh] sm:h-[60vh] lg:h-[70vh] overflow-hidden bg-gray-900">
+    <section className="relative w-full banner-h overflow-hidden bg-gray-900">
       {/* Video Element */}
       <motion.video
         ref={videoRef}
@@ -73,7 +73,7 @@ const VideoBanner = () => {
       
       {/* Content Overlay */}
       <div className="absolute inset-0 flex items-center justify-start">
-        <div className="container mx-auto px-4">
+  <div className="container mx-auto px-4">
           <motion.div 
             className="max-w-2xl text-white"
             initial={{ x: -100, opacity: 0 }}

@@ -17,10 +17,10 @@ const ProductCard: React.FC<Product> = ({
 
   // Use main_image_url first, then fallback to image_url, then placeholder
   const productImage = main_image_url || image_url || '/file.svg'
+  const isProblematicSrc = typeof productImage === 'string' && productImage.includes('url=')
 
-  // Determine pricing
-  const currentPrice = cut_price || original_price
-  const hasDiscount = cut_price && original_price && cut_price < original_price
+  // Determine pricing strictly as requested: show cut and original only
+  const hasDiscount = !!(cut_price && original_price && cut_price < original_price)
 
   return (
     <motion.div 
@@ -33,13 +33,22 @@ const ProductCard: React.FC<Product> = ({
     >
       {/* Product Image */}
       <div className="product-image">
-        <Image
-          src={productImage}
-          alt={name}
-          fill
-          className="object-cover"
-          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-        />
+        {isProblematicSrc ? (
+          <img
+            src={productImage}
+            alt={name}
+            style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
+            loading="lazy"
+          />
+        ) : (
+          <Image
+            src={productImage}
+            alt={name}
+            fill
+            className="object-cover"
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+          />
+        )}
         
         {/* Sale Badge */}
         {hasDiscount && (
@@ -76,16 +85,16 @@ const ProductCard: React.FC<Product> = ({
           {name}
         </h3>
 
-        {/* Price */}
+        {/* Price: show cut and original prices */}
         <div className="flex items-center gap-2 mb-4">
-          {currentPrice && (
+          {cut_price && (
             <span className="text-xl font-bold text-gray-900">
-              ₹{currentPrice.toLocaleString()}
+              ₹{cut_price.toLocaleString()}
             </span>
           )}
-          {hasDiscount && (
-            <span className="text-sm text-gray-500 line-through">
-              ₹{original_price?.toLocaleString()}
+          {original_price && (
+            <span className={`text-sm text-gray-500 ${cut_price ? 'line-through' : ''}`}>
+              ₹{original_price.toLocaleString()}
             </span>
           )}
         </div>

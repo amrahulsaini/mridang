@@ -41,9 +41,7 @@ const Header = () => {
               <h1 className="logo-text">
                 Mridang
               </h1>
-              <p className="logo-subtitle">
-                Handcrafted with Love
-              </p>
+              {/* subtitle intentionally removed per design request */}
             </div>
           </Link>
 
@@ -76,7 +74,7 @@ const Header = () => {
           {/* Auth & Cart Section */}
           <div className="flex items-center gap-4">
             {/* Cart */}
-            <button className="relative p-2 text-gray-700 hover:text-red-600 transition-colors">
+            <button className="relative p-2 text-gray-700 hover:text-red-600 transition-colors" aria-label="Cart">
               <ShoppingCart size={24} />
               <span className="absolute -top-1 -right-1 bg-red-600 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
                 0
@@ -97,10 +95,11 @@ const Header = () => {
               ))}
             </div>
 
-            {/* Mobile Menu Button */}
+            {/* Mobile Menu Button - hidden on desktop */}
             <button
-              className="block md:hidden p-2 text-gray-700 hover:text-red-600 transition-colors"
+              className="visible-mobile p-2 text-gray-700 hover:text-red-600 transition-colors"
               onClick={toggleMenu}
+              aria-label="Toggle menu"
             >
               {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
             </button>
@@ -109,7 +108,7 @@ const Header = () => {
 
         {/* Mobile Search Bar */}
         {isMenuOpen && (
-          <div className="block md:hidden py-4 border-t border-gray-200">
+          <div className="visible-mobile py-4 border-t border-gray-200">
             <div className="search-container">
               <Search className="search-icon" size={20} />
               <input
@@ -126,7 +125,7 @@ const Header = () => {
 
       {/* Mobile Menu */}
       {isMenuOpen && (
-        <div className="block md:hidden bg-white border-t border-gray-200 shadow-lg">
+        <div className="visible-mobile bg-white border-t border-gray-200 shadow-lg">
           <div className="container py-6">
             {/* Navigation Links */}
             <div className="space-y-4 mb-6">

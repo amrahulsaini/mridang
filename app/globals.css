@@ -477,6 +477,50 @@ html, body {
   display: none;
 }
 
+/* Reusable buttons */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.65rem 1rem;
+  border-radius: 0.75rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+.btn-primary {
+  background: linear-gradient(135deg, #800020, #a0002a);
+  color: #fff;
+  border: 1px solid rgba(128, 0, 32, 0.2);
+}
+.btn-primary:hover {
+  filter: brightness(1.05);
+  transform: translateY(-1px);
+}
+.btn-secondary {
+  background: #fff1f3;
+  color: #800020;
+  border: 1px solid rgba(128, 0, 32, 0.3);
+}
+.btn-secondary:hover { background: #ffe4e9; }
+.btn-outline {
+  background: transparent;
+  border: 1.5px solid currentColor;
+}
+
+/* Banner utilities */
+.banner-h { height: 50vh; }
+@media (min-width: 640px) { .banner-h { height: 60vh; } }
+@media (min-width: 1024px) { .banner-h { height: 72vh; } }
+
+.gradient-text {
+  background: linear-gradient(135deg, #fff, #ffd1dc);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
 /* Category Section */
 .category-section {
   padding: 4rem 0;
@@ -943,6 +987,7 @@ footer {
   .hidden-mobile {
     display: none;
   }
+  .product-image { height: 200px; }
   
   .section-header {
     flex-direction: column;
