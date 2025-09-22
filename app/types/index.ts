@@ -4,6 +4,8 @@ export interface Product {
   name: string;
   description?: string;
   price: number;
+  cut_price?: number;        // Added for discounted price
+  original_price?: number;   // Added for original price before discount
   category_id: number;
   category_name?: string;
   stock_quantity: number;
