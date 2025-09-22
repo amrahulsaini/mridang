@@ -17,7 +17,7 @@ const VideoBanner = () => {
   }, [])
 
   return (
-    <section className="relative w-full banner-h overflow-hidden">
+    <section className="relative w-full banner-h overflow-hidden" style={{background:'transparent'}}>
       {/* Video Element */}
       <motion.video
         ref={videoRef}
