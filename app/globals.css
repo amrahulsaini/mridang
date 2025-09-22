@@ -587,8 +587,8 @@ html, body {
   background: rgba(255,255,255,0.95);
   color: #374151;
   border: 1px solid rgba(128,0,32,0.15);
-  width: 46px;
-  height: 46px;
+  width: 60px;
+  height: 60px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -596,10 +596,17 @@ html, body {
   z-index: 5;
   box-shadow: 0 8px 16px rgba(0,0,0,0.12);
 }
-.carousel-arrow.left { left: -12px; }
-.carousel-arrow.right { right: -12px; }
+.carousel-arrow.left { left: -20px; }
+.carousel-arrow.right { right: -20px; }
 .carousel-arrow:hover { background: #800020; color: #fff; }
 .carousel-arrow:disabled { opacity: 0.4; cursor: not-allowed; }
+
+@media (max-width: 640px) {
+  .carousel-arrow {
+    width: 50px;
+    height: 50px;
+  }
+}
 
 /* Product Grid */
 .product-grid {

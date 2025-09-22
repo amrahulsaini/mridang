@@ -80,7 +80,7 @@ const CategorySection: React.FC<CategorySectionProps> = ({ title, products }) =>
             whileTap={{ scale: 0.95 }}
             disabled={atStart}
           >
-            <ChevronLeft size={26} />
+            <ChevronLeft size={32} />
           </motion.button>
           <motion.button
             onClick={() => scroll('right')}
@@ -90,7 +90,7 @@ const CategorySection: React.FC<CategorySectionProps> = ({ title, products }) =>
             whileTap={{ scale: 0.95 }}
             disabled={atEnd}
           >
-            <ChevronRight size={26} />
+            <ChevronRight size={32} />
           </motion.button>
           <div
             ref={scrollRef}
