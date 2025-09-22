@@ -481,6 +481,15 @@ html, body {
   display: flex;
 }
 
+/* Desktop-only hide for elements that should appear only on mobile */
+@media (min-width: 768px) {
+  .visible-mobile { display: none !important; }
+}
+
+/* Ensure header uses full-width container alignment */
+.header .container { padding-left: 0.75rem; padding-right: 0.75rem; }
+.header .logo-container { margin-left: 0; }
+
 /* Reusable buttons */
 .btn {
   display: inline-flex;
@@ -571,11 +580,11 @@ html, body {
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
-  background: rgba(255,255,255,0.9);
-  color: #6b7280;
+  background: rgba(255,255,255,0.95);
+  color: #374151;
   border: 1px solid rgba(128,0,32,0.15);
-  width: 40px;
-  height: 40px;
+  width: 46px;
+  height: 46px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -586,6 +595,7 @@ html, body {
 .carousel-arrow.left { left: -12px; }
 .carousel-arrow.right { right: -12px; }
 .carousel-arrow:hover { background: #800020; color: #fff; }
+.carousel-arrow:disabled { opacity: 0.4; cursor: not-allowed; }
 
 /* Product Grid */
 .product-grid {

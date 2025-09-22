@@ -25,7 +25,7 @@ const Header = () => {
   return (
     <header className="header">
       <div className="container">
-        <div className="flex items-center justify-between h-16 gap-4">
+  <div className="flex items-center justify-between h-16 gap-3" style={{paddingLeft:0}}>
           {/* Logo Section */}
           <Link href="/" className="logo-container" aria-label="Mridang Home">
             <div className="logo-image">
@@ -67,7 +67,7 @@ const Header = () => {
           </div>
 
           {/* Auth & Cart Section */}
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-3">
             {/* Cart */}
             <button className="relative p-2 text-gray-700 hover:text-red-600 transition-colors" aria-label="Cart">
               <ShoppingCart size={24} />
@@ -82,7 +82,7 @@ const Header = () => {
                 <Link 
                   key={item.key}
                   href={item.href}
-                  className={`btn ${index === 0 ? 'btn-secondary' : 'btn-primary'} text-sm inline-flex`}
+                  className={`btn ${index === 0 ? 'btn-secondary' : 'btn-primary'} text-xs inline-flex px-3 py-2`}
                 >
                   <item.icon size={16} />
                   <span>{item.name}</span>

@@ -2,7 +2,7 @@
 
 import { motion } from 'framer-motion'
 import { ChevronLeft, ChevronRight } from 'lucide-react'
-import { useRef } from 'react'
+import { useRef, useEffect, useState } from 'react'
 import ProductCard from '../components/ProductCard'
 import { Product } from '../types'
 
@@ -13,10 +13,12 @@ interface CategorySectionProps {
 
 const CategorySection: React.FC<CategorySectionProps> = ({ title, products }) => {
   const scrollRef = useRef<HTMLDivElement>(null)
+  const [atStart, setAtStart] = useState(true)
+  const [atEnd, setAtEnd] = useState(false)
 
   const scroll = (direction: 'left' | 'right') => {
     if (scrollRef.current) {
-      const scrollAmount = 320 // Width of one product card + gap
+      const scrollAmount = 360 // Slightly wider to advance by one full card
       const currentScroll = scrollRef.current.scrollLeft
       const targetScroll = direction === 'left' 
         ? currentScroll - scrollAmount 
@@ -28,6 +30,27 @@ const CategorySection: React.FC<CategorySectionProps> = ({ title, products }) =>
       })
     }
   }
+
+  const updateEdges = () => {
+    const el = scrollRef.current
+    if (!el) return
+    const maxScroll = el.scrollWidth - el.clientWidth
+    setAtStart(el.scrollLeft <= 4)
+    setAtEnd(el.scrollLeft >= maxScroll - 4)
+  }
+
+  useEffect(() => {
+    updateEdges()
+    const el = scrollRef.current
+    if (!el) return
+    const handler = () => updateEdges()
+    el.addEventListener('scroll', handler, { passive: true })
+    window.addEventListener('resize', handler)
+    return () => {
+      el.removeEventListener('scroll', handler)
+      window.removeEventListener('resize', handler)
+    }
+  }, [])
 
   return (
     <section className="category-section">
@@ -61,8 +84,9 @@ const CategorySection: React.FC<CategorySectionProps> = ({ title, products }) =>
             aria-label="Scroll left"
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
+            disabled={atStart}
           >
-            <ChevronLeft size={22} />
+            <ChevronLeft size={26} />
           </motion.button>
           <motion.button
             onClick={() => scroll('right')}
@@ -70,8 +94,9 @@ const CategorySection: React.FC<CategorySectionProps> = ({ title, products }) =>
             aria-label="Scroll right"
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
+            disabled={atEnd}
           >
-            <ChevronRight size={22} />
+            <ChevronRight size={26} />
           </motion.button>
 
           <div

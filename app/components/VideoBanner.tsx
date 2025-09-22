@@ -2,35 +2,19 @@
 
 import { useRef, useEffect } from 'react'
 import { motion } from 'framer-motion'
-import { Play, Pause, Volume2, VolumeX } from 'lucide-react'
-import { useState } from 'react'
 
 const VideoBanner = () => {
   const videoRef = useRef<HTMLVideoElement>(null)
-  const [isPlaying, setIsPlaying] = useState(true)
-  const [isMuted, setIsMuted] = useState(true)
-  const [isLoaded, setIsLoaded] = useState(false)
 
   useEffect(() => {
     const video = videoRef.current
     if (video) {
-      // Auto-play with muted audio for better UX
       video.muted = true
-      video.play().catch(console.error)
-      
-      // Set up loop
-      video.addEventListener('ended', () => {
-        video.currentTime = 0
-        video.play()
-      })
-
-      video.addEventListener('loadeddata', () => {
-        setIsLoaded(true)
+      video.play().catch(() => {
+        // Fallback: ensure muted+autoplay attributes handle it
       })
     }
   }, [])
-
-  // Controls removed per design; keep autoplay muted for smooth UX.
 
   return (
     <section className="relative w-full banner-h overflow-hidden bg-gray-900">
@@ -38,21 +22,21 @@ const VideoBanner = () => {
       <motion.video
         ref={videoRef}
         className="absolute inset-0 w-full h-full object-cover"
-        initial={{ scale: 1.1, opacity: 0 }}
-        animate={{ scale: isLoaded ? 1 : 1.1, opacity: isLoaded ? 1 : 0 }}
+        initial={{ scale: 1.05, opacity: 0.85 }}
+        animate={{ scale: 1, opacity: 1 }}
         transition={{ duration: 1, ease: "easeOut" }}
         loop
         muted
+        autoPlay
         playsInline
         preload="metadata"
-        poster="/logo.png"
       >
         <source src="/banner.mp4" type="video/mp4" />
         Your browser does not support the video tag.
       </motion.video>
 
       {/* Overlay Gradient */}
-      <div className="absolute inset-0 bg-gradient-to-r from-black/60 via-black/30 to-transparent" />
+  <div className="absolute inset-0 bg-gradient-to-r from-black/40 via-black/20 to-transparent" />
       
       {/* Content Overlay */}
       <div className="absolute inset-0 flex items-center justify-start">
@@ -107,7 +91,7 @@ const VideoBanner = () => {
         </div>
       </div>
 
-      {/* Controls removed as requested */}
+  {/* Controls removed as requested */}
 
       {/* Scroll Indicator */}
       <motion.div 
@@ -158,7 +142,7 @@ const VideoBanner = () => {
         ))}
       </div>
 
-      {/* Tagline removed for a cleaner hero */}
+  {/* Tagline removed for a cleaner hero */}
     </section>
   )
 }
