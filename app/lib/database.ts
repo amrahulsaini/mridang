@@ -40,7 +40,7 @@ export async function getAllProducts(): Promise<Product[]> {
         p.is_active,
         p.created_at,
         p.updated_at
-      FROM products p
+      FROM Products p
       LEFT JOIN categories c ON p.category_id = c.id
       WHERE p.is_active = 1
       ORDER BY p.created_at DESC
@@ -69,7 +69,7 @@ export async function getProductsByCategory(categoryName: string): Promise<Produ
         p.is_active,
         p.created_at,
         p.updated_at
-      FROM products p
+      FROM Products p
       LEFT JOIN categories c ON p.category_id = c.id
       WHERE p.is_active = 1 AND c.name = ?
       ORDER BY p.created_at DESC
