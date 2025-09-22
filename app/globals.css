@@ -487,7 +487,7 @@ html, body {
 }
 
 /* Ensure header uses full-width container alignment */
-.header .container { padding-left: 0.25rem; padding-right: 0.25rem; }
+.header .container { padding-left: 0; padding-right: 0; }
 .header .logo-container { margin-left: 0; }
 
 /* Reusable buttons */
@@ -539,6 +539,10 @@ html, body {
   padding: 4rem 0;
   background: white;
 }
+
+/* Make category sections full-bleed */
+.category-section .container { max-width: 100%; padding-left: 0; padding-right: 0; }
+.header .btn.btn-xs { line-height: 1; }
 
 .section-cream {
   background: linear-gradient(135deg, #f9eec8 0%, #f5e9b8 100%);
@@ -599,11 +603,20 @@ html, body {
 
 /* Product Grid */
 .product-grid {
-  display: flex;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 2rem;
-  overflow-x: auto;
-  padding: 0 0 1rem 0;
-  scroll-behavior: smooth;
+  padding: 0 1rem 1rem 1rem;
+}
+
+@media (max-width: 1280px) {
+  .product-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
+@media (max-width: 992px) {
+  .product-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 640px) {
+  .product-grid { grid-template-columns: 1fr; }
 }
 
 .product-grid::-webkit-scrollbar {
@@ -622,14 +635,11 @@ html, body {
 
 /* Product Card */
 .product-card {
-  background: white;
-  border-radius: 1.25rem;
-  box-shadow: 0 15px 30px -10px rgba(0, 0, 0, 0.15);
-  overflow: hidden;
-  transition: all 0.3s ease;
-  border: 1px solid rgba(128, 0, 32, 0.12);
-  width: 280px;
-  flex-shrink: 0;
+  background: transparent;
+  border-radius: 0;
+  box-shadow: none;
+  border: none;
+  width: 100%;
   position: relative;
 }
 
@@ -657,12 +667,16 @@ html, body {
 .product-image {
   position: relative;
   width: 100%;
-  height: 340px;
+  height: 420px;
   overflow: hidden;
-  background: #fff;
-  border-bottom: 1px solid rgba(128, 0, 32, 0.08);
+  background: transparent;
   border-radius: 56% 44% 40% 60% / 48% 52% 52% 48%;
 }
+
+/* Subtle variation of blob shape per card */
+.product-grid > *:nth-child(2n) .product-image { border-radius: 60% 40% 48% 52% / 42% 58% 50% 50%; }
+.product-grid > *:nth-child(3n) .product-image { border-radius: 50% 50% 42% 58% / 55% 45% 55% 45%; }
+.product-grid > *:nth-child(4n) .product-image { border-radius: 44% 56% 60% 40% / 48% 52% 44% 56%; }
 
 .product-image img {
   width: 100%;
@@ -962,6 +976,9 @@ footer {
   color: #fff;
   background: rgba(255,255,255,0.06);
 }
+
+footer a { text-decoration: none; }
+footer a:hover { text-decoration: none; }
 
 .social-links {
   display: flex;

@@ -1,8 +1,7 @@
 'use client'
 
 import { motion } from 'framer-motion'
-import { ChevronLeft, ChevronRight } from 'lucide-react'
-import { useRef, useEffect, useState } from 'react'
+import { useRef } from 'react'
 import ProductCard from '../components/ProductCard'
 import { Product } from '../types'
 
@@ -13,44 +12,8 @@ interface CategorySectionProps {
 
 const CategorySection: React.FC<CategorySectionProps> = ({ title, products }) => {
   const scrollRef = useRef<HTMLDivElement>(null)
-  const [atStart, setAtStart] = useState(true)
-  const [atEnd, setAtEnd] = useState(false)
 
-  const scroll = (direction: 'left' | 'right') => {
-    if (scrollRef.current) {
-      const scrollAmount = 360 // Slightly wider to advance by one full card
-      const currentScroll = scrollRef.current.scrollLeft
-      const targetScroll = direction === 'left' 
-        ? currentScroll - scrollAmount 
-        : currentScroll + scrollAmount
-      
-      scrollRef.current.scrollTo({
-        left: targetScroll,
-        behavior: 'smooth'
-      })
-    }
-  }
-
-  const updateEdges = () => {
-    const el = scrollRef.current
-    if (!el) return
-    const maxScroll = el.scrollWidth - el.clientWidth
-    setAtStart(el.scrollLeft <= 4)
-    setAtEnd(el.scrollLeft >= maxScroll - 4)
-  }
-
-  useEffect(() => {
-    updateEdges()
-    const el = scrollRef.current
-    if (!el) return
-    const handler = () => updateEdges()
-    el.addEventListener('scroll', handler, { passive: true })
-    window.addEventListener('resize', handler)
-    return () => {
-      el.removeEventListener('scroll', handler)
-      window.removeEventListener('resize', handler)
-    }
-  }, [])
+  // Switched to a full-width grid layout (no arrows/scroll tracking)
 
   return (
     <section className="category-section">
@@ -77,28 +40,6 @@ const CategorySection: React.FC<CategorySectionProps> = ({ title, products }) =>
           viewport={{ once: true }}
           transition={{ delay: 0.2, duration: 0.6 }}
         >
-          {/* Side Arrows */}
-          <motion.button
-            onClick={() => scroll('left')}
-            className="carousel-arrow left"
-            aria-label="Scroll left"
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            disabled={atStart}
-          >
-            <ChevronLeft size={26} />
-          </motion.button>
-          <motion.button
-            onClick={() => scroll('right')}
-            className="carousel-arrow right"
-            aria-label="Scroll right"
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            disabled={atEnd}
-          >
-            <ChevronRight size={26} />
-          </motion.button>
-
           <div
             ref={scrollRef}
             className="product-grid"
@@ -106,7 +47,6 @@ const CategorySection: React.FC<CategorySectionProps> = ({ title, products }) =>
             {products.map((product, index) => (
               <motion.div
                 key={product.id}
-                className="product-card"
                 initial={{ opacity: 0, x: 50 }}
                 whileInView={{ opacity: 1, x: 0 }}
                 viewport={{ once: true }}

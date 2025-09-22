@@ -17,7 +17,7 @@ const VideoBanner = () => {
   }, [])
 
   return (
-    <section className="relative w-full banner-h overflow-hidden bg-gray-900">
+    <section className="relative w-full banner-h overflow-hidden">
       {/* Video Element */}
       <motion.video
         ref={videoRef}
@@ -42,29 +42,7 @@ const VideoBanner = () => {
 
   {/* Controls removed as requested */}
 
-      {/* Scroll Indicator */}
-      <motion.div 
-        className="absolute bottom-8 left-1/2 transform -translate-x-1/2"
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 2, duration: 0.6 }}
-      >
-        <motion.div
-          className="w-1 h-16 bg-white/60 rounded-full"
-          animate={{ 
-            height: [64, 48, 64],
-            opacity: [0.6, 1, 0.6]
-          }}
-          transition={{ 
-            duration: 2, 
-            repeat: Infinity, 
-            ease: "easeInOut" 
-          }}
-        />
-        <p className="text-white/80 text-sm mt-2 text-center">
-          Scroll Down
-        </p>
-      </motion.div>
+      {/* Scroll indicator removed */}
 
       {/* Decorative Elements */}
       <div className="absolute top-0 left-0 w-full h-full pointer-events-none">
