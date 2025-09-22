@@ -30,20 +30,20 @@ export async function getAllProducts(): Promise<Product[]> {
     const [rows] = await pool.execute(`
       SELECT 
         p.id,
-        p.name,
+        p.model_name as name,
         p.description,
-        p.price,
+        COALESCE(pp.cut_price, pp.original_price) as price,
         p.category_id,
         c.category_name as category_name,
-        p.stock_quantity,
-        p.image_url,
-        p.is_active,
-        p.created_at,
-        p.updated_at
+        1 as stock_quantity,
+        p.main_image_url as image_url,
+        1 as is_active,
+        NOW() as created_at,
+        NOW() as updated_at
       FROM Products p
       LEFT JOIN Categories c ON p.category_id = c.category_id
-      WHERE p.is_active = 1
-      ORDER BY p.created_at DESC
+      LEFT JOIN product_prices pp ON p.id = pp.product_id AND pp.is_active = 1
+      ORDER BY p.id DESC
     `);
     
     return rows as Product[];
@@ -59,20 +59,21 @@ export async function getProductsByCategory(categoryName: string): Promise<Produ
     const [rows] = await pool.execute(`
       SELECT 
         p.id,
-        p.name,
+        p.model_name as name,
         p.description,
-        p.price,
+        COALESCE(pp.cut_price, pp.original_price) as price,
         p.category_id,
         c.category_name as category_name,
-        p.stock_quantity,
-        p.image_url,
-        p.is_active,
-        p.created_at,
-        p.updated_at
+        1 as stock_quantity,
+        p.main_image_url as image_url,
+        1 as is_active,
+        NOW() as created_at,
+        NOW() as updated_at
       FROM Products p
       LEFT JOIN Categories c ON p.category_id = c.category_id
-      WHERE p.is_active = 1 AND c.category_name = ?
-      ORDER BY p.created_at DESC
+      LEFT JOIN product_prices pp ON p.id = pp.product_id AND pp.is_active = 1
+      WHERE c.category_name = ?
+      ORDER BY p.id DESC
     `, [categoryName]);
     
     return rows as Product[];
