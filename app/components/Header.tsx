@@ -1,7 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-import { Home, Info, Phone, User, UserPlus, Search, ShoppingCart, Menu, X } from 'lucide-react'
+import { Home, Info, Phone, User, UserPlus, Search, Menu, X } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
 
@@ -68,21 +68,13 @@ const Header = () => {
 
           {/* Auth & Cart Section */}
           <div className="flex items-center gap-3">
-            {/* Cart */}
-            <button className="relative p-2 text-gray-700 hover:text-red-600 transition-colors" aria-label="Cart">
-              <ShoppingCart size={24} />
-              <span className="absolute -top-1 -right-1 bg-red-600 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
-                0
-              </span>
-            </button>
-
             {/* Desktop Auth Buttons */}
             <div className="hidden-mobile flex items-center gap-2">
               {authItems.map((item, index) => (
                 <Link 
                   key={item.key}
                   href={item.href}
-                  className={`btn ${index === 0 ? 'btn-secondary' : 'btn-primary'} text-xs inline-flex px-3 py-2`}
+                  className={`btn btn-xs ${index === 0 ? 'btn-secondary' : 'btn-primary'} inline-flex`}
                 >
                   <item.icon size={16} />
                   <span>{item.name}</span>

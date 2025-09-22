@@ -19,9 +19,9 @@ html, body {
 
 /* Container */
 .container {
-  max-width: 1200px;
+  max-width: 1280px;
   margin: 0 auto;
-  padding: 0 20px;
+  padding: 0 12px;
 }
 
 .min-h-screen {
@@ -487,7 +487,7 @@ html, body {
 }
 
 /* Ensure header uses full-width container alignment */
-.header .container { padding-left: 0.75rem; padding-right: 0.75rem; }
+.header .container { padding-left: 0.25rem; padding-right: 0.25rem; }
 .header .logo-container { margin-left: 0; }
 
 /* Reusable buttons */
@@ -600,9 +600,9 @@ html, body {
 /* Product Grid */
 .product-grid {
   display: flex;
-  gap: 1.5rem;
+  gap: 2rem;
   overflow-x: auto;
-  padding-bottom: 1rem;
+  padding: 0 0 1rem 0;
   scroll-behavior: smooth;
 }
 
@@ -657,11 +657,11 @@ html, body {
 .product-image {
   position: relative;
   width: 100%;
-  height: 320px;
+  height: 340px;
   overflow: hidden;
   background: #fff;
   border-bottom: 1px solid rgba(128, 0, 32, 0.08);
-  clip-path: path('M20 0 H260 Q280 0 280 20 V260 Q280 280 260 280 H20 Q0 280 0 260 V20 Q0 0 20 0 Z');
+  border-radius: 56% 44% 40% 60% / 48% 52% 52% 48%;
 }
 
 .product-image img {
@@ -952,11 +952,15 @@ footer {
 .footer-links a {
   color: #d1d5db;
   text-decoration: none;
-  transition: color 0.3s ease;
+  transition: all 0.25s ease;
+  padding: 0.4rem 0.6rem;
+  border-radius: 0.5rem;
+  display: inline-block;
 }
 
 .footer-links a:hover {
-  color: white;
+  color: #fff;
+  background: rgba(255,255,255,0.06);
 }
 
 .social-links {
@@ -995,7 +999,7 @@ footer {
   .hidden-mobile {
     display: none;
   }
-  .product-image { height: 220px; }
+  .product-image { height: 240px; }
   
   .section-header {
     flex-direction: column;
@@ -1088,3 +1092,15 @@ footer {
   background: #800020;
   color: white;
 }
+
+/* Compact button size utility */
+.btn-xs { padding: 0.35rem 0.6rem; border-radius: 0.5rem; font-size: 0.75rem; }
+.btn-xs svg { width: 14px; height: 14px; }
+
+/* Decorative content strip (optional) */
+.usp-strip {
+  background: linear-gradient(90deg, rgba(128,0,32,0.08), rgba(160,0,42,0.08));
+  padding: 1rem 0;
+}
+.usp-list { display: flex; gap: 2rem; justify-content: center; color: #4b5563; font-weight: 600; }
+.usp-list li { display: inline-flex; align-items: center; gap: 0.5rem; }

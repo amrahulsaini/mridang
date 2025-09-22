@@ -38,58 +38,7 @@ const VideoBanner = () => {
       {/* Overlay Gradient */}
   <div className="absolute inset-0 bg-gradient-to-r from-black/40 via-black/20 to-transparent" />
       
-      {/* Content Overlay */}
-      <div className="absolute inset-0 flex items-center justify-start">
-  <div className="container mx-auto px-4">
-          <motion.div 
-            className="max-w-2xl text-white"
-            initial={{ x: -100, opacity: 0 }}
-            animate={{ x: 0, opacity: 1 }}
-            transition={{ delay: 0.5, duration: 0.8, ease: "easeOut" }}
-          >
-            <motion.h1 
-              className="text-3xl sm:text-4xl lg:text-6xl font-bold mb-4"
-              initial={{ y: 30, opacity: 0 }}
-              animate={{ y: 0, opacity: 1 }}
-              transition={{ delay: 0.7, duration: 0.6 }}
-            >
-              <span className="gradient-text">Mridang</span>
-            </motion.h1>
-            
-            <motion.p 
-              className="text-lg sm:text-xl lg:text-2xl mb-2 font-medium"
-              initial={{ y: 30, opacity: 0 }}
-              animate={{ y: 0, opacity: 1 }}
-              transition={{ delay: 0.9, duration: 0.6 }}
-            >
-              Handcrafted with Love & Tradition
-            </motion.p>
-            
-            <motion.p 
-              className="text-base sm:text-lg lg:text-xl mb-6 text-gray-200"
-              initial={{ y: 30, opacity: 0 }}
-              animate={{ y: 0, opacity: 1 }}
-              transition={{ delay: 1.1, duration: 0.6 }}
-            >
-              Creating masterpieces for your special moments
-            </motion.p>
-            
-            <motion.div 
-              className="flex flex-col sm:flex-row gap-4"
-              initial={{ y: 30, opacity: 0 }}
-              animate={{ y: 0, opacity: 1 }}
-              transition={{ delay: 1.3, duration: 0.6 }}
-            >
-              <button className="btn btn-primary text-base lg:text-lg px-8 py-3">
-                Shop Collection
-              </button>
-              <button className="btn btn-outline text-white border-white hover:bg-white hover:text-gray-900 text-base lg:text-lg px-8 py-3">
-                Our Story
-              </button>
-            </motion.div>
-          </motion.div>
-        </div>
-      </div>
+      {/* Content Overlay removed per request for a clean visual hero */}
 
   {/* Controls removed as requested */}
 
