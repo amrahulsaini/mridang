@@ -1,5 +1,5 @@
 ﻿import Header from './components/Header';
-import VideoBanner from './components/VideoBanner';
+// import VideoBanner from './components/VideoBanner'; // No longer needed
 import CategorySection from './components/CategorySection';
 import FAQAndReviews from './components/FAQAndReviews';
 import Footer from './components/Footer';
@@ -25,7 +25,19 @@ export default async function Home() {
           </ul>
         </div>
       </div>
-      <VideoBanner />
+      
+      {/* Simple Video Player */}
+      <div className="simple-video-container">
+        <video 
+          className="simple-video"
+          src="/banner.mp4" 
+          autoPlay 
+          loop 
+          muted 
+          playsInline 
+        />
+        <div className="simple-video-overlay"></div>
+      </div>
       
       <div className="section-cream">
         <CategorySection 

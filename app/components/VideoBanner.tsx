@@ -21,7 +21,7 @@ const VideoBanner = () => {
       {/* Video Element */}
       <motion.video
         ref={videoRef}
-        className="absolute inset-0 w-full h-full object-cover"
+        className="absolute inset-0 w-full h-full object-cover video-banner-video"
         style={{ objectPosition: 'top' }}
         initial={{ scale: 1.05, opacity: 0.85 }}
         animate={{ scale: 1, opacity: 1 }}
