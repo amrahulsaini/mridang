@@ -101,7 +101,7 @@ const FAQAndReviews = () => {
                   
                   {/* Review Text */}
                   <div className="review-content">
-                    "{review.comment}"
+                    &ldquo;{review.comment}&rdquo;
                   </div>
                   
                   {/* Reviewer Info */}
