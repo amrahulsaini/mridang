@@ -9,6 +9,7 @@ import { Product } from '../types'
 const ProductCard: React.FC<Product> = ({
   name,
   price,
+  main_image_url,
   image_url,
   description,
   stock_quantity,
@@ -22,12 +23,12 @@ const ProductCard: React.FC<Product> = ({
   const originalPrice = price * 1.2 // Example: show 20% higher as original price if on sale
   const salePrice = price
 
-  // Default image if none provided
-  const productImage = image_url || '/placeholder-product.jpg'
+  // Use main_image_url first, then fallback to image_url, then placeholder
+  const productImage = main_image_url || image_url || '/placeholder-product.jpg'
 
   return (
     <motion.div 
-      className="bg-white rounded-2xl shadow-lg overflow-hidden border border-gray-100 hover:shadow-2xl transition-shadow duration-300"
+      className="product-card bg-white rounded-2xl shadow-lg overflow-hidden border border-gray-100 hover:shadow-2xl transition-all duration-300"
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
@@ -36,9 +37,9 @@ const ProductCard: React.FC<Product> = ({
       onMouseLeave={() => setIsHovered(false)}
     >
       {/* Product Image */}
-      <div className="relative overflow-hidden bg-gray-50">
+      <div className="product-image">
         <motion.div
-          className="aspect-square relative"
+          className="relative w-full h-full"
           whileHover={{ scale: 1.05 }}
           transition={{ duration: 0.3 }}
         >
@@ -52,14 +53,14 @@ const ProductCard: React.FC<Product> = ({
           
           {/* Sale Badge */}
           {isOnSale && (
-            <div className="absolute top-3 left-3 bg-red-500 text-white px-2 py-1 rounded-full text-xs font-semibold">
+            <div className="sale-badge">
               SALE
             </div>
           )}
           
           {/* Stock Badge */}
           {stock_quantity === 0 && (
-            <div className="absolute top-3 right-3 bg-gray-800 text-white px-2 py-1 rounded-full text-xs font-semibold">
+            <div className="stock-badge">
               OUT OF STOCK
             </div>
           )}
@@ -67,13 +68,13 @@ const ProductCard: React.FC<Product> = ({
 
         {/* Hover Actions */}
         <motion.div 
-          className="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center gap-3"
+          className="product-actions"
           initial={{ opacity: 0 }}
           animate={{ opacity: isHovered ? 1 : 0 }}
           transition={{ duration: 0.2 }}
         >
           <motion.button
-            className="bg-white p-3 rounded-full hover:bg-gray-100 transition-colors"
+            className="action-btn"
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.95 }}
             onClick={() => setIsLiked(!isLiked)}
@@ -84,7 +85,7 @@ const ProductCard: React.FC<Product> = ({
           </motion.button>
           
           <motion.button
-            className="bg-white p-3 rounded-full hover:bg-gray-100 transition-colors"
+            className="action-btn"
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.95 }}
           >
@@ -92,7 +93,7 @@ const ProductCard: React.FC<Product> = ({
           </motion.button>
           
           <motion.button
-            className="bg-white p-3 rounded-full hover:bg-gray-100 transition-colors"
+            className="action-btn"
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.95 }}
             disabled={stock_quantity === 0}
@@ -114,13 +115,13 @@ const ProductCard: React.FC<Product> = ({
         )}
 
         {/* Product Name */}
-        <h3 className="font-semibold text-gray-900 mb-2 line-clamp-2 text-lg">
+        <h3 className="font-semibold text-gray-900 mb-2 text-lg">
           {name}
         </h3>
 
         {/* Description */}
         {description && (
-          <p className="text-sm text-gray-600 mb-3 line-clamp-2">
+          <p className="text-sm text-gray-600 mb-3">
             {description}
           </p>
         )}
@@ -162,9 +163,9 @@ const ProductCard: React.FC<Product> = ({
 
         {/* Add to Cart Button */}
         <motion.button
-          className={`w-full py-3 px-4 rounded-xl font-semibold transition-colors ${
+          className={`btn w-full py-3 px-4 ${
             stock_quantity > 0
-              ? 'bg-[#8b1538] text-white hover:bg-[#6d0f2a]'
+              ? 'btn-primary'
               : 'bg-gray-300 text-gray-500 cursor-not-allowed'
           }`}
           whileHover={{ scale: stock_quantity > 0 ? 1.02 : 1 }}

@@ -12,24 +12,30 @@ export default async function Home() {
   const mehendiPlatters = await getProductsByCategory('Mehendi Platters');
 
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen bg-cream">
       <Header />
       <VideoBanner />
       
-      <CategorySection 
-        title="Ring Platters"
-        products={ringPlatters}
-      />
+      <div className="section-cream">
+        <CategorySection 
+          title="Ring Platters"
+          products={ringPlatters}
+        />
+      </div>
       
-      <CategorySection 
-        title="Haldi Platters"
-        products={haldiPlatters}
-      />
+      <div className="bg-white">
+        <CategorySection 
+          title="Haldi Platters"
+          products={haldiPlatters}
+        />
+      </div>
       
-      <CategorySection 
-        title="Mehendi Platters"
-        products={mehendiPlatters}
-      />
+      <div className="section-cream">
+        <CategorySection 
+          title="Mehendi Platters"
+          products={mehendiPlatters}
+        />
+      </div>
       
       <FAQAndReviews />
       <Footer />

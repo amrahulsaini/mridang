@@ -35,21 +35,21 @@ const Header = () => {
 
   return (
     <motion.header 
-      className="sticky top-0 z-50 bg-white/95 backdrop-blur-md border-b border-gray-200/50 shadow-lg"
+      className="header"
       initial={{ y: -100, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
       transition={{ duration: 0.6, ease: "easeOut" }}
     >
-      <div className="container mx-auto px-4">
-        <div className="flex items-center justify-between h-16 lg:h-20">
+      <div className="container">
+        <div className="flex items-center justify-between h-16">
           {/* Logo Section */}
           <motion.div 
-            className="flex items-center space-x-3"
+            className="logo-container"
             whileHover={{ scale: 1.05 }}
             transition={{ duration: 0.2 }}
           >
-            <Link href="/" className="flex items-center space-x-3">
-              <div className="relative w-10 h-10 lg:w-12 lg:h-12">
+            <Link href="/" className="logo-container">
+              <div className="logo-image">
                 <Image
                   src="/logo.png"
                   alt="Mridang Logo"
@@ -58,11 +58,11 @@ const Header = () => {
                   priority
                 />
               </div>
-              <div className="hidden sm:block">
-                <h1 className="text-xl lg:text-2xl font-bold gradient-text">
+              <div className="hidden-mobile">
+                <h1 className="logo-text">
                   Mridang
                 </h1>
-                <p className="text-xs text-gray-600">
+                <p className="logo-subtitle">
                   Handcrafted with Love
                 </p>
               </div>
@@ -70,7 +70,7 @@ const Header = () => {
           </motion.div>
 
           {/* Desktop Navigation */}
-          <nav className="hidden md:flex items-center space-x-8">
+          <nav className="hidden-mobile flex items-center gap-8">
             {navItems.map((item) => (
               <motion.div
                 key={item.key}
@@ -79,7 +79,7 @@ const Header = () => {
               >
                 <Link 
                   href={item.href}
-                  className="flex items-center space-x-2 text-gray-700 hover:text-[var(--accent-maroon)] transition-colors duration-300 font-medium"
+                  className="nav-link"
                 >
                   <item.icon size={18} />
                   <span>{item.name}</span>
@@ -89,20 +89,20 @@ const Header = () => {
           </nav>
 
           {/* Search Bar - Desktop */}
-          <div className="hidden lg:flex items-center flex-1 max-w-md mx-8">
+          <div className="hidden flex-lg items-center flex-1 max-w-md mx-8">
             <motion.div 
-              className="relative w-full"
+              className="search-container"
               initial={{ scale: 0.9, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               transition={{ delay: 0.3, duration: 0.4 }}
             >
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={20} />
+              <Search className="search-icon" size={20} />
               <input
                 type="text"
                 placeholder="Search products..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full pl-10 pr-4 py-2 bg-gray-50 border border-gray-200 rounded-full focus:outline-none focus:ring-2 focus:ring-[var(--accent-maroon)] focus:border-transparent transition-all duration-300"
+                className="search-input"
               />
             </motion.div>
           </div>
