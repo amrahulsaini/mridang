@@ -527,7 +527,10 @@ html, body {
   position: relative;
   width: 100%;
   height: 75vh; /* Adjust height as needed */
-  background-color: #000; /* Fallback for video load */
+  background-color: #f9eec8; /* Fallback for video load */
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .simple-video {
@@ -540,7 +543,28 @@ html, body {
 .simple-video-overlay {
   position: absolute;
   inset: 0;
-  background: linear-gradient(to right, rgba(0,0,0,0.4), transparent);
+  background: linear-gradient(to right, rgba(0,0,0,0.2), transparent, rgba(0,0,0,0.2));
+  z-index: 1;
+}
+
+.simple-video-content {
+  position: absolute;
+  text-align: center;
+  z-index: 2;
+  color: #800020; /* Maroon color for text */
+  text-shadow: 0 2px 8px rgba(255, 255, 255, 0.7);
+}
+
+.video-logo {
+  width: 180px;
+  margin-bottom: 0.5rem;
+  filter: drop-shadow(0 4px 6px rgba(0,0,0,0.1));
+}
+
+.video-tagline {
+  font-size: 1.25rem;
+  font-weight: 600;
+  font-family: 'Sora', sans-serif;
 }
 
 /* Banner utilities */
