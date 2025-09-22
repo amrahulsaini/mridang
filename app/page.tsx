@@ -37,10 +37,7 @@ export default async function Home() {
           playsInline 
         />
         <div className="simple-video-overlay"></div>
-        <div className="simple-video-content">
-          <img src="/logo.png" alt="Mridang Logo" className="video-logo" />
-          <p className="video-tagline">Bringing joy to every occasion</p>
-        </div>
+        
       </div>
       
       <div className="section-cream">

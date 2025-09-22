@@ -547,25 +547,6 @@ html, body {
   z-index: 1;
 }
 
-.simple-video-content {
-  position: absolute;
-  text-align: center;
-  z-index: 2;
-  color: #800020; /* Maroon color for text */
-  text-shadow: 0 2px 8px rgba(255, 255, 255, 0.7);
-}
-
-.video-logo {
-  width: 180px;
-  margin-bottom: 0.5rem;
-  filter: drop-shadow(0 4px 6px rgba(0,0,0,0.1));
-}
-
-.video-tagline {
-  font-size: 1.25rem;
-  font-weight: 600;
-  font-family: 'Sora', sans-serif;
-}
 
 /* Banner utilities */
 .banner-h { height: 50vh; }
@@ -641,8 +622,8 @@ html, body {
   z-index: 5;
   box-shadow: 0 8px 16px rgba(0,0,0,0.12);
 }
-.carousel-arrow.left { left: -20px; }
-.carousel-arrow.right { right: -20px; }
+.carousel-arrow.left { left: 1rem; }
+.carousel-arrow.right { right: 1rem; }
 .carousel-arrow:hover { background: #800020; color: #fff; }
 .carousel-arrow:disabled { opacity: 0.4; cursor: not-allowed; }
 
