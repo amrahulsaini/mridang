@@ -99,7 +99,7 @@ const Footer = () => {
                 <h3 className="text-2xl font-bold">Mridang</h3>
               </div>
               <p className="text-gray-300 leading-relaxed">
-                A woman-led handcrafted brand celebrating life's special moments with 
+                A woman-led handcrafted brand celebrating life&apos;s special moments with 
                 artistry and elegance. Every creation is lovingly handmade using premium materials.
               </p>
               <div className="flex space-x-4">

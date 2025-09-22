@@ -19,19 +19,16 @@ export default async function Home() {
       <CategorySection 
         title="Ring Platters"
         products={ringPlatters}
-        categoryId="ring-platters"
       />
       
       <CategorySection 
         title="Haldi Platters"
         products={haldiPlatters}
-        categoryId="haldi-platters"
       />
       
       <CategorySection 
         title="Mehendi Platters"
         products={mehendiPlatters}
-        categoryId="mehendi-platters"
       />
       
       <FAQAndReviews />

@@ -7,7 +7,6 @@ import { useState } from 'react'
 import { Product } from '../types'
 
 const ProductCard: React.FC<Product> = ({
-  id,
   name,
   price,
   image_url,

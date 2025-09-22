@@ -150,7 +150,7 @@ const FAQAndReviews = () => {
                   </div>
                   
                   {/* Review Text */}
-                  <p className="text-gray-700 mb-4 italic">"{review.comment}"</p>
+                  <p className="text-gray-700 mb-4 italic">&ldquo;{review.comment}&rdquo;</p>
                   
                   {/* Reviewer Info */}
                   <div className="flex items-center justify-between">

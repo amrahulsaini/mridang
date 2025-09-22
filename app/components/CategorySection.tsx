@@ -9,10 +9,9 @@ import { Product } from '../types'
 interface CategorySectionProps {
   title: string
   products: Product[]
-  categoryId: string
 }
 
-const CategorySection: React.FC<CategorySectionProps> = ({ title, products, categoryId }) => {
+const CategorySection: React.FC<CategorySectionProps> = ({ title, products }) => {
   const scrollRef = useRef<HTMLDivElement>(null)
 
   const scroll = (direction: 'left' | 'right') => {
