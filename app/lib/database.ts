@@ -34,14 +34,14 @@ export async function getAllProducts(): Promise<Product[]> {
         p.description,
         p.price,
         p.category_id,
-        c.name as category_name,
+        c.category_name as category_name,
         p.stock_quantity,
         p.image_url,
         p.is_active,
         p.created_at,
         p.updated_at
       FROM Products p
-      LEFT JOIN categories c ON p.category_id = c.id
+      LEFT JOIN Categories c ON p.category_id = c.category_id
       WHERE p.is_active = 1
       ORDER BY p.created_at DESC
     `);
@@ -63,15 +63,15 @@ export async function getProductsByCategory(categoryName: string): Promise<Produ
         p.description,
         p.price,
         p.category_id,
-        c.name as category_name,
+        c.category_name as category_name,
         p.stock_quantity,
         p.image_url,
         p.is_active,
         p.created_at,
         p.updated_at
       FROM Products p
-      LEFT JOIN categories c ON p.category_id = c.id
-      WHERE p.is_active = 1 AND c.name = ?
+      LEFT JOIN Categories c ON p.category_id = c.category_id
+      WHERE p.is_active = 1 AND c.category_name = ?
       ORDER BY p.created_at DESC
     `, [categoryName]);
     
@@ -86,10 +86,9 @@ export async function getProductsByCategory(categoryName: string): Promise<Produ
 export async function getAllCategories(): Promise<Category[]> {
   try {
     const [rows] = await pool.execute(`
-      SELECT id, name, description, is_active
-      FROM categories
-      WHERE is_active = 1
-      ORDER BY name
+      SELECT category_id as id, category_name as name, 1 as is_active
+      FROM Categories
+      ORDER BY category_name
     `);
     
     return rows as Category[];
