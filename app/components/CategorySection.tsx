@@ -53,14 +53,26 @@ const CategorySection: React.FC<CategorySectionProps> = ({ title, products }) =>
       <div className="container">
         {/* Section Header */}
         <motion.div 
-          className="section-header"
+          className="section-header centered"
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
         >
-          <div>
-            <h2>{title}</h2>
+          <div className="category-title-wrapper">
+            <h2 className="category-title">{title}</h2>
+            <div className="curved-underline">
+              <svg width="120" height="12" viewBox="0 0 120 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M2 10C20 2 40 2 60 6C80 10 100 10 118 6" stroke="url(#gradient)" strokeWidth="3" strokeLinecap="round"/>
+                <defs>
+                  <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                    <stop offset="0%" stopColor="#800020" stopOpacity="0.6"/>
+                    <stop offset="50%" stopColor="#a0002a" stopOpacity="0.8"/>
+                    <stop offset="100%" stopColor="#c00030" stopOpacity="0.6"/>
+                  </linearGradient>
+                </defs>
+              </svg>
+            </div>
           </div>
         </motion.div>
 

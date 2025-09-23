@@ -522,6 +522,43 @@ html, body {
   border: 1.5px solid currentColor;
 }
 
+/* Icon buttons for product cards */
+.btn-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+.btn-icon.btn-primary {
+  background: linear-gradient(135deg, #800020, #a0002a);
+  color: #fff;
+}
+
+.btn-icon.btn-primary:hover {
+  transform: translateY(-2px) scale(1.05);
+  box-shadow: 0 8px 15px -3px rgba(128, 0, 32, 0.4);
+}
+
+.btn-icon.btn-secondary {
+  background: #fff;
+  color: #800020;
+  border: 2px solid #800020;
+}
+
+.btn-icon.btn-secondary:hover {
+  background: #800020;
+  color: #fff;
+  transform: translateY(-2px) scale(1.05);
+  box-shadow: 0 8px 15px -3px rgba(128, 0, 32, 0.4);
+}
+
 /* Simple Video Player */
 .simple-video-container {
   position: relative;
@@ -579,6 +616,53 @@ html, body {
   align-items: center;
   justify-content: space-between;
   margin-bottom: 3rem;
+}
+
+.section-header.centered {
+  justify-content: center;
+  text-align: center;
+}
+
+.category-title-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.category-title {
+  font-family: 'Sora', sans-serif;
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: #2d2d2d;
+  margin: 0;
+  background: linear-gradient(135deg, #2d2d2d 0%, #4a4a4a 50%, #2d2d2d 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  letter-spacing: -0.02em;
+}
+
+.curved-underline {
+  display: flex;
+  justify-content: center;
+  opacity: 0.8;
+  animation: drawLine 1.2s ease-out forwards;
+}
+
+.curved-underline svg {
+  transform: translateY(-2px);
+}
+
+@keyframes drawLine {
+  0% {
+    opacity: 0;
+    transform: scale(0.8) translateY(10px);
+  }
+  100% {
+    opacity: 0.8;
+    transform: scale(1) translateY(-2px);
+  }
 }
 
 .section-header h2 {
@@ -690,20 +774,58 @@ html, body {
 .product-image {
   position: relative;
   width: 100%;
-  height: 480px;
+  height: 520px; /* Increased from 480px */
   overflow: hidden;
   background: transparent;
   border-radius: 56% 44% 40% 60% / 48% 52% 52% 48%;
   border: 10px solid #ffffff;
   box-shadow: 0 10px 25px rgba(0,0,0,0.12), 0 2px 6px rgba(0,0,0,0.08);
+  transition: border-radius 0.4s ease, transform 0.3s ease;
 }
 
-/* Subtle variation of blob shape per card */
-.product-grid > *:nth-child(2n) .product-image { border-radius: 60% 40% 48% 52% / 42% 58% 50% 50%; }
-.product-grid > *:nth-child(3n) .product-image { border-radius: 50% 50% 42% 58% / 55% 45% 55% 45%; }
-.product-grid > *:nth-child(4n) .product-image { border-radius: 44% 56% 60% 40% / 48% 52% 44% 56%; }
-.product-grid > *:nth-child(5n) .product-image { border-radius: 52% 48% 58% 42% / 46% 54% 44% 56%; }
-.product-grid > *:nth-child(6n) .product-image { border-radius: 58% 42% 46% 54% / 52% 48% 58% 42%; }
+/* Subtle variation of blob shape per card with transitions */
+.product-grid > *:nth-child(2n) .product-image { 
+  border-radius: 60% 40% 48% 52% / 42% 58% 50% 50%; 
+  transition: border-radius 0.4s ease, transform 0.3s ease;
+}
+.product-grid > *:nth-child(3n) .product-image { 
+  border-radius: 50% 50% 42% 58% / 55% 45% 55% 45%; 
+  transition: border-radius 0.4s ease, transform 0.3s ease;
+}
+.product-grid > *:nth-child(4n) .product-image { 
+  border-radius: 44% 56% 60% 40% / 48% 52% 44% 56%; 
+  transition: border-radius 0.4s ease, transform 0.3s ease;
+}
+.product-grid > *:nth-child(5n) .product-image { 
+  border-radius: 52% 48% 58% 42% / 46% 54% 44% 56%; 
+  transition: border-radius 0.4s ease, transform 0.3s ease;
+}
+.product-grid > *:nth-child(6n) .product-image { 
+  border-radius: 58% 42% 46% 54% / 52% 48% 58% 42%; 
+  transition: border-radius 0.4s ease, transform 0.3s ease;
+}
+
+/* Dynamic shape changes on hover - each card gets a unique morph */
+.product-grid > *:nth-child(2n) .product-image.shape-morphed { 
+  border-radius: 45% 55% 35% 65% / 60% 40% 65% 35%; 
+}
+.product-grid > *:nth-child(3n) .product-image.shape-morphed { 
+  border-radius: 65% 35% 55% 45% / 40% 60% 45% 55%; 
+}
+.product-grid > *:nth-child(4n) .product-image.shape-morphed { 
+  border-radius: 40% 60% 50% 50% / 55% 45% 40% 60%; 
+}
+.product-grid > *:nth-child(5n) .product-image.shape-morphed { 
+  border-radius: 55% 45% 60% 40% / 35% 65% 55% 45%; 
+}
+.product-grid > *:nth-child(6n) .product-image.shape-morphed { 
+  border-radius: 50% 50% 45% 55% / 65% 35% 50% 50%; 
+}
+
+/* Default hover shape for cards not covered by nth-child */
+.product-image.shape-morphed { 
+  border-radius: 42% 58% 65% 35% / 50% 50% 60% 40%; 
+}
 
 /* Decorative glint */
 .product-image::after {
@@ -1064,6 +1186,19 @@ footer a:hover { color: #fff; }
     flex-direction: column;
     align-items: flex-start;
     gap: 1rem;
+  }
+  
+  .section-header.centered {
+    align-items: center;
+  }
+  
+  .category-title {
+    font-size: 2rem;
+  }
+  
+  .curved-underline svg {
+    width: 80px;
+    height: 10px;
   }
   
   .product-card { width: 240px; }

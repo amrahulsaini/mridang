@@ -1,7 +1,7 @@
 'use client'
 
 import { motion } from 'framer-motion'
-import { ShoppingCart } from 'lucide-react'
+import { ShoppingCart, Info } from 'lucide-react'
 import Image from 'next/image'
 import { useState } from 'react'
 import { Product } from '../types'
@@ -24,7 +24,7 @@ const ProductCard: React.FC<Product> = ({
 
   return (
     <motion.div 
-      className="product-card"
+      className={`product-card ${isHovered ? 'hovered' : ''}`}
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.3 }}
@@ -32,7 +32,7 @@ const ProductCard: React.FC<Product> = ({
       onMouseLeave={() => setIsHovered(false)}
     >
       {/* Product Image */}
-      <div className="product-image">
+      <div className={`product-image ${isHovered ? 'shape-morphed' : ''}`}>
         {isProblematicSrc ? (
           <img
             src={productImage}
@@ -67,11 +67,15 @@ const ProductCard: React.FC<Product> = ({
           )}
         </div>
 
-        {/* Add to Cart Button */}
-        <button className="btn btn-primary w-full inline-flex items-center justify-center gap-2">
-          <ShoppingCart className="w-4 h-4" />
-          <span>Add to Cart</span>
-        </button>
+        {/* Action Buttons */}
+        <div className="flex gap-3 justify-center">
+          <button className="btn-icon btn-primary" title="Add to Cart">
+            <ShoppingCart className="w-5 h-5" />
+          </button>
+          <button className="btn-icon btn-secondary" title="Product Info">
+            <Info className="w-5 h-5" />
+          </button>
+        </div>
       </div>
     </motion.div>
   )
