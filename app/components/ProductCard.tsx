@@ -103,6 +103,7 @@ const ProductCard: React.FC<Product> = ({
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.8, opacity: 0 }}
               onClick={(e) => e.stopPropagation()}
+              onMouseLeave={() => setIsModalOpen(false)}
             >
               {/* Close Button */}
               <button
@@ -159,13 +160,11 @@ const ProductCard: React.FC<Product> = ({
 
                 {/* Action Buttons */}
                 <div className="product-modal-actions">
-                  <button className="btn-icon btn-primary btn-large" title="Add to Cart">
+                  <button className="btn-icon btn-primary" title="Add to Cart">
                     <ShoppingCart className="w-6 h-6" />
-                    <span>Add to Cart</span>
                   </button>
-                  <button className="btn-icon btn-secondary btn-large" title="Product Info">
+                  <button className="btn-icon btn-secondary" title="Product Info">
                     <Info className="w-6 h-6" />
-                    <span>More Info</span>
                   </button>
                 </div>
               </div>
