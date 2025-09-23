@@ -43,7 +43,7 @@ const ProductCard: React.FC<Product> = ({
             style={{ 
               width: '100%', 
               height: '100%', 
-              objectFit: 'cover', 
+              objectFit: 'contain', 
               objectPosition: 'center',
               display: 'block' 
             }}
@@ -54,7 +54,7 @@ const ProductCard: React.FC<Product> = ({
             src={productImage}
             alt={name}
             fill
-            className="object-cover"
+            className="object-contain"
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
           />
         )}
@@ -140,33 +140,14 @@ const ProductCard: React.FC<Product> = ({
                 )}
               </div>
 
-              {/* Product Info */}
-              <div className="product-modal-info">
-                <h3 className="product-modal-title">{name}</h3>
-                
-                {/* Price */}
-                <div className="product-modal-price">
-                  {cut_price && (
-                    <span className="text-2xl font-bold text-gray-900">
-                      ₹{cut_price.toLocaleString()}
-                    </span>
-                  )}
-                  {original_price && (
-                    <span className={`text-lg text-gray-500 ${cut_price ? 'line-through' : ''}`}>
-                      ₹{original_price.toLocaleString()}
-                    </span>
-                  )}
-                </div>
-
-                {/* Action Buttons */}
-                <div className="product-modal-actions">
-                  <button className="btn-icon btn-primary" title="Add to Cart">
-                    <ShoppingCart className="w-6 h-6" />
-                  </button>
-                  <button className="btn-icon btn-secondary" title="Product Info">
-                    <Info className="w-6 h-6" />
-                  </button>
-                </div>
+              {/* Action Buttons - Floating */}
+              <div className="product-modal-actions-floating">
+                <button className="btn-icon btn-primary" title="Add to Cart">
+                  <ShoppingCart className="w-6 h-6" />
+                </button>
+                <button className="btn-icon btn-secondary" title="Product Info">
+                  <Info className="w-6 h-6" />
+                </button>
               </div>
             </motion.div>
           </motion.div>
