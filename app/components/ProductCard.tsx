@@ -1,7 +1,7 @@
 'use client'
 
-import { motion } from 'framer-motion'
-import { ShoppingCart, Info } from 'lucide-react'
+import { motion, AnimatePresence } from 'framer-motion'
+import { ShoppingCart, Info, X } from 'lucide-react'
 import Image from 'next/image'
 import { useState } from 'react'
 import { Product } from '../types'
@@ -14,6 +14,7 @@ const ProductCard: React.FC<Product> = ({
   image_url
 }) => {
   const [isHovered, setIsHovered] = useState(false)
+  const [isModalOpen, setIsModalOpen] = useState(false)
 
   // Use main_image_url first, then fallback to image_url, then placeholder
   const productImage = main_image_url || image_url || '/file.svg'
@@ -29,7 +30,11 @@ const ProductCard: React.FC<Product> = ({
       onMouseLeave={() => setIsHovered(false)}
     >
       {/* Product Image */}
-      <div className={`product-image ${isHovered ? 'shape-morphed' : ''}`}>
+      <div 
+        className={`product-image ${isHovered ? 'shape-morphed' : ''}`}
+        onClick={() => setIsModalOpen(true)}
+        style={{ cursor: 'pointer' }}
+      >
         {isProblematicSrc ? (
           // eslint-disable-next-line @next/next/no-img-element
           <img
@@ -81,6 +86,93 @@ const ProductCard: React.FC<Product> = ({
           </button>
         </div>
       </div>
+
+      {/* Product Image Modal */}
+      <AnimatePresence>
+        {isModalOpen && (
+          <motion.div
+            className="product-modal-overlay"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={() => setIsModalOpen(false)}
+          >
+            <motion.div
+              className="product-modal-container"
+              initial={{ scale: 0.8, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.8, opacity: 0 }}
+              onClick={(e) => e.stopPropagation()}
+            >
+              {/* Close Button */}
+              <button
+                className="product-modal-close"
+                onClick={() => setIsModalOpen(false)}
+                title="Close"
+              >
+                <X className="w-6 h-6" />
+              </button>
+
+              {/* Modal Image */}
+              <div className="product-modal-image">
+                {isProblematicSrc ? (
+                  // eslint-disable-next-line @next/next/no-img-element
+                  <img
+                    src={productImage}
+                    alt={name}
+                    style={{ 
+                      width: '100%', 
+                      height: '100%', 
+                      objectFit: 'contain', 
+                      objectPosition: 'center',
+                      display: 'block' 
+                    }}
+                  />
+                ) : (
+                  <Image
+                    src={productImage}
+                    alt={name}
+                    fill
+                    className="object-contain"
+                    sizes="(max-width: 768px) 90vw, (max-width: 1200px) 70vw, 60vw"
+                  />
+                )}
+              </div>
+
+              {/* Product Info */}
+              <div className="product-modal-info">
+                <h3 className="product-modal-title">{name}</h3>
+                
+                {/* Price */}
+                <div className="product-modal-price">
+                  {cut_price && (
+                    <span className="text-2xl font-bold text-gray-900">
+                      ₹{cut_price.toLocaleString()}
+                    </span>
+                  )}
+                  {original_price && (
+                    <span className={`text-lg text-gray-500 ${cut_price ? 'line-through' : ''}`}>
+                      ₹{original_price.toLocaleString()}
+                    </span>
+                  )}
+                </div>
+
+                {/* Action Buttons */}
+                <div className="product-modal-actions">
+                  <button className="btn-icon btn-primary btn-large" title="Add to Cart">
+                    <ShoppingCart className="w-6 h-6" />
+                    <span>Add to Cart</span>
+                  </button>
+                  <button className="btn-icon btn-secondary btn-large" title="Product Info">
+                    <Info className="w-6 h-6" />
+                    <span>More Info</span>
+                  </button>
+                </div>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </motion.div>
   )
 }
