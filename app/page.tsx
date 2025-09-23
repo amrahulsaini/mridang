@@ -14,17 +14,6 @@ export default async function Home() {
   return (
     <div className="min-h-screen bg-cream">
       <Header />
-      {/* Simple USP strip for trust and SEO-friendly content */}
-      <div className="usp-strip">
-        <div className="container">
-          <ul className="usp-list">
-            <li>Handcrafted in India</li>
-            <li>Premium Quality Materials</li>
-            <li>Custom Designs Available</li>
-            <li>Secure & Fast Shipping</li>
-          </ul>
-        </div>
-      </div>
       
       {/* Simple Video Player */}
       <div className="simple-video-container">
