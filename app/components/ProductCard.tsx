@@ -19,9 +19,6 @@ const ProductCard: React.FC<Product> = ({
   const productImage = main_image_url || image_url || '/file.svg'
   const isProblematicSrc = typeof productImage === 'string' && productImage.includes('url=')
 
-  // Determine pricing strictly as requested: show cut and original only
-  const hasDiscount = !!(cut_price && original_price && cut_price < original_price)
-
   return (
     <motion.div 
       className={`product-card ${isHovered ? 'hovered' : ''}`}
@@ -34,6 +31,7 @@ const ProductCard: React.FC<Product> = ({
       {/* Product Image */}
       <div className={`product-image ${isHovered ? 'shape-morphed' : ''}`}>
         {isProblematicSrc ? (
+          // eslint-disable-next-line @next/next/no-img-element
           <img
             src={productImage}
             alt={name}

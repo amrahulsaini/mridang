@@ -252,7 +252,7 @@ export default function About() {
           >
             <h2 className="section-title">Get in Touch</h2>
             <p className="section-subtitle">
-              We'd love to hear from you and discuss your ceremonial item needs
+              We&apos;d love to hear from you and discuss your ceremonial item needs
             </p>
           </motion.div>
           
