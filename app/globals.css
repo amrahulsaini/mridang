@@ -723,7 +723,7 @@ html, body {
   display: flex;
   gap: 1.5rem;
   overflow-x: auto;
-  padding: 0 0 1rem 0;
+  padding: 20px 0 20px 0; /* Increased padding to prevent clipping */
   scroll-behavior: smooth;
 }
 
@@ -750,39 +750,13 @@ html, body {
   position: relative;
   cursor: pointer;
   animation: float 6s ease-in-out infinite;
+  padding: 10px; /* Add padding to prevent border clipping */
+  margin: 10px 0; /* Add margin for better spacing */
 }
 
 @keyframes float {
   0%, 100% { transform: translateY(0px); }
   50% { transform: translateY(-5px); }
-}
-
-.product-card::before {
-  content: '';
-  position: absolute;
-  top: -5px;
-  left: -5px;
-  right: -5px;
-  bottom: -5px;
-  background: linear-gradient(45deg, 
-    #800020, #ff6b6b, #4ecdc4, #45b7d1, 
-    #96ceb4, #feca57, #ff9ff3, #54a0ff,
-    #800020);
-  background-size: 400% 400%;
-  border-radius: 60% 40% 50% 50% / 50% 60% 40% 50%;
-  z-index: -1;
-  opacity: 0;
-  animation: gradientShift 4s ease infinite;
-  transition: opacity 0.3s ease;
-}
-
-@keyframes gradientShift {
-  0%, 100% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-}
-
-.product-card:hover::before {
-  opacity: 1;
 }
 
 .product-card:hover {
@@ -793,10 +767,10 @@ html, body {
 .product-card::after {
   content: '';
   position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
+  top: 10px;
+  left: 10px;
+  right: 10px;
+  bottom: 10px;
   background: radial-gradient(circle at 50% 50%, 
     rgba(128, 0, 32, 0.1) 0%, 
     transparent 70%);
@@ -1312,8 +1286,9 @@ footer a:hover { color: #fff; }
   }
   
   .product-card {
-    width: 280px;
-    margin: 0 auto;
+    width: 260px;
+    padding: 5px; /* Reduced padding on small mobile */
+    margin: 5px auto; /* Reduced margin on small mobile */
   }
   
   .product-image {
@@ -1332,7 +1307,7 @@ footer a:hover { color: #fff; }
   
   .product-grid {
     gap: 1rem;
-    padding: 0 0.5rem 1rem 0.5rem;
+    padding: 15px 0.5rem 15px 0.5rem; /* Adjusted padding for small mobile */
   }
   
   .btn-icon {
@@ -1397,13 +1372,15 @@ footer a:hover { color: #fff; }
   }
   
   .product-card { 
-    width: 300px;
+    width: 280px;
+    padding: 5px; /* Reduced padding on mobile */
+    margin: 5px 0; /* Reduced margin on mobile */
     animation: none; /* Disable floating animation on mobile for performance */
   }
   
   .product-grid {
     gap: 1rem;
-    padding: 0 0.5rem 1rem 0.5rem;
+    padding: 15px 0.5rem 15px 0.5rem; /* Adjusted padding for mobile */
   }
   
   .carousel-arrow {
@@ -1476,6 +1453,7 @@ footer a:hover { color: #fff; }
   
   .product-card {
     width: 320px;
+    padding: 8px; /* Add padding for tablet */
   }
   
   .product-image {
@@ -1488,6 +1466,7 @@ footer a:hover { color: #fff; }
   
   .product-grid {
     gap: 1.25rem;
+    padding: 18px 0 18px 0; /* Adjusted padding for tablet */
   }
 }
 
