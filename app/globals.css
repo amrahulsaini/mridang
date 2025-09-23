@@ -922,11 +922,11 @@ html, body {
   object-fit: cover;
   transition: all 0.6s cubic-bezier(0.25, 0.8, 0.25, 1);
   filter: brightness(1) contrast(1) saturate(1);
-  transform: scale(0.9);
+  transform: scale(1.1);
 }
 
 .product-card:hover .product-image img { 
-  transform: scale(0.95) rotate(2deg);
+  transform: scale(1.15) rotate(2deg);
   filter: brightness(1.1) contrast(1.1) saturate(1.2);
 }
 
