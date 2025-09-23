@@ -925,7 +925,7 @@ html, body {
 }
 
 .product-card:hover .product-image img { 
-  transform: scale(1.15) rotate(2deg);
+  transform: scale(1.05) rotate(2deg);
   filter: brightness(1.1) contrast(1.1) saturate(1.2);
 }
 
