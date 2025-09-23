@@ -798,7 +798,7 @@ html, body {
   overflow: hidden;
   background: transparent;
   border-radius: 56% 44% 40% 60% / 48% 52% 52% 48%;
-  border: 8px solid #000000;
+  border: 8px solid #ffffff;
   box-shadow: 
     0 10px 25px rgba(0,0,0,0.2), 
     0 2px 6px rgba(0,0,0,0.1),
@@ -1550,3 +1550,384 @@ footer a:hover { color: #fff; }
 }
 .usp-list { display: flex; gap: 2rem; justify-content: center; color: #4b5563; font-weight: 600; }
 .usp-list li { display: inline-flex; align-items: center; gap: 0.5rem; }
+
+/* About Page Styles */
+.about-hero {
+  padding: 4rem 0;
+  background: linear-gradient(135deg, #f9eec8 0%, #f5e9b8 100%);
+}
+
+.hero-content {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4rem;
+  align-items: center;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.hero-title {
+  font-family: 'Sora', sans-serif;
+  font-size: 3.5rem;
+  font-weight: 700;
+  color: #2d2d2d;
+  margin-bottom: 1rem;
+  background: linear-gradient(135deg, #800020 0%, #a0002a 50%, #c00030 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.hero-subtitle {
+  font-size: 1.5rem;
+  color: #800020;
+  font-weight: 600;
+  margin-bottom: 1.5rem;
+}
+
+.hero-description {
+  font-size: 1.125rem;
+  color: #4b5563;
+  line-height: 1.7;
+}
+
+.image-container {
+  position: relative;
+  border-radius: 2rem;
+  overflow: hidden;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+}
+
+.founder-image {
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+
+.image-container:hover .founder-image {
+  transform: scale(1.05);
+}
+
+.image-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom, transparent 0%, rgba(128, 0, 32, 0.1) 100%);
+}
+
+/* Stats Section */
+.stats-section {
+  padding: 4rem 0;
+  background: white;
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 2rem;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.stat-card {
+  text-align: center;
+  padding: 2rem 1rem;
+  background: linear-gradient(135deg, #f9eec8 0%, #f5e9b8 100%);
+  border-radius: 1rem;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease;
+}
+
+.stat-card:hover {
+  transform: translateY(-5px);
+}
+
+.stat-icon {
+  width: 3rem;
+  height: 3rem;
+  color: #800020;
+  margin: 0 auto 1rem;
+}
+
+.stat-number {
+  display: block;
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: #800020;
+  margin-bottom: 0.5rem;
+}
+
+.stat-label {
+  font-size: 1rem;
+  color: #6b7280;
+  font-weight: 500;
+}
+
+/* Story Section */
+.story-section {
+  padding: 5rem 0;
+  background: linear-gradient(135deg, #f9eec8 0%, #f5e9b8 100%);
+}
+
+.story-content {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 4rem;
+  align-items: center;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.story-paragraphs p {
+  font-size: 1.125rem;
+  color: #4b5563;
+  line-height: 1.8;
+  margin-bottom: 1.5rem;
+}
+
+.logo-showcase {
+  text-align: center;
+  background: white;
+  padding: 2rem;
+  border-radius: 2rem;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+}
+
+.company-logo {
+  width: 100%;
+  height: auto;
+  max-width: 250px;
+  margin-bottom: 1rem;
+}
+
+.logo-caption {
+  font-size: 0.875rem;
+  color: #6b7280;
+  font-style: italic;
+}
+
+/* Values Section */
+.values-section {
+  padding: 5rem 0;
+  background: white;
+}
+
+.values-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 2rem;
+  max-width: 1000px;
+  margin: 0 auto;
+  margin-top: 3rem;
+}
+
+.value-card {
+  background: linear-gradient(135deg, #f9eec8 0%, #f5e9b8 100%);
+  padding: 2.5rem;
+  border-radius: 1.5rem;
+  text-align: center;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease;
+}
+
+.value-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+}
+
+.value-icon {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+}
+
+.value-title {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #800020;
+  margin-bottom: 1rem;
+}
+
+.value-description {
+  color: #4b5563;
+  line-height: 1.6;
+}
+
+/* PDF Section */
+.pdf-section {
+  padding: 4rem 0;
+  background: linear-gradient(135deg, #f9eec8 0%, #f5e9b8 100%);
+}
+
+.pdf-card {
+  background: white;
+  border-radius: 2rem;
+  padding: 3rem;
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.pdf-content {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 3rem;
+  align-items: center;
+}
+
+.pdf-info h3 {
+  font-size: 2rem;
+  font-weight: 600;
+  color: #800020;
+  margin-bottom: 1rem;
+}
+
+.pdf-info p {
+  color: #4b5563;
+  line-height: 1.6;
+  margin-bottom: 1.5rem;
+}
+
+.pdf-highlights {
+  list-style: none;
+  padding: 0;
+}
+
+.pdf-highlights li {
+  padding: 0.5rem 0;
+  color: #4b5563;
+  position: relative;
+  padding-left: 1.5rem;
+}
+
+.pdf-highlights li:before {
+  content: '✓';
+  position: absolute;
+  left: 0;
+  color: #800020;
+  font-weight: bold;
+}
+
+.pdf-download {
+  text-align: center;
+}
+
+.pdf-btn {
+  padding: 1rem 2rem;
+  font-size: 1.125rem;
+  margin-bottom: 1rem;
+}
+
+.pdf-size {
+  color: #6b7280;
+  font-size: 0.875rem;
+}
+
+/* Contact Section */
+.contact-section {
+  padding: 5rem 0;
+  background: white;
+}
+
+.contact-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2rem;
+  max-width: 1000px;
+  margin: 3rem auto 0;
+}
+
+.contact-card {
+  text-align: center;
+  padding: 2.5rem 1.5rem;
+  background: linear-gradient(135deg, #f9eec8 0%, #f5e9b8 100%);
+  border-radius: 1.5rem;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease;
+}
+
+.contact-card:hover {
+  transform: translateY(-5px);
+}
+
+.contact-icon {
+  width: 3rem;
+  height: 3rem;
+  color: #800020;
+  margin: 0 auto 1.5rem;
+}
+
+.contact-card h4 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #800020;
+  margin-bottom: 1rem;
+}
+
+.contact-card p {
+  color: #4b5563;
+  margin-bottom: 0.5rem;
+}
+
+/* About Page Responsive Design */
+@media (max-width: 768px) {
+  .hero-content {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+    text-align: center;
+  }
+  
+  .hero-title {
+    font-size: 2.5rem;
+  }
+  
+  .hero-subtitle {
+    font-size: 1.25rem;
+  }
+  
+  .stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+  }
+  
+  .story-content {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+  
+  .values-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .pdf-content {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+    text-align: center;
+  }
+  
+  .contact-grid {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .hero-title {
+    font-size: 2rem;
+  }
+  
+  .stats-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .stat-card {
+    padding: 1.5rem 1rem;
+  }
+  
+  .value-card {
+    padding: 2rem;
+  }
+  
+  .pdf-card {
+    padding: 2rem;
+  }
+}
