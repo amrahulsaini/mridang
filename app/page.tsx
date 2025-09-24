@@ -3,13 +3,11 @@
 import CategorySection from './components/CategorySection';
 import FAQAndReviews from './components/FAQAndReviews';
 import Footer from './components/Footer';
-import { getProductsByCategory } from './lib/database';
+import { getProductsGroupedByCategory } from './lib/database';
 
 export default async function Home() {
-  // Fetch real products from database
-  const ringPlatters = await getProductsByCategory('Ring Platters');
-  const haldiPlatters = await getProductsByCategory('Haldi Platters');
-  const mehendiPlatters = await getProductsByCategory('Mehendi Platters');
+  // Fetch all categories that have products from database
+  const categoriesWithProducts = await getProductsGroupedByCategory();
 
   return (
     <div className="min-h-screen bg-cream">
@@ -29,26 +27,15 @@ export default async function Home() {
         
       </div>
       
-      <div className="section-cream">
-        <CategorySection 
-          title="Ring Platters"
-          products={ringPlatters}
-        />
-      </div>
-      
-      <div className="bg-white">
-        <CategorySection 
-          title="Haldi Platters"
-          products={haldiPlatters}
-        />
-      </div>
-      
-      <div className="section-cream">
-        <CategorySection 
-          title="Mehendi Platters"
-          products={mehendiPlatters}
-        />
-      </div>
+      {/* Dynamically render only categories that have products from database */}
+      {categoriesWithProducts.map((categoryData, index) => (
+        <div key={categoryData.category} className={index % 2 === 0 ? 'section-cream' : 'bg-white'}>
+          <CategorySection 
+            title={categoryData.category}
+            products={categoryData.products}
+          />
+        </div>
+      ))}
       
       <FAQAndReviews />
       <Footer />
