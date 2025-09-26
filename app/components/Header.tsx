@@ -5,12 +5,10 @@ import { Home, Info, Phone, Search, Menu, X, ShoppingCart } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useCart } from '../context/CartContext'
-import CartModal from './CartModal'
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [searchQuery, setSearchQuery] = useState('')
-  const [isCartModalOpen, setIsCartModalOpen] = useState(false)
   const { state } = useCart()
 
   const navItems = [
@@ -20,8 +18,6 @@ const Header = () => {
   ]
 
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen)
-  const openCartModal = () => setIsCartModalOpen(true)
-  const closeCartModal = () => setIsCartModalOpen(false)
 
   return (
     <header className="header">
@@ -71,9 +67,9 @@ const Header = () => {
           <div className="flex items-center gap-3">
             {/* Desktop Cart Button */}
             <div className="hidden-mobile flex items-center gap-2">
-              <button 
+              <Link
+                href="/cart"
                 className="btn btn-primary inline-flex relative flex-col items-center gap-1"
-                onClick={openCartModal}
               >
                 <ShoppingCart size={18} />
                 {state.totalItems === 0 ? (
@@ -83,7 +79,7 @@ const Header = () => {
                     {state.totalItems}
                   </span>
                 )}
-              </button>
+              </Link>
             </div>
 
             {/* Mobile Menu Button - hidden on desktop */}
@@ -135,9 +131,9 @@ const Header = () => {
 
             {/* Cart Button */}
             <div className="flex flex-col gap-3">
-              <button 
+              <Link
+                href="/cart"
                 className="btn btn-primary w-full relative flex flex-col items-center gap-1"
-                onClick={openCartModal}
               >
                 <ShoppingCart size={18} />
                 {state.totalItems === 0 ? (
@@ -147,14 +143,12 @@ const Header = () => {
                     {state.totalItems}
                   </span>
                 )}
-              </button>
+              </Link>
             </div>
           </div>
         </div>
       )}
 
-      {/* Cart Modal */}
-      <CartModal isOpen={isCartModalOpen} onClose={closeCartModal} />
     </header>
   )
 }
