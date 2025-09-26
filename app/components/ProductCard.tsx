@@ -188,7 +188,7 @@ const ProductCard: React.FC<Product & { onInfoClick?: (product: Product) => void
                       {/* Compact Action Buttons */}
                       <div className="flex gap-3">
                         <motion.button 
-                          className="flex-1 py-2.5 text-sm bg-gray-100 text-gray-700 rounded-md hover:bg-gray-200 transition-colors font-medium"
+                          className="dialog-btn dialog-btn-cancel"
                           onClick={cancelRemove}
                           whileHover={{ scale: 1.02 }}
                           whileTap={{ scale: 0.98 }}
@@ -196,7 +196,7 @@ const ProductCard: React.FC<Product & { onInfoClick?: (product: Product) => void
                           Cancel
                         </motion.button>
                         <motion.button 
-                          className="flex-1 py-2.5 text-sm bg-red-600 text-white rounded-md hover:bg-red-700 transition-colors flex items-center justify-center gap-2 font-medium"
+                          className="dialog-btn dialog-btn-remove"
                           onClick={confirmRemove}
                           whileHover={{ scale: 1.02 }}
                           whileTap={{ scale: 0.98 }}

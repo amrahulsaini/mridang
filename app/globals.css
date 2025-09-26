@@ -572,6 +572,40 @@ html, body {
   border-color: #15803d;
 }
 
+/* Dialog button styles */
+.dialog-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  flex: 1;
+  padding: 0.625rem 1rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  border-radius: 0.375rem;
+  transition: all 0.2s ease;
+  cursor: pointer;
+  border: none;
+}
+
+.dialog-btn-cancel {
+  background-color: #f3f4f6 !important;
+  color: #374151 !important;
+}
+
+.dialog-btn-cancel:hover {
+  background-color: #e5e7eb !important;
+}
+
+.dialog-btn-remove {
+  background-color: #dc2626 !important;
+  color: #ffffff !important;
+}
+
+.dialog-btn-remove:hover {
+  background-color: #b91c1c !important;
+}
+
 /* Simple Video Player */
 .simple-video-container {
   position: relative;
