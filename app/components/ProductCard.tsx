@@ -145,7 +145,7 @@ const ProductCard: React.FC<Product & { onInfoClick?: (product: Product) => void
           ) : (
             <div className="relative">
               <button 
-                className="btn-icon bg-green-600 text-white hover:bg-green-700 border-2 border-green-600 hover:border-green-700" 
+                className="btn-icon btn-success" 
                 title="In Cart - Click to Remove"
                 onClick={handleRemoveFromCart}
               >
@@ -154,23 +154,25 @@ const ProductCard: React.FC<Product & { onInfoClick?: (product: Product) => void
               
               {/* Remove Confirmation Modal */}
               {showRemoveConfirm && (
-                <div className="absolute top-full left-1/2 transform -translate-x-1/2 mt-2 bg-white rounded-lg border-2 border-red-300 shadow-xl p-3 z-20 min-w-[200px]">
-                  <div className="flex items-center justify-center mb-2">
-                    <Trash2 className="w-4 h-4 text-red-600 mr-2" />
-                    <p className="text-sm font-medium text-gray-800">Remove from cart?</p>
+                <div className="absolute top-full left-1/2 transform -translate-x-1/2 mt-2 bg-white rounded-xl border-2 border-red-200 shadow-2xl p-4 z-20 min-w-[220px]">
+                  <div className="flex items-center justify-center mb-3">
+                    <div className="bg-red-100 rounded-full p-2 mr-2">
+                      <Trash2 className="w-5 h-5 text-red-600" />
+                    </div>
+                    <p className="text-sm font-semibold text-gray-800">Remove from cart?</p>
                   </div>
                   <div className="flex gap-2 justify-center">
                     <button 
-                      className="px-3 py-1 text-xs bg-gray-200 text-gray-700 rounded-md hover:bg-gray-300 transition-colors" 
+                      className="px-4 py-2 text-sm bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-all duration-200 font-medium border border-gray-300" 
                       onClick={cancelRemove}
                     >
                       Cancel
                     </button>
                     <button 
-                      className="px-3 py-1 text-xs bg-red-600 text-white rounded-md hover:bg-red-700 transition-colors flex items-center gap-1" 
+                      className="px-4 py-2 text-sm bg-red-600 text-white rounded-lg hover:bg-red-700 transition-all duration-200 flex items-center gap-2 font-medium shadow-md hover:shadow-lg" 
                       onClick={confirmRemove}
                     >
-                      <Trash2 className="w-3 h-3" />
+                      <Trash2 className="w-4 h-4" />
                       Remove
                     </button>
                   </div>

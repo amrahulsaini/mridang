@@ -559,6 +559,19 @@ html, body {
   box-shadow: 0 8px 15px -3px rgba(128, 0, 32, 0.4);
 }
 
+.btn-icon.btn-success {
+  background: linear-gradient(135deg, #16a34a, #15803d);
+  color: #fff;
+  border: 2px solid #16a34a;
+}
+
+.btn-icon.btn-success:hover {
+  background: linear-gradient(135deg, #15803d, #166534);
+  transform: translateY(-2px) scale(1.05);
+  box-shadow: 0 8px 15px -3px rgba(22, 163, 74, 0.4);
+  border-color: #15803d;
+}
+
 /* Simple Video Player */
 .simple-video-container {
   position: relative;
