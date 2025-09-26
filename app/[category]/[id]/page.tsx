@@ -2,7 +2,6 @@
 
 import { useState, useEffect } from 'react'
 import { useParams, useRouter } from 'next/navigation'
-import Image from 'next/image'
 import { motion } from 'framer-motion'
 import {
   ShoppingCart,
@@ -57,20 +56,24 @@ export default function ProductDetailsPage() {
   const [selectedImageIndex, setSelectedImageIndex] = useState(0)
   const [quantity, setQuantity] = useState(1)
   const [isImageTransitioning, setIsImageTransitioning] = useState(false)
+  const [imagesLoaded, setImagesLoaded] = useState<Set<number>>(new Set())
 
-  // Preload all images for smooth transitions (after initial load)
+  // Preload all images and track loading state
   useEffect(() => {
-    if (product && !loading) {
+    if (product) {
       const productImages = getProductImages(product)
-      // Delay preloading slightly to avoid interfering with initial render
-      setTimeout(() => {
-        productImages.forEach((imageUrl) => {
-          const img = new window.Image()
-          img.src = imageUrl
-        })
-      }, 1000)
+      const loadedImages = new Set<number>()
+
+      productImages.forEach((imageUrl, index) => {
+        const img = new window.Image()
+        img.onload = () => {
+          loadedImages.add(index)
+          setImagesLoaded(new Set(loadedImages))
+        }
+        img.src = imageUrl
+      })
     }
-  }, [product, loading])
+  }, [product])
 
   const categoryParam = params.category as string
   const productId = params.id as string
@@ -165,11 +168,11 @@ export default function ProductDetailsPage() {
   }
 
   const handleImageSelect = (index: number) => {
-    if (index !== selectedImageIndex) {
+    if (index !== selectedImageIndex && imagesLoaded.has(index)) {
       setIsImageTransitioning(true)
       setSelectedImageIndex(index)
-      
-      // Reset transition state after animation completes
+
+      // Reset transition state after animation
       setTimeout(() => {
         setIsImageTransitioning(false)
       }, 300)
@@ -237,16 +240,26 @@ export default function ProductDetailsPage() {
         {/* Image Gallery */}
         <div className={styles.imageGallery}>
           <div className={styles.mainImageContainer}>
-            <Image
-              src={images[selectedImageIndex]}
-              alt={`${product.model_name} view ${selectedImageIndex + 1}`}
-              fill
-              className={`${styles.mainImage} ${isImageTransitioning ? styles.transitioning : ''}`}
-              sizes="(max-width: 768px) 100vw, 50vw"
-              priority={selectedImageIndex === 0}
-              placeholder="blur"
-              blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAAIAAoDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAhEAACAQMDBQAAAAAAAAAAAAABAgMABAUGIWGRkqGx0f/EABUBAQEAAAAAAAAAAAAAAAAAAAMF/8QAGhEAAgIDAAAAAAAAAAAAAAAAAAECEgMRkf/aAAwDAQACEQMRAD8AltJagyeH0AthI5xdrLcNM91BF5pX2HaH9bcfaSXWGaRmknyJckliyjqTzSlT54b6bk+h0R+IRjWjBqO6O2mhP//Z"
-            />
+            {images.map((image, index) => (
+              <img
+                key={index}
+                src={image}
+                alt={`${product.model_name} view ${index + 1}`}
+                className={`${styles.mainImage} ${index === selectedImageIndex ? styles.active : ''} ${isImageTransitioning ? styles.transitioning : ''}`}
+                style={{
+                  opacity: index === selectedImageIndex ? 1 : 0,
+                  zIndex: index === selectedImageIndex ? 2 : 1,
+                  display: imagesLoaded.has(index) ? 'block' : 'none'
+                }}
+                loading={index === 0 ? 'eager' : 'lazy'}
+              />
+            ))}
+            {/* Loading placeholder */}
+            {!imagesLoaded.has(selectedImageIndex) && (
+              <div className={styles.imagePlaceholder}>
+                <div className={styles.loadingSpinner}></div>
+              </div>
+            )}
           </div>
 
           {/* Thumbnails */}
@@ -260,12 +273,11 @@ export default function ProductDetailsPage() {
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                 >
-                  <Image
+                  <img
                     src={image}
                     alt={`${product.model_name} view ${index + 1}`}
-                    fill
                     className={styles.thumbnailImage}
-                    sizes="80px"
+                    loading="lazy"
                   />
                 </motion.div>
               ))}
