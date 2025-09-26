@@ -56,6 +56,7 @@ export default function ProductDetailsPage() {
   const [error, setError] = useState('')
   const [selectedImageIndex, setSelectedImageIndex] = useState(0)
   const [quantity, setQuantity] = useState(1)
+  const [imageLoaded, setImageLoaded] = useState(false)
 
   const categoryParam = params.category as string
   const productId = params.id as string
@@ -103,6 +104,8 @@ export default function ProductDetailsPage() {
         }
         
         setProduct(productData)
+        setSelectedImageIndex(0)
+        setImageLoaded(false)
       } catch (err) {
         setError(err instanceof Error ? err.message : 'Failed to load product')
       } finally {
@@ -146,6 +149,17 @@ export default function ProductDetailsPage() {
 
   const decrementQuantity = () => {
     setQuantity(prev => Math.max(1, prev - 1))
+  }
+
+  const handleImageSelect = (index: number) => {
+    if (index !== selectedImageIndex) {
+      setImageLoaded(false)
+      setSelectedImageIndex(index)
+    }
+  }
+
+  const handleImageLoad = () => {
+    setImageLoaded(true)
   }
 
   if (loading) {
@@ -193,7 +207,7 @@ export default function ProductDetailsPage() {
         initial={{ opacity: 0, x: -20 }}
         animate={{ opacity: 1, x: 0 }}
         onClick={() => router.back()}
-        className="flex items-center gap-2 text-gray-600 hover:text-gray-900 mb-6 transition-colors"
+        className={styles.backToProducts}
       >
         <ArrowLeft className="w-5 h-5" />
         Back to Products
@@ -212,9 +226,9 @@ export default function ProductDetailsPage() {
             <AnimatePresence mode="wait">
               <motion.div
                 key={selectedImageIndex}
-                initial={{ opacity: 0, scale: 0.8 }}
-                animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0, scale: 0.8 }}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: imageLoaded ? 1 : 0 }}
+                exit={{ opacity: 0 }}
                 transition={{ duration: 0.3 }}
               >
                 <Image
@@ -223,6 +237,9 @@ export default function ProductDetailsPage() {
                   fill
                   className={styles.mainImage}
                   sizes="(max-width: 768px) 100vw, 50vw"
+                  onLoad={handleImageLoad}
+                  priority={selectedImageIndex === 0}
+                  data-loaded={imageLoaded}
                 />
               </motion.div>
             </AnimatePresence>
@@ -235,7 +252,7 @@ export default function ProductDetailsPage() {
                 <motion.div
                   key={index}
                   className={`${styles.thumbnail} ${index === selectedImageIndex ? styles.active : ''}`}
-                  onClick={() => setSelectedImageIndex(index)}
+                  onClick={() => handleImageSelect(index)}
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                 >
