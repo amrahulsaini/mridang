@@ -1,10 +1,12 @@
 'use client'
 
 import { motion } from 'framer-motion'
-import { ShoppingCart, Info } from 'lucide-react'
+import { ShoppingCart, Info, X } from 'lucide-react'
 import Image from 'next/image'
 import { useState } from 'react'
 import { Product } from '../types'
+import { useCart } from '../context/CartContext'
+import { useNotification } from '../context/NotificationContext'
 
 const ProductCard: React.FC<Product & { onInfoClick?: (product: Product) => void }> = ({
   name,
@@ -16,6 +18,9 @@ const ProductCard: React.FC<Product & { onInfoClick?: (product: Product) => void
   ...product
 }) => {
   const [isHovered, setIsHovered] = useState(false)
+  const [showRemoveConfirm, setShowRemoveConfirm] = useState(false)
+  const { state, addItem, removeItem } = useCart()
+  const { showNotification } = useNotification()
 
   // Use main_image_url first, then fallback to image_url, then placeholder
   const productImage = main_image_url || image_url || '/file.svg'
@@ -35,6 +40,44 @@ const ProductCard: React.FC<Product & { onInfoClick?: (product: Product) => void
     if (onInfoClick) {
       onInfoClick(completeProduct)
     }
+  }
+
+  // Check if item is in cart
+  const isInCart = state.items.some(item => item.id === product.id)
+
+  const handleAddToCart = () => {
+    addItem({
+      id: product.id,
+      name: name,
+      price: cut_price || original_price || product.price,
+      image: productImage,
+      category: product.category_name || 'General'
+    })
+    
+    showNotification({
+      type: 'success',
+      title: 'Added to Cart!',
+      message: `${name} has been added to your cart.`
+    })
+  }
+
+  const handleRemoveFromCart = () => {
+    setShowRemoveConfirm(true)
+  }
+
+  const confirmRemove = () => {
+    removeItem(product.id)
+    setShowRemoveConfirm(false)
+    
+    showNotification({
+      type: 'success',
+      title: 'Removed from Cart',
+      message: `${name} has been removed from your cart.`
+    })
+  }
+
+  const cancelRemove = () => {
+    setShowRemoveConfirm(false)
   }
 
   return (
@@ -90,13 +133,52 @@ const ProductCard: React.FC<Product & { onInfoClick?: (product: Product) => void
         </div>
 
         {/* Action Buttons */}
-        <div className="flex gap-3 justify-center">
-          <button className="btn-icon btn-primary" title="Add to Cart">
-            <ShoppingCart className="w-5 h-5" />
-          </button>
+        <div className="flex gap-3 justify-center relative">
+          {!isInCart ? (
+            <button 
+              className="btn-icon btn-primary" 
+              title="Add to Cart"
+              onClick={handleAddToCart}
+            >
+              <ShoppingCart className="w-5 h-5" />
+            </button>
+          ) : (
+            <button 
+              className="btn-icon bg-red-600 text-white hover:bg-red-700" 
+              title="Remove from Cart"
+              onClick={handleRemoveFromCart}
+            >
+              <div className="relative">
+                <ShoppingCart className="w-5 h-5" />
+                <X className="w-3 h-3 absolute -top-1 -right-1 bg-red-600 rounded-full" />
+              </div>
+            </button>
+          )}
+          
           <button className="btn-icon btn-secondary" title="Product Info" onClick={handleInfoClick}>
             <Info className="w-5 h-5" />
           </button>
+
+          {/* Remove Confirmation Modal */}
+          {showRemoveConfirm && (
+            <div className="absolute top-0 left-0 right-0 bottom-0 bg-white rounded-lg border-2 border-red-300 shadow-lg p-3 z-10">
+              <p className="text-sm font-medium mb-2 text-center">Remove from cart?</p>
+              <div className="flex gap-2 justify-center">
+                <button 
+                  className="btn-icon btn-secondary text-xs px-2 py-1" 
+                  onClick={cancelRemove}
+                >
+                  Cancel
+                </button>
+                <button 
+                  className="btn-icon bg-red-600 text-white hover:bg-red-700 text-xs px-2 py-1" 
+                  onClick={confirmRemove}
+                >
+                  Remove
+                </button>
+              </div>
+            </div>
+          )}
         </div>
       </div>
     </motion.div>

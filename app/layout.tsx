@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Sora } from "next/font/google";
 import "./globals.css";
 import { CartProvider } from "./context/CartContext";
+import { NotificationProvider } from "./context/NotificationContext";
 
 const sora = Sora({
   variable: "--font-sora",
@@ -26,7 +27,9 @@ export default function RootLayout({
         className={`${sora.variable} antialiased`}
       >
         <CartProvider>
-          {children}
+          <NotificationProvider>
+            {children}
+          </NotificationProvider>
         </CartProvider>
       </body>
     </html>

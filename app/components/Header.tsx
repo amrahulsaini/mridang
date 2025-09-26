@@ -72,14 +72,14 @@ const Header = () => {
             {/* Desktop Cart Button */}
             <div className="hidden-mobile flex items-center gap-2">
               <button 
-                className="btn btn-primary inline-flex relative"
+                className="btn btn-primary inline-flex relative flex-col items-center gap-1"
                 onClick={openCartModal}
               >
                 <ShoppingCart size={18} />
                 {state.totalItems === 0 ? (
-                  <span>Cart</span>
+                  <span className="text-sm">Cart</span>
                 ) : (
-                  <span className="absolute -top-2 -right-2 bg-red-600 text-white rounded-full text-sm w-7 h-7 flex items-center justify-center font-bold border-2 border-white">
+                  <span className="bg-red-600 text-white rounded-full text-xs px-2 py-1 font-bold min-w-[1.5rem] text-center">
                     {state.totalItems}
                   </span>
                 )}
@@ -136,14 +136,14 @@ const Header = () => {
             {/* Cart Button */}
             <div className="flex flex-col gap-3">
               <button 
-                className="btn btn-primary w-full relative"
+                className="btn btn-primary w-full relative flex flex-col items-center gap-1"
                 onClick={openCartModal}
               >
                 <ShoppingCart size={18} />
                 {state.totalItems === 0 ? (
-                  <span>Cart</span>
+                  <span className="text-sm">Cart</span>
                 ) : (
-                  <span className="absolute -top-2 -right-2 bg-red-600 text-white rounded-full text-sm w-7 h-7 flex items-center justify-center font-bold border-2 border-white">
+                  <span className="bg-red-600 text-white rounded-full text-xs px-2 py-1 font-bold min-w-[1.5rem] text-center">
                     {state.totalItems}
                   </span>
                 )}
