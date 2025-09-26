@@ -5,10 +5,12 @@ import { Home, Info, Phone, Search, Menu, X, ShoppingCart } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useCart } from '../context/CartContext'
+import CartModal from './CartModal'
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [searchQuery, setSearchQuery] = useState('')
+  const [isCartModalOpen, setIsCartModalOpen] = useState(false)
   const { state } = useCart()
 
   const navItems = [
@@ -18,6 +20,8 @@ const Header = () => {
   ]
 
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen)
+  const openCartModal = () => setIsCartModalOpen(true)
+  const closeCartModal = () => setIsCartModalOpen(false)
 
   return (
     <header className="header">
@@ -67,11 +71,15 @@ const Header = () => {
           <div className="flex items-center gap-3">
             {/* Desktop Cart Button */}
             <div className="hidden-mobile flex items-center gap-2">
-              <button className="btn btn-primary inline-flex relative">
+              <button 
+                className="btn btn-primary inline-flex relative"
+                onClick={openCartModal}
+              >
                 <ShoppingCart size={18} />
-                <span>Cart</span>
-                {state.totalItems > 0 && (
-                  <span className="absolute -top-2 -right-2 bg-red-600 text-white rounded-full text-xs w-6 h-6 flex items-center justify-center font-bold">
+                {state.totalItems === 0 ? (
+                  <span>Cart</span>
+                ) : (
+                  <span className="absolute -top-2 -right-2 bg-red-600 text-white rounded-full text-sm w-7 h-7 flex items-center justify-center font-bold border-2 border-white">
                     {state.totalItems}
                   </span>
                 )}
@@ -127,11 +135,15 @@ const Header = () => {
 
             {/* Cart Button */}
             <div className="flex flex-col gap-3">
-              <button className="btn btn-primary w-full relative">
+              <button 
+                className="btn btn-primary w-full relative"
+                onClick={openCartModal}
+              >
                 <ShoppingCart size={18} />
-                <span>Cart</span>
-                {state.totalItems > 0 && (
-                  <span className="absolute -top-2 -right-2 bg-red-600 text-white rounded-full text-xs w-6 h-6 flex items-center justify-center font-bold">
+                {state.totalItems === 0 ? (
+                  <span>Cart</span>
+                ) : (
+                  <span className="absolute -top-2 -right-2 bg-red-600 text-white rounded-full text-sm w-7 h-7 flex items-center justify-center font-bold border-2 border-white">
                     {state.totalItems}
                   </span>
                 )}
@@ -140,6 +152,9 @@ const Header = () => {
           </div>
         </div>
       )}
+
+      {/* Cart Modal */}
+      <CartModal isOpen={isCartModalOpen} onClose={closeCartModal} />
     </header>
   )
 }
