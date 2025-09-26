@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react'
 import { useParams, useRouter } from 'next/navigation'
 import Image from 'next/image'
-import { motion, AnimatePresence } from 'framer-motion'
+import { motion } from 'framer-motion'
 import { 
   ShoppingCart, 
   CreditCard, 
@@ -56,7 +56,7 @@ export default function ProductDetailsPage() {
   const [error, setError] = useState('')
   const [selectedImageIndex, setSelectedImageIndex] = useState(0)
   const [quantity, setQuantity] = useState(1)
-  const [imageLoaded, setImageLoaded] = useState(false)
+  const [isImageTransitioning, setIsImageTransitioning] = useState(false)
 
   const categoryParam = params.category as string
   const productId = params.id as string
@@ -105,7 +105,6 @@ export default function ProductDetailsPage() {
         
         setProduct(productData)
         setSelectedImageIndex(0)
-        setImageLoaded(false)
       } catch (err) {
         setError(err instanceof Error ? err.message : 'Failed to load product')
       } finally {
@@ -152,14 +151,15 @@ export default function ProductDetailsPage() {
   }
 
   const handleImageSelect = (index: number) => {
-    if (index !== selectedImageIndex) {
-      setImageLoaded(false)
+    if (index !== selectedImageIndex && !isImageTransitioning) {
+      setIsImageTransitioning(true)
       setSelectedImageIndex(index)
+      
+      // Reset transition state after animation
+      setTimeout(() => {
+        setIsImageTransitioning(false)
+      }, 300)
     }
-  }
-
-  const handleImageLoad = () => {
-    setImageLoaded(true)
   }
 
   if (loading) {
@@ -223,26 +223,26 @@ export default function ProductDetailsPage() {
         {/* Image Gallery */}
         <div className={styles.imageGallery}>
           <div className={styles.mainImageContainer}>
-            <AnimatePresence mode="wait">
-              <motion.div
-                key={selectedImageIndex}
-                initial={{ opacity: 0 }}
-                animate={{ opacity: imageLoaded ? 1 : 0 }}
-                exit={{ opacity: 0 }}
-                transition={{ duration: 0.3 }}
+            {/* Render all images but show only the selected one */}
+            {images.map((image, index) => (
+              <div
+                key={index}
+                className={styles.imageWrapper}
+                style={{
+                  opacity: index === selectedImageIndex ? 1 : 0,
+                  pointerEvents: index === selectedImageIndex ? 'auto' : 'none'
+                }}
               >
                 <Image
-                  src={images[selectedImageIndex]}
-                  alt={product.model_name}
+                  src={image}
+                  alt={`${product.model_name} view ${index + 1}`}
                   fill
                   className={styles.mainImage}
                   sizes="(max-width: 768px) 100vw, 50vw"
-                  onLoad={handleImageLoad}
-                  priority={selectedImageIndex === 0}
-                  data-loaded={imageLoaded}
+                  priority={index === 0}
                 />
-              </motion.div>
-            </AnimatePresence>
+              </div>
+            ))}
           </div>
 
           {/* Thumbnails */}
