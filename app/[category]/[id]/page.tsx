@@ -57,6 +57,18 @@ export default function ProductDetailsPage() {
   const [selectedImageIndex, setSelectedImageIndex] = useState(0)
   const [quantity, setQuantity] = useState(1)
   const [isImageTransitioning, setIsImageTransitioning] = useState(false)
+  const [imageLoading, setImageLoading] = useState(true)
+
+  // Preload all images for smooth transitions
+  useEffect(() => {
+    if (product) {
+      const productImages = getProductImages(product)
+      productImages.forEach((imageUrl) => {
+        const img = new window.Image()
+        img.src = imageUrl
+      })
+    }
+  }, [product])
 
   const categoryParam = params.category as string
   const productId = params.id as string
@@ -105,6 +117,7 @@ export default function ProductDetailsPage() {
         
         setProduct(productData)
         setSelectedImageIndex(0)
+        setImageLoading(true)
       } catch (err) {
         setError(err instanceof Error ? err.message : 'Failed to load product')
       } finally {
@@ -153,6 +166,7 @@ export default function ProductDetailsPage() {
   const handleImageSelect = (index: number) => {
     if (index !== selectedImageIndex && !isImageTransitioning) {
       setIsImageTransitioning(true)
+      setImageLoading(true)
       setSelectedImageIndex(index)
       
       // Reset transition state after animation
@@ -223,26 +237,20 @@ export default function ProductDetailsPage() {
         {/* Image Gallery */}
         <div className={styles.imageGallery}>
           <div className={styles.mainImageContainer}>
-            {/* Render all images but show only the selected one */}
-            {images.map((image, index) => (
-              <div
-                key={index}
-                className={styles.imageWrapper}
-                style={{
-                  opacity: index === selectedImageIndex ? 1 : 0,
-                  pointerEvents: index === selectedImageIndex ? 'auto' : 'none'
-                }}
-              >
-                <Image
-                  src={image}
-                  alt={`${product.model_name} view ${index + 1}`}
-                  fill
-                  className={styles.mainImage}
-                  sizes="(max-width: 768px) 100vw, 50vw"
-                  priority={index === 0}
-                />
-              </div>
-            ))}
+            {imageLoading && (
+              <div className={styles.loadingSkeleton}></div>
+            )}
+            <Image
+              key={selectedImageIndex} // Force re-mount on image change
+              src={images[selectedImageIndex]}
+              alt={`${product.model_name} view ${selectedImageIndex + 1}`}
+              fill
+              className={styles.mainImage}
+              sizes="(max-width: 768px) 100vw, 50vw"
+              priority={selectedImageIndex === 0}
+              onLoad={() => setImageLoading(false)}
+              onError={() => setImageLoading(false)}
+            />
           </div>
 
           {/* Thumbnails */}
