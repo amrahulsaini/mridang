@@ -152,33 +152,43 @@ const ProductCard: React.FC<Product & { onInfoClick?: (product: Product) => void
                 <CheckCircle2 className="w-5 h-5" />
               </button>
               
-              {/* Remove Confirmation Modal */}
+              {/* Remove Confirmation Modal - Fixed Overlay */}
               {showRemoveConfirm && (
-                <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 bg-white rounded-xl border-2 border-red-200 shadow-2xl p-4 z-20 min-w-[220px]">
-                  <div className="flex items-center justify-center mb-3">
-                    <div className="bg-red-100 rounded-full p-2 mr-2">
-                      <Trash2 className="w-5 h-5 text-red-600" />
+                <>
+                  {/* Backdrop */}
+                  <div 
+                    className="fixed inset-0 bg-black bg-opacity-50 z-50"
+                    onClick={cancelRemove}
+                  ></div>
+                  
+                  {/* Modal */}
+                  <div className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white rounded-xl border-2 border-red-300 shadow-2xl p-6 z-50 min-w-[280px]">
+                    <div className="flex items-center justify-center mb-4">
+                      <div className="bg-red-100 rounded-full p-3 mr-3">
+                        <Trash2 className="w-6 h-6 text-red-600" />
+                      </div>
+                      <div>
+                        <p className="text-lg font-bold text-gray-900">Remove from cart?</p>
+                        <p className="text-sm text-gray-600 mt-1">This item will be removed from your cart.</p>
+                      </div>
                     </div>
-                    <p className="text-sm font-semibold text-gray-800">Remove from cart?</p>
+                    <div className="flex gap-3 justify-center">
+                      <button 
+                        className="px-6 py-3 text-sm bg-gray-200 text-gray-800 rounded-lg hover:bg-gray-300 transition-all duration-200 font-semibold border-2 border-gray-300" 
+                        onClick={cancelRemove}
+                      >
+                        Cancel
+                      </button>
+                      <button 
+                        className="px-6 py-3 text-sm bg-red-600 text-white rounded-lg hover:bg-red-700 transition-all duration-200 flex items-center gap-2 font-semibold shadow-lg hover:shadow-xl border-2 border-red-600" 
+                        onClick={confirmRemove}
+                      >
+                        <Trash2 className="w-4 h-4" />
+                        Remove
+                      </button>
+                    </div>
                   </div>
-                  <div className="flex gap-2 justify-center">
-                    <button 
-                      className="px-4 py-2 text-sm bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-all duration-200 font-medium border border-gray-300" 
-                      onClick={cancelRemove}
-                    >
-                      Cancel
-                    </button>
-                    <button 
-                      className="px-4 py-2 text-sm bg-red-600 text-white rounded-lg hover:bg-red-700 transition-all duration-200 flex items-center gap-2 font-medium shadow-md hover:shadow-lg" 
-                      onClick={confirmRemove}
-                    >
-                      <Trash2 className="w-4 h-4" />
-                      Remove
-                    </button>
-                  </div>
-                  {/* Arrow pointing down to the button */}
-                  <div className="absolute top-full left-1/2 transform -translate-x-1/2 w-0 h-0 border-l-8 border-r-8 border-t-8 border-l-transparent border-r-transparent border-t-red-200"></div>
-                </div>
+                </>
               )}
             </div>
           )}
