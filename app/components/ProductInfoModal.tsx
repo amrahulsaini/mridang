@@ -16,30 +16,34 @@ interface ProductInfoModalProps {
 
 const ProductInfoModal: React.FC<ProductInfoModalProps> = ({ product, isOpen, onClose }) => {
   const [quantity, setQuantity] = useState(1)
-  const { addItem } = useCart()
+  const { addItem, isItemInCart, removeItem } = useCart()
 
   if (!product) return null
 
   const productImage = product.main_image_url || product.image_url || '/file.svg'
   const isProblematicSrc = typeof productImage === 'string' && productImage.includes('url=')
+  const itemInCart = isItemInCart(product.id)
 
   const increaseQuantity = () => setQuantity(prev => prev + 1)
   const decreaseQuantity = () => setQuantity(prev => prev > 1 ? prev - 1 : 1)
 
   const handleAddToCart = () => {
-    // Add multiple quantities if more than 1
-    for (let i = 0; i < quantity; i++) {
-      addItem({
-        id: product.id,
-        name: product.name,
-        price: product.price,
-        image: productImage,
-        category: product.category_name || 'General'
-      })
-    }
+    addItem({
+      id: product.id,
+      name: product.name,
+      price: product.price,
+      image: productImage,
+      category: product.category_name || 'General'
+    }, quantity)
     
+    // Reset quantity after adding
+    setQuantity(1)
     // Optional: Show success message or close modal
     onClose()
+  }
+
+  const handleRemoveFromCart = () => {
+    removeItem(product.id)
   }
 
   return (
@@ -137,13 +141,23 @@ const ProductInfoModal: React.FC<ProductInfoModalProps> = ({ product, isOpen, on
                     <CreditCard className={styles.buttonIcon} />
                     Buy Now
                   </button>
-                  <button 
-                    className={`${styles.actionButton} ${styles.addToCartButton}`}
-                    onClick={handleAddToCart}
-                  >
-                    <ShoppingCart className={styles.buttonIcon} />
-                    Add to Cart
-                  </button>
+                  {!itemInCart ? (
+                    <button 
+                      className={`${styles.actionButton} ${styles.addToCartButton}`}
+                      onClick={handleAddToCart}
+                    >
+                      <ShoppingCart className={styles.buttonIcon} />
+                      Add to Cart
+                    </button>
+                  ) : (
+                    <button 
+                      className={`${styles.actionButton} ${styles.removeFromCartButton}`}
+                      onClick={handleRemoveFromCart}
+                    >
+                      <ShoppingCart className={styles.buttonIcon} />
+                      Remove from Cart
+                    </button>
+                  )}
                   <button className={`${styles.actionButton} ${styles.moreDetailsButton}`}>
                     <InfoIcon className={styles.buttonIcon} />
                     More Details

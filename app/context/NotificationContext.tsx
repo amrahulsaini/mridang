@@ -73,15 +73,20 @@ export const NotificationProvider: React.FC<{ children: ReactNode }> = ({ childr
       {children}
       
       {/* Notification Container */}
-      <div className="fixed top-4 right-4 z-[9999] space-y-2">
+      <div className="fixed top-4 right-4 z-[9999] space-y-2 max-w-sm">
         <AnimatePresence>
           {notifications.map((notification) => (
             <motion.div
               key={notification.id}
-              initial={{ opacity: 0, x: 300, scale: 0.8 }}
+              initial={{ opacity: 0, x: 400, scale: 0.9 }}
               animate={{ opacity: 1, x: 0, scale: 1 }}
-              exit={{ opacity: 0, x: 300, scale: 0.8 }}
-              className={`max-w-sm w-full rounded-lg border-2 p-4 shadow-lg backdrop-blur-sm ${getColors(notification.type)}`}
+              exit={{ opacity: 0, x: 400, scale: 0.9 }}
+              transition={{ duration: 0.3, ease: "easeOut" }}
+              className={`w-full rounded-xl border-2 p-4 shadow-2xl backdrop-blur-md ${getColors(notification.type)}`}
+              style={{ 
+                boxShadow: '0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)',
+                backdropFilter: 'blur(12px)'
+              }}
             >
               <div className="flex items-start gap-3">
                 <div className={getIconColor(notification.type)}>

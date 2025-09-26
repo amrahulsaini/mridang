@@ -21,7 +21,7 @@ interface CartState {
 
 // Cart Actions
 type CartAction = 
-  | { type: 'ADD_ITEM'; payload: Omit<CartItem, 'quantity'> }
+  | { type: 'ADD_ITEM'; payload: { item: Omit<CartItem, 'quantity'>; quantity?: number } }
   | { type: 'REMOVE_ITEM'; payload: number }
   | { type: 'UPDATE_QUANTITY'; payload: { id: number; quantity: number } }
   | { type: 'CLEAR_CART' }
@@ -29,10 +29,11 @@ type CartAction =
 // Cart Context interface
 interface CartContextType {
   state: CartState
-  addItem: (item: Omit<CartItem, 'quantity'>) => void
+  addItem: (item: Omit<CartItem, 'quantity'>, quantity?: number) => void
   removeItem: (id: number) => void
   updateQuantity: (id: number, quantity: number) => void
   clearCart: () => void
+  isItemInCart: (id: number) => boolean
 }
 
 // Initial state
@@ -46,17 +47,18 @@ const initialState: CartState = {
 const cartReducer = (state: CartState, action: CartAction): CartState => {
   switch (action.type) {
     case 'ADD_ITEM': {
-      const existingItem = state.items.find(item => item.id === action.payload.id)
+      const { item, quantity = 1 } = action.payload
+      const existingItem = state.items.find(stateItem => stateItem.id === item.id)
       
       let newItems: CartItem[]
       if (existingItem) {
-        newItems = state.items.map(item =>
-          item.id === action.payload.id
-            ? { ...item, quantity: item.quantity + 1 }
-            : item
+        newItems = state.items.map(stateItem =>
+          stateItem.id === item.id
+            ? { ...stateItem, quantity: stateItem.quantity + quantity }
+            : stateItem
         )
       } else {
-        newItems = [...state.items, { ...action.payload, quantity: 1 }]
+        newItems = [...state.items, { ...item, quantity }]
       }
       
       const totalItems = newItems.reduce((sum, item) => sum + item.quantity, 0)
@@ -115,8 +117,8 @@ const CartContext = createContext<CartContextType | undefined>(undefined)
 export const CartProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const [state, dispatch] = useReducer(cartReducer, initialState)
 
-  const addItem = (item: Omit<CartItem, 'quantity'>) => {
-    dispatch({ type: 'ADD_ITEM', payload: item })
+  const addItem = (item: Omit<CartItem, 'quantity'>, quantity: number = 1) => {
+    dispatch({ type: 'ADD_ITEM', payload: { item, quantity } })
   }
 
   const removeItem = (id: number) => {
@@ -131,13 +133,18 @@ export const CartProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     dispatch({ type: 'CLEAR_CART' })
   }
 
+  const isItemInCart = (id: number) => {
+    return state.items.some(item => item.id === id)
+  }
+
   return (
     <CartContext.Provider value={{
       state,
       addItem,
       removeItem,
       updateQuantity,
-      clearCart
+      clearCart,
+      isItemInCart
     }}>
       {children}
     </CartContext.Provider>

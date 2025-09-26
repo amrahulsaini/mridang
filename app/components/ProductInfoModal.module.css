@@ -247,6 +247,18 @@
   box-shadow: 0 8px 25px rgba(128, 0, 32, 0.2);
 }
 
+.removeFromCartButton {
+  background: #dc2626;
+  color: white;
+  border-color: #dc2626;
+}
+
+.removeFromCartButton:hover {
+  background: #b91c1c;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(220, 38, 38, 0.3);
+}
+
 .moreDetailsButton {
   background: #f3f4f6;
   color: #374151;
