@@ -9,9 +9,10 @@ import { Product } from '../types'
 interface CategorySectionProps {
   title: string
   products: Product[]
+  onInfoClick?: (product: Product) => void
 }
 
-const CategorySection: React.FC<CategorySectionProps> = ({ title, products }) => {
+const CategorySection: React.FC<CategorySectionProps> = ({ title, products, onInfoClick }) => {
   const scrollRef = useRef<HTMLDivElement>(null)
   const [atStart, setAtStart] = useState(true)
   const [atEnd, setAtEnd] = useState(false)
@@ -116,7 +117,7 @@ const CategorySection: React.FC<CategorySectionProps> = ({ title, products }) =>
                 viewport={{ once: true }}
                 transition={{ delay: index * 0.1, duration: 0.5 }}
               >
-                <ProductCard {...product} />
+                <ProductCard {...product} onInfoClick={onInfoClick} />
               </motion.div>
             ))}
           </div>

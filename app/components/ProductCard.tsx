@@ -5,18 +5,17 @@ import { ShoppingCart, Info } from 'lucide-react'
 import Image from 'next/image'
 import { useState } from 'react'
 import { Product } from '../types'
-import ProductInfoModal from './ProductInfoModal'
 
-const ProductCard: React.FC<Product> = ({
+const ProductCard: React.FC<Product & { onInfoClick?: (product: Product) => void }> = ({
   name,
   cut_price,
   original_price,
   main_image_url,
   image_url,
+  onInfoClick,
   ...product
 }) => {
   const [isHovered, setIsHovered] = useState(false)
-  const [isInfoModalOpen, setIsInfoModalOpen] = useState(false)
 
   // Use main_image_url first, then fallback to image_url, then placeholder
   const productImage = main_image_url || image_url || '/file.svg'
@@ -30,6 +29,12 @@ const ProductCard: React.FC<Product> = ({
     main_image_url,
     image_url,
     ...product
+  }
+
+  const handleInfoClick = () => {
+    if (onInfoClick) {
+      onInfoClick(completeProduct)
+    }
   }
 
   return (
@@ -89,18 +94,11 @@ const ProductCard: React.FC<Product> = ({
           <button className="btn-icon btn-primary" title="Add to Cart">
             <ShoppingCart className="w-5 h-5" />
           </button>
-          <button className="btn-icon btn-secondary" title="Product Info" onClick={() => setIsInfoModalOpen(true)}>
+          <button className="btn-icon btn-secondary" title="Product Info" onClick={handleInfoClick}>
             <Info className="w-5 h-5" />
           </button>
         </div>
       </div>
-
-      {/* Product Info Modal */}
-      <ProductInfoModal 
-        product={completeProduct}
-        isOpen={isInfoModalOpen}
-        onClose={() => setIsInfoModalOpen(false)}
-      />
     </motion.div>
   )
 }
