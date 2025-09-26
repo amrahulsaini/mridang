@@ -152,7 +152,7 @@ const ProductCard: React.FC<Product & { onInfoClick?: (product: Product) => void
                 <CheckCircle2 className="w-5 h-5" />
               </button>
               
-              {/* Remove Confirmation Modal - Animated Overlay */}
+              {/* Remove Confirmation Modal - Compact & Clean */}
               <AnimatePresence>
                 {showRemoveConfirm && (
                   <>
@@ -160,79 +160,51 @@ const ProductCard: React.FC<Product & { onInfoClick?: (product: Product) => void
                     <motion.div 
                       className="fixed inset-0 bg-black z-50"
                       initial={{ opacity: 0 }}
-                      animate={{ opacity: 0.6 }}
+                      animate={{ opacity: 0.5 }}
                       exit={{ opacity: 0 }}
-                      transition={{ duration: 0.3 }}
+                      transition={{ duration: 0.2 }}
                       onClick={cancelRemove}
                     />
                     
-                    {/* Animated Modal */}
+                    {/* Compact Animated Modal */}
                     <motion.div 
-                      className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white rounded-2xl shadow-2xl z-50 min-w-[320px] border-2 border-red-100"
-                      initial={{ opacity: 0, scale: 0.8, y: 50 }}
-                      animate={{ opacity: 1, scale: 1, y: 0 }}
-                      exit={{ opacity: 0, scale: 0.8, y: 50 }}
-                      transition={{ duration: 0.3, ease: "easeOut" }}
+                      className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white rounded-lg shadow-2xl z-50 p-5 max-w-sm w-80"
+                      initial={{ opacity: 0, scale: 0.9 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      exit={{ opacity: 0, scale: 0.9 }}
+                      transition={{ duration: 0.2, ease: "easeOut" }}
                     >
-                      {/* Header with red accent */}
-                      <div className="bg-gradient-to-r from-red-50 to-red-100 p-6 rounded-t-2xl border-b-2 border-red-200">
-                        <div className="flex items-center justify-center">
-                          <motion.div 
-                            className="bg-red-500 rounded-full p-3 mr-4"
-                            initial={{ scale: 0 }}
-                            animate={{ scale: 1 }}
-                            transition={{ delay: 0.2, duration: 0.3 }}
-                          >
-                            <Trash2 className="w-7 h-7 text-white" />
-                          </motion.div>
-                          <div className="text-center">
-                            <motion.h3 
-                              className="text-xl font-bold text-red-800 mb-1"
-                              initial={{ opacity: 0, y: 10 }}
-                              animate={{ opacity: 1, y: 0 }}
-                              transition={{ delay: 0.3, duration: 0.3 }}
-                            >
-                              Remove from Cart
-                            </motion.h3>
-                            <motion.p 
-                              className="text-sm text-red-600 font-medium"
-                              initial={{ opacity: 0, y: 10 }}
-                              animate={{ opacity: 1, y: 0 }}
-                              transition={{ delay: 0.4, duration: 0.3 }}
-                            >
-                              This item will be removed permanently
-                            </motion.p>
-                          </div>
+                      {/* Simple Header */}
+                      <div className="flex items-center mb-4">
+                        <div className="bg-red-100 rounded-full p-2 mr-3">
+                          <Trash2 className="w-5 h-5 text-red-600" />
+                        </div>
+                        <div>
+                          <h3 className="text-lg font-semibold text-gray-900">Remove from Cart</h3>
+                          <p className="text-sm text-gray-600">This item will be removed permanently</p>
                         </div>
                       </div>
 
-                      {/* Action Buttons */}
-                      <motion.div 
-                        className="p-6 bg-white rounded-b-2xl"
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ delay: 0.5, duration: 0.3 }}
-                      >
-                        <div className="flex gap-4 justify-center">
-                          <motion.button 
-                            className="px-8 py-3 text-sm bg-gray-100 text-gray-700 rounded-xl hover:bg-gray-200 transition-all duration-200 font-semibold border-2 border-gray-200 hover:border-gray-300 shadow-md hover:shadow-lg"
-                            onClick={cancelRemove}
-                            whileHover={{ scale: 1.02 }}
-                            whileTap={{ scale: 0.98 }}
-                          >
-                            Cancel
-                          </motion.button>
-                          <motion.button 
-                            className="px-8 py-3 text-sm bg-gradient-to-r from-red-600 to-red-700 text-white rounded-xl hover:from-red-700 hover:to-red-800 transition-all duration-200 flex items-center gap-3 font-semibold shadow-lg hover:shadow-xl border-2 border-red-600 hover:border-red-700"
-                            onClick={confirmRemove}
-                            whileHover={{ scale: 1.02 }}
-                            whileTap={{ scale: 0.98 }}
-                          >
-                            <Trash2 className="w-4 h-4" />
-                            Remove Item
-                          </motion.button>
-                        </div>
-                      </motion.div>
+                      {/* Compact Action Buttons */}
+                      <div className="flex gap-3">
+                        <motion.button 
+                          className="flex-1 py-2.5 text-sm bg-gray-100 text-gray-700 rounded-md hover:bg-gray-200 transition-colors font-medium"
+                          onClick={cancelRemove}
+                          whileHover={{ scale: 1.02 }}
+                          whileTap={{ scale: 0.98 }}
+                        >
+                          Cancel
+                        </motion.button>
+                        <motion.button 
+                          className="flex-1 py-2.5 text-sm bg-red-600 text-white rounded-md hover:bg-red-700 transition-colors flex items-center justify-center gap-2 font-medium"
+                          onClick={confirmRemove}
+                          whileHover={{ scale: 1.02 }}
+                          whileTap={{ scale: 0.98 }}
+                        >
+                          <Trash2 className="w-4 h-4" />
+                          Remove
+                        </motion.button>
+                      </div>
                     </motion.div>
                   </>
                 )}
