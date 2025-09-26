@@ -401,6 +401,9 @@ export default function ProductDetailsPage() {
                 Product Information
               </div>
               <div className={styles.detailContent}>
+                {product.description && (
+                  <p className="text-gray-700 leading-relaxed">{product.description}</p>
+                )}
                 <ul className={styles.detailList}>
                   <li className={styles.detailListItem}>
                     <span className={styles.detailLabel}>Model:</span>
@@ -410,14 +413,7 @@ export default function ProductDetailsPage() {
                     <span className={styles.detailLabel}>Brand:</span>
                     <span className={styles.detailValue}>{product.brand}</span>
                   </li>
-                  <li className={styles.detailListItem}>
-                    <span className={styles.detailLabel}>Product ID:</span>
-                    <span className={styles.detailValue}>{product.pro_id}</span>
-                  </li>
                 </ul>
-                {product.description && (
-                  <p className="mt-3 text-gray-600">{product.description}</p>
-                )}
               </div>
             </div>
           </motion.div>
