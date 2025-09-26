@@ -154,7 +154,7 @@ const ProductCard: React.FC<Product & { onInfoClick?: (product: Product) => void
               
               {/* Remove Confirmation Modal */}
               {showRemoveConfirm && (
-                <div className="absolute top-full left-1/2 transform -translate-x-1/2 mt-2 bg-white rounded-xl border-2 border-red-200 shadow-2xl p-4 z-20 min-w-[220px]">
+                <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 bg-white rounded-xl border-2 border-red-200 shadow-2xl p-4 z-20 min-w-[220px]">
                   <div className="flex items-center justify-center mb-3">
                     <div className="bg-red-100 rounded-full p-2 mr-2">
                       <Trash2 className="w-5 h-5 text-red-600" />
@@ -176,6 +176,8 @@ const ProductCard: React.FC<Product & { onInfoClick?: (product: Product) => void
                       Remove
                     </button>
                   </div>
+                  {/* Arrow pointing down to the button */}
+                  <div className="absolute top-full left-1/2 transform -translate-x-1/2 w-0 h-0 border-l-8 border-r-8 border-t-8 border-l-transparent border-r-transparent border-t-red-200"></div>
                 </div>
               )}
             </div>
