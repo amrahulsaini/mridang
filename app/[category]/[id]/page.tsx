@@ -318,25 +318,25 @@ export default function ProductDetailsPage() {
                   {product.height_inch && (
                     <li className={styles.detailListItem}>
                       <span className={styles.detailLabel}>Height:</span>
-                      <span className={styles.detailValue}>{product.height_inch}"</span>
+                      <span className={styles.detailValue}>{product.height_inch}&quot;</span>
                     </li>
                   )}
                   {product.depth_inch && (
                     <li className={styles.detailListItem}>
                       <span className={styles.detailLabel}>Depth:</span>
-                      <span className={styles.detailValue}>{product.depth_inch}"</span>
+                      <span className={styles.detailValue}>{product.depth_inch}&quot;</span>
                     </li>
                   )}
                   {product.width_inch && (
                     <li className={styles.detailListItem}>
                       <span className={styles.detailLabel}>Width:</span>
-                      <span className={styles.detailValue}>{product.width_inch}"</span>
+                      <span className={styles.detailValue}>{product.width_inch}&quot;</span>
                     </li>
                   )}
                   {product.diameter_inch && (
                     <li className={styles.detailListItem}>
                       <span className={styles.detailLabel}>Diameter:</span>
-                      <span className={styles.detailValue}>{product.diameter_inch}"</span>
+                      <span className={styles.detailValue}>{product.diameter_inch}&quot;</span>
                     </li>
                   )}
                   {product.weight_g && (

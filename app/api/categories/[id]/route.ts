@@ -1,6 +1,11 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { query } from '@/app/lib/database'
 
+interface Category {
+  category_id: number
+  category_name: string
+}
+
 export async function GET(
   request: NextRequest,
   { params }: { params: Promise<{ id: string }> }
@@ -19,16 +24,16 @@ export async function GET(
     // Fetch category by category_id
     const categories = await query(`
       SELECT * FROM Categories WHERE category_id = ?
-    `, [categoryId])
+    `, [categoryId]) as Category[]
 
-    if (!categories || (categories as any[]).length === 0) {
+    if (!categories || categories.length === 0) {
       return NextResponse.json(
         { error: 'Category not found' },
         { status: 404 }
       )
     }
 
-    const category = (categories as any[])[0]
+    const category = categories[0]
 
     return NextResponse.json(category)
   } catch (error) {

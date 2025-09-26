@@ -1,6 +1,31 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { query } from '@/app/lib/database'
 
+interface ProductRow {
+  id: number
+  pro_id: string
+  model_name: string
+  design?: string
+  depth_inch?: number
+  height_inch?: number
+  weight_g?: number
+  other_features?: string
+  main_image_url?: string
+  other_image_url_1?: string
+  other_image_url_2?: string
+  other_image_url_3?: string
+  other_image_url_4?: string
+  brand?: string
+  description?: string
+  category_id: number
+  category_name?: string
+  width_inch?: number
+  diameter_inch?: number
+  theme?: string
+  finish?: string
+  embossment?: string
+}
+
 export async function GET(
   request: NextRequest,
   { params }: { params: Promise<{ id: string }> }
@@ -14,16 +39,16 @@ export async function GET(
       FROM Products p
       LEFT JOIN Categories c ON p.category_id = c.category_id
       WHERE p.pro_id = ?
-    `, [productId])
+    `, [productId]) as ProductRow[]
 
-    if (!products || (products as any[]).length === 0) {
+    if (!products || products.length === 0) {
       return NextResponse.json(
         { error: 'Product not found' },
         { status: 404 }
       )
     }
 
-    const product = (products as any[])[0]
+    const product = products[0]
 
     return NextResponse.json(product)
   } catch (error) {

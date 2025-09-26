@@ -4,9 +4,9 @@ import { Product } from '../types';
 // Database connection configuration
 const dbConfig = {
   host: process.env.DB_HOST || 'localhost',
-  user: process.env.DB_USER || 'char_mridang',
+  user: process.env.DB_USER || 'mrid_mridang',
   password: process.env.DB_PASS || 'mridang',
-  database: process.env.DB_NAME || 'char_mridang',
+  database: process.env.DB_NAME || 'mrid_mridang',
   port: parseInt(process.env.DB_PORT || '3306'),
   waitForConnections: true,
   connectionLimit: 10,
@@ -17,7 +17,7 @@ const dbConfig = {
 const pool = mysql.createPool(dbConfig);
 
 // Generic query function
-export async function query(sql: string, params: any[] = []) {
+export async function query(sql: string, params: unknown[] = []) {
   try {
     const [rows] = await pool.execute(sql, params);
     return rows;
