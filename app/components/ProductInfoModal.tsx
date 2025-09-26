@@ -4,6 +4,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { X, ShoppingCart, CreditCard, Info as InfoIcon, Plus, Minus } from 'lucide-react'
 import Image from 'next/image'
 import { useState } from 'react'
+import { useRouter } from 'next/navigation'
 import { Product } from '../types'
 import { useCart } from '../context/CartContext'
 import styles from './ProductInfoModal.module.css'
@@ -17,12 +18,27 @@ interface ProductInfoModalProps {
 const ProductInfoModal: React.FC<ProductInfoModalProps> = ({ product, isOpen, onClose }) => {
   const [quantity, setQuantity] = useState(1)
   const { addItem, isItemInCart, removeItem } = useCart()
+  const router = useRouter()
 
   if (!product) return null
 
   const productImage = product.main_image_url || product.image_url || '/file.svg'
   const isProblematicSrc = typeof productImage === 'string' && productImage.includes('url=')
   const itemInCart = isItemInCart(product.id)
+
+  // Format category name for URL (lowercase, no spaces)
+  const formatCategoryName = (name: string): string => {
+    return name.toLowerCase().replace(/\s+/g, '')
+  }
+
+  const handleViewMoreDetails = () => {
+    const categoryName = formatCategoryName(product.category_name || 'general')
+    const productId = product.pro_id || product.id.toString()
+    
+    // Close modal and navigate to product details page
+    onClose()
+    router.push(`/${categoryName}/${productId}`)
+  }
 
   const increaseQuantity = () => setQuantity(prev => prev + 1)
   const decreaseQuantity = () => setQuantity(prev => prev > 1 ? prev - 1 : 1)
@@ -158,7 +174,10 @@ const ProductInfoModal: React.FC<ProductInfoModalProps> = ({ product, isOpen, on
                       Remove from Cart
                     </button>
                   )}
-                  <button className={`${styles.actionButton} ${styles.moreDetailsButton}`}>
+                  <button 
+                    className={`${styles.actionButton} ${styles.moreDetailsButton}`}
+                    onClick={handleViewMoreDetails}
+                  >
                     <InfoIcon className={styles.buttonIcon} />
                     More Details
                   </button>

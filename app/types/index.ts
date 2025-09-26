@@ -1,6 +1,7 @@
 // Shared types for the application
 export interface Product {
   id: number;
+  pro_id?: string;          // Added for product ID from database
   name: string;
   description?: string;
   price: number;

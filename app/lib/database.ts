@@ -16,6 +16,17 @@ const dbConfig = {
 // Create connection pool
 const pool = mysql.createPool(dbConfig);
 
+// Generic query function
+export async function query(sql: string, params: any[] = []) {
+  try {
+    const [rows] = await pool.execute(sql, params);
+    return rows;
+  } catch (error) {
+    console.error('Database query error:', error);
+    throw error;
+  }
+}
+
 // Category interface
 export interface Category {
   id: number;
