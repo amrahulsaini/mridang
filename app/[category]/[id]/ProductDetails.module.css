@@ -2,7 +2,7 @@
 .container {
   max-width: 1400px;
   margin: 0 auto;
-  padding: 2rem 1rem;
+  padding: 1rem 0.5rem;
   background: linear-gradient(135deg, #fef7f7 0%, #ffffff 50%, #fef7f7 100%);
   min-height: 100vh;
 }
@@ -225,7 +225,7 @@
 }
 
 .productTitle {
-  font-size: 3rem;
+  font-size: 2.5rem;
   font-weight: 800;
   color: #1f2937;
   line-height: 1.1;
@@ -514,7 +514,7 @@
 }
 
 /* Responsive Design */
-@media (max-width: 1024px) {
+@media (max-width: 1200px) {
   .container {
     padding: 1.5rem 1rem;
   }
@@ -526,26 +526,17 @@
   }
 
   .productTitle {
-    font-size: 2.5rem;
+    font-size: 2.2rem;
   }
 
   .detailsGrid {
-    grid-template-columns: 1fr;
-    gap: 1.5rem;
-  }
-
-  .actionSection {
-    padding: 2rem;
-  }
-
-  .price {
-    font-size: 3rem;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   }
 }
 
 @media (max-width: 768px) {
   .container {
-    padding: 1rem 0.5rem;
+    padding: 1rem 0.75rem;
     background: #ffffff;
   }
 
@@ -566,11 +557,12 @@
   }
 
   .productTitle {
-    font-size: 2rem;
+    font-size: 1.8rem;
     margin-bottom: 0.5rem;
   }
 
   .detailsGrid {
+    grid-template-columns: 1fr;
     gap: 1rem;
   }
 
@@ -618,16 +610,28 @@
 
 @media (max-width: 480px) {
   .container {
-    padding: 0.75rem 0.25rem;
+    padding: 0.75rem 0.5rem;
   }
 
-  .productTitle {
-    font-size: 1.75rem;
+  .backToProducts {
+    padding: 0.75rem 1.25rem;
+    font-size: 0.85rem;
+    margin-bottom: 1rem;
+  }
+
+  .productSection {
+    padding: 1rem;
+    gap: 1.5rem;
   }
 
   .mainImageContainer {
     min-height: 280px;
     border-radius: 1.5rem;
+  }
+
+  .productTitle {
+    font-size: 1.5rem;
+    line-height: 1.2;
   }
 
   .detailSection {
@@ -638,6 +642,7 @@
   .actionSection {
     padding: 1.5rem 1rem;
     border-radius: 1.5rem;
+    margin-top: 1.5rem;
   }
 
   .price {
@@ -670,9 +675,13 @@
     font-size: 1rem;
   }
 
-  .backToProducts {
-    padding: 0.75rem 1.25rem;
-    font-size: 0.85rem;
+  .thumbnailContainer {
+    gap: 0.5rem;
+  }
+
+  .thumbnail {
+    width: 70px;
+    height: 70px;
   }
 }
 
