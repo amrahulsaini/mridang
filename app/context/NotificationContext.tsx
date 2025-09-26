@@ -73,7 +73,20 @@ export const NotificationProvider: React.FC<{ children: ReactNode }> = ({ childr
       {children}
       
       {/* Notification Container */}
-      <div className="fixed top-4 right-4 z-[9999] space-y-2 max-w-sm">
+      <div 
+        className="notification-container"
+        style={{
+          position: 'fixed',
+          top: '1rem',
+          right: '1rem',
+          zIndex: 9999,
+          display: 'flex',
+          flexDirection: 'column',
+          gap: '0.5rem',
+          width: '100%',
+          maxWidth: '400px'
+        }}
+      >
         <AnimatePresence>
           {notifications.map((notification) => (
             <motion.div
@@ -82,23 +95,41 @@ export const NotificationProvider: React.FC<{ children: ReactNode }> = ({ childr
               animate={{ opacity: 1, x: 0, scale: 1 }}
               exit={{ opacity: 0, x: 400, scale: 0.9 }}
               transition={{ duration: 0.3, ease: "easeOut" }}
-              className={`w-full rounded-xl border-2 p-4 shadow-2xl backdrop-blur-md ${getColors(notification.type)}`}
               style={{ 
+                width: '100%',
+                borderRadius: '12px',
+                border: '2px solid',
+                padding: '1rem',
                 boxShadow: '0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)',
-                backdropFilter: 'blur(12px)'
+                backdropFilter: 'blur(12px)',
+                backgroundColor: notification.type === 'success' ? '#f0fdf4' : '#fef2f2',
+                borderColor: notification.type === 'success' ? '#bbf7d0' : '#fecaca',
+                color: notification.type === 'success' ? '#166534' : '#dc2626'
               }}
             >
               <div className="flex items-start gap-3">
-                <div className={getIconColor(notification.type)}>
+                <div style={{ color: notification.type === 'success' ? '#16a34a' : '#dc2626' }}>
                   {getIcon(notification.type)}
                 </div>
                 <div className="flex-1 min-w-0">
-                  <h4 className="font-semibold text-sm">{notification.title}</h4>
-                  <p className="text-sm opacity-90 mt-1">{notification.message}</p>
+                  <h4 style={{ fontWeight: '600', fontSize: '0.875rem', margin: '0 0 0.25rem 0' }}>
+                    {notification.title}
+                  </h4>
+                  <p style={{ fontSize: '0.875rem', opacity: 0.9, margin: 0 }}>
+                    {notification.message}
+                  </p>
                 </div>
                 <button
                   onClick={() => removeNotification(notification.id)}
-                  className="opacity-60 hover:opacity-100 transition-opacity"
+                  style={{ 
+                    opacity: 0.6, 
+                    background: 'transparent',
+                    border: 'none',
+                    cursor: 'pointer',
+                    transition: 'opacity 0.2s'
+                  }}
+                  onMouseEnter={(e) => e.currentTarget.style.opacity = '1'}
+                  onMouseLeave={(e) => e.currentTarget.style.opacity = '0.6'}
                 >
                   <X size={16} />
                 </button>

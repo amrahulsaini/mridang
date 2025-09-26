@@ -1,7 +1,7 @@
 'use client'
 
 import { motion } from 'framer-motion'
-import { ShoppingCart, Info, X } from 'lucide-react'
+import { ShoppingCart, Info, CheckCircle2, Trash2 } from 'lucide-react'
 import Image from 'next/image'
 import { useState } from 'react'
 import { Product } from '../types'
@@ -145,20 +145,20 @@ const ProductCard: React.FC<Product & { onInfoClick?: (product: Product) => void
           ) : (
             <div className="relative">
               <button 
-                className="btn-icon bg-red-600 text-white hover:bg-red-700 border-2 border-red-600 hover:border-red-700" 
-                title="Remove from Cart"
+                className="btn-icon bg-green-600 text-white hover:bg-green-700 border-2 border-green-600 hover:border-green-700" 
+                title="In Cart - Click to Remove"
                 onClick={handleRemoveFromCart}
               >
-                <div className="relative">
-                  <ShoppingCart className="w-5 h-5" />
-                  <X className="w-3 h-3 absolute -top-1 -right-1 bg-red-600 rounded-full p-0.5" />
-                </div>
+                <CheckCircle2 className="w-5 h-5" />
               </button>
               
               {/* Remove Confirmation Modal */}
               {showRemoveConfirm && (
                 <div className="absolute top-full left-1/2 transform -translate-x-1/2 mt-2 bg-white rounded-lg border-2 border-red-300 shadow-xl p-3 z-20 min-w-[200px]">
-                  <p className="text-sm font-medium mb-3 text-center text-gray-800">Remove from cart?</p>
+                  <div className="flex items-center justify-center mb-2">
+                    <Trash2 className="w-4 h-4 text-red-600 mr-2" />
+                    <p className="text-sm font-medium text-gray-800">Remove from cart?</p>
+                  </div>
                   <div className="flex gap-2 justify-center">
                     <button 
                       className="px-3 py-1 text-xs bg-gray-200 text-gray-700 rounded-md hover:bg-gray-300 transition-colors" 
@@ -167,9 +167,10 @@ const ProductCard: React.FC<Product & { onInfoClick?: (product: Product) => void
                       Cancel
                     </button>
                     <button 
-                      className="px-3 py-1 text-xs bg-red-600 text-white rounded-md hover:bg-red-700 transition-colors" 
+                      className="px-3 py-1 text-xs bg-red-600 text-white rounded-md hover:bg-red-700 transition-colors flex items-center gap-1" 
                       onClick={confirmRemove}
                     >
+                      <Trash2 className="w-3 h-3" />
                       Remove
                     </button>
                   </div>
