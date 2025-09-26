@@ -5,6 +5,7 @@ import { X, ShoppingCart, CreditCard, Info as InfoIcon, Plus, Minus } from 'luci
 import Image from 'next/image'
 import { useState } from 'react'
 import { Product } from '../types'
+import { useCart } from '../context/CartContext'
 import styles from './ProductInfoModal.module.css'
 
 interface ProductInfoModalProps {
@@ -15,6 +16,7 @@ interface ProductInfoModalProps {
 
 const ProductInfoModal: React.FC<ProductInfoModalProps> = ({ product, isOpen, onClose }) => {
   const [quantity, setQuantity] = useState(1)
+  const { addItem } = useCart()
 
   if (!product) return null
 
@@ -23,6 +25,22 @@ const ProductInfoModal: React.FC<ProductInfoModalProps> = ({ product, isOpen, on
 
   const increaseQuantity = () => setQuantity(prev => prev + 1)
   const decreaseQuantity = () => setQuantity(prev => prev > 1 ? prev - 1 : 1)
+
+  const handleAddToCart = () => {
+    // Add multiple quantities if more than 1
+    for (let i = 0; i < quantity; i++) {
+      addItem({
+        id: product.id,
+        name: product.name,
+        price: product.price,
+        image: productImage,
+        category: product.category_name || 'General'
+      })
+    }
+    
+    // Optional: Show success message or close modal
+    onClose()
+  }
 
   return (
     <AnimatePresence>
@@ -119,7 +137,10 @@ const ProductInfoModal: React.FC<ProductInfoModalProps> = ({ product, isOpen, on
                     <CreditCard className={styles.buttonIcon} />
                     Buy Now
                   </button>
-                  <button className={`${styles.actionButton} ${styles.addToCartButton}`}>
+                  <button 
+                    className={`${styles.actionButton} ${styles.addToCartButton}`}
+                    onClick={handleAddToCart}
+                  >
                     <ShoppingCart className={styles.buttonIcon} />
                     Add to Cart
                   </button>

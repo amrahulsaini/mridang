@@ -1,23 +1,20 @@
 'use client'
 
 import { useState } from 'react'
-import { Home, Info, Phone, User, UserPlus, Search, Menu, X } from 'lucide-react'
+import { Home, Info, Phone, Search, Menu, X, ShoppingCart } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
+import { useCart } from '../context/CartContext'
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [searchQuery, setSearchQuery] = useState('')
+  const { state } = useCart()
 
   const navItems = [
     { name: 'Home', href: '/', icon: Home, key: 'home' },
     { name: 'About', href: '/about', icon: Info, key: 'about' },
     { name: 'Contact', href: '/contact', icon: Phone, key: 'contact' },
-  ]
-
-  const authItems = [
-    { name: 'Sign In', href: '/signin', icon: User, key: 'signin' },
-    { name: 'Sign Up', href: '/signup', icon: UserPlus, key: 'signup' },
   ]
 
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen)
@@ -66,20 +63,19 @@ const Header = () => {
             />
           </div>
 
-          {/* Auth & Cart Section */}
+          {/* Cart Section */}
           <div className="flex items-center gap-3">
-            {/* Desktop Auth Buttons */}
+            {/* Desktop Cart Button */}
             <div className="hidden-mobile flex items-center gap-2">
-              {authItems.map((item, index) => (
-                <Link 
-                  key={item.key}
-                  href={item.href}
-                  className={`btn btn-xs ${index === 0 ? 'btn-secondary' : 'btn-primary'} inline-flex`}
-                >
-                  <item.icon size={16} />
-                  <span>{item.name}</span>
-                </Link>
-              ))}
+              <button className="btn btn-primary inline-flex relative">
+                <ShoppingCart size={18} />
+                <span>Cart</span>
+                {state.totalItems > 0 && (
+                  <span className="absolute -top-2 -right-2 bg-red-600 text-white rounded-full text-xs w-6 h-6 flex items-center justify-center font-bold">
+                    {state.totalItems}
+                  </span>
+                )}
+              </button>
             </div>
 
             {/* Mobile Menu Button - hidden on desktop */}
@@ -129,19 +125,17 @@ const Header = () => {
               ))}
             </div>
 
-            {/* Auth Buttons */}
+            {/* Cart Button */}
             <div className="flex flex-col gap-3">
-              {authItems.map((item, index) => (
-                <Link 
-                  key={item.key}
-                  href={item.href}
-                  className={`btn w-full ${index === 0 ? 'btn-secondary' : 'btn-primary'}`}
-                  onClick={() => setIsMenuOpen(false)}
-                >
-                  <item.icon size={18} />
-                  <span>{item.name}</span>
-                </Link>
-              ))}
+              <button className="btn btn-primary w-full relative">
+                <ShoppingCart size={18} />
+                <span>Cart</span>
+                {state.totalItems > 0 && (
+                  <span className="absolute -top-2 -right-2 bg-red-600 text-white rounded-full text-xs w-6 h-6 flex items-center justify-center font-bold">
+                    {state.totalItems}
+                  </span>
+                )}
+              </button>
             </div>
           </div>
         </div>
