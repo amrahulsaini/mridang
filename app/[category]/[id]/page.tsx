@@ -4,10 +4,10 @@ import { useState, useEffect } from 'react'
 import { useParams, useRouter } from 'next/navigation'
 import Image from 'next/image'
 import { motion } from 'framer-motion'
-import { 
-  ShoppingCart, 
-  CreditCard, 
-  Minus, 
+import {
+  ShoppingCart,
+  CreditCard,
+  Minus,
   Plus,
   ArrowLeft,
   Ruler,
@@ -57,18 +57,20 @@ export default function ProductDetailsPage() {
   const [selectedImageIndex, setSelectedImageIndex] = useState(0)
   const [quantity, setQuantity] = useState(1)
   const [isImageTransitioning, setIsImageTransitioning] = useState(false)
-  const [imageLoading, setImageLoading] = useState(true)
 
-  // Preload all images for smooth transitions
+  // Preload all images for smooth transitions (after initial load)
   useEffect(() => {
-    if (product) {
+    if (product && !loading) {
       const productImages = getProductImages(product)
-      productImages.forEach((imageUrl) => {
-        const img = new window.Image()
-        img.src = imageUrl
-      })
+      // Delay preloading slightly to avoid interfering with initial render
+      setTimeout(() => {
+        productImages.forEach((imageUrl) => {
+          const img = new window.Image()
+          img.src = imageUrl
+        })
+      }, 1000)
     }
-  }, [product])
+  }, [product, loading])
 
   const categoryParam = params.category as string
   const productId = params.id as string
@@ -117,7 +119,6 @@ export default function ProductDetailsPage() {
         
         setProduct(productData)
         setSelectedImageIndex(0)
-        setImageLoading(true)
       } catch (err) {
         setError(err instanceof Error ? err.message : 'Failed to load product')
       } finally {
@@ -164,12 +165,11 @@ export default function ProductDetailsPage() {
   }
 
   const handleImageSelect = (index: number) => {
-    if (index !== selectedImageIndex && !isImageTransitioning) {
+    if (index !== selectedImageIndex) {
       setIsImageTransitioning(true)
-      setImageLoading(true)
       setSelectedImageIndex(index)
       
-      // Reset transition state after animation
+      // Reset transition state after animation completes
       setTimeout(() => {
         setIsImageTransitioning(false)
       }, 300)
@@ -237,19 +237,15 @@ export default function ProductDetailsPage() {
         {/* Image Gallery */}
         <div className={styles.imageGallery}>
           <div className={styles.mainImageContainer}>
-            {imageLoading && (
-              <div className={styles.loadingSkeleton}></div>
-            )}
             <Image
-              key={selectedImageIndex} // Force re-mount on image change
               src={images[selectedImageIndex]}
               alt={`${product.model_name} view ${selectedImageIndex + 1}`}
               fill
-              className={styles.mainImage}
+              className={`${styles.mainImage} ${isImageTransitioning ? styles.transitioning : ''}`}
               sizes="(max-width: 768px) 100vw, 50vw"
               priority={selectedImageIndex === 0}
-              onLoad={() => setImageLoading(false)}
-              onError={() => setImageLoading(false)}
+              placeholder="blur"
+              blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAAIAAoDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAhEAACAQMDBQAAAAAAAAAAAAABAgMABAUGIWGRkqGx0f/EABUBAQEAAAAAAAAAAAAAAAAAAAMF/8QAGhEAAgIDAAAAAAAAAAAAAAAAAAECEgMRkf/aAAwDAQACEQMRAD8AltJagyeH0AthI5xdrLcNM91BF5pX2HaH9bcfaSXWGaRmknyJckliyjqTzSlT54b6bk+h0R+IRjWjBqO6O2mhP//Z"
             />
           </div>
 
