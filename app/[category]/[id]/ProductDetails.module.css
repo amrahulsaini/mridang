@@ -3,7 +3,7 @@
   max-width: 1400px;
   margin: 0 auto;
   padding: 1rem 0.5rem;
-  background: linear-gradient(135deg, #fef7f7 0%, #ffffff 50%, #fef7f7 100%);
+  background: linear-gradient(135deg, #fef7f7 0%, #faf7f0 50%, #fef7f7 100%);
   min-height: 100vh;
 }
 
@@ -59,7 +59,7 @@
   grid-template-columns: 1fr 1fr;
   gap: 4rem;
   margin-bottom: 3rem;
-  background: rgba(255, 255, 255, 0.8);
+  background: rgba(250, 247, 240, 0.8);
   backdrop-filter: blur(20px);
   border-radius: 2rem;
   padding: 3rem;
@@ -79,7 +79,7 @@
   border-radius: 2rem;
   overflow: hidden;
   box-shadow: 0 25px 80px rgba(0, 0, 0, 0.2);
-  background: linear-gradient(135deg, #f8f9fa, #ffffff);
+  background: linear-gradient(135deg, #f8f9fa, #faf7f0);
   min-height: 500px;
   border: 2px solid rgba(255, 255, 255, 0.5);
   transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
@@ -177,7 +177,7 @@
   cursor: pointer;
   border: 3px solid transparent;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  background: linear-gradient(135deg, #f8f9fa, #ffffff);
+  background: linear-gradient(135deg, #f8f9fa, #faf7f0);
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
   position: relative;
 }
@@ -246,7 +246,7 @@
 }
 
 .detailSection {
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.95), rgba(255, 251, 251, 0.95));
+  background: linear-gradient(135deg, rgba(250, 247, 240, 0.95), rgba(255, 251, 251, 0.95));
   padding: 2rem;
   border-radius: 1.5rem;
   border: 1px solid rgba(128, 0, 32, 0.1);
@@ -336,7 +336,7 @@
 
 /* Action Section */
 .actionSection {
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.95), rgba(255, 251, 251, 0.95));
+  background: linear-gradient(135deg, rgba(250, 247, 240, 0.95), rgba(255, 251, 251, 0.95));
   border: 3px solid transparent;
   border-image: linear-gradient(135deg, #800020, #a0002a) 1;
   border-radius: 2rem;
@@ -395,7 +395,7 @@
   justify-content: center;
   gap: 1.5rem;
   margin-bottom: 1.5rem;
-  background: rgba(255, 255, 255, 0.8);
+  background: rgba(250, 247, 240, 0.8);
   padding: 1rem 2rem;
   border-radius: 1.5rem;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
@@ -537,7 +537,7 @@
 @media (max-width: 768px) {
   .container {
     padding: 1rem 0.75rem;
-    background: #ffffff;
+    background: #faf7f0;
   }
 
   .backToProducts {
@@ -695,7 +695,7 @@
   font-size: 1.25rem;
   color: #6b7280;
   gap: 2rem;
-  background: linear-gradient(135deg, #fef7f7, #ffffff);
+  background: linear-gradient(135deg, #fef7f7, #faf7f0);
   border-radius: 2rem;
   margin: 2rem;
   box-shadow: 0 20px 60px rgba(128, 0, 32, 0.1);
@@ -729,7 +729,7 @@
   min-height: 60vh;
   text-align: center;
   padding: 3rem;
-  background: linear-gradient(135deg, #fef7f7, #ffffff);
+  background: linear-gradient(135deg, #fef7f7, #faf7f0);
   border-radius: 2rem;
   margin: 2rem;
   box-shadow: 0 20px 60px rgba(128, 0, 32, 0.1);
