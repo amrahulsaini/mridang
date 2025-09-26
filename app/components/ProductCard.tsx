@@ -42,12 +42,13 @@ const ProductCard: React.FC<Product & { onInfoClick?: (product: Product) => void
     }
   }
 
-  // Check if item is in cart
-  const isInCart = isItemInCart(product.id)
+  // Check if item is in cart - use pro_id if available, fallback to id
+  const cartItemId = product.pro_id || product.id.toString()
+  const isInCart = isItemInCart(cartItemId)
 
   const handleAddToCart = () => {
     addItem({
-      id: product.id,
+      id: cartItemId,
       name: name,
       price: cut_price || original_price || product.price,
       image: productImage,
@@ -66,7 +67,7 @@ const ProductCard: React.FC<Product & { onInfoClick?: (product: Product) => void
   }
 
   const confirmRemove = () => {
-    removeItem(product.id)
+    removeItem(cartItemId)
     setShowRemoveConfirm(false)
     
     showNotification({

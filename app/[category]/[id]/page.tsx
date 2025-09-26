@@ -119,8 +119,7 @@ export default function ProductDetailsPage() {
     if (!product) return
     
     const cartItem = {
-      id: product.id,
-      pro_id: product.pro_id,
+      id: product.pro_id,  // Use pro_id as the cart item ID
       name: product.model_name,
       image: product.main_image_url,
       price: 2999, // You'll need to add price to your product data

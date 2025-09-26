@@ -4,7 +4,7 @@ import React, { createContext, useContext, useReducer, ReactNode } from 'react'
 
 // Cart Item interface
 export interface CartItem {
-  id: number
+  id: string  // Changed to string to use pro_id
   name: string
   price: number
   image: string
@@ -22,18 +22,18 @@ interface CartState {
 // Cart Actions
 type CartAction = 
   | { type: 'ADD_ITEM'; payload: { item: Omit<CartItem, 'quantity'>; quantity?: number } }
-  | { type: 'REMOVE_ITEM'; payload: number }
-  | { type: 'UPDATE_QUANTITY'; payload: { id: number; quantity: number } }
+  | { type: 'REMOVE_ITEM'; payload: string }
+  | { type: 'UPDATE_QUANTITY'; payload: { id: string; quantity: number } }
   | { type: 'CLEAR_CART' }
 
 // Cart Context interface
 interface CartContextType {
   state: CartState
   addItem: (item: Omit<CartItem, 'quantity'>, quantity?: number) => void
-  removeItem: (id: number) => void
-  updateQuantity: (id: number, quantity: number) => void
+  removeItem: (id: string) => void
+  updateQuantity: (id: string, quantity: number) => void
   clearCart: () => void
-  isItemInCart: (id: number) => boolean
+  isItemInCart: (id: string) => boolean
 }
 
 // Initial state
@@ -121,11 +121,11 @@ export const CartProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     dispatch({ type: 'ADD_ITEM', payload: { item, quantity } })
   }
 
-  const removeItem = (id: number) => {
+  const removeItem = (id: string) => {
     dispatch({ type: 'REMOVE_ITEM', payload: id })
   }
 
-  const updateQuantity = (id: number, quantity: number) => {
+  const updateQuantity = (id: string, quantity: number) => {
     dispatch({ type: 'UPDATE_QUANTITY', payload: { id, quantity } })
   }
 
@@ -133,7 +133,7 @@ export const CartProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     dispatch({ type: 'CLEAR_CART' })
   }
 
-  const isItemInCart = (id: number) => {
+  const isItemInCart = (id: string) => {
     return state.items.some(item => item.id === id)
   }
 

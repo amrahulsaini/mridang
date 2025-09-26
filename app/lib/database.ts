@@ -41,9 +41,10 @@ export async function getAllProducts(): Promise<Product[]> {
     const [rows] = await pool.execute(`
       SELECT 
         p.id,
+        p.pro_id,
         p.model_name as name,
         p.description,
-        COALESCE(pp.cut_price, pp.original_price) as price,
+        COALESCE(pp.cut_price, pp.original_price, 2999) as price,
         pp.cut_price as cut_price,
         pp.original_price as original_price,
         p.category_id,
@@ -56,7 +57,8 @@ export async function getAllProducts(): Promise<Product[]> {
         NOW() as updated_at
       FROM Products p
       LEFT JOIN Categories c ON p.category_id = c.category_id
-      LEFT JOIN product_prices pp ON p.id = pp.product_id AND pp.is_active = 1
+      LEFT JOIN product_prices pp ON p.pro_id = pp.product_id AND pp.is_active = 1
+      WHERE p.pro_id IS NOT NULL
       ORDER BY p.id DESC
     `);
     
@@ -73,9 +75,10 @@ export async function getProductsByCategory(categoryName: string): Promise<Produ
     const [rows] = await pool.execute(`
       SELECT 
         p.id,
+        p.pro_id,
         p.model_name as name,
         p.description,
-        COALESCE(pp.cut_price, pp.original_price) as price,
+        COALESCE(pp.cut_price, pp.original_price, 2999) as price,
         pp.cut_price as cut_price,
         pp.original_price as original_price,
         p.category_id,
@@ -88,8 +91,8 @@ export async function getProductsByCategory(categoryName: string): Promise<Produ
         NOW() as updated_at
       FROM Products p
       LEFT JOIN Categories c ON p.category_id = c.category_id
-      LEFT JOIN product_prices pp ON p.id = pp.product_id AND pp.is_active = 1
-      WHERE c.category_name = ?
+      LEFT JOIN product_prices pp ON p.pro_id = pp.product_id AND pp.is_active = 1
+      WHERE c.category_name = ? AND p.pro_id IS NOT NULL
       ORDER BY p.id DESC
     `, [categoryName]);
     

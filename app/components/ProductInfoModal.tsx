@@ -24,7 +24,10 @@ const ProductInfoModal: React.FC<ProductInfoModalProps> = ({ product, isOpen, on
 
   const productImage = product.main_image_url || product.image_url || '/file.svg'
   const isProblematicSrc = typeof productImage === 'string' && productImage.includes('url=')
-  const itemInCart = isItemInCart(product.id)
+  
+  // Use pro_id if available, fallback to id as string
+  const cartItemId = product.pro_id || product.id.toString()
+  const itemInCart = isItemInCart(cartItemId)
 
   // Format category name for URL (lowercase, no spaces)
   const formatCategoryName = (name: string): string => {
@@ -45,7 +48,7 @@ const ProductInfoModal: React.FC<ProductInfoModalProps> = ({ product, isOpen, on
 
   const handleAddToCart = () => {
     addItem({
-      id: product.id,
+      id: cartItemId,
       name: product.name,
       price: product.price,
       image: productImage,
@@ -59,7 +62,7 @@ const ProductInfoModal: React.FC<ProductInfoModalProps> = ({ product, isOpen, on
   }
 
   const handleRemoveFromCart = () => {
-    removeItem(product.id)
+    removeItem(cartItemId)
   }
 
   return (
