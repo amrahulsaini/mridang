@@ -29,10 +29,12 @@ export async function POST(request: NextRequest) {
     }
 
     // Clean phone number (remove +91 prefix if present, ensure it starts with country code)
-    let cleanPhone = phone.replace(/\s+/g, '').replace(/^(\+91|91)/, '')
-    if (!cleanPhone.startsWith('91')) {
-      cleanPhone = '91' + cleanPhone
-    }
+    const cleanPhone = phone.replace(/\s+/g, '').replace(/^(\+91|91)/, '')
+    // For MSG91, we need to send just the number without country code in the mobile parameter
+    // The country parameter handles the country code
+
+    console.log('Original phone:', phone)
+    console.log('Clean phone:', cleanPhone)
 
     // Generate OTP
     const otp = generateOTP()
@@ -57,23 +59,39 @@ export async function POST(request: NextRequest) {
     }
 
     try {
-      // MSG91 API call
-      const msg91Response = await fetch(`https://api.msg91.com/api/v5/otp?authkey=${MSG91_AUTH_KEY}&template_id=&mobile=${cleanPhone}&otp=${otp}&sender=${MSG91_SENDER_ID}&route=${MSG91_ROUTE}&country=91`, {
-        method: 'GET', // MSG91 uses GET for OTP sending
+      // MSG91 API call - using the correct OTP endpoint
+      const msg91Url = `https://api.msg91.com/api/v5/otp?authkey=${MSG91_AUTH_KEY}&mobile=${cleanPhone}&otp=${otp}&sender=${MSG91_SENDER_ID}&route=${MSG91_ROUTE}&country=91`
+
+      console.log('MSG91 URL:', msg91Url) // For debugging
+
+      const msg91Response = await fetch(msg91Url, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        }
       })
 
-      const msg91Data = await msg91Response.json()
+      const msg91Data = await msg91Response.text() // Get as text first for debugging
+      console.log('MSG91 Response:', msg91Data)
 
-      if (msg91Response.ok && msg91Data.type === 'success') {
+      let parsedData
+      try {
+        parsedData = JSON.parse(msg91Data)
+      } catch {
+        parsedData = { message: msg91Data }
+      }
+
+      // MSG91 returns different response formats
+      if (msg91Response.ok && (parsedData.type === 'success' || parsedData.message === 'OTP sent successfully' || msg91Data.includes('success'))) {
         return NextResponse.json({
           success: true,
           message: 'OTP sent successfully to your mobile number',
           expiresIn: '10 minutes'
         })
       } else {
-        console.error('MSG91 API Error:', msg91Data)
+        console.error('MSG91 API Error:', parsedData)
         return NextResponse.json(
-          { error: 'Failed to send OTP. Please try again.' },
+          { error: `Failed to send OTP: ${parsedData.message || 'Unknown error'}` },
           { status: 500 }
         )
       }

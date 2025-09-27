@@ -15,11 +15,9 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    // Clean phone number (same logic as in send-sms-otp)
-    let cleanPhone = phone.replace(/\s+/g, '').replace(/^(\+91|91)/, '')
-    if (!cleanPhone.startsWith('91')) {
-      cleanPhone = '91' + cleanPhone
-    }
+    // Clean phone number (same logic as send-sms-otp)
+    const cleanPhone = phone.replace(/\s+/g, '').replace(/^(\+91|91)/, '')
+    // For MSG91, we store the phone number without country code prefix
 
     // Get stored OTP data
     const storedData = smsOtpStore.get(cleanPhone)
