@@ -30,11 +30,12 @@ export async function POST(request: NextRequest) {
 
     // Clean phone number (remove +91 prefix if present, ensure it starts with country code)
     const cleanPhone = phone.replace(/\s+/g, '').replace(/^(\+91|91)/, '')
-    // For MSG91, we need to send just the number without country code in the mobile parameter
-    // The country parameter handles the country code
+    // For MSG91, let's try with country code in the mobile parameter
+    const mobileWithCountry = '91' + cleanPhone
 
     console.log('Original phone:', phone)
     console.log('Clean phone:', cleanPhone)
+    console.log('Mobile with country:', mobileWithCountry)
 
     // Generate OTP
     const otp = generateOTP()
@@ -45,8 +46,8 @@ export async function POST(request: NextRequest) {
 
     // MSG91 API integration
     const MSG91_AUTH_KEY = process.env.MSG91_AUTH_KEY
-    const MSG91_SENDER_ID = process.env.MSG91_SENDER_ID || 'MRIDNG'
-    const MSG91_ROUTE = process.env.MSG91_ROUTE || '4'
+    const MSG91_SENDER_ID = process.env.MSG91_SENDER_ID || 'MSGOTP' // Try MSGOTP as it's commonly approved
+    const MSG91_ROUTE = process.env.MSG91_ROUTE || '4' // Route 4 is for transactional SMS
 
     if (!MSG91_AUTH_KEY) {
       console.warn('MSG91_AUTH_KEY not configured, using mock SMS sending')
@@ -59,39 +60,49 @@ export async function POST(request: NextRequest) {
     }
 
     try {
-      // MSG91 API call - using the correct OTP endpoint
-      const msg91Url = `https://api.msg91.com/api/v5/otp?authkey=${MSG91_AUTH_KEY}&mobile=${cleanPhone}&otp=${otp}&sender=${MSG91_SENDER_ID}&route=${MSG91_ROUTE}&country=91`
+      // Use MSG91 Send SMS API for more control over message content
+      const msg91Url = `https://api.msg91.com/api/sendhttp.php`
 
-      console.log('MSG91 URL:', msg91Url) // For debugging
+      // Prepare form data for MSG91
+      const formData = new URLSearchParams()
+      formData.append('authkey', MSG91_AUTH_KEY)
+      formData.append('mobiles', mobileWithCountry) // Use phone with country code
+      formData.append('message', `Your Mridang verification code is: ${otp}. Valid for 10 minutes.`)
+      formData.append('sender', MSG91_SENDER_ID)
+      formData.append('route', MSG91_ROUTE)
+      formData.append('country', '91')
+
+      console.log('MSG91 Request Details:')
+      console.log('URL:', msg91Url)
+      console.log('Phone:', mobileWithCountry)
+      console.log('Sender:', MSG91_SENDER_ID)
+      console.log('Route:', MSG91_ROUTE)
+      console.log('OTP:', otp)
 
       const msg91Response = await fetch(msg91Url, {
-        method: 'GET',
+        method: 'POST',
         headers: {
-          'Content-Type': 'application/json',
-        }
+          'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        body: formData.toString()
       })
 
-      const msg91Data = await msg91Response.text() // Get as text first for debugging
+      const msg91Data = await msg91Response.text()
+      console.log('MSG91 Response Status:', msg91Response.status)
       console.log('MSG91 Response:', msg91Data)
 
-      let parsedData
-      try {
-        parsedData = JSON.parse(msg91Data)
-      } catch {
-        parsedData = { message: msg91Data }
-      }
-
-      // MSG91 returns different response formats
-      if (msg91Response.ok && (parsedData.type === 'success' || parsedData.message === 'OTP sent successfully' || msg91Data.includes('success'))) {
+      // MSG91 send SMS response format: request_id or error message
+      if (msg91Response.ok && msg91Data && !msg91Data.includes('error') && !msg91Data.includes('Error')) {
         return NextResponse.json({
           success: true,
           message: 'OTP sent successfully to your mobile number',
+          requestId: msg91Data,
           expiresIn: '10 minutes'
         })
       } else {
-        console.error('MSG91 API Error:', parsedData)
+        console.error('MSG91 API Error Response:', msg91Data)
         return NextResponse.json(
-          { error: `Failed to send OTP: ${parsedData.message || 'Unknown error'}` },
+          { error: `Failed to send OTP: ${msg91Data || 'Unknown error'} (Status: ${msg91Response.status})` },
           { status: 500 }
         )
       }
