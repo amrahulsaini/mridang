@@ -395,6 +395,33 @@
   flex: 1;
 }
 
+.phoneGroup .verifyBtn {
+  padding: 0 1.5rem;
+  background: linear-gradient(135deg, #800020, #a0002a);
+  color: #ffffff;
+  border: none;
+  border-radius: 0.75rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 100px;
+}
+
+.phoneGroup .verifyBtn:hover:not(:disabled) {
+  background: linear-gradient(135deg, #600018, #800020);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(128, 0, 32, 0.3);
+}
+
+.phoneGroup .verifyBtn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
 /* Submit Button */
 .submitBtn {
   width: 100%;

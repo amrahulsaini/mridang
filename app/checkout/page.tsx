@@ -41,6 +41,12 @@ export default function CheckoutPage() {
   const [otp, setOtp] = useState('')
   const [isVerifyingOtp, setIsVerifyingOtp] = useState(false)
   const [otpError, setOtpError] = useState('')
+  const [phoneVerified, setPhoneVerified] = useState(false)
+  const [isVerifyingPhone, setIsVerifyingPhone] = useState(false)
+  const [smsOtpSent, setSmsOtpSent] = useState(false)
+  const [smsOtp, setSmsOtp] = useState('')
+  const [isVerifyingSmsOtp, setIsVerifyingSmsOtp] = useState(false)
+  const [smsOtpError, setSmsOtpError] = useState('')
   const [errors, setErrors] = useState<Partial<FormData>>({})
 
   // Redirect if cart is empty
@@ -64,6 +70,14 @@ export default function CheckoutPage() {
       setOtpSent(false)
       setOtp('')
       setOtpError('')
+    }
+
+    // Reset phone verification if phone changes
+    if (name === 'phone') {
+      setPhoneVerified(false)
+      setSmsOtpSent(false)
+      setSmsOtp('')
+      setSmsOtpError('')
     }
   }
 
@@ -145,6 +159,82 @@ export default function CheckoutPage() {
     }
   }
 
+  const sendSmsOTP = async () => {
+    if (!formData.phone) {
+      setErrors(prev => ({ ...prev, phone: 'Phone number is required' }))
+      return
+    }
+
+    const phoneRegex = /^(\+91|91)?[6-9]\d{9}$/
+    if (!phoneRegex.test(formData.phone.replace(/\s+/g, ''))) {
+      setErrors(prev => ({ ...prev, phone: 'Please enter a valid phone number' }))
+      return
+    }
+
+    setIsVerifyingPhone(true)
+    setSmsOtpError('')
+    setSmsOtpSent(true) // Show SMS OTP field immediately
+
+    try {
+      const response = await fetch('/api/send-sms-otp', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ phone: formData.phone }),
+      })
+
+      const data = await response.json()
+
+      if (response.ok) {
+        setSmsOtp('') // Clear any previous SMS OTP
+      } else {
+        setErrors(prev => ({ ...prev, phone: data.error || 'Failed to send SMS OTP' }))
+        setSmsOtpSent(false) // Hide SMS OTP field if sending failed
+      }
+    } catch (error) {
+      console.error('Error sending SMS OTP:', error)
+      setErrors(prev => ({ ...prev, phone: 'Failed to send SMS OTP. Please try again.' }))
+      setSmsOtpSent(false) // Hide SMS OTP field if sending failed
+    } finally {
+      setIsVerifyingPhone(false)
+    }
+  }
+
+  const verifySmsOTP = async () => {
+    if (!smsOtp || smsOtp.length !== 4) {
+      setSmsOtpError('Please enter a valid 4-digit OTP')
+      return
+    }
+
+    setIsVerifyingSmsOtp(true)
+    setSmsOtpError('')
+
+    try {
+      const response = await fetch('/api/verify-sms-otp', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ phone: formData.phone, otp: smsOtp }),
+      })
+
+      const data = await response.json()
+
+      if (response.ok && data.verified) {
+        setPhoneVerified(true)
+        setErrors(prev => ({ ...prev, phone: '' }))
+      } else {
+        setSmsOtpError(data.error || 'Invalid OTP')
+      }
+    } catch (error) {
+      console.error('Error verifying SMS OTP:', error)
+      setSmsOtpError('Failed to verify OTP. Please try again.')
+    } finally {
+      setIsVerifyingSmsOtp(false)
+    }
+  }
+
   const validateForm = (): boolean => {
     const newErrors: Partial<FormData> = {}
 
@@ -153,6 +243,7 @@ export default function CheckoutPage() {
     if (!formData.email.trim()) newErrors.email = 'Email is required'
     if (!emailVerified) newErrors.email = 'Please verify your email'
     if (!formData.phone.trim()) newErrors.phone = 'Phone number is required'
+    if (!phoneVerified) newErrors.phone = 'Please verify your phone number'
     if (!formData.address.trim()) newErrors.address = 'Address is required'
     if (!formData.city.trim()) newErrors.city = 'City is required'
     if (!formData.state.trim()) newErrors.state = 'State is required'
@@ -375,9 +466,65 @@ export default function CheckoutPage() {
                   onChange={handleInputChange}
                   className={`${styles.input} ${errors.phone ? styles.error : ''}`}
                   placeholder="Enter your phone number"
+                  disabled={phoneVerified}
                 />
+                <button
+                  type="button"
+                  onClick={smsOtpSent ? verifySmsOTP : sendSmsOTP}
+                  disabled={phoneVerified || isVerifyingPhone || isVerifyingSmsOtp}
+                  className={styles.verifyBtn}
+                >
+                  {phoneVerified ? (
+                    <CheckCircle className={styles.verifyIcon} />
+                  ) : isVerifyingPhone ? (
+                    'Sending...'
+                  ) : isVerifyingSmsOtp ? (
+                    'Verifying...'
+                  ) : smsOtpSent ? (
+                    'Verify OTP'
+                  ) : (
+                    'Send OTP'
+                  )}
+                </button>
               </div>
               {errors.phone && <span className={styles.errorText}>{errors.phone}</span>}
+              {phoneVerified && (
+                <span className={styles.successText}>
+                  <CheckCircle className={styles.successIcon} />
+                  Phone number verified successfully!
+                </span>
+              )}
+
+              {/* SMS OTP Field */}
+              {smsOtpSent && (
+                <div className={styles.otpGroup}>
+                  <label className={styles.label}>Enter SMS OTP *</label>
+                  <input
+                    type="text"
+                    value={smsOtp}
+                    onChange={(e) => {
+                      const value = e.target.value.replace(/\D/g, '').slice(0, 4)
+                      setSmsOtp(value)
+                      if (smsOtpError) setSmsOtpError('')
+                    }}
+                    className={`${styles.input} ${smsOtpError ? styles.error : ''}`}
+                    placeholder="Enter 4-digit SMS OTP"
+                    maxLength={4}
+                    disabled={phoneVerified}
+                  />
+                  {smsOtpError && <span className={styles.errorText}>{smsOtpError}</span>}
+                  {phoneVerified ? (
+                    <span className={styles.successText}>
+                      <CheckCircle className={styles.successIcon} />
+                      SMS OTP verified successfully!
+                    </span>
+                  ) : (
+                    <span className={styles.otpHint}>
+                      OTP sent to {formData.phone}. Check your SMS and enter the 4-digit code.
+                    </span>
+                  )}
+                </div>
+              )}
             </div>
 
             {/* Address Field */}
