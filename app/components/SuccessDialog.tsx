@@ -1,6 +1,5 @@
 'use client'
 
-import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { CheckCircle, X } from 'lucide-react'
 import styles from './SuccessDialog.module.css'
