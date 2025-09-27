@@ -358,6 +358,22 @@
   height: 1rem;
 }
 
+/* OTP Group */
+.otpGroup {
+  margin-top: 1rem;
+  padding: 1.5rem;
+  background: rgba(255, 255, 255, 0.8);
+  border-radius: 1rem;
+  border: 2px solid rgba(128, 0, 32, 0.1);
+}
+
+.otpHint {
+  font-size: 0.8rem;
+  color: #6b7280;
+  margin-top: 0.5rem;
+  line-height: 1.4;
+}
+
 /* Phone Group */
 .phoneGroup {
   display: flex;

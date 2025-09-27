@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import { motion } from 'framer-motion'
-import { ArrowLeft, MapPin, Mail, Phone, CreditCard, CheckCircle, AlertCircle } from 'lucide-react'
+import { ArrowLeft, MapPin, CreditCard, CheckCircle } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useCart } from '../context/CartContext'
@@ -37,6 +37,10 @@ export default function CheckoutPage() {
   })
   const [emailVerified, setEmailVerified] = useState(false)
   const [isVerifyingEmail, setIsVerifyingEmail] = useState(false)
+  const [otpSent, setOtpSent] = useState(false)
+  const [otp, setOtp] = useState('')
+  const [isVerifyingOtp, setIsVerifyingOtp] = useState(false)
+  const [otpError, setOtpError] = useState('')
   const [errors, setErrors] = useState<Partial<FormData>>({})
 
   // Redirect if cart is empty
@@ -53,9 +57,17 @@ export default function CheckoutPage() {
     if (errors[name as keyof FormData]) {
       setErrors(prev => ({ ...prev, [name]: '' }))
     }
+
+    // Reset email verification if email changes
+    if (name === 'email') {
+      setEmailVerified(false)
+      setOtpSent(false)
+      setOtp('')
+      setOtpError('')
+    }
   }
 
-  const verifyEmail = async () => {
+  const sendOTP = async () => {
     if (!formData.email) {
       setErrors(prev => ({ ...prev, email: 'Email is required' }))
       return
@@ -68,12 +80,66 @@ export default function CheckoutPage() {
     }
 
     setIsVerifyingEmail(true)
+    setOtpError('')
 
-    // Simulate email verification API call
-    setTimeout(() => {
-      setEmailVerified(true)
+    try {
+      const response = await fetch('/api/send-otp', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email: formData.email }),
+      })
+
+      const data = await response.json()
+
+      if (response.ok) {
+        setOtpSent(true)
+        setOtp('') // Clear any previous OTP
+      } else {
+        setErrors(prev => ({ ...prev, email: data.error || 'Failed to send OTP' }))
+      }
+    } catch (error) {
+      console.error('Error sending OTP:', error)
+      setErrors(prev => ({ ...prev, email: 'Failed to send OTP. Please try again.' }))
+    } finally {
       setIsVerifyingEmail(false)
-    }, 2000)
+    }
+  }
+
+  const verifyOTP = async () => {
+    if (!otp || otp.length !== 4) {
+      setOtpError('Please enter a valid 4-digit OTP')
+      return
+    }
+
+    setIsVerifyingOtp(true)
+    setOtpError('')
+
+    try {
+      const response = await fetch('/api/verify-otp', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email: formData.email, otp }),
+      })
+
+      const data = await response.json()
+
+      if (response.ok && data.verified) {
+        setEmailVerified(true)
+        setOtpSent(false)
+        setErrors(prev => ({ ...prev, email: '' }))
+      } else {
+        setOtpError(data.error || 'Invalid OTP')
+      }
+    } catch (error) {
+      console.error('Error verifying OTP:', error)
+      setOtpError('Failed to verify OTP. Please try again.')
+    } finally {
+      setIsVerifyingOtp(false)
+    }
   }
 
   const validateForm = (): boolean => {
@@ -235,16 +301,20 @@ export default function CheckoutPage() {
                 />
                 <button
                   type="button"
-                  onClick={verifyEmail}
-                  disabled={emailVerified || isVerifyingEmail}
+                  onClick={otpSent ? verifyOTP : sendOTP}
+                  disabled={emailVerified || isVerifyingEmail || isVerifyingOtp}
                   className={styles.verifyBtn}
                 >
                   {emailVerified ? (
                     <CheckCircle className={styles.verifyIcon} />
                   ) : isVerifyingEmail ? (
+                    'Sending...'
+                  ) : isVerifyingOtp ? (
                     'Verifying...'
+                  ) : otpSent ? (
+                    'Verify OTP'
                   ) : (
-                    'Verify'
+                    'Send OTP'
                   )}
                 </button>
               </div>
@@ -254,6 +324,29 @@ export default function CheckoutPage() {
                   <CheckCircle className={styles.successIcon} />
                   Email verified successfully!
                 </span>
+              )}
+
+              {/* OTP Field */}
+              {otpSent && !emailVerified && (
+                <div className={styles.otpGroup}>
+                  <label className={styles.label}>Enter OTP *</label>
+                  <input
+                    type="text"
+                    value={otp}
+                    onChange={(e) => {
+                      const value = e.target.value.replace(/\D/g, '').slice(0, 4)
+                      setOtp(value)
+                      if (otpError) setOtpError('')
+                    }}
+                    className={`${styles.input} ${otpError ? styles.error : ''}`}
+                    placeholder="Enter 4-digit OTP"
+                    maxLength={4}
+                  />
+                  {otpError && <span className={styles.errorText}>{otpError}</span>}
+                  <span className={styles.otpHint}>
+                    OTP sent to {formData.email}. Check your email and enter the 4-digit code.
+                  </span>
+                </div>
               )}
             </div>
 
