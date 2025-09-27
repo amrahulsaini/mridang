@@ -1,0 +1,132 @@
+.container {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+  padding: 20px;
+}
+
+.successCard {
+  background: white;
+  border-radius: 20px;
+  padding: 40px;
+  text-align: center;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
+  max-width: 500px;
+  width: 100%;
+}
+
+.successIcon {
+  margin-bottom: 20px;
+}
+
+.icon {
+  width: 80px;
+  height: 80px;
+  color: #10b981;
+}
+
+.title {
+  font-size: 28px;
+  font-weight: 700;
+  color: #1f2937;
+  margin-bottom: 20px;
+}
+
+.orderInfo {
+  margin-bottom: 30px;
+}
+
+.message {
+  font-size: 16px;
+  color: #6b7280;
+  margin-bottom: 20px;
+  line-height: 1.6;
+}
+
+.orderId {
+  background: #f3f4f6;
+  padding: 12px 20px;
+  border-radius: 8px;
+  font-size: 18px;
+  color: #1f2937;
+  margin-bottom: 20px;
+  font-family: 'Courier New', monospace;
+}
+
+.details {
+  font-size: 14px;
+  color: #6b7280;
+  line-height: 1.5;
+}
+
+.details p {
+  margin-bottom: 8px;
+}
+
+.actions {
+  display: flex;
+  gap: 15px;
+  flex-direction: column;
+}
+
+.primaryBtn,
+.secondaryBtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px 24px;
+  border-radius: 8px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  font-size: 16px;
+}
+
+.primaryBtn {
+  background: #8B4513;
+  color: white;
+  border: 2px solid #8B4513;
+}
+
+.primaryBtn:hover {
+  background: #6d3610;
+  border-color: #6d3610;
+}
+
+.secondaryBtn {
+  background: transparent;
+  color: #8B4513;
+  border: 2px solid #8B4513;
+}
+
+.secondaryBtn:hover {
+  background: #8B4513;
+  color: white;
+}
+
+.btnIcon {
+  width: 18px;
+  height: 18px;
+  margin-right: 8px;
+}
+
+@media (max-width: 480px) {
+  .successCard {
+    padding: 30px 20px;
+  }
+
+  .title {
+    font-size: 24px;
+  }
+
+  .actions {
+    flex-direction: column;
+  }
+
+  .primaryBtn,
+  .secondaryBtn {
+    width: 100%;
+  }
+}

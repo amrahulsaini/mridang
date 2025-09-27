@@ -1,13 +1,20 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
-import { ArrowLeft, MapPin, CreditCard, CheckCircle } from 'lucide-react'
+import { ArrowLeft, MapPin, CreditCard, CheckCircle, Loader } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useCart } from '../context/CartContext'
 import { useRouter } from 'next/navigation'
 import styles from './Checkout.module.css'
+
+// Razorpay type declaration
+declare global {
+  interface Window {
+    Razorpay: any
+  }
+}
 
 interface FormData {
   firstName: string
@@ -43,11 +50,28 @@ export default function CheckoutPage() {
   const [otpError, setOtpError] = useState('')
   const [errors, setErrors] = useState<Partial<FormData>>({})
 
-  // Redirect if cart is empty
-  if (state.items.length === 0) {
-    router.push('/cart')
-    return null
-  }
+  // Payment states
+  const [isProcessingPayment, setIsProcessingPayment] = useState(false)
+  const [paymentError, setPaymentError] = useState('')
+  const [razorpayLoaded, setRazorpayLoaded] = useState(false)
+
+  // Load Razorpay script
+  useEffect(() => {
+    const script = document.createElement('script')
+    script.src = 'https://checkout.razorpay.com/v1/checkout.js'
+    script.onload = () => setRazorpayLoaded(true)
+    script.onerror = () => console.error('Failed to load Razorpay script')
+    document.body.appendChild(script)
+
+    return () => {
+      document.body.removeChild(script)
+    }
+  }, [])
+
+  // Calculate totals
+  const subtotal = state.items.reduce((sum, item) => sum + (item.price * item.quantity), 0)
+  const shippingCost = subtotal > 1000 ? 0 : 100 // Free shipping over ₹1000
+  const total = subtotal + shippingCost
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target
@@ -145,6 +169,111 @@ export default function CheckoutPage() {
     }
   }
 
+  const handlePayment = async () => {
+    if (!validateForm()) return
+
+    setIsProcessingPayment(true)
+    setPaymentError('')
+
+    try {
+      // Create Razorpay order
+      const orderResponse = await fetch('/api/create-payment-order', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          amount: total,
+          currency: 'INR',
+          receipt: `receipt_${Date.now()}`
+        }),
+      })
+
+      const orderData = await orderResponse.json()
+
+      if (!orderResponse.ok) {
+        throw new Error(orderData.error || 'Failed to create payment order')
+      }
+
+      // Initialize Razorpay payment
+      const options = {
+        key: orderData.key,
+        amount: orderData.amount,
+        currency: orderData.currency,
+        order_id: orderData.orderId,
+        name: 'Mridang',
+        description: 'Purchase from Mridang',
+        image: '/logo.png',
+        handler: async (response: any) => {
+          await verifyPayment(response, orderData.orderId)
+        },
+        prefill: {
+          name: `${formData.firstName} ${formData.lastName}`,
+          email: formData.email,
+          contact: formData.phone,
+        },
+        theme: {
+          color: '#8B4513',
+        },
+        modal: {
+          ondismiss: () => {
+            setIsProcessingPayment(false)
+          }
+        }
+      }
+
+      if (window.Razorpay) {
+        const rzp = new window.Razorpay(options)
+        rzp.open()
+      } else {
+        throw new Error('Razorpay SDK not loaded')
+      }
+
+    } catch (error) {
+      console.error('Payment error:', error)
+      setPaymentError(error instanceof Error ? error.message : 'Payment failed')
+      setIsProcessingPayment(false)
+    }
+  }
+
+  const verifyPayment = async (razorpayResponse: any, orderId: string) => {
+    try {
+      const verificationData = {
+        razorpay_order_id: razorpayResponse.razorpay_order_id,
+        razorpay_payment_id: razorpayResponse.razorpay_payment_id,
+        razorpay_signature: razorpayResponse.razorpay_signature,
+        orderData: {
+          ...formData,
+          items: state.items
+        }
+      }
+
+      const response = await fetch('/api/verify-payment', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(verificationData),
+      })
+
+      const result = await response.json()
+
+      if (response.ok) {
+        // Payment successful - redirect to success page or show success message
+        alert(`Payment successful! Order ID: ${result.orderId}`)
+        router.push('/order-success?orderId=' + result.orderId)
+      } else {
+        throw new Error(result.error || 'Payment verification failed')
+      }
+
+    } catch (error) {
+      console.error('Verification error:', error)
+      setPaymentError(error instanceof Error ? error.message : 'Payment verification failed')
+    } finally {
+      setIsProcessingPayment(false)
+    }
+  }
+
   const validateForm = (): boolean => {
     const newErrors: Partial<FormData> = {}
 
@@ -164,11 +293,7 @@ export default function CheckoutPage() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
-
-    if (validateForm()) {
-      // Proceed to payment
-      alert('Proceeding to payment... (Payment integration would go here)')
-    }
+    handlePayment()
   }
 
   return (
@@ -232,16 +357,16 @@ export default function CheckoutPage() {
 
             <div className={styles.summaryTotals}>
               <div className={styles.totalRow}>
-                <span>Subtotal ({state.totalItems} items)</span>
-                <span>₹{state.totalPrice.toLocaleString()}</span>
+                <span>Subtotal ({state.items.length} items)</span>
+                <span>₹{subtotal.toLocaleString()}</span>
               </div>
               <div className={styles.totalRow}>
                 <span>Shipping</span>
-                <span>Free</span>
+                <span>{shippingCost === 0 ? 'Free' : `₹${shippingCost.toLocaleString()}`}</span>
               </div>
               <div className={`${styles.totalRow} ${styles.finalTotal}`}>
                 <span>Total Amount</span>
-                <span>₹{state.totalPrice.toLocaleString()}</span>
+                <span>₹{total.toLocaleString()}</span>
               </div>
             </div>
           </div>
@@ -455,10 +580,32 @@ export default function CheckoutPage() {
             <button
               type="submit"
               className={styles.submitBtn}
+              disabled={isProcessingPayment || !razorpayLoaded}
             >
-              <CreditCard className={styles.submitIcon} />
-              Proceed to Payment - ₹{state.totalPrice.toLocaleString()}
+              {isProcessingPayment ? (
+                <>
+                  <Loader className={`${styles.submitIcon} ${styles.spinning}`} />
+                  Processing Payment...
+                </>
+              ) : (
+                <>
+                  <CreditCard className={styles.submitIcon} />
+                  Pay ₹{total.toLocaleString()}
+                </>
+              )}
             </button>
+
+            {paymentError && (
+              <div className={styles.errorText} style={{ textAlign: 'center', marginTop: '10px' }}>
+                {paymentError}
+              </div>
+            )}
+
+            {!razorpayLoaded && (
+              <div style={{ textAlign: 'center', marginTop: '10px', color: '#666' }}>
+                Loading payment gateway...
+              </div>
+            )}
           </div>
         </motion.form>
       </div>
