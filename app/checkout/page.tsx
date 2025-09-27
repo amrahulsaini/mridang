@@ -81,6 +81,7 @@ export default function CheckoutPage() {
 
     setIsVerifyingEmail(true)
     setOtpError('')
+    setOtpSent(true) // Show OTP field immediately
 
     try {
       const response = await fetch('/api/send-otp', {
@@ -94,14 +95,16 @@ export default function CheckoutPage() {
       const data = await response.json()
 
       if (response.ok) {
-        setOtpSent(true)
+        // OTP sent successfully, keep otpSent as true
         setOtp('') // Clear any previous OTP
       } else {
         setErrors(prev => ({ ...prev, email: data.error || 'Failed to send OTP' }))
+        setOtpSent(false) // Hide OTP field if sending failed
       }
     } catch (error) {
       console.error('Error sending OTP:', error)
       setErrors(prev => ({ ...prev, email: 'Failed to send OTP. Please try again.' }))
+      setOtpSent(false) // Hide OTP field if sending failed
     } finally {
       setIsVerifyingEmail(false)
     }
@@ -327,7 +330,7 @@ export default function CheckoutPage() {
               )}
 
               {/* OTP Field */}
-              {otpSent && !emailVerified && (
+              {otpSent && (
                 <div className={styles.otpGroup}>
                   <label className={styles.label}>Enter OTP *</label>
                   <input
@@ -341,11 +344,19 @@ export default function CheckoutPage() {
                     className={`${styles.input} ${otpError ? styles.error : ''}`}
                     placeholder="Enter 4-digit OTP"
                     maxLength={4}
+                    disabled={emailVerified}
                   />
                   {otpError && <span className={styles.errorText}>{otpError}</span>}
-                  <span className={styles.otpHint}>
-                    OTP sent to {formData.email}. Check your email and enter the 4-digit code.
-                  </span>
+                  {emailVerified ? (
+                    <span className={styles.successText}>
+                      <CheckCircle className={styles.successIcon} />
+                      OTP verified successfully!
+                    </span>
+                  ) : (
+                    <span className={styles.otpHint}>
+                      OTP sent to {formData.email}. Check your email and enter the 4-digit code.
+                    </span>
+                  )}
                 </div>
               )}
             </div>
