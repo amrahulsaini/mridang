@@ -173,7 +173,7 @@ export async function POST(request: NextRequest) {
 
     // Email options
     const mailOptions = {
-      from: `"Mridang" <noreply@mridang.co.in>`,
+      from: `"Mridang" <verify@mridang.co.in>`,
       to: email,
       subject: 'Your OTP for Email Verification - Mridang',
       html: htmlContent,
