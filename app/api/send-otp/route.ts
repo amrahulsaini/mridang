@@ -1,8 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import nodemailer from 'nodemailer'
-
-// Store OTPs temporarily (in production, use Redis or database)
-const otpStore = new Map<string, { otp: string; expiresAt: number }>()
+import { otpStore } from '../../../lib/otp-store'
 
 // Email template for OTP
 const createOTPEmailTemplate = (otp: string) => `
@@ -164,6 +162,8 @@ export async function POST(request: NextRequest) {
 
     // Store OTP (in production, use Redis or database)
     otpStore.set(email, { otp, expiresAt })
+
+    console.log(`OTP stored for ${email}: ${otp} (expires: ${new Date(expiresAt).toISOString()})`)
 
     // Create email content
     const htmlContent = createOTPEmailTemplate(otp)

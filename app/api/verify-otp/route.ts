@@ -1,8 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-
-// This should be the same store as in send-otp route
-// In production, use a shared store like Redis
-const otpStore = new Map<string, { otp: string; expiresAt: number }>()
+import { otpStore } from '../../../lib/otp-store'
 
 export async function POST(request: NextRequest) {
   try {
@@ -17,6 +14,16 @@ export async function POST(request: NextRequest) {
 
     // Get stored OTP data
     const storedData = otpStore.get(email)
+
+    console.log(`Verifying OTP for ${email}:`, {
+      providedOtp: otp,
+      hasStoredData: !!storedData,
+      storedData: storedData ? {
+        otp: storedData.otp,
+        expiresAt: new Date(storedData.expiresAt).toISOString(),
+        isExpired: Date.now() > storedData.expiresAt
+      } : null
+    })
 
     if (!storedData) {
       return NextResponse.json(
