@@ -52,6 +52,14 @@ export async function POST(request: NextRequest) {
   let connection
 
   try {
+    console.log('Starting payment verification...')
+    console.log('Database config:', {
+      host: process.env.DB_HOST,
+      user: process.env.DB_USER,
+      database: process.env.DB_NAME,
+      port: process.env.DB_PORT
+    })
+
     const body = await request.json()
     const {
       razorpay_order_id,
@@ -59,6 +67,12 @@ export async function POST(request: NextRequest) {
       razorpay_signature,
       orderData
     }: PaymentVerificationRequest = body
+
+    console.log('Payment verification request received:', {
+      razorpay_order_id,
+      razorpay_payment_id,
+      hasSignature: !!razorpay_signature
+    })
 
     // Verify payment signature
     const sign = razorpay_order_id + '|' + razorpay_payment_id
@@ -68,17 +82,23 @@ export async function POST(request: NextRequest) {
       .digest('hex')
 
     if (razorpay_signature !== expectedSign) {
+      console.log('Payment signature verification failed')
       return NextResponse.json(
         { error: 'Payment verification failed' },
         { status: 400 }
       )
     }
 
+    console.log('Payment signature verified successfully')
+
     // Generate unique order ID
     const orderId = generateOrderId()
+    console.log('Generated order ID:', orderId)
 
     // Connect to database
+    console.log('Attempting database connection...')
     connection = await mysql.createConnection(dbConfig)
+    console.log('Database connection established successfully')
 
     // Calculate totals
     const subtotal = orderData.items.reduce((sum: number, item: CartItem) =>
@@ -144,8 +164,23 @@ export async function POST(request: NextRequest) {
 
   } catch (error) {
     console.error('Error saving order:', error)
+
+    // Provide more specific error messages
+    let errorMessage = 'Failed to save order'
+    if (error instanceof Error) {
+      if (error.message.includes('Access denied')) {
+        errorMessage = 'Database access denied - check credentials'
+      } else if (error.message.includes('ECONNREFUSED')) {
+        errorMessage = 'Database connection refused - check host and port'
+      } else if (error.message.includes('ER_NO_SUCH_TABLE')) {
+        errorMessage = 'Database table does not exist'
+      } else {
+        errorMessage = `Database error: ${error.message}`
+      }
+    }
+
     return NextResponse.json(
-      { error: 'Failed to save order' },
+      { error: errorMessage },
       { status: 500 }
     )
   } finally {
