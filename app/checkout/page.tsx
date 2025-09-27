@@ -7,6 +7,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { useCart } from '../context/CartContext'
 import { useRouter } from 'next/navigation'
+import SuccessDialog from '../components/SuccessDialog'
 import styles from './Checkout.module.css'
 
 // Razorpay type declaration
@@ -86,6 +87,10 @@ export default function CheckoutPage() {
   const [isProcessingPayment, setIsProcessingPayment] = useState(false)
   const [paymentError, setPaymentError] = useState('')
   const [razorpayLoaded, setRazorpayLoaded] = useState(false)
+
+  // Success dialog states
+  const [showSuccessDialog, setShowSuccessDialog] = useState(false)
+  const [successOrderId, setSuccessOrderId] = useState('')
 
   // Load Razorpay script
   useEffect(() => {
@@ -297,9 +302,9 @@ export default function CheckoutPage() {
         // Clear the cart after successful payment
         clearCart()
 
-        // Payment successful - redirect to success page or show success message
-        alert(`Payment successful! Order ID: ${result.orderId}`)
-        router.push('/order-success?orderId=' + result.orderId)
+        // Show success dialog instead of alert
+        setSuccessOrderId(result.orderId)
+        setShowSuccessDialog(true)
       } else {
         throw new Error(result.error || 'Payment verification failed')
       }
@@ -647,6 +652,17 @@ export default function CheckoutPage() {
           </div>
         </motion.form>
       </div>
+
+      {/* Success Dialog */}
+      <SuccessDialog
+        isOpen={showSuccessDialog}
+        orderId={successOrderId}
+        onClose={() => setShowSuccessDialog(false)}
+        onConfirm={() => {
+          setShowSuccessDialog(false)
+          router.push('/order-success?orderId=' + successOrderId)
+        }}
+      />
     </div>
   )
 }

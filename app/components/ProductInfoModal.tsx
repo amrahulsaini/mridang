@@ -61,6 +61,21 @@ const ProductInfoModal: React.FC<ProductInfoModalProps> = ({ product, isOpen, on
     onClose()
   }
 
+  const handleBuyNow = () => {
+    // Add item to cart
+    addItem({
+      id: cartItemId,
+      name: product.name,
+      price: product.price,
+      image: productImage,
+      category: product.category_name || 'General'
+    }, quantity)
+
+    // Close modal and navigate to checkout
+    onClose()
+    router.push('/checkout')
+  }
+
   const handleRemoveFromCart = () => {
     removeItem(cartItemId)
   }
@@ -156,7 +171,10 @@ const ProductInfoModal: React.FC<ProductInfoModalProps> = ({ product, isOpen, on
 
                 {/* Action Buttons */}
                 <div className={styles.actionButtons}>
-                  <button className={`${styles.actionButton} ${styles.buyNowButton}`}>
+                  <button 
+                    className={`${styles.actionButton} ${styles.buyNowButton}`}
+                    onClick={handleBuyNow}
+                  >
                     <CreditCard className={styles.buttonIcon} />
                     Buy Now
                   </button>
