@@ -1,0 +1,106 @@
+import { NextRequest, NextResponse } from 'next/server'
+import mysql from 'mysql2/promise'
+
+// Database connection
+const dbConfig = {
+  host: process.env.DB_HOST,
+  user: process.env.DB_USER,
+  password: process.env.DB_PASS,
+  database: process.env.DB_NAME,
+  port: parseInt(process.env.DB_PORT || '3306'),
+}
+
+export async function GET(request: NextRequest) {
+  let connection
+
+  try {
+    const { searchParams } = new URL(request.url)
+    const email = searchParams.get('email')
+
+    if (!email) {
+      return NextResponse.json(
+        { error: 'Email parameter is required' },
+        { status: 400 }
+      )
+    }
+
+    console.log('Fetching orders for email:', email)
+
+    connection = await mysql.createConnection(dbConfig)
+
+    // Fetch orders for the user
+    const [rows] = await connection.execute(
+      `SELECT
+        id,
+        order_id,
+        first_name,
+        last_name,
+        email,
+        phone,
+        address,
+        city,
+        state,
+        pincode,
+        country,
+        products,
+        subtotal,
+        shipping_cost,
+        total_amount,
+        status,
+        payment_status,
+        created_at,
+        completed_at
+      FROM checkout_orders
+      WHERE email = ?
+      ORDER BY created_at DESC`,
+      [email]
+    )
+
+    const ordersData = rows as any[]
+    console.log(`Found ${ordersData.length} orders for ${email}`)
+
+    // Format the response
+    const orders = ordersData.map((order: any) => ({
+      id: order.id,
+      orderId: order.order_id,
+      customer: {
+        firstName: order.first_name,
+        lastName: order.last_name,
+        email: order.email,
+        phone: order.phone,
+        address: order.address,
+        city: order.city,
+        state: order.state,
+        pincode: order.pincode,
+        country: order.country,
+      },
+      products: JSON.parse(order.products || '[]'),
+      pricing: {
+        subtotal: parseFloat(order.subtotal),
+        shippingCost: parseFloat(order.shipping_cost),
+        totalAmount: parseFloat(order.total_amount),
+      },
+      status: order.status,
+      paymentStatus: order.payment_status,
+      createdAt: order.created_at,
+      completedAt: order.completed_at,
+    }))
+
+    return NextResponse.json({
+      success: true,
+      orders,
+      total: orders.length
+    })
+
+  } catch (error) {
+    console.error('Error fetching orders:', error)
+    return NextResponse.json(
+      { error: 'Failed to fetch orders' },
+      { status: 500 }
+    )
+  } finally {
+    if (connection) {
+      await connection.end()
+    }
+  }
+}

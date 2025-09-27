@@ -61,7 +61,7 @@ interface FormData {
 }
 
 export default function CheckoutPage() {
-  const { state } = useCart()
+  const { state, clearCart } = useCart()
   const router = useRouter()
   const [formData, setFormData] = useState<FormData>({
     firstName: '',
@@ -291,6 +291,12 @@ export default function CheckoutPage() {
       const result = await response.json()
 
       if (response.ok) {
+        // Store user email for orders page
+        localStorage.setItem('userEmail', formData.email)
+
+        // Clear the cart after successful payment
+        clearCart()
+
         // Payment successful - redirect to success page or show success message
         alert(`Payment successful! Order ID: ${result.orderId}`)
         router.push('/order-success?orderId=' + result.orderId)

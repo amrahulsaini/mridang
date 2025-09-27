@@ -1,6 +1,6 @@
 'use client'
 
-import React, { createContext, useContext, useReducer, ReactNode } from 'react'
+import React, { createContext, useContext, useReducer, ReactNode, useEffect } from 'react'
 
 // Cart Item interface
 export interface CartItem {
@@ -20,11 +20,12 @@ interface CartState {
 }
 
 // Cart Actions
-type CartAction = 
+type CartAction =
   | { type: 'ADD_ITEM'; payload: { item: Omit<CartItem, 'quantity'>; quantity?: number } }
   | { type: 'REMOVE_ITEM'; payload: string }
   | { type: 'UPDATE_QUANTITY'; payload: { id: string; quantity: number } }
   | { type: 'CLEAR_CART' }
+  | { type: 'LOAD_CART'; payload: CartState }
 
 // Cart Context interface
 interface CartContextType {
@@ -34,6 +35,52 @@ interface CartContextType {
   updateQuantity: (id: string, quantity: number) => void
   clearCart: () => void
   isItemInCart: (id: string) => boolean
+}
+
+// Storage key and expiration
+const CART_STORAGE_KEY = 'mridang_cart'
+const CART_EXPIRATION_DAYS = 30
+
+// Helper functions for localStorage
+const saveCartToStorage = (cart: CartState) => {
+  try {
+    const expirationDate = new Date()
+    expirationDate.setDate(expirationDate.getDate() + CART_EXPIRATION_DAYS)
+
+    const cartData = {
+      ...cart,
+      expiration: expirationDate.toISOString()
+    }
+
+    localStorage.setItem(CART_STORAGE_KEY, JSON.stringify(cartData))
+  } catch (error) {
+    console.error('Failed to save cart to localStorage:', error)
+  }
+}
+
+const loadCartFromStorage = (): CartState | null => {
+  try {
+    const cartData = localStorage.getItem(CART_STORAGE_KEY)
+    if (!cartData) return null
+
+    const parsed = JSON.parse(cartData)
+
+    // Check if cart has expired
+    if (parsed.expiration) {
+      const expirationDate = new Date(parsed.expiration)
+      if (new Date() > expirationDate) {
+        localStorage.removeItem(CART_STORAGE_KEY)
+        return null
+      }
+    }
+
+    // Remove expiration from the loaded data
+    const { expiration, ...cart } = parsed
+    return cart
+  } catch (error) {
+    console.error('Failed to load cart from localStorage:', error)
+    return null
+  }
 }
 
 // Initial state
@@ -49,7 +96,7 @@ const cartReducer = (state: CartState, action: CartAction): CartState => {
     case 'ADD_ITEM': {
       const { item, quantity = 1 } = action.payload
       const existingItem = state.items.find(stateItem => stateItem.id === item.id)
-      
+
       let newItems: CartItem[]
       if (existingItem) {
         newItems = state.items.map(stateItem =>
@@ -60,51 +107,64 @@ const cartReducer = (state: CartState, action: CartAction): CartState => {
       } else {
         newItems = [...state.items, { ...item, quantity }]
       }
-      
+
       const totalItems = newItems.reduce((sum, item) => sum + item.quantity, 0)
       const totalPrice = newItems.reduce((sum, item) => sum + (item.price * item.quantity), 0)
-      
-      return {
+
+      const newState = {
         items: newItems,
         totalItems,
         totalPrice
       }
+
+      saveCartToStorage(newState)
+      return newState
     }
-    
+
     case 'REMOVE_ITEM': {
       const newItems = state.items.filter(item => item.id !== action.payload)
       const totalItems = newItems.reduce((sum, item) => sum + item.quantity, 0)
       const totalPrice = newItems.reduce((sum, item) => sum + (item.price * item.quantity), 0)
-      
-      return {
+
+      const newState = {
         items: newItems,
         totalItems,
         totalPrice
       }
+
+      saveCartToStorage(newState)
+      return newState
     }
-    
+
     case 'UPDATE_QUANTITY': {
-      const newItems = action.payload.quantity === 0 
+      const newItems = action.payload.quantity === 0
         ? state.items.filter(item => item.id !== action.payload.id)
         : state.items.map(item =>
             item.id === action.payload.id
               ? { ...item, quantity: action.payload.quantity }
               : item
           )
-      
+
       const totalItems = newItems.reduce((sum, item) => sum + item.quantity, 0)
       const totalPrice = newItems.reduce((sum, item) => sum + (item.price * item.quantity), 0)
-      
-      return {
+
+      const newState = {
         items: newItems,
         totalItems,
         totalPrice
       }
+
+      saveCartToStorage(newState)
+      return newState
     }
-    
+
     case 'CLEAR_CART':
+      saveCartToStorage(initialState)
       return initialState
-    
+
+    case 'LOAD_CART':
+      return action.payload
+
     default:
       return state
   }
@@ -116,6 +176,14 @@ const CartContext = createContext<CartContextType | undefined>(undefined)
 // Cart Provider
 export const CartProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const [state, dispatch] = useReducer(cartReducer, initialState)
+
+  // Load cart from localStorage on mount
+  useEffect(() => {
+    const savedCart = loadCartFromStorage()
+    if (savedCart) {
+      dispatch({ type: 'LOAD_CART', payload: savedCart })
+    }
+  }, [])
 
   const addItem = (item: Omit<CartItem, 'quantity'>, quantity: number = 1) => {
     dispatch({ type: 'ADD_ITEM', payload: { item, quantity } })

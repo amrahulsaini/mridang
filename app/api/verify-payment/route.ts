@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import crypto from 'crypto'
 import mysql from 'mysql2/promise'
+import { sendOrderConfirmationEmail } from '@/lib/email'
 
 // Type definitions
 interface CartItem {
@@ -153,6 +154,40 @@ export async function POST(request: NextRequest) {
       orderId,
       paymentId: razorpay_payment_id,
       amount: totalAmount
+    })
+
+    // Send order confirmation email
+    const emailOrderData = {
+      orderId,
+      customer: {
+        firstName: orderData.firstName,
+        lastName: orderData.lastName,
+        email: orderData.email,
+        phone: orderData.phone,
+        address: orderData.address,
+        city: orderData.city,
+        state: orderData.state,
+        pincode: orderData.pincode,
+        country: orderData.country,
+      },
+      products: orderData.items,
+      pricing: {
+        subtotal,
+        shippingCost,
+        totalAmount,
+      },
+      createdAt: new Date().toISOString(),
+    }
+
+    // Send email asynchronously (don't wait for it to complete)
+    sendOrderConfirmationEmail(emailOrderData).then((result) => {
+      if (result.success) {
+        console.log('Order confirmation email sent successfully')
+      } else {
+        console.error('Failed to send order confirmation email:', result.error)
+      }
+    }).catch((error) => {
+      console.error('Error sending order confirmation email:', error)
     })
 
     return NextResponse.json({

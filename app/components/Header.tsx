@@ -1,7 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-import { Home, Info, Phone, Search, Menu, X, ShoppingCart } from 'lucide-react'
+import { Home, Info, Phone, Search, Menu, X, ShoppingCart, Package } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useCart } from '../context/CartContext'
@@ -14,6 +14,7 @@ const Header = () => {
   const navItems = [
     { name: 'Home', href: '/', icon: Home, key: 'home' },
     { name: 'About', href: '/about', icon: Info, key: 'about' },
+    { name: 'Orders', href: '/orders', icon: Package, key: 'orders' },
     { name: 'Contact', href: '/contact', icon: Phone, key: 'contact' },
   ]
 
