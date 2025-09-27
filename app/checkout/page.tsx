@@ -12,8 +12,40 @@ import styles from './Checkout.module.css'
 // Razorpay type declaration
 declare global {
   interface Window {
-    Razorpay: any
+    Razorpay: new (options: RazorpayOptions) => RazorpayInstance
   }
+}
+
+interface RazorpayOptions {
+  key: string
+  amount: number
+  currency: string
+  order_id: string
+  name: string
+  description: string
+  image?: string
+  handler: (response: RazorpayResponse) => void
+  prefill: {
+    name: string
+    email: string
+    contact: string
+  }
+  theme: {
+    color: string
+  }
+  modal: {
+    ondismiss: () => void
+  }
+}
+
+interface RazorpayInstance {
+  open(): void
+}
+
+interface RazorpayResponse {
+  razorpay_order_id: string
+  razorpay_payment_id: string
+  razorpay_signature: string
 }
 
 interface FormData {
@@ -204,8 +236,8 @@ export default function CheckoutPage() {
         name: 'Mridang',
         description: 'Purchase from Mridang',
         image: '/logo.png',
-        handler: async (response: any) => {
-          await verifyPayment(response, orderData.orderId)
+        handler: (response: RazorpayResponse) => {
+          verifyPayment(response)
         },
         prefill: {
           name: `${formData.firstName} ${formData.lastName}`,
@@ -236,7 +268,7 @@ export default function CheckoutPage() {
     }
   }
 
-  const verifyPayment = async (razorpayResponse: any, orderId: string) => {
+  const verifyPayment = async (razorpayResponse: RazorpayResponse) => {
     try {
       const verificationData = {
         razorpay_order_id: razorpayResponse.razorpay_order_id,

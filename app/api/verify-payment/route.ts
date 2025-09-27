@@ -2,6 +2,37 @@ import { NextRequest, NextResponse } from 'next/server'
 import crypto from 'crypto'
 import mysql from 'mysql2/promise'
 
+// Type definitions
+interface CartItem {
+  id: string
+  name: string
+  price: number
+  quantity: number
+  image: string
+}
+
+interface OrderData {
+  firstName: string
+  lastName: string
+  email: string
+  phone: string
+  address: string
+  city: string
+  state: string
+  pincode: string
+  country: string
+  items: CartItem[]
+}
+
+interface PaymentVerificationRequest {
+  razorpay_order_id: string
+  razorpay_payment_id: string
+  razorpay_signature: string
+  orderData: OrderData
+}
+
+// Database connection
+
 // Database connection
 const dbConfig = {
   host: process.env.DB_HOST,
@@ -21,12 +52,13 @@ export async function POST(request: NextRequest) {
   let connection
 
   try {
+    const body = await request.json()
     const {
       razorpay_order_id,
       razorpay_payment_id,
       razorpay_signature,
       orderData
-    } = await request.json()
+    }: PaymentVerificationRequest = body
 
     // Verify payment signature
     const sign = razorpay_order_id + '|' + razorpay_payment_id
@@ -49,14 +81,14 @@ export async function POST(request: NextRequest) {
     connection = await mysql.createConnection(dbConfig)
 
     // Calculate totals
-    const subtotal = orderData.items.reduce((sum: number, item: any) =>
+    const subtotal = orderData.items.reduce((sum: number, item: CartItem) =>
       sum + (item.price * item.quantity), 0
     )
     const shippingCost = subtotal > 1000 ? 0 : 100 // Free shipping over ₹1000
     const totalAmount = subtotal + shippingCost
 
     // Prepare products JSON
-    const productsJson = JSON.stringify(orderData.items.map((item: any) => ({
+    const productsJson = JSON.stringify(orderData.items.map((item: CartItem) => ({
       id: item.id,
       name: item.name,
       price: item.price,
@@ -65,7 +97,7 @@ export async function POST(request: NextRequest) {
     })))
 
     // Insert order into database
-    const [result] = await connection.execute(
+    await connection.execute(
       `INSERT INTO checkout_orders (
         order_id, first_name, last_name, email, phone,
         address, city, state, pincode, country,

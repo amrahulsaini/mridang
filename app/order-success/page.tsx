@@ -1,6 +1,5 @@
 'use client'
 
-import { useEffect, useState } from 'react'
 import { motion } from 'framer-motion'
 import { CheckCircle, ArrowLeft } from 'lucide-react'
 import Link from 'next/link'
@@ -10,15 +9,6 @@ import styles from './OrderSuccess.module.css'
 export default function OrderSuccessPage() {
   const searchParams = useSearchParams()
   const orderId = searchParams.get('orderId')
-  const [orderDetails, setOrderDetails] = useState<any>(null)
-
-  useEffect(() => {
-    if (orderId) {
-      // In a real app, you might fetch order details from the API
-      // For now, we'll just show the order ID
-      setOrderDetails({ orderId })
-    }
-  }, [orderId])
 
   return (
     <div className={styles.container}>
