@@ -464,11 +464,11 @@
 
   .orderSummary {
     position: static;
-    order: 2;
+    order: 1;
   }
 
   .checkoutForm {
-    order: 1;
+    order: 2;
   }
 
   .summaryCard,

@@ -15,7 +15,6 @@ const Header = () => {
     { name: 'Home', href: '/', icon: Home, key: 'home' },
     { name: 'About', href: '/about', icon: Info, key: 'about' },
     { name: 'Orders', href: '/orders', icon: Package, key: 'orders' },
-    { name: 'Contact', href: '/contact', icon: Phone, key: 'contact' },
   ]
 
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen)
@@ -85,7 +84,7 @@ const Header = () => {
 
             {/* Mobile Menu Button - hidden on desktop */}
             <button
-              className="visible-mobile p-2 text-gray-700 hover:text-red-600 transition-colors"
+              className="visible-mobile p-3 text-gray-700 hover:text-red-600 transition-colors rounded-lg hover:bg-gray-100"
               onClick={toggleMenu}
               aria-label="Toggle menu"
             >
@@ -118,10 +117,10 @@ const Header = () => {
             {/* Navigation Links */}
             <div className="space-y-4 mb-6">
               {navItems.map((item) => (
-                <Link 
+                <Link
                   key={item.key}
                   href={item.href}
-                  className="flex items-center gap-3 text-gray-700 hover:text-red-600 transition-colors py-2"
+                  className="flex items-center gap-3 text-gray-700 hover:text-red-600 hover:bg-red-50 transition-all duration-200 py-3 px-4 rounded-lg no-underline"
                   onClick={() => setIsMenuOpen(false)}
                 >
                   <item.icon size={20} />
