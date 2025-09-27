@@ -16,6 +16,7 @@ import {
 } from 'lucide-react'
 import { useCart } from '@/app/context/CartContext'
 import { useNotification } from '@/app/context/NotificationContext'
+import Image from 'next/image'
 import styles from './ProductDetails.module.css'
 
 interface Product {
@@ -240,17 +241,19 @@ export default function ProductDetailsPage() {
         <div className={styles.imageGallery}>
           <div className={styles.mainImageContainer}>
             {images.map((image, index) => (
-              <img
+              <Image
                 key={index}
                 src={image}
                 alt={`${product.model_name} view ${index + 1}`}
+                width={600}
+                height={600}
                 className={`${styles.mainImage} ${index === selectedImageIndex ? styles.active : ''} ${isImageTransitioning ? styles.transitioning : ''}`}
                 style={{
                   opacity: index === selectedImageIndex ? 1 : 0,
                   zIndex: index === selectedImageIndex ? 2 : 1,
                   display: imagesLoaded.has(index) ? 'block' : 'none'
                 }}
-                loading={index === 0 ? 'eager' : 'lazy'}
+                priority={index === 0}
               />
             ))}
             {/* Loading placeholder */}
@@ -272,11 +275,12 @@ export default function ProductDetailsPage() {
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                 >
-                  <img
+                  <Image
                     src={image}
                     alt={`${product.model_name} view ${index + 1}`}
+                    width={100}
+                    height={100}
                     className={styles.thumbnailImage}
-                    loading="lazy"
                   />
                 </motion.div>
               ))}
