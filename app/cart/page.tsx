@@ -146,14 +146,9 @@ export default function CartPage() {
               <span>Free</span>
             </div>
 
-            <div className={styles.summaryRow}>
-              <span>Tax</span>
-              <span>₹{(state.totalPrice * 0.18).toFixed(0)}</span>
-            </div>
-
             <div className={`${styles.summaryRow} ${styles.totalRow}`}>
               <span>Total</span>
-              <span>₹{(state.totalPrice + state.totalPrice * 0.18).toLocaleString()}</span>
+              <span>₹{state.totalPrice.toLocaleString()}</span>
             </div>
 
             <button
