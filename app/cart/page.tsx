@@ -4,11 +4,13 @@ import { motion } from 'framer-motion'
 import { ArrowLeft, Plus, Minus, Trash2, ShoppingBag, CreditCard } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
+import { useRouter } from 'next/navigation'
 import { useCart } from '../context/CartContext'
 import styles from './Cart.module.css'
 
 export default function CartPage() {
   const { state, updateQuantity, removeItem, clearCart } = useCart()
+  const router = useRouter()
 
   const handleQuantityChange = (id: string, newQuantity: number) => {
     if (newQuantity <= 0) {
@@ -19,8 +21,8 @@ export default function CartPage() {
   }
 
   const handleBuyNow = () => {
-    // Navigate to checkout or handle purchase logic
-    alert('Buy Now functionality will be implemented!')
+    // Navigate to checkout page
+    router.push('/checkout')
   }
 
   if (state.items.length === 0) {
