@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
-import { Package, Eye, Calendar, CreditCard, MapPin, Phone, Mail, ArrowLeft } from 'lucide-react'
+import { Package, Eye, Calendar, MapPin, Phone, Mail, ArrowLeft } from 'lucide-react'
 import Link from 'next/link'
 import Image from 'next/image'
 import styles from './Orders.module.css'
@@ -150,7 +150,7 @@ export default function OrdersPage() {
         >
           <Package className={styles.emptyIcon} />
           <h2>No Orders Yet</h2>
-          <p>You haven't placed any orders yet. Start shopping to see your orders here!</p>
+          <p>You haven&apos;t placed any orders yet. Start shopping to see your orders here!</p>
           <Link href="/" className={styles.shopBtn}>
             Start Shopping
           </Link>

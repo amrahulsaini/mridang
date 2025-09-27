@@ -10,6 +10,29 @@ const dbConfig = {
   port: parseInt(process.env.DB_PORT || '3306'),
 }
 
+// Type definitions
+interface DatabaseOrderRow {
+  id: number
+  order_id: string
+  first_name: string
+  last_name: string
+  email: string
+  phone: string
+  address: string
+  city: string
+  state: string
+  pincode: string
+  country: string
+  products: string
+  subtotal: string
+  shipping_cost: string
+  total_amount: string
+  status: string
+  payment_status: string
+  created_at: Date
+  completed_at: Date | null
+}
+
 export async function GET(request: NextRequest) {
   let connection
 
@@ -56,11 +79,11 @@ export async function GET(request: NextRequest) {
       [email]
     )
 
-    const ordersData = rows as any[]
+    const ordersData = rows as DatabaseOrderRow[]
     console.log(`Found ${ordersData.length} orders for ${email}`)
 
     // Format the response
-    const orders = ordersData.map((order: any) => ({
+    const orders = ordersData.map((order: DatabaseOrderRow) => ({
       id: order.id,
       orderId: order.order_id,
       customer: {

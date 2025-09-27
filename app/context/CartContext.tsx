@@ -75,7 +75,7 @@ const loadCartFromStorage = (): CartState | null => {
     }
 
     // Remove expiration from the loaded data
-    const { expiration, ...cart } = parsed
+    const { expiration: _expiration, ...cart } = parsed
     return cart
   } catch (error) {
     console.error('Failed to load cart from localStorage:', error)
