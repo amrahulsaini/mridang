@@ -4,36 +4,6 @@ import { useRouter } from 'next/navigation'
 import Image from 'next/image'
 import styles from './AdminData.module.css'
 
-interface KeyFeature {
-  feature_id: number
-  feature_text: string
-}
-
-interface Material {
-  material_id: number
-  material_name: string
-}
-
-interface Color {
-  color_id: number
-  color_name: string
-}
-
-interface SearchKeyword {
-  keyword_id: number
-  keyword_text: string
-}
-
-interface RegionalSpeciality {
-  regional_speciality_id: number
-  regional_speciality_name: string
-}
-
-interface ArtFormType {
-  art_form_type_id: number
-  art_form_type_name: string
-}
-
 interface Product {
   id: number
   pro_id?: string
@@ -178,6 +148,26 @@ export default function AdminDataPage() {
 
   const handleEditProduct = (productId: number) => {
     router.push(`/admindata/edit/${productId}`)
+  }
+
+  const handleUpdateProduct = async (productId: number) => {
+    try {
+      const response = await fetch(`/api/admin/products/${productId}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({}) // Trigger update without changes
+      })
+
+      if (response.ok) {
+        alert('Product updated successfully!')
+        loadData() // Refresh the data
+      } else {
+        alert('Failed to update product')
+      }
+    } catch (error) {
+      console.error('Update error:', error)
+      alert('Failed to update product')
+    }
   }
 
   const handleDeleteProduct = async (productId: number) => {
@@ -410,6 +400,12 @@ export default function AdminDataPage() {
                       className={styles.editBtn}
                     >
                       ✏️ Edit
+                    </button>
+                    <button
+                      onClick={() => handleUpdateProduct(product.id)}
+                      className={styles.updateBtn}
+                    >
+                      🔄 Update
                     </button>
                     <button
                       onClick={() => handleDeleteProduct(product.id)}

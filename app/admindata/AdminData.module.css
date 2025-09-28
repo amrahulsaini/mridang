@@ -384,23 +384,28 @@
 
 .productActions {
   display: flex;
-  gap: 0.75rem;
+  gap: 0.5rem;
 }
 
-.editBtn {
+.editBtn,
+.updateBtn,
+.deleteBtn {
   flex: 1;
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 0.5rem;
   padding: 0.75rem 1rem;
-  background: linear-gradient(135deg, #3b82f6, #2563eb);
-  color: #ffffff;
   border: none;
   border-radius: 0.75rem;
   font-weight: 600;
   cursor: pointer;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.editBtn {
+  background: linear-gradient(135deg, #3b82f6, #2563eb);
+  color: #ffffff;
 }
 
 .editBtn:hover {
@@ -409,7 +414,20 @@
   box-shadow: 0 6px 20px rgba(59, 130, 246, 0.3);
 }
 
+.updateBtn {
+  background: linear-gradient(135deg, #10b981, #059669);
+  color: #ffffff;
+}
+
+.updateBtn:hover {
+  background: linear-gradient(135deg, #059669, #047857);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(16, 185, 129, 0.3);
+}
+
 .deleteBtn {
+  background: linear-gradient(135deg, #dc2626, #b91c1c);
+  color: #ffffff;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -561,6 +579,19 @@
   font-size: 0.875rem;
   font-weight: 600;
   color: #374151;
+}
+
+.helpText {
+  color: #6b7280;
+  font-size: 0.75rem;
+  font-style: italic;
+  margin-top: 0.25rem;
+}
+
+.readOnly {
+  background-color: #f9fafb !important;
+  cursor: not-allowed !important;
+  opacity: 0.7;
 }
 
 .input,

@@ -1,5 +1,5 @@
 'use client'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import { useRouter, useParams } from 'next/navigation'
 import Image from 'next/image'
 import Link from 'next/link'
@@ -126,6 +126,25 @@ export default function ProductEditPage() {
   const [regionalSpecialities, setRegionalSpecialities] = useState<RegionalSpeciality[]>([])
   const [artFormTypes, setArtFormTypes] = useState<ArtFormType[]>([])
 
+  const loadProduct = useCallback(async () => {
+    try {
+      const response = await fetch(`/api/admin/products/${productId}`)
+      if (response.ok) {
+        const productData = await response.json()
+        setFormData(productData)
+      } else {
+        alert('Product not found')
+        router.push('/admindata')
+      }
+    } catch (error) {
+      console.error('Error loading product:', error)
+      alert('Error loading product')
+      router.push('/admindata')
+    } finally {
+      setIsLoading(false)
+    }
+  }, [productId, router])
+
   useEffect(() => {
     const token = localStorage.getItem('admin_token')
     if (!token) {
@@ -150,7 +169,7 @@ export default function ProductEditPage() {
         search_keywords: []
       })
     }
-  }, [productId, isNew, router])
+  }, [productId, isNew, router, loadProduct])
 
   const loadReferenceData = async () => {
     try {
@@ -181,25 +200,6 @@ export default function ProductEditPage() {
       if (artFormTypesRes.ok) setArtFormTypes(await artFormTypesRes.json())
     } catch (error) {
       console.error('Error loading reference data:', error)
-    }
-  }
-
-  const loadProduct = async () => {
-    try {
-      const response = await fetch(`/api/admin/products/${productId}`)
-      if (response.ok) {
-        const productData = await response.json()
-        setFormData(productData)
-      } else {
-        alert('Product not found')
-        router.push('/admindata')
-      }
-    } catch (error) {
-      console.error('Error loading product:', error)
-      alert('Error loading product')
-      router.push('/admindata')
-    } finally {
-      setIsLoading(false)
     }
   }
 
@@ -289,13 +289,14 @@ export default function ProductEditPage() {
             
             <div className={styles.formRow}>
               <div className={styles.formGroup}>
-                <label className={styles.label}>Product ID</label>
+                <label className={styles.label}>Product ID (Read-only)</label>
                 <input
                   type="text"
-                  value={formData.pro_id || ''}
-                  onChange={(e) => setFormData({...formData, pro_id: e.target.value})}
-                  className={styles.input}
-                  placeholder="Auto-generated if empty"
+                  value={formData.pro_id || 'Auto-generated'}
+                  readOnly
+                  className={`${styles.input} ${styles.readOnly}`}
+                  placeholder="Auto-generated"
+                  style={{ backgroundColor: '#f5f5f5', cursor: 'not-allowed' }}
                 />
               </div>
 
@@ -1102,18 +1103,36 @@ export default function ProductEditPage() {
           {/* Key Features Section */}
           <div className={styles.formSection}>
             <h3 className={styles.sectionTitle}>⭐ Key Features</h3>
-            <div className={styles.checkboxGrid}>
-              {keyFeatures.map((feature) => (
-                <label key={feature.feature_id} className={styles.checkboxLabel}>
-                  <input
-                    type="checkbox"
-                    checked={(formData.key_features || []).includes(feature.feature_id)}
-                    onChange={(e) => handleArrayFieldChange('key_features', feature.feature_id, e.target.checked)}
-                    className={styles.checkbox}
-                  />
-                  {feature.feature_text}
-                </label>
-              ))}
+            <div className={styles.formRow}>
+              <div className={styles.formGroup} style={{ gridColumn: 'span 3' }}>
+                <label className={styles.label}>Selected Key Features</label>
+                <input
+                  type="text"
+                  value={keyFeatures
+                    .filter(feature => (formData.key_features || []).includes(feature.feature_id))
+                    .map(feature => feature.feature_text)
+                    .join(', ')}
+                  onChange={(e) => {
+                    // Parse comma-separated values and find matching feature IDs
+                    const inputFeatures = e.target.value.split(',').map(f => f.trim()).filter(f => f);
+                    const matchingIds = keyFeatures
+                      .filter(feature => inputFeatures.some(input => 
+                        feature.feature_text.toLowerCase().includes(input.toLowerCase())
+                      ))
+                      .map(feature => feature.feature_id);
+                    setFormData({...formData, key_features: matchingIds});
+                  }}
+                  className={styles.textarea}
+                  placeholder="Enter key features separated by commas (e.g., Durable, Lightweight, Easy to Clean)"
+                  style={{ minHeight: '60px' }}
+                />
+                <small className={styles.helpText}>
+                  Current features: {keyFeatures
+                    .filter(feature => (formData.key_features || []).includes(feature.feature_id))
+                    .map(feature => feature.feature_text)
+                    .join(', ') || 'None selected'}
+                </small>
+              </div>
             </div>
           </div>
 
