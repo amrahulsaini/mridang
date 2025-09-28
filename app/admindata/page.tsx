@@ -1,5 +1,7 @@
 'use client'
 import { useState, useEffect } from 'react'
+import { useRouter } from 'next/navigation'
+import Image from 'next/image'
 import styles from './AdminData.module.css'
 
 interface KeyFeature {
@@ -106,24 +108,22 @@ interface Category {
 }
 
 export default function AdminDataPage() {
+  const router = useRouter()
   const [isAuthenticated, setIsAuthenticated] = useState(false)
   const [password, setPassword] = useState('')
   const [isLoading, setIsLoading] = useState(false)
   const [activeTab, setActiveTab] = useState<'products' | 'categories'>('products')
   const [products, setProducts] = useState<Product[]>([])
   const [categories, setCategories] = useState<Category[]>([])
-  const [editingProduct, setEditingProduct] = useState<Product | null>(null)
-  const [editingCategory, setEditingCategory] = useState<Category | null>(null)
-  const [showAddProduct, setShowAddProduct] = useState(false)
-  const [showAddCategory, setShowAddCategory] = useState(false)
+  const [searchTerm, setSearchTerm] = useState('')
 
-  // Reference data state
-  const [keyFeatures, setKeyFeatures] = useState<KeyFeature[]>([])
-  const [materials, setMaterials] = useState<Material[]>([])
-  const [colors, setColors] = useState<Color[]>([])
-  const [searchKeywords, setSearchKeywords] = useState<SearchKeyword[]>([])
-  const [regionalSpecialities, setRegionalSpecialities] = useState<RegionalSpeciality[]>([])
-  const [artFormTypes, setArtFormTypes] = useState<ArtFormType[]>([])
+  useEffect(() => {
+    const token = localStorage.getItem('admin_token')
+    if (token) {
+      setIsAuthenticated(true)
+      loadData()
+    }
+  }, [])
 
   // Authentication
   const handleAuth = async (e: React.FormEvent) => {
@@ -157,24 +157,9 @@ export default function AdminDataPage() {
   // Load data
   const loadData = async () => {
     try {
-      const [
-        productsRes,
-        categoriesRes,
-        keyFeaturesRes,
-        materialsRes,
-        colorsRes,
-        searchKeywordsRes,
-        regionalSpecialitiesRes,
-        artFormTypesRes
-      ] = await Promise.all([
+      const [productsRes, categoriesRes] = await Promise.all([
         fetch('/api/admin/products'),
-        fetch('/api/admin/categories'),
-        fetch('/api/admin/key-features'),
-        fetch('/api/admin/materials'),
-        fetch('/api/admin/colors'),
-        fetch('/api/admin/search-keywords'),
-        fetch('/api/admin/regional-specialities'),
-        fetch('/api/admin/art-form-types')
+        fetch('/api/admin/categories')
       ])
 
       if (productsRes.ok) {
@@ -186,164 +171,95 @@ export default function AdminDataPage() {
         const categoriesData = await categoriesRes.json()
         setCategories(categoriesData)
       }
-
-      if (keyFeaturesRes.ok) {
-        const keyFeaturesData = await keyFeaturesRes.json()
-        setKeyFeatures(keyFeaturesData)
-      }
-
-      if (materialsRes.ok) {
-        const materialsData = await materialsRes.json()
-        setMaterials(materialsData)
-      }
-
-      if (colorsRes.ok) {
-        const colorsData = await colorsRes.json()
-        setColors(colorsData)
-      }
-
-      if (searchKeywordsRes.ok) {
-        const searchKeywordsData = await searchKeywordsRes.json()
-        setSearchKeywords(searchKeywordsData)
-      }
-
-      if (regionalSpecialitiesRes.ok) {
-        const regionalSpecialitiesData = await regionalSpecialitiesRes.json()
-        setRegionalSpecialities(regionalSpecialitiesData)
-      }
-
-      if (artFormTypesRes.ok) {
-        const artFormTypesData = await artFormTypesRes.json()
-        setArtFormTypes(artFormTypesData)
-      }
     } catch (error) {
       console.error('Error loading data:', error)
     }
   }
 
-  // Product CRUD operations
-  const handleSaveProduct = async (productData: Partial<Product>) => {
-    try {
-      const method = editingProduct ? 'PUT' : 'POST'
-      const url = '/api/admin/products'
-
-      const response = await fetch(url, {
-        method,
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(productData)
-      })
-
-      if (response.ok) {
-        loadData()
-        setEditingProduct(null)
-        setShowAddProduct(false)
-        alert('Product saved successfully')
-      } else {
-        const error = await response.json()
-        alert(error.error || 'Failed to save product')
-      }
-    } catch (error) {
-      console.error('Error saving product:', error)
-      alert('Failed to save product')
-    }
+  const handleEditProduct = (productId: number) => {
+    router.push(`/admindata/edit/${productId}`)
   }
 
   const handleDeleteProduct = async (productId: number) => {
     if (!confirm('Are you sure you want to delete this product?')) return
 
     try {
-      const response = await fetch(`/api/admin/products?id=${productId}`, {
+      const response = await fetch(`/api/admin/products/${productId}`, {
         method: 'DELETE'
       })
 
       if (response.ok) {
-        loadData()
+        setProducts(products.filter(p => p.id !== productId))
         alert('Product deleted successfully')
       } else {
-        const error = await response.json()
-        alert(error.error || 'Failed to delete product')
+        alert('Failed to delete product')
       }
     } catch (error) {
-      console.error('Error deleting product:', error)
+      console.error('Delete error:', error)
       alert('Failed to delete product')
     }
   }
 
-  // Category CRUD operations
-  const handleSaveCategory = async (categoryData: Partial<Category>) => {
-    try {
-      const method = editingCategory ? 'PUT' : 'POST'
-      const url = '/api/admin/categories'
-
-      const response = await fetch(url, {
-        method,
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(categoryData)
-      })
-
-      if (response.ok) {
-        loadData()
-        setEditingCategory(null)
-        setShowAddCategory(false)
-        alert('Category saved successfully')
-      } else {
-        const error = await response.json()
-        alert(error.error || 'Failed to save category')
-      }
-    } catch (error) {
-      console.error('Error saving category:', error)
-      alert('Failed to save category')
-    }
-  }
-
   const handleDeleteCategory = async (categoryId: number) => {
-    if (!confirm('Are you sure you want to delete this category? This will fail if it has products.')) return
+    if (!confirm('Are you sure you want to delete this category?')) return
 
     try {
-      const response = await fetch(`/api/admin/categories?id=${categoryId}`, {
+      const response = await fetch(`/api/admin/categories/${categoryId}`, {
         method: 'DELETE'
       })
 
       if (response.ok) {
-        loadData()
+        setCategories(categories.filter(c => c.category_id !== categoryId))
         alert('Category deleted successfully')
       } else {
-        const error = await response.json()
-        alert(error.error || 'Failed to delete category')
+        alert('Failed to delete category')
       }
     } catch (error) {
-      console.error('Error deleting category:', error)
+      console.error('Delete error:', error)
       alert('Failed to delete category')
     }
   }
 
-  // Check authentication on mount
-  useEffect(() => {
-    const token = localStorage.getItem('admin_token')
-    if (token) {
-      setIsAuthenticated(true)
-      loadData()
-    }
-  }, [])
+  // Filter products based on search term
+  const filteredProducts = products.filter(product => 
+    product.model_name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    product.pro_id?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    product.brand?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    product.category_name?.toLowerCase().includes(searchTerm.toLowerCase())
+  )
+
+  // Filter categories based on search term
+  const filteredCategories = categories.filter(category => 
+    category.category_name.toLowerCase().includes(searchTerm.toLowerCase())
+  )
 
   if (!isAuthenticated) {
     return (
-      <div className={styles.authContainer}>
-        <div className={styles.authCard}>
-          <h1 className={styles.authTitle}>Admin Login</h1>
-          <form onSubmit={handleAuth} className={styles.authForm}>
-            <input
-              type="password"
-              placeholder="Enter admin password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              className={styles.authInput}
-              required
-            />
-            <button type="submit" className={styles.authButton} disabled={isLoading}>
-              {isLoading ? 'Authenticating...' : 'Login'}
-            </button>
-          </form>
+      <div className={styles.container}>
+        <div className={styles.loginContainer}>
+          <div className={styles.loginCard}>
+            <h1 className={styles.loginTitle}>🔐 Admin Login</h1>
+            <form onSubmit={handleAuth} className={styles.loginForm}>
+              <div className={styles.formGroup}>
+                <label className={styles.label}>Password</label>
+                <input
+                  type="password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  className={styles.input}
+                  placeholder="Enter admin password"
+                  required
+                />
+              </div>
+              <button 
+                type="submit" 
+                disabled={isLoading}
+                className={styles.loginBtn}
+              >
+                {isLoading ? 'Authenticating...' : 'Login'}
+              </button>
+            </form>
+          </div>
         </div>
       </div>
     )
@@ -353,387 +269,203 @@ export default function AdminDataPage() {
     <div className={styles.container}>
       {/* Header */}
       <div className={styles.header}>
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center h-16">
-            <h1 className="text-xl font-semibold text-gray-900">Admin Dashboard</h1>
-            <button
-              onClick={() => {
-                localStorage.removeItem('admin_token')
-                setIsAuthenticated(false)
-              }}
-              className="text-sm text-gray-600 hover:text-gray-900"
-            >
-              Logout
-            </button>
-          </div>
-        </div>
+        <h1 className={styles.pageTitle}>🛠️ Admin Dashboard</h1>
+        <button 
+          onClick={() => {
+            localStorage.removeItem('admin_token')
+            setIsAuthenticated(false)
+          }}
+          className={styles.logoutBtn}
+        >
+          Logout
+        </button>
       </div>
 
       {/* Navigation Tabs */}
-      <div className={styles.tabs}>
+      <div className={styles.tabNavigation}>
         <button
+          className={`${styles.tab} ${activeTab === 'products' ? styles.activeTab : ''}`}
           onClick={() => setActiveTab('products')}
-          className={`${styles.tab} ${activeTab === 'products' ? styles.active : ''}`}
         >
-          Products ({products.length})
+          📦 Products ({products.length})
         </button>
         <button
+          className={`${styles.tab} ${activeTab === 'categories' ? styles.activeTab : ''}`}
           onClick={() => setActiveTab('categories')}
-          className={`${styles.tab} ${activeTab === 'categories' ? styles.active : ''}`}
         >
-          Categories ({categories.length})
+          🏷️ Categories ({categories.length})
         </button>
       </div>
 
-      {/* Content */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        {activeTab === 'products' && (
-          <div>
-            <div className="flex justify-between items-center mb-6">
-              <h2 className="text-2xl font-bold text-gray-900">Products</h2>
-              <button
-                onClick={() => setShowAddProduct(true)}
-                className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700"
-              >
-                Add Product
-              </button>
-            </div>
+      {/* Search and Actions */}
+      <div className={styles.actionBar}>
+        <div className={styles.searchContainer}>
+          <input
+            type="text"
+            placeholder={`Search ${activeTab}...`}
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            className={styles.searchInput}
+          />
+        </div>
+        <div className={styles.actionButtons}>
+          {activeTab === 'products' && (
+            <button
+              onClick={() => router.push('/admindata/edit/new')}
+              className={styles.addBtn}
+            >
+              ➕ Add Product
+            </button>
+          )}
+          {activeTab === 'categories' && (
+            <button
+              onClick={() => router.push('/admindata/categories/new')}
+              className={styles.addBtn}
+            >
+              ➕ Add Category
+            </button>
+          )}
+        </div>
+      </div>
 
-            <div className="bg-white shadow overflow-hidden sm:rounded-md">
-              <ul className="divide-y divide-gray-200">
-                {products.map((product) => (
-                  <li key={product.id}>
-                    <div className="px-4 py-4 flex items-center justify-between">
-                      <div>
-                        <p className="text-sm font-medium text-gray-900">{product.model_name}</p>
-                        <p className="text-sm text-gray-500">
-                          {product.brand} | {product.category_name} | ₹{product.original_price}
-                        </p>
-                      </div>
-                      <div className="flex space-x-2">
-                        <button
-                          onClick={() => setEditingProduct(product)}
-                          className="text-indigo-600 hover:text-indigo-900 text-sm"
-                        >
-                          Edit
-                        </button>
-                        <button
-                          onClick={() => handleDeleteProduct(product.id)}
-                          className="text-red-600 hover:text-red-900 text-sm"
-                        >
-                          Delete
-                        </button>
-                      </div>
+      {/* Content */}
+      <div className={styles.content}>
+        {activeTab === 'products' && (
+          <div className={styles.productsGrid}>
+            {filteredProducts.length === 0 ? (
+              <div className={styles.emptyState}>
+                <h3>No products found</h3>
+                <p>Start by adding your first product</p>
+                <button
+                  onClick={() => router.push('/admindata/edit/new')}
+                  className={styles.addBtn}
+                >
+                  ➕ Add Product
+                </button>
+              </div>
+            ) : (
+              filteredProducts.map((product) => (
+                <div key={product.id} className={styles.productCard}>
+                  <div className={styles.productImageContainer}>
+                    {product.main_image_url ? (
+                      <Image
+                        src={product.main_image_url}
+                        alt={product.model_name}
+                        width={120}
+                        height={120}
+                        className={styles.productImage}
+                      />
+                    ) : (
+                      <div className={styles.placeholderImage}>📷</div>
+                    )}
+                    <div className={styles.productBadge}>
+                      {product.pro_id || `ID: ${product.id}`}
                     </div>
-                  </li>
-                ))}
-              </ul>
-            </div>
+                  </div>
+                  
+                  <div className={styles.productInfo}>
+                    <h3 className={styles.productTitle}>{product.model_name}</h3>
+                    <p className={styles.productMeta}>
+                      <span className={styles.brand}>{product.brand}</span>
+                      {product.category_name && (
+                        <span className={styles.category}>{product.category_name}</span>
+                      )}
+                    </p>
+                    
+                    {product.description && (
+                      <p className={styles.productDescription}>
+                        {product.description.substring(0, 100)}
+                        {product.description.length > 100 && '...'}
+                      </p>
+                    )}
+                    
+                    <div className={styles.productPricing}>
+                      {product.cut_price && (
+                        <span className={styles.cutPrice}>₹{product.cut_price}</span>
+                      )}
+                      {product.original_price && (
+                        <span className={styles.originalPrice}>₹{product.original_price}</span>
+                      )}
+                    </div>
+                    
+                    <div className={styles.productDimensions}>
+                      {product.width_inch && (
+                        <span>W: {product.width_inch}&quot;</span>
+                      )}
+                      {product.height_inch && (
+                        <span>H: {product.height_inch}&quot;</span>
+                      )}
+                      {product.depth_inch && (
+                        <span>D: {product.depth_inch}&quot;</span>
+                      )}
+                      {product.weight_g && (
+                        <span>{product.weight_g}g</span>
+                      )}
+                    </div>
+                  </div>
+                  
+                  <div className={styles.productActions}>
+                    <button
+                      onClick={() => handleEditProduct(product.id)}
+                      className={styles.editBtn}
+                    >
+                      ✏️ Edit
+                    </button>
+                    <button
+                      onClick={() => handleDeleteProduct(product.id)}
+                      className={styles.deleteBtn}
+                    >
+                      🗑️ Delete
+                    </button>
+                  </div>
+                </div>
+              ))
+            )}
           </div>
         )}
 
         {activeTab === 'categories' && (
-          <div>
-            <div className="flex justify-between items-center mb-6">
-              <h2 className="text-2xl font-bold text-gray-900">Categories</h2>
-              <button
-                onClick={() => setShowAddCategory(true)}
-                className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700"
-              >
-                Add Category
-              </button>
-            </div>
-
-            <div className="bg-white shadow overflow-hidden sm:rounded-md">
-              <ul className="divide-y divide-gray-200">
-                {categories.map((category) => (
-                  <li key={category.category_id}>
-                    <div className="px-4 py-4 flex items-center justify-between">
-                      <div>
-                        <p className="text-sm font-medium text-gray-900">{category.category_name}</p>
-                        <p className="text-sm text-gray-500">{category.product_count} products</p>
-                      </div>
-                      <div className="flex space-x-2">
-                        <button
-                          onClick={() => setEditingCategory(category)}
-                          className="text-indigo-600 hover:text-indigo-900 text-sm"
-                        >
-                          Edit
-                        </button>
-                        <button
-                          onClick={() => handleDeleteCategory(category.category_id)}
-                          className="text-red-600 hover:text-red-900 text-sm"
-                        >
-                          Delete
-                        </button>
-                      </div>
-                    </div>
-                  </li>
-                ))}
-              </ul>
-            </div>
+          <div className={styles.categoriesGrid}>
+            {filteredCategories.length === 0 ? (
+              <div className={styles.emptyState}>
+                <h3>No categories found</h3>
+                <p>Start by adding your first category</p>
+                <button
+                  onClick={() => router.push('/admindata/categories/new')}
+                  className={styles.addBtn}
+                >
+                  ➕ Add Category
+                </button>
+              </div>
+            ) : (
+              filteredCategories.map((category) => (
+                <div key={category.category_id} className={styles.categoryCard}>
+                  <div className={styles.categoryInfo}>
+                    <h3 className={styles.categoryTitle}>{category.category_name}</h3>
+                    <p className={styles.productCount}>
+                      {category.product_count} products
+                    </p>
+                  </div>
+                  
+                  <div className={styles.categoryActions}>
+                    <button
+                      onClick={() => router.push(`/admindata/categories/edit/${category.category_id}`)}
+                      className={styles.editBtn}
+                    >
+                      ✏️ Edit
+                    </button>
+                    <button
+                      onClick={() => handleDeleteCategory(category.category_id)}
+                      className={styles.deleteBtn}
+                    >
+                      🗑️ Delete
+                    </button>
+                  </div>
+                </div>
+              ))
+            )}
           </div>
         )}
-      </div>
-
-      {/* Product Edit Modal */}
-      {(editingProduct || showAddProduct) && (
-        <ProductModal
-          product={editingProduct}
-          onSave={handleSaveProduct}
-          onClose={() => {
-            setEditingProduct(null)
-            setShowAddProduct(false)
-          }}
-          categories={categories}
-          keyFeatures={keyFeatures}
-          materials={materials}
-          colors={colors}
-          searchKeywords={searchKeywords}
-          regionalSpecialities={regionalSpecialities}
-          artFormTypes={artFormTypes}
-        />
-      )}
-
-      {/* Category Edit Modal */}
-      {(editingCategory || showAddCategory) && (
-        <CategoryModal
-          category={editingCategory}
-          onSave={handleSaveCategory}
-          onClose={() => {
-            setEditingCategory(null)
-            setShowAddCategory(false)
-          }}
-        />
-      )}
-    </div>
-  )
-}
-
-// Product Modal Component
-function ProductModal({
-  product,
-  onSave,
-  onClose,
-  categories,
-  keyFeatures,
-  materials,
-  colors,
-  searchKeywords,
-  regionalSpecialities,
-  artFormTypes
-}: {
-  product: Product | null
-  onSave: (data: Partial<Product>) => void
-  onClose: () => void
-  categories: Category[]
-  keyFeatures: KeyFeature[]
-  materials: Material[]
-  colors: Color[]
-  searchKeywords: SearchKeyword[]
-  regionalSpecialities: RegionalSpeciality[]
-  artFormTypes: ArtFormType[]
-}) {
-  const [formData, setFormData] = useState<Partial<Product>>(product || {})
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault()
-    onSave(formData)
-  }
-
-  return (
-    <div className="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full z-50">
-      <div className="relative top-4 mx-auto p-5 border w-11/12 max-w-4xl shadow-lg rounded-md bg-white max-h-[90vh] overflow-y-auto">
-        <div className="mt-3">
-          <h3 className="text-lg font-medium text-gray-900 mb-4">
-            {product ? 'Edit Product' : 'Add New Product'}
-          </h3>
-
-          <form onSubmit={handleSubmit} className="space-y-6">
-            {/* Basic Information */}
-            <div className="bg-gray-50 p-4 rounded-lg">
-              <h4 className="text-md font-medium text-gray-800 mb-3">Basic Information</h4>
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                <div>
-                  <label className="block text-sm font-medium text-gray-700">Model Name *</label>
-                  <input
-                    type="text"
-                    value={formData.model_name || ''}
-                    onChange={(e) => setFormData({...formData, model_name: e.target.value})}
-                    className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2"
-                    required
-                  />
-                </div>
-
-                <div>
-                  <label className="block text-sm font-medium text-gray-700">Brand</label>
-                  <input
-                    type="text"
-                    value={formData.brand || ''}
-                    onChange={(e) => setFormData({...formData, brand: e.target.value})}
-                    className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2"
-                  />
-                </div>
-
-                <div>
-                  <label className="block text-sm font-medium text-gray-700">Category</label>
-                  <select
-                    value={formData.category_id || ''}
-                    onChange={(e) => setFormData({...formData, category_id: parseInt(e.target.value) || undefined})}
-                    className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2"
-                  >
-                    <option value="">Select Category</option>
-                    {categories.map((cat) => (
-                      <option key={cat.category_id} value={cat.category_id}>
-                        {cat.category_name}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-              </div>
-
-              <div className="mt-4">
-                <label className="block text-sm font-medium text-gray-700">Description</label>
-                <textarea
-                  value={formData.description || ''}
-                  onChange={(e) => setFormData({...formData, description: e.target.value})}
-                  rows={3}
-                  className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2"
-                />
-              </div>
-            </div>
-
-            {/* Pricing */}
-            <div className="bg-green-50 p-4 rounded-lg">
-              <h4 className="text-md font-medium text-gray-800 mb-3">Pricing</h4>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div>
-                  <label className="block text-sm font-medium text-gray-700">Original Price</label>
-                  <input
-                    type="number"
-                    step="0.01"
-                    value={formData.original_price || ''}
-                    onChange={(e) => setFormData({...formData, original_price: parseFloat(e.target.value) || undefined})}
-                    className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2"
-                  />
-                </div>
-
-                <div>
-                  <label className="block text-sm font-medium text-gray-700">Cut Price</label>
-                  <input
-                    type="number"
-                    step="0.01"
-                    value={formData.cut_price || ''}
-                    onChange={(e) => setFormData({...formData, cut_price: parseFloat(e.target.value) || undefined})}
-                    className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2"
-                  />
-                </div>
-              </div>
-            </div>
-
-            {/* Images */}
-            <div className="bg-purple-50 p-4 rounded-lg">
-              <h4 className="text-md font-medium text-gray-800 mb-3">Images</h4>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div>
-                  <label className="block text-sm font-medium text-gray-700">Main Image URL</label>
-                  <input
-                    type="url"
-                    value={formData.main_image_url || ''}
-                    onChange={(e) => setFormData({...formData, main_image_url: e.target.value})}
-                    className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2"
-                  />
-                </div>
-
-                <div>
-                  <label className="block text-sm font-medium text-gray-700">Video URL</label>
-                  <input
-                    type="url"
-                    value={formData.video_url || ''}
-                    onChange={(e) => setFormData({...formData, video_url: e.target.value})}
-                    className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2"
-                  />
-                </div>
-              </div>
-            </div>
-
-            {/* Action Buttons */}
-            <div className="flex justify-end space-x-2 pt-4 border-t">
-              <button
-                type="button"
-                onClick={onClose}
-                className="px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 border border-gray-300 rounded-md hover:bg-gray-200"
-              >
-                Cancel
-              </button>
-              <button
-                type="submit"
-                className="px-4 py-2 text-sm font-medium text-white bg-blue-600 border border-transparent rounded-md hover:bg-blue-700"
-              >
-                {product ? 'Update' : 'Create'}
-              </button>
-            </div>
-          </form>
-        </div>
-      </div>
-    </div>
-  )
-}
-
-// Category Modal Component
-function CategoryModal({
-  category,
-  onSave,
-  onClose
-}: {
-  category: Category | null
-  onSave: (data: Partial<Category>) => void
-  onClose: () => void
-}) {
-  const [formData, setFormData] = useState<Partial<Category>>(category || {})
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault()
-    onSave(formData)
-  }
-
-  return (
-    <div className="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full z-50">
-      <div className="relative top-20 mx-auto p-5 border w-96 shadow-lg rounded-md bg-white">
-        <div className="mt-3">
-          <h3 className="text-lg font-medium text-gray-900 mb-4">
-            {category ? 'Edit Category' : 'Add Category'}
-          </h3>
-
-          <form onSubmit={handleSubmit}>
-            <div className="mb-4">
-              <label className="block text-sm font-medium text-gray-700">Category Name</label>
-              <input
-                type="text"
-                value={formData.category_name || ''}
-                onChange={(e) => setFormData({...formData, category_name: e.target.value})}
-                className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2"
-                required
-              />
-            </div>
-
-            <div className="flex justify-end space-x-3">
-              <button
-                type="button"
-                onClick={onClose}
-                className="px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 border border-gray-300 rounded-md hover:bg-gray-200"
-              >
-                Cancel
-              </button>
-              <button
-                type="submit"
-                className="px-4 py-2 text-sm font-medium text-white bg-blue-600 border border-transparent rounded-md hover:bg-blue-700"
-              >
-                {category ? 'Update' : 'Create'}
-              </button>
-            </div>
-          </form>
-        </div>
       </div>
     </div>
   )
