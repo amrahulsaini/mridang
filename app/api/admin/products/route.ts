@@ -239,7 +239,7 @@ export async function POST(request: NextRequest) {
         await connection.execute(`
           INSERT INTO product_prices (product_id, original_price, cut_price, is_active)
           VALUES (?, ?, ?, 1)
-        `, [pro_id || `PROD${productId}`, original_price || 0, cut_price || 0])
+        `, [productId, original_price || 0, cut_price || 0])
       }
 
       // Insert relationships
@@ -405,13 +405,13 @@ export async function PUT(request: NextRequest) {
         // First deactivate existing prices
         await connection.execute(`
           UPDATE product_prices SET is_active = 0 WHERE product_id = ?
-        `, [pro_id || `PROD${id}`])
+        `, [id])
 
         // Insert new active price
         await connection.execute(`
           INSERT INTO product_prices (product_id, original_price, cut_price, is_active)
           VALUES (?, ?, ?, 1)
-        `, [pro_id || `PROD${id}`, original_price || 0, cut_price || 0])
+        `, [id, original_price || 0, cut_price || 0])
       }
 
       // Update relationships - delete existing and insert new
@@ -490,11 +490,8 @@ export async function DELETE(request: NextRequest) {
       await connection.execute('DELETE FROM Product_Colors WHERE product_id = ?', [id])
       await connection.execute('DELETE FROM Product_SearchKeywords WHERE product_id = ?', [id])
 
-      // Deactivate pricing
-      const [productRows] = await connection.execute('SELECT pro_id FROM Products WHERE id = ?', [id]) as any
-      if (productRows.length > 0) {
-        await connection.execute('UPDATE product_prices SET is_active = 0 WHERE product_id = ?', [productRows[0].pro_id || `PROD${id}`])
-      }
+      // Delete pricing
+      await connection.execute('DELETE FROM product_prices WHERE product_id = ?', [id])
 
       // Delete main product
       await connection.execute('DELETE FROM Products WHERE id = ?', [id])

@@ -87,7 +87,7 @@ export async function GET(
       LEFT JOIN Categories c ON p.category_id = c.category_id
       LEFT JOIN RegionalSpecialities rs ON p.regional_speciality_id = rs.regional_speciality_id
       LEFT JOIN ArtFormTypes aft ON p.art_form_type_id = aft.art_form_type_id
-      LEFT JOIN product_prices pp ON p.pro_id = pp.product_id AND pp.is_active = 1
+      LEFT JOIN product_prices pp ON p.id = pp.product_id AND pp.is_active = 1
       WHERE p.id = ?
     `, [productId])
 
@@ -252,14 +252,14 @@ export async function PUT(
         const [updateResult] = await connection.execute(`
           UPDATE product_prices SET original_price = ?, cut_price = ? 
           WHERE product_id = ? AND is_active = 1
-        `, [original_price || 0, cut_price || 0, pro_id])
+        `, [original_price || 0, cut_price || 0, productId])
 
         // If no rows affected, insert new price
         if ((updateResult as mysql.ResultSetHeader).affectedRows === 0) {
           await connection.execute(`
             INSERT INTO product_prices (product_id, original_price, cut_price, is_active)
             VALUES (?, ?, ?, 1)
-          `, [pro_id, original_price || 0, cut_price || 0])
+          `, [productId, original_price || 0, cut_price || 0])
         }
       }
 
@@ -336,12 +336,8 @@ export async function DELETE(
       await connection.execute('DELETE FROM Product_Colors WHERE product_id = ?', [productId])
       await connection.execute('DELETE FROM Product_SearchKeywords WHERE product_id = ?', [productId])
       
-      // Get pro_id for pricing table
-      const [proIdResult] = await connection.execute('SELECT pro_id FROM Products WHERE id = ?', [productId])
-      const proIdData = proIdResult as any[]
-      if (proIdData.length > 0) {
-        await connection.execute('DELETE FROM product_prices WHERE product_id = ?', [proIdData[0].pro_id])
-      }
+      // Delete pricing
+      await connection.execute('DELETE FROM product_prices WHERE product_id = ?', [productId])
       
       // Delete main product
       await connection.execute('DELETE FROM Products WHERE id = ?', [productId])
