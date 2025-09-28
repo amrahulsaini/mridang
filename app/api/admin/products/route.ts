@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { NextRequest, NextResponse } from 'next/server'
 import { query } from '@/app/lib/database'
 import mysql from 'mysql2/promise'
@@ -5,29 +6,39 @@ import mysql from 'mysql2/promise'
 interface ProductData {
   id?: number
   pro_id?: string
-  model_name: string
-  description?: string
-  main_image_url?: string
-  other_image_url_1?: string
-  other_image_url_2?: string
-  other_image_url_3?: string
-  other_image_url_4?: string
-  video_url?: string
+  flipkart_serial_number?: string
+  catalog_qc_status?: string
+  qc_failed_reason?: string
+  flipkart_product_link?: string
+  product_data_status?: string
+  disapproval_reason?: string
+  seller_sku_id?: string
   brand?: string
   model_number?: string
   pack_of?: number
   width_inch?: number
   depth_inch?: number
-  height_inch?: number
-  diameter_inch?: number
-  weight_g?: number
-  other_dimensions?: string
+  main_image_url?: string
+  other_image_url_1?: string
+  other_image_url_2?: string
+  other_image_url_3?: string
+  other_image_url_4?: string
+  group_id?: string
+  description?: string
+  video_url?: string
+  model_name: string
   brand_color?: string
   theme?: string
   design?: string
   finish?: string
   stand_included?: boolean
   embossment?: string
+  regional_speciality_id?: number
+  height_inch?: number
+  art_form_type_id?: number
+  diameter_inch?: number
+  weight_g?: number
+  other_dimensions?: string
   dishwasher_safe?: boolean
   microwave_safe?: boolean
   cold_proof?: boolean
@@ -40,44 +51,71 @@ interface ProductData {
   warranty_service_type?: string
   covered_in_warranty?: string
   not_covered_in_warranty?: string
+  ean_upc?: string
   gift_pack?: boolean
   supplier_image?: string
   is_fragile?: boolean
   category_id?: number
-  regional_speciality_id?: number
-  art_form_type_id?: number
+  // Pricing
+  original_price?: number
+  cut_price?: number
+  // Relationships
+  key_features?: number[]
+  materials?: number[]
+  colors?: number[]
+  search_keywords?: number[]
 }
 
 // GET - Fetch all products with full details
 export async function GET() {
   try {
+    // First get all products with basic info
     const products = await query(`
       SELECT
         p.*,
         c.category_name,
         rs.regional_speciality_name,
         aft.art_form_type_name,
-        GROUP_CONCAT(DISTINCT kf.feature_text) as key_features,
-        GROUP_CONCAT(DISTINCT m.material_name) as materials,
-        GROUP_CONCAT(DISTINCT col.color_name) as colors,
         pp.original_price,
         pp.cut_price
       FROM Products p
       LEFT JOIN Categories c ON p.category_id = c.category_id
       LEFT JOIN RegionalSpecialities rs ON p.regional_speciality_id = rs.regional_speciality_id
       LEFT JOIN ArtFormTypes aft ON p.art_form_type_id = aft.art_form_type_id
-      LEFT JOIN Product_KeyFeatures pkf ON p.id = pkf.product_id
-      LEFT JOIN KeyFeatures kf ON pkf.feature_id = kf.feature_id
-      LEFT JOIN Product_Materials pm ON p.id = pm.product_id
-      LEFT JOIN Materials m ON pm.material_id = m.material_id
-      LEFT JOIN Product_Colors pc ON p.id = pc.product_id
-      LEFT JOIN Colors col ON pc.color_id = col.color_id
       LEFT JOIN product_prices pp ON p.pro_id = pp.product_id AND pp.is_active = 1
-      GROUP BY p.id
       ORDER BY p.id DESC
     `)
 
-    return NextResponse.json(products)
+    // For each product, fetch relationships
+    const productsWithRelationships = await Promise.all(
+      (products as any[]).map(async (product: any) => {
+        const keyFeatures = await query(`
+          SELECT feature_id FROM Product_KeyFeatures WHERE product_id = ?
+        `, [product.id]) as any
+
+        const materials = await query(`
+          SELECT material_id FROM Product_Materials WHERE product_id = ?
+        `, [product.id]) as any
+
+        const colors = await query(`
+          SELECT color_id FROM Product_Colors WHERE product_id = ?
+        `, [product.id]) as any
+
+        const searchKeywords = await query(`
+          SELECT keyword_id FROM Product_SearchKeywords WHERE product_id = ?
+        `, [product.id]) as any
+
+        return {
+          ...product,
+          key_features: keyFeatures.map((kf: any) => kf.feature_id),
+          materials: materials.map((m: any) => m.material_id),
+          colors: colors.map((c: any) => c.color_id),
+          search_keywords: searchKeywords.map((sk: any) => sk.keyword_id)
+        }
+      })
+    )
+
+    return NextResponse.json(productsWithRelationships)
   } catch (error) {
     console.error('Error fetching products:', error)
     return NextResponse.json(
@@ -93,29 +131,40 @@ export async function POST(request: NextRequest) {
     const productData: ProductData = await request.json()
 
     const {
-      model_name,
-      description,
-      main_image_url,
-      other_image_url_1,
-      other_image_url_2,
-      other_image_url_3,
-      other_image_url_4,
-      video_url,
+      pro_id,
+      flipkart_serial_number,
+      catalog_qc_status,
+      qc_failed_reason,
+      flipkart_product_link,
+      product_data_status,
+      disapproval_reason,
+      seller_sku_id,
       brand,
       model_number,
       pack_of,
       width_inch,
       depth_inch,
-      height_inch,
-      diameter_inch,
-      weight_g,
-      other_dimensions,
+      main_image_url,
+      other_image_url_1,
+      other_image_url_2,
+      other_image_url_3,
+      other_image_url_4,
+      group_id,
+      description,
+      video_url,
+      model_name,
       brand_color,
       theme,
       design,
       finish,
       stand_included,
       embossment,
+      regional_speciality_id,
+      height_inch,
+      art_form_type_id,
+      diameter_inch,
+      weight_g,
+      other_dimensions,
       dishwasher_safe,
       microwave_safe,
       cold_proof,
@@ -128,41 +177,105 @@ export async function POST(request: NextRequest) {
       warranty_service_type,
       covered_in_warranty,
       not_covered_in_warranty,
+      ean_upc,
       gift_pack,
       supplier_image,
       is_fragile,
       category_id,
-      regional_speciality_id,
-      art_form_type_id
+      original_price,
+      cut_price,
+      key_features,
+      materials,
+      colors,
+      search_keywords
     } = productData
 
-    const result = await query(`
-      INSERT INTO Products (
-        model_name, description, main_image_url, other_image_url_1, other_image_url_2,
-        other_image_url_3, other_image_url_4, video_url, brand, model_number, pack_of,
-        width_inch, depth_inch, height_inch, diameter_inch, weight_g, other_dimensions,
-        brand_color, theme, design, finish, stand_included, embossment, dishwasher_safe,
-        microwave_safe, cold_proof, other_features, domestic_warranty, domestic_warranty_unit,
-        international_warranty, international_warranty_unit, warranty_summary,
-        warranty_service_type, covered_in_warranty, not_covered_in_warranty, gift_pack,
-        supplier_image, is_fragile, category_id, regional_speciality_id, art_form_type_id
-      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-    `, [
-      model_name, description, main_image_url, other_image_url_1, other_image_url_2,
-      other_image_url_3, other_image_url_4, video_url, brand, model_number, pack_of,
-      width_inch, depth_inch, height_inch, diameter_inch, weight_g, other_dimensions,
-      brand_color, theme, design, finish, stand_included, embossment, dishwasher_safe,
-      microwave_safe, cold_proof, other_features, domestic_warranty, domestic_warranty_unit,
-      international_warranty, international_warranty_unit, warranty_summary,
-      warranty_service_type, covered_in_warranty, not_covered_in_warranty, gift_pack,
-      supplier_image, is_fragile, category_id, regional_speciality_id, art_form_type_id
-    ])
-
-    return NextResponse.json({
-      success: true,
-      message: 'Product created successfully',
-      productId: (result as mysql.ResultSetHeader).insertId
+    // Start transaction
+    const connection = await mysql.createConnection({
+      host: process.env.DB_HOST,
+      user: process.env.DB_USER,
+      password: process.env.DB_PASSWORD,
+      database: process.env.DB_NAME,
     })
+
+    await connection.beginTransaction()
+
+    try {
+      // Insert main product
+      const [result] = await connection.execute(`
+        INSERT INTO Products (
+          pro_id, flipkart_serial_number, catalog_qc_status, qc_failed_reason,
+          flipkart_product_link, product_data_status, disapproval_reason, seller_sku_id,
+          brand, model_number, pack_of, width_inch, depth_inch, main_image_url,
+          other_image_url_1, other_image_url_2, other_image_url_3, other_image_url_4,
+          group_id, description, video_url, model_name, brand_color, theme, design,
+          finish, stand_included, embossment, regional_speciality_id, height_inch,
+          art_form_type_id, diameter_inch, weight_g, other_dimensions, dishwasher_safe,
+          microwave_safe, cold_proof, other_features, domestic_warranty,
+          domestic_warranty_unit, international_warranty, international_warranty_unit,
+          warranty_summary, warranty_service_type, covered_in_warranty,
+          not_covered_in_warranty, ean_upc, gift_pack, supplier_image, is_fragile,
+          category_id
+        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+      `, [
+        pro_id, flipkart_serial_number, catalog_qc_status, qc_failed_reason,
+        flipkart_product_link, product_data_status, disapproval_reason, seller_sku_id,
+        brand, model_number, pack_of, width_inch, depth_inch, main_image_url,
+        other_image_url_1, other_image_url_2, other_image_url_3, other_image_url_4,
+        group_id, description, video_url, model_name, brand_color, theme, design,
+        finish, stand_included, embossment, regional_speciality_id, height_inch,
+        art_form_type_id, diameter_inch, weight_g, other_dimensions, dishwasher_safe,
+        microwave_safe, cold_proof, other_features, domestic_warranty,
+        domestic_warranty_unit, international_warranty, international_warranty_unit,
+        warranty_summary, warranty_service_type, covered_in_warranty,
+        not_covered_in_warranty, ean_upc, gift_pack, supplier_image, is_fragile,
+        category_id
+      ])
+
+      const productId = (result as mysql.ResultSetHeader).insertId
+
+      // Insert pricing if provided
+      if (original_price !== undefined || cut_price !== undefined) {
+        await connection.execute(`
+          INSERT INTO product_prices (product_id, original_price, cut_price, is_active)
+          VALUES (?, ?, ?, 1)
+        `, [pro_id || `PROD${productId}`, original_price || 0, cut_price || 0])
+      }
+
+      // Insert relationships
+      if (key_features && key_features.length > 0) {
+        const values = key_features.map((featureId: number) => `(${productId}, ${featureId})`).join(', ')
+        await connection.execute(`INSERT INTO Product_KeyFeatures (product_id, feature_id) VALUES ${values}`)
+      }
+
+      if (materials && materials.length > 0) {
+        const values = materials.map((materialId: number) => `(${productId}, ${materialId})`).join(', ')
+        await connection.execute(`INSERT INTO Product_Materials (product_id, material_id) VALUES ${values}`)
+      }
+
+      if (colors && colors.length > 0) {
+        const values = colors.map((colorId: number) => `(${productId}, ${colorId})`).join(', ')
+        await connection.execute(`INSERT INTO Product_Colors (product_id, color_id) VALUES ${values}`)
+      }
+
+      if (search_keywords && search_keywords.length > 0) {
+        const values = search_keywords.map((keywordId: number) => `(${productId}, ${keywordId})`).join(', ')
+        await connection.execute(`INSERT INTO Product_SearchKeywords (product_id, keyword_id) VALUES ${values}`)
+      }
+
+      await connection.commit()
+      await connection.end()
+
+      return NextResponse.json({
+        success: true,
+        message: 'Product created successfully',
+        productId
+      })
+    } catch (error) {
+      await connection.rollback()
+      await connection.end()
+      throw error
+    }
   } catch (error) {
     console.error('Error creating product:', error)
     return NextResponse.json(
@@ -186,29 +299,40 @@ export async function PUT(request: NextRequest) {
     }
 
     const {
-      model_name,
-      description,
-      main_image_url,
-      other_image_url_1,
-      other_image_url_2,
-      other_image_url_3,
-      other_image_url_4,
-      video_url,
+      pro_id,
+      flipkart_serial_number,
+      catalog_qc_status,
+      qc_failed_reason,
+      flipkart_product_link,
+      product_data_status,
+      disapproval_reason,
+      seller_sku_id,
       brand,
       model_number,
       pack_of,
       width_inch,
       depth_inch,
-      height_inch,
-      diameter_inch,
-      weight_g,
-      other_dimensions,
+      main_image_url,
+      other_image_url_1,
+      other_image_url_2,
+      other_image_url_3,
+      other_image_url_4,
+      group_id,
+      description,
+      video_url,
+      model_name,
       brand_color,
       theme,
       design,
       finish,
       stand_included,
       embossment,
+      regional_speciality_id,
+      height_inch,
+      art_form_type_id,
+      diameter_inch,
+      weight_g,
+      other_dimensions,
       dishwasher_safe,
       microwave_safe,
       cold_proof,
@@ -221,44 +345,112 @@ export async function PUT(request: NextRequest) {
       warranty_service_type,
       covered_in_warranty,
       not_covered_in_warranty,
+      ean_upc,
       gift_pack,
       supplier_image,
       is_fragile,
       category_id,
-      regional_speciality_id,
-      art_form_type_id
+      original_price,
+      cut_price,
+      key_features,
+      materials,
+      colors,
+      search_keywords
     } = productData
 
-    await query(`
-      UPDATE Products SET
-        model_name = ?, description = ?, main_image_url = ?, other_image_url_1 = ?,
-        other_image_url_2 = ?, other_image_url_3 = ?, other_image_url_4 = ?, video_url = ?,
-        brand = ?, model_number = ?, pack_of = ?, width_inch = ?, depth_inch = ?,
-        height_inch = ?, diameter_inch = ?, weight_g = ?, other_dimensions = ?,
-        brand_color = ?, theme = ?, design = ?, finish = ?, stand_included = ?,
-        embossment = ?, dishwasher_safe = ?, microwave_safe = ?, cold_proof = ?,
-        other_features = ?, domestic_warranty = ?, domestic_warranty_unit = ?,
-        international_warranty = ?, international_warranty_unit = ?, warranty_summary = ?,
-        warranty_service_type = ?, covered_in_warranty = ?, not_covered_in_warranty = ?,
-        gift_pack = ?, supplier_image = ?, is_fragile = ?, category_id = ?,
-        regional_speciality_id = ?, art_form_type_id = ?
-      WHERE id = ?
-    `, [
-      model_name, description, main_image_url, other_image_url_1, other_image_url_2,
-      other_image_url_3, other_image_url_4, video_url, brand, model_number, pack_of,
-      width_inch, depth_inch, height_inch, diameter_inch, weight_g, other_dimensions,
-      brand_color, theme, design, finish, stand_included, embossment, dishwasher_safe,
-      microwave_safe, cold_proof, other_features, domestic_warranty, domestic_warranty_unit,
-      international_warranty, international_warranty_unit, warranty_summary,
-      warranty_service_type, covered_in_warranty, not_covered_in_warranty, gift_pack,
-      supplier_image, is_fragile, category_id, regional_speciality_id, art_form_type_id,
-      id
-    ])
-
-    return NextResponse.json({
-      success: true,
-      message: 'Product updated successfully'
+    // Start transaction
+    const connection = await mysql.createConnection({
+      host: process.env.DB_HOST,
+      user: process.env.DB_USER,
+      password: process.env.DB_PASSWORD,
+      database: process.env.DB_NAME,
     })
+
+    await connection.beginTransaction()
+
+    try {
+      // Update main product
+      await connection.execute(`
+        UPDATE Products SET
+          pro_id = ?, flipkart_serial_number = ?, catalog_qc_status = ?, qc_failed_reason = ?,
+          flipkart_product_link = ?, product_data_status = ?, disapproval_reason = ?, seller_sku_id = ?,
+          brand = ?, model_number = ?, pack_of = ?, width_inch = ?, depth_inch = ?, main_image_url = ?,
+          other_image_url_1 = ?, other_image_url_2 = ?, other_image_url_3 = ?, other_image_url_4 = ?,
+          group_id = ?, description = ?, video_url = ?, model_name = ?, brand_color = ?, theme = ?, design = ?,
+          finish = ?, stand_included = ?, embossment = ?, regional_speciality_id = ?, height_inch = ?,
+          art_form_type_id = ?, diameter_inch = ?, weight_g = ?, other_dimensions = ?, dishwasher_safe = ?,
+          microwave_safe = ?, cold_proof = ?, other_features = ?, domestic_warranty = ?,
+          domestic_warranty_unit = ?, international_warranty = ?, international_warranty_unit = ?,
+          warranty_summary = ?, warranty_service_type = ?, covered_in_warranty = ?,
+          not_covered_in_warranty = ?, ean_upc = ?, gift_pack = ?, supplier_image = ?, is_fragile = ?,
+          category_id = ?
+        WHERE id = ?
+      `, [
+        pro_id, flipkart_serial_number, catalog_qc_status, qc_failed_reason,
+        flipkart_product_link, product_data_status, disapproval_reason, seller_sku_id,
+        brand, model_number, pack_of, width_inch, depth_inch, main_image_url,
+        other_image_url_1, other_image_url_2, other_image_url_3, other_image_url_4,
+        group_id, description, video_url, model_name, brand_color, theme, design,
+        finish, stand_included, embossment, regional_speciality_id, height_inch,
+        art_form_type_id, diameter_inch, weight_g, other_dimensions, dishwasher_safe,
+        microwave_safe, cold_proof, other_features, domestic_warranty,
+        domestic_warranty_unit, international_warranty, international_warranty_unit,
+        warranty_summary, warranty_service_type, covered_in_warranty,
+        not_covered_in_warranty, ean_upc, gift_pack, supplier_image, is_fragile,
+        category_id, id
+      ])
+
+      // Update pricing
+      if (original_price !== undefined || cut_price !== undefined) {
+        // First deactivate existing prices
+        await connection.execute(`
+          UPDATE product_prices SET is_active = 0 WHERE product_id = ?
+        `, [pro_id || `PROD${id}`])
+
+        // Insert new active price
+        await connection.execute(`
+          INSERT INTO product_prices (product_id, original_price, cut_price, is_active)
+          VALUES (?, ?, ?, 1)
+        `, [pro_id || `PROD${id}`, original_price || 0, cut_price || 0])
+      }
+
+      // Update relationships - delete existing and insert new
+      await connection.execute('DELETE FROM Product_KeyFeatures WHERE product_id = ?', [id])
+      if (key_features && key_features.length > 0) {
+        const values = key_features.map((featureId: number) => `(${id}, ${featureId})`).join(', ')
+        await connection.execute(`INSERT INTO Product_KeyFeatures (product_id, feature_id) VALUES ${values}`)
+      }
+
+      await connection.execute('DELETE FROM Product_Materials WHERE product_id = ?', [id])
+      if (materials && materials.length > 0) {
+        const values = materials.map((materialId: number) => `(${id}, ${materialId})`).join(', ')
+        await connection.execute(`INSERT INTO Product_Materials (product_id, material_id) VALUES ${values}`)
+      }
+
+      await connection.execute('DELETE FROM Product_Colors WHERE product_id = ?', [id])
+      if (colors && colors.length > 0) {
+        const values = colors.map((colorId: number) => `(${id}, ${colorId})`).join(', ')
+        await connection.execute(`INSERT INTO Product_Colors (product_id, color_id) VALUES ${values}`)
+      }
+
+      await connection.execute('DELETE FROM Product_SearchKeywords WHERE product_id = ?', [id])
+      if (search_keywords && search_keywords.length > 0) {
+        const values = search_keywords.map((keywordId: number) => `(${id}, ${keywordId})`).join(', ')
+        await connection.execute(`INSERT INTO Product_SearchKeywords (product_id, keyword_id) VALUES ${values}`)
+      }
+
+      await connection.commit()
+      await connection.end()
+
+      return NextResponse.json({
+        success: true,
+        message: 'Product updated successfully'
+      })
+    } catch (error) {
+      await connection.rollback()
+      await connection.end()
+      throw error
+    }
   } catch (error) {
     console.error('Error updating product:', error)
     return NextResponse.json(
@@ -281,12 +473,44 @@ export async function DELETE(request: NextRequest) {
       )
     }
 
-    await query('DELETE FROM Products WHERE id = ?', [id])
-
-    return NextResponse.json({
-      success: true,
-      message: 'Product deleted successfully'
+    // Start transaction
+    const connection = await mysql.createConnection({
+      host: process.env.DB_HOST,
+      user: process.env.DB_USER,
+      password: process.env.DB_PASSWORD,
+      database: process.env.DB_NAME,
     })
+
+    await connection.beginTransaction()
+
+    try {
+      // Delete relationships first
+      await connection.execute('DELETE FROM Product_KeyFeatures WHERE product_id = ?', [id])
+      await connection.execute('DELETE FROM Product_Materials WHERE product_id = ?', [id])
+      await connection.execute('DELETE FROM Product_Colors WHERE product_id = ?', [id])
+      await connection.execute('DELETE FROM Product_SearchKeywords WHERE product_id = ?', [id])
+
+      // Deactivate pricing
+      const [productRows] = await connection.execute('SELECT pro_id FROM Products WHERE id = ?', [id]) as any
+      if (productRows.length > 0) {
+        await connection.execute('UPDATE product_prices SET is_active = 0 WHERE product_id = ?', [productRows[0].pro_id || `PROD${id}`])
+      }
+
+      // Delete main product
+      await connection.execute('DELETE FROM Products WHERE id = ?', [id])
+
+      await connection.commit()
+      await connection.end()
+
+      return NextResponse.json({
+        success: true,
+        message: 'Product deleted successfully'
+      })
+    } catch (error) {
+      await connection.rollback()
+      await connection.end()
+      throw error
+    }
   } catch (error) {
     console.error('Error deleting product:', error)
     return NextResponse.json(
