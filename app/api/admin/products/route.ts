@@ -82,7 +82,7 @@ export async function GET() {
       LEFT JOIN Categories c ON p.category_id = c.category_id
       LEFT JOIN RegionalSpecialities rs ON p.regional_speciality_id = rs.regional_speciality_id
       LEFT JOIN ArtFormTypes aft ON p.art_form_type_id = aft.art_form_type_id
-      LEFT JOIN product_prices pp ON p.pro_id = pp.product_id AND pp.is_active = 1
+  LEFT JOIN product_prices pp ON p.id = pp.product_id AND pp.is_active = 1
       ORDER BY p.id DESC
     `)
 
