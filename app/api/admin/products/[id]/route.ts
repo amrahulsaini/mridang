@@ -144,6 +144,8 @@ export async function PUT(
     const { id: productId } = await params
     const productData: ProductData = await request.json()
 
+    console.log('Updating product:', productId, 'with data:', JSON.stringify(productData, null, 2))
+
     const {
       pro_id,
       flipkart_serial_number,
@@ -271,8 +273,15 @@ export async function PUT(
 
       // Insert new relationships
       if (key_features && key_features.length > 0) {
-        const values = key_features.map((featureId: number) => `(${productId}, ${featureId})`).join(', ')
-        await connection.execute(`INSERT INTO Product_KeyFeatures (product_id, feature_id) VALUES ${values}`)
+        // Validate that all key_features are valid numbers
+        const validFeatures = key_features.filter(id => Number.isInteger(id) && id > 0)
+        if (validFeatures.length > 0) {
+          const values = validFeatures.map((featureId: number) => `(${productId}, ${featureId})`).join(', ')
+          await connection.execute(`INSERT INTO Product_KeyFeatures (product_id, feature_id) VALUES ${values}`)
+          console.log(`Inserted ${validFeatures.length} key features`)
+        } else {
+          console.warn('No valid key features provided')
+        }
       }
 
       if (materials && materials.length > 0) {
@@ -300,12 +309,33 @@ export async function PUT(
     } catch (error) {
       await connection.rollback()
       await connection.end()
+      console.error('Transaction error:', error)
       throw error
     }
   } catch (error) {
     console.error('Error updating product:', error)
+    
+    // Return detailed error information
+    let errorMessage = 'Failed to update product'
+    let errorDetails = ''
+    
+    if (error instanceof Error) {
+      errorMessage = error.message
+      if (error.message.includes('foreign key constraint')) {
+        errorDetails = 'Invalid relationship data provided'
+      } else if (error.message.includes('duplicate entry')) {
+        errorDetails = 'Duplicate value found'
+      } else if (error.message.includes('cannot be null')) {
+        errorDetails = 'Required field is missing'
+      }
+    }
+    
     return NextResponse.json(
-      { error: 'Failed to update product' },
+      { 
+        error: errorMessage,
+        details: errorDetails,
+        fullError: error instanceof Error ? error.message : String(error)
+      },
       { status: 500 }
     )
   }

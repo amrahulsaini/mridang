@@ -208,13 +208,44 @@ export default function ProductEditPage() {
     setIsSaving(true)
 
     try {
+      // Validate required fields
+      if (!formData.model_name?.trim()) {
+        alert('Model name is required');
+        setIsSaving(false);
+        return;
+      }
+
+      // Validate key features are valid numbers
+      const validKeyFeatures = (formData.key_features || []).filter(id => Number.isInteger(id) && id > 0);
+      
+      const saveData = {
+        ...formData,
+        key_features: validKeyFeatures,
+        // Ensure numeric fields are properly formatted
+        pack_of: formData.pack_of ? parseInt(String(formData.pack_of)) : null,
+        width_inch: formData.width_inch ? parseFloat(String(formData.width_inch)) : null,
+        depth_inch: formData.depth_inch ? parseFloat(String(formData.depth_inch)) : null,
+        height_inch: formData.height_inch ? parseFloat(String(formData.height_inch)) : null,
+        diameter_inch: formData.diameter_inch ? parseFloat(String(formData.diameter_inch)) : null,
+        weight_g: formData.weight_g ? parseFloat(String(formData.weight_g)) : null,
+        original_price: formData.original_price ? parseFloat(String(formData.original_price)) : null,
+        cut_price: formData.cut_price ? parseFloat(String(formData.cut_price)) : null,
+        domestic_warranty: formData.domestic_warranty ? parseInt(String(formData.domestic_warranty)) : null,
+        international_warranty: formData.international_warranty ? parseInt(String(formData.international_warranty)) : null,
+        regional_speciality_id: formData.regional_speciality_id ? parseInt(String(formData.regional_speciality_id)) : null,
+        art_form_type_id: formData.art_form_type_id ? parseInt(String(formData.art_form_type_id)) : null,
+        category_id: formData.category_id ? parseInt(String(formData.category_id)) : null,
+      };
+
+      console.log('Sending save data:', saveData);
+
       const method = isNew ? 'POST' : 'PUT'
       const url = isNew ? '/api/admin/products' : `/api/admin/products/${productId}`
 
       const response = await fetch(url, {
         method,
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formData)
+        body: JSON.stringify(saveData)
       })
 
       if (response.ok) {
@@ -222,11 +253,12 @@ export default function ProductEditPage() {
         router.push('/admindata')
       } else {
         const error = await response.json()
-        alert(error.error || 'Failed to save product')
+        console.error('Save failed:', error);
+        alert(`Failed to save product: ${error.details || error.error || 'Unknown error'}`)
       }
     } catch (error) {
       console.error('Error saving product:', error)
-      alert('Failed to save product')
+      alert('Failed to save product. Please check console for details.')
     } finally {
       setIsSaving(false)
     }
@@ -1105,32 +1137,24 @@ export default function ProductEditPage() {
             <h3 className={styles.sectionTitle}>⭐ Key Features</h3>
             <div className={styles.formRow}>
               <div className={styles.formGroup} style={{ gridColumn: 'span 3' }}>
-                <label className={styles.label}>Selected Key Features</label>
+                <label className={styles.label}>Key Features (Feature IDs)</label>
                 <input
                   type="text"
-                  value={keyFeatures
-                    .filter(feature => (formData.key_features || []).includes(feature.feature_id))
-                    .map(feature => feature.feature_text)
-                    .join(', ')}
+                  value={(formData.key_features || []).join(', ')}
                   onChange={(e) => {
-                    // Parse comma-separated values and find matching feature IDs
-                    const inputFeatures = e.target.value.split(',').map(f => f.trim()).filter(f => f);
-                    const matchingIds = keyFeatures
-                      .filter(feature => inputFeatures.some(input => 
-                        feature.feature_text.toLowerCase().includes(input.toLowerCase())
-                      ))
-                      .map(feature => feature.feature_id);
-                    setFormData({...formData, key_features: matchingIds});
+                    // Parse comma-separated numbers
+                    const ids = e.target.value
+                      .split(',')
+                      .map(id => parseInt(id.trim()))
+                      .filter(id => !isNaN(id));
+                    setFormData({...formData, key_features: ids});
                   }}
                   className={styles.textarea}
-                  placeholder="Enter key features separated by commas (e.g., Durable, Lightweight, Easy to Clean)"
+                  placeholder="Enter feature IDs separated by commas (e.g., 1, 3, 5)"
                   style={{ minHeight: '60px' }}
                 />
                 <small className={styles.helpText}>
-                  Current features: {keyFeatures
-                    .filter(feature => (formData.key_features || []).includes(feature.feature_id))
-                    .map(feature => feature.feature_text)
-                    .join(', ') || 'None selected'}
+                  Available features: {keyFeatures.map(f => `${f.feature_id}: ${f.feature_text}`).join(', ')}
                 </small>
               </div>
             </div>
