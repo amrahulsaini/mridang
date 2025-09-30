@@ -57,7 +57,7 @@ export async function getAllProducts(): Promise<Product[]> {
         NOW() as updated_at
       FROM Products p
       LEFT JOIN Categories c ON p.category_id = c.category_id
-      LEFT JOIN product_prices pp ON p.pro_id = pp.product_id AND pp.is_active = 1
+      LEFT JOIN product_prices pp ON p.id = pp.product_id AND pp.is_active = 1
       WHERE p.pro_id IS NOT NULL
       ORDER BY p.id DESC
     `);
@@ -91,7 +91,7 @@ export async function getProductsByCategory(categoryName: string): Promise<Produ
         NOW() as updated_at
       FROM Products p
       LEFT JOIN Categories c ON p.category_id = c.category_id
-      LEFT JOIN product_prices pp ON p.pro_id = pp.product_id AND pp.is_active = 1
+      LEFT JOIN product_prices pp ON p.id = pp.product_id AND pp.is_active = 1
       WHERE c.category_name = ? AND p.pro_id IS NOT NULL
       ORDER BY p.id DESC
     `, [categoryName]);
