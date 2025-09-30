@@ -303,7 +303,7 @@ export default function EditCategoryPage() {
             type="button"
             onClick={handleDelete}
             className={styles.deleteBtn}
-            disabled={formData.product_count && formData.product_count > 0}
+            disabled={Boolean(formData.product_count && formData.product_count > 0)}
           >
             🗑️ Delete Category
           </button>

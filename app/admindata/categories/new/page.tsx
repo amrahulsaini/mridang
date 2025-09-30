@@ -1,5 +1,5 @@
 'use client'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import styles from '../../AdminData.module.css'
@@ -27,13 +27,15 @@ export default function NewCategoryPage() {
   })
 
   // Check authentication
-  useState(() => {
-    const token = localStorage.getItem('admin_token')
-    if (!token) {
-      router.push('/admindata')
-      return
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const token = localStorage.getItem('admin_token')
+      if (!token) {
+        router.push('/admindata')
+        return
+      }
     }
-  })
+  }, [router])
 
   const handleSave = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -61,7 +63,6 @@ export default function NewCategoryPage() {
       })
 
       if (response.ok) {
-        const result = await response.json()
         setDialog({
           isOpen: true,
           type: 'success',
@@ -152,7 +153,7 @@ export default function NewCategoryPage() {
                 <div className={styles.infoBox}>
                   <h4 style={{ margin: '0 0 1rem 0', color: '#800020' }}>📋 Category Naming Guidelines</h4>
                   <ul style={{ margin: 0, paddingLeft: '1.5rem', color: '#6b7280' }}>
-                    <li>Use clear, descriptive names (e.g., "Engagement Rings", not "Type1")</li>
+                    <li>Use clear, descriptive names (e.g., &quot;Engagement Rings&quot;, not &quot;Type1&quot;)</li>
                     <li>Keep names concise but meaningful</li>
                     <li>Use proper capitalization (Title Case)</li>
                     <li>Avoid special characters and numbers unless necessary</li>

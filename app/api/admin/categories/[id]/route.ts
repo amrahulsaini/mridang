@@ -4,6 +4,11 @@ import { query } from '@/app/lib/database'
 interface CategoryData {
   category_id?: number
   category_name: string
+  product_count?: number
+}
+
+interface ProductCountResult {
+  count: number
 }
 
 // GET - Fetch single category
@@ -24,14 +29,14 @@ export async function GET(
       GROUP BY c.category_id, c.category_name
     `, [categoryId])
 
-    if (!categories || (categories as any[]).length === 0) {
+    if (!categories || (categories as CategoryData[]).length === 0) {
       return NextResponse.json(
         { error: 'Category not found' },
         { status: 404 }
       )
     }
 
-    return NextResponse.json((categories as any[])[0])
+    return NextResponse.json((categories as CategoryData[])[0])
   } catch (error) {
     console.error('Error fetching category:', error)
     return NextResponse.json(
@@ -90,7 +95,7 @@ export async function DELETE(
       SELECT COUNT(*) as count FROM Products WHERE category_id = ?
     `, [categoryId])
 
-    if ((products as any[])[0].count > 0) {
+    if ((products as ProductCountResult[])[0].count > 0) {
       return NextResponse.json(
         { error: 'Cannot delete category with existing products' },
         { status: 400 }
