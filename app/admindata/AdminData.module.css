@@ -960,3 +960,210 @@
     max-height: calc(100vh - 1rem);
   }
 }
+
+/* Section Update Button Styles */
+.sectionUpdateButton {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid rgba(128, 0, 32, 0.1);
+}
+
+.updateSectionBtn {
+  background: linear-gradient(135deg, #800020, #a0002a);
+  color: white;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 0.75rem;
+  font-weight: 600;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(128, 0, 32, 0.2);
+}
+
+.updateSectionBtn:hover {
+  background: linear-gradient(135deg, #a0002a, #c00030);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(128, 0, 32, 0.3);
+}
+
+.updateSectionBtn:disabled {
+  background: #ccc;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+/* Custom Dialog Styles */
+.dialogOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(8px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.dialogBox {
+  background: white;
+  border-radius: 1.5rem;
+  padding: 0;
+  box-shadow: 0 25px 80px rgba(0, 0, 0, 0.3);
+  max-width: 480px;
+  width: 90%;
+  animation: slideUp 0.4s ease;
+  overflow: hidden;
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.dialogHeader {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 2rem 2rem 1rem 2rem;
+}
+
+.dialogIcon {
+  width: 3rem;
+  height: 3rem;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.success .dialogIcon {
+  background: linear-gradient(135deg, #10b981, #059669);
+  color: white;
+}
+
+.error .dialogIcon {
+  background: linear-gradient(135deg, #ef4444, #dc2626);
+  color: white;
+}
+
+.confirm .dialogIcon {
+  background: linear-gradient(135deg, #f59e0b, #d97706);
+  color: white;
+}
+
+.successIcon,
+.errorIcon,
+.confirmIcon {
+  width: 1.5rem;
+  height: 1.5rem;
+  stroke-width: 2.5;
+}
+
+.dialogTitle {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #1f2937;
+  margin: 0;
+}
+
+.success .dialogTitle {
+  color: #059669;
+}
+
+.error .dialogTitle {
+  color: #dc2626;
+}
+
+.confirm .dialogTitle {
+  color: #d97706;
+}
+
+.dialogContent {
+  padding: 0 2rem 2rem 2rem;
+}
+
+.dialogMessage {
+  font-size: 1rem;
+  color: #6b7280;
+  line-height: 1.6;
+  margin: 0;
+}
+
+.dialogActions {
+  display: flex;
+  gap: 1rem;
+  padding: 1.5rem 2rem 2rem 2rem;
+  justify-content: flex-end;
+  background: #f9fafb;
+  border-top: 1px solid #e5e7eb;
+}
+
+.dialogOkBtn {
+  background: linear-gradient(135deg, #800020, #a0002a);
+  color: white;
+  border: none;
+  padding: 0.75rem 2rem;
+  border-radius: 0.75rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  min-width: 100px;
+}
+
+.dialogOkBtn:hover {
+  background: linear-gradient(135deg, #a0002a, #c00030);
+  transform: translateY(-1px);
+}
+
+.dialogConfirmBtn {
+  background: linear-gradient(135deg, #059669, #047857);
+  color: white;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 0.75rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.dialogConfirmBtn:hover {
+  background: linear-gradient(135deg, #047857, #065f46);
+  transform: translateY(-1px);
+}
+
+.dialogCancelBtn {
+  background: #f3f4f6;
+  color: #6b7280;
+  border: 1px solid #d1d5db;
+  padding: 0.75rem 1.5rem;
+  border-radius: 0.75rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.dialogCancelBtn:hover {
+  background: #e5e7eb;
+  color: #374151;
+  transform: translateY(-1px);
+}

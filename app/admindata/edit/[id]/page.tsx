@@ -117,6 +117,21 @@ export default function ProductEditPage() {
   const [isLoading, setIsLoading] = useState(!isNew)
   const [isSaving, setIsSaving] = useState(false)
 
+  // Dialog state
+  const [dialog, setDialog] = useState<{
+    isOpen: boolean
+    type: 'success' | 'error' | 'confirm'
+    title: string
+    message: string
+    onConfirm?: () => void
+    onCancel?: () => void
+  }>({
+    isOpen: false,
+    type: 'success',
+    title: '',
+    message: ''
+  })
+
   // Reference data
   const [categories, setCategories] = useState<Category[]>([])
   const [keyFeatures, setKeyFeatures] = useState<KeyFeature[]>([])
@@ -133,13 +148,29 @@ export default function ProductEditPage() {
         const productData = await response.json()
         setFormData(productData)
       } else {
-        alert('Product not found')
-        router.push('/admindata')
+        setDialog({
+          isOpen: true,
+          type: 'error',
+          title: 'Product Not Found',
+          message: 'The requested product could not be found.',
+          onConfirm: () => {
+            setDialog(prev => ({ ...prev, isOpen: false }));
+            router.push('/admindata');
+          }
+        });
       }
     } catch (error) {
       console.error('Error loading product:', error)
-      alert('Error loading product')
-      router.push('/admindata')
+      setDialog({
+        isOpen: true,
+        type: 'error',
+        title: 'Loading Error',
+        message: 'An error occurred while loading the product.',
+        onConfirm: () => {
+          setDialog(prev => ({ ...prev, isOpen: false }));
+          router.push('/admindata');
+        }
+      });
     } finally {
       setIsLoading(false)
     }
@@ -210,7 +241,12 @@ export default function ProductEditPage() {
     try {
       // Validate required fields
       if (!formData.model_name?.trim()) {
-        alert('Model name is required');
+        setDialog({
+          isOpen: true,
+          type: 'error',
+          title: 'Validation Error',
+          message: 'Model name is required'
+        });
         setIsSaving(false);
         return;
       }
@@ -249,16 +285,34 @@ export default function ProductEditPage() {
       })
 
       if (response.ok) {
-        alert('Product saved successfully!')
-        router.push('/admindata')
+        setDialog({
+          isOpen: true,
+          type: 'success',
+          title: 'Success!',
+          message: 'Product saved successfully!',
+          onConfirm: () => {
+            setDialog(prev => ({ ...prev, isOpen: false }));
+            router.push('/admindata');
+          }
+        });
       } else {
         const error = await response.json()
         console.error('Save failed:', error);
-        alert(`Failed to save product: ${error.details || error.error || 'Unknown error'}`)
+        setDialog({
+          isOpen: true,
+          type: 'error',
+          title: 'Save Failed',
+          message: `Failed to save product: ${error.details || error.error || 'Unknown error'}`
+        });
       }
     } catch (error) {
       console.error('Error saving product:', error)
-      alert('Failed to save product. Please check console for details.')
+      setDialog({
+        isOpen: true,
+        type: 'error',
+        title: 'Error',
+        message: 'Failed to save product. Please check console for details.'
+      });
     } finally {
       setIsSaving(false)
     }
@@ -436,6 +490,18 @@ export default function ProductEditPage() {
                   placeholder="Enter product description..."
                 />
               </div>
+            </div>
+
+            {/* Section Update Button */}
+            <div className={styles.sectionUpdateButton}>
+              <button
+                type="button"
+                onClick={handleSave}
+                disabled={isSaving}
+                className={styles.updateSectionBtn}
+              >
+                {isSaving ? 'Updating...' : 'Update Basic Info'}
+              </button>
             </div>
           </div>
 
@@ -741,6 +807,18 @@ export default function ProductEditPage() {
                   className={styles.input}
                 />
               </div>
+            </div>
+
+            {/* Section Update Button */}
+            <div className={styles.sectionUpdateButton}>
+              <button
+                type="button"
+                onClick={handleSave}
+                disabled={isSaving}
+                className={styles.updateSectionBtn}
+              >
+                {isSaving ? 'Updating...' : 'Update Pricing'}
+              </button>
             </div>
           </div>
 
@@ -1137,26 +1215,43 @@ export default function ProductEditPage() {
             <h3 className={styles.sectionTitle}>⭐ Key Features</h3>
             <div className={styles.formRow}>
               <div className={styles.formGroup} style={{ gridColumn: 'span 3' }}>
-                <label className={styles.label}>Key Features (Feature IDs)</label>
-                <input
-                  type="text"
-                  value={(formData.key_features || []).join(', ')}
+                <label className={styles.label}>Key Features</label>
+                <textarea
+                  value={keyFeatures
+                    .filter(feature => (formData.key_features || []).includes(feature.feature_id))
+                    .map(feature => feature.feature_text)
+                    .join(', ')}
                   onChange={(e) => {
-                    // Parse comma-separated numbers
-                    const ids = e.target.value
-                      .split(',')
-                      .map(id => parseInt(id.trim()))
-                      .filter(id => !isNaN(id));
-                    setFormData({...formData, key_features: ids});
+                    // Parse comma-separated feature names and match them to IDs
+                    const inputTexts = e.target.value.split(',').map(text => text.trim()).filter(text => text);
+                    const matchingIds = keyFeatures
+                      .filter(feature => inputTexts.some(inputText => 
+                        feature.feature_text.toLowerCase().includes(inputText.toLowerCase()) ||
+                        inputText.toLowerCase().includes(feature.feature_text.toLowerCase())
+                      ))
+                      .map(feature => feature.feature_id);
+                    setFormData({...formData, key_features: matchingIds});
                   }}
                   className={styles.textarea}
-                  placeholder="Enter feature IDs separated by commas (e.g., 1, 3, 5)"
-                  style={{ minHeight: '60px' }}
+                  placeholder="Enter feature names separated by commas (e.g., Durable, Lightweight, Easy to Clean)"
+                  rows={3}
                 />
                 <small className={styles.helpText}>
-                  Available features: {keyFeatures.map(f => `${f.feature_id}: ${f.feature_text}`).join(', ')}
+                  Available features: {keyFeatures.map(f => f.feature_text).join(', ')}
                 </small>
               </div>
+            </div>
+
+            {/* Section Update Button */}
+            <div className={styles.sectionUpdateButton}>
+              <button
+                type="button"
+                onClick={handleSave}
+                disabled={isSaving}
+                className={styles.updateSectionBtn}
+              >
+                {isSaving ? 'Updating...' : 'Update Key Features'}
+              </button>
             </div>
           </div>
 
@@ -1201,6 +1296,73 @@ export default function ProductEditPage() {
           </button>
         </div>
       </form>
+
+      {/* Custom Dialog */}
+      {dialog.isOpen && (
+        <div className={styles.dialogOverlay}>
+          <div className={`${styles.dialogBox} ${styles[dialog.type]}`}>
+            <div className={styles.dialogHeader}>
+              <div className={styles.dialogIcon}>
+                {dialog.type === 'success' && (
+                  <svg className={styles.successIcon} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                  </svg>
+                )}
+                {dialog.type === 'error' && (
+                  <svg className={styles.errorIcon} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                  </svg>
+                )}
+                {dialog.type === 'confirm' && (
+                  <svg className={styles.confirmIcon} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                  </svg>
+                )}
+              </div>
+              <h3 className={styles.dialogTitle}>{dialog.title}</h3>
+            </div>
+            
+            <div className={styles.dialogContent}>
+              <p className={styles.dialogMessage}>{dialog.message}</p>
+            </div>
+            
+            <div className={styles.dialogActions}>
+              {dialog.type === 'confirm' ? (
+                <>
+                  <button 
+                    onClick={() => {
+                      dialog.onCancel?.();
+                      setDialog(prev => ({ ...prev, isOpen: false }));
+                    }}
+                    className={styles.dialogCancelBtn}
+                  >
+                    Cancel
+                  </button>
+                  <button 
+                    onClick={() => {
+                      dialog.onConfirm?.();
+                      setDialog(prev => ({ ...prev, isOpen: false }));
+                    }}
+                    className={styles.dialogConfirmBtn}
+                  >
+                    Confirm
+                  </button>
+                </>
+              ) : (
+                <button 
+                  onClick={() => {
+                    dialog.onConfirm?.();
+                    setDialog(prev => ({ ...prev, isOpen: false }));
+                  }}
+                  className={styles.dialogOkBtn}
+                >
+                  OK
+                </button>
+              )}
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   )
 }
