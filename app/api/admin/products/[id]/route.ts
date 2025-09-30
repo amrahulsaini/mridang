@@ -208,10 +208,10 @@ export async function PUT(
 
     // Start transaction
     const connection = await mysql.createConnection({
-      host: process.env.DB_HOST,
-      user: process.env.DB_USER,
-      password: process.env.DB_PASSWORD,
-      database: process.env.DB_NAME,
+      host: process.env.DB_HOST || 'localhost',
+      user: process.env.DB_USER || 'mrid_mridang',
+      password: process.env.DB_PASS || 'mridang',
+      database: process.env.DB_NAME || 'mrid_mridang',
     })
 
     await connection.beginTransaction()
@@ -351,10 +351,10 @@ export async function DELETE(
 
     // Start transaction
     const connection = await mysql.createConnection({
-      host: process.env.DB_HOST,
-      user: process.env.DB_USER,
-      password: process.env.DB_PASSWORD,
-      database: process.env.DB_NAME,
+      host: process.env.DB_HOST || 'localhost',
+      user: process.env.DB_USER || 'mrid_mridang',
+      password: process.env.DB_PASS || 'mridang',
+      database: process.env.DB_NAME || 'mrid_mridang',
     })
 
     await connection.beginTransaction()
