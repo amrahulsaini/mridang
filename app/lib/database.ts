@@ -144,6 +144,7 @@ export async function getCategoriesWithProducts() {
 // Get products grouped by category (only categories with products)
 export async function getProductsGroupedByCategory() {
   try {
+    // Ensure we're getting fresh data
     const categories = await getCategoriesWithProducts();
     const result: { category: string; products: Product[] }[] = [];
     
