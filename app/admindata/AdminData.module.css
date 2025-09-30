@@ -1167,3 +1167,27 @@
   color: #374151;
   transform: translateY(-1px);
 }
+
+/* Info Box Styles */
+.infoBox {
+  background: linear-gradient(135deg, #fef7f7, #faf7f0);
+  border: 1px solid rgba(128, 0, 32, 0.2);
+  border-radius: 1rem;
+  padding: 1.5rem;
+  margin-top: 1rem;
+}
+
+.infoBox h4 {
+  font-weight: 600;
+  color: #800020;
+  margin-bottom: 1rem;
+}
+
+.infoBox ul {
+  color: #6b7280;
+  line-height: 1.6;
+}
+
+.infoBox li {
+  margin-bottom: 0.5rem;
+}
