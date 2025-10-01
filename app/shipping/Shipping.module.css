@@ -1,0 +1,498 @@
+/* Shipping.module.css */
+.container {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #fef7f7 0%, #faf7f0 50%, #fef7f7 100%);
+  font-family: 'Sora', sans-serif;
+}
+
+/* Hero Section */
+.hero {
+  background: linear-gradient(135deg, rgba(128, 0, 32, 0.9), rgba(160, 0, 42, 0.9)),
+              url('/api/placeholder/1920/600') center/cover;
+  position: relative;
+  overflow: hidden;
+  padding: 8rem 0 6rem;
+}
+
+.hero::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.3);
+}
+
+.heroContent {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 2rem;
+  position: relative;
+  z-index: 2;
+}
+
+.heroText {
+  text-align: center;
+  color: white;
+}
+
+.heroText h1 {
+  font-size: 3.5rem;
+  font-weight: 800;
+  margin-bottom: 1.5rem;
+  background: linear-gradient(135deg, #ffffff, #f8f9fa);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.heroText p {
+  font-size: 1.25rem;
+  opacity: 0.9;
+  max-width: 600px;
+  margin: 0 auto;
+  line-height: 1.6;
+}
+
+/* Section Headers */
+.sectionHeader {
+  text-align: center;
+  margin-bottom: 4rem;
+}
+
+.sectionHeader h2 {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: #1f2937;
+  margin-bottom: 1rem;
+}
+
+.sectionHeader p {
+  font-size: 1.1rem;
+  color: #6b7280;
+  max-width: 600px;
+  margin: 0 auto;
+  line-height: 1.6;
+}
+
+/* Shipping Options */
+.shippingOptions {
+  padding: 5rem 0;
+  background: white;
+}
+
+.optionsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  gap: 2rem;
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 2rem;
+}
+
+.optionCard {
+  background: linear-gradient(135deg, #ffffff, #faf7f0);
+  border: 1px solid rgba(128, 0, 32, 0.1);
+  border-radius: 1.5rem;
+  padding: 2.5rem;
+  text-align: center;
+  box-shadow: 0 10px 30px rgba(128, 0, 32, 0.1);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.optionCard::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(135deg, #800020, #a0002a);
+}
+
+.optionCard:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 20px 40px rgba(128, 0, 32, 0.15);
+}
+
+.optionIcon {
+  width: 70px;
+  height: 70px;
+  background: linear-gradient(135deg, #800020, #a0002a);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 1.5rem;
+  color: white;
+  box-shadow: 0 8px 25px rgba(128, 0, 32, 0.3);
+}
+
+.optionCard h3 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #1f2937;
+  margin-bottom: 1rem;
+}
+
+.optionMeta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+  padding: 0 1rem;
+}
+
+.time {
+  background: rgba(128, 0, 32, 0.1);
+  color: #800020;
+  padding: 0.5rem 1rem;
+  border-radius: 2rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.cost {
+  background: linear-gradient(135deg, #800020, #a0002a);
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 2rem;
+  font-size: 0.9rem;
+  font-weight: 700;
+}
+
+.description {
+  color: #6b7280;
+  line-height: 1.6;
+  margin-bottom: 1.5rem;
+}
+
+.features {
+  list-style: none;
+  padding: 0;
+  text-align: left;
+}
+
+.features li {
+  color: #374151;
+  margin-bottom: 0.5rem;
+  padding-left: 1.5rem;
+  position: relative;
+  font-size: 0.9rem;
+}
+
+.features li::before {
+  content: '✓';
+  color: #10b981;
+  font-weight: bold;
+  position: absolute;
+  left: 0;
+}
+
+/* Shipping Info */
+.shippingInfo {
+  padding: 5rem 0;
+  background: linear-gradient(135deg, #faf7f0, #fef7f7);
+}
+
+.infoGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 2rem;
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 2rem;
+}
+
+.infoCard {
+  background: white;
+  border-radius: 1rem;
+  padding: 2rem;
+  text-align: center;
+  box-shadow: 0 8px 25px rgba(128, 0, 32, 0.1);
+  transition: all 0.3s ease;
+}
+
+.infoCard:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 35px rgba(128, 0, 32, 0.15);
+}
+
+.infoIcon {
+  width: 50px;
+  height: 50px;
+  background: linear-gradient(135deg, #800020, #a0002a);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 1rem;
+  color: white;
+}
+
+.infoCard h3 {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #1f2937;
+  margin-bottom: 1rem;
+}
+
+.infoCard p {
+  color: #6b7280;
+  line-height: 1.6;
+}
+
+/* Process Section */
+.processSection {
+  padding: 5rem 0;
+  background: white;
+}
+
+.processSteps {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 2rem;
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 2rem;
+}
+
+.processStep {
+  background: linear-gradient(135deg, #ffffff, #faf7f0);
+  border-radius: 1rem;
+  padding: 2rem;
+  text-align: center;
+  box-shadow: 0 8px 25px rgba(128, 0, 32, 0.1);
+  position: relative;
+}
+
+.stepNumber {
+  width: 50px;
+  height: 50px;
+  background: linear-gradient(135deg, #800020, #a0002a);
+  color: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.25rem;
+  font-weight: 700;
+  margin: 0 auto 1rem;
+  box-shadow: 0 4px 15px rgba(128, 0, 32, 0.3);
+}
+
+.processStep h3 {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #1f2937;
+  margin-bottom: 1rem;
+}
+
+.processStep p {
+  color: #6b7280;
+  line-height: 1.6;
+}
+
+/* FAQ Section */
+.faqSection {
+  padding: 5rem 0;
+  background: linear-gradient(135deg, #faf7f0, #fef7f7);
+}
+
+.faqGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+  gap: 2rem;
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 2rem;
+}
+
+.faqItem {
+  background: white;
+  border-radius: 1rem;
+  padding: 2rem;
+  box-shadow: 0 8px 25px rgba(128, 0, 32, 0.1);
+}
+
+.faqItem h3 {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #1f2937;
+  margin-bottom: 1rem;
+}
+
+.faqItem p {
+  color: #6b7280;
+  line-height: 1.6;
+}
+
+/* Contact Section */
+.contactSection {
+  background: linear-gradient(135deg, #800020, #a0002a);
+  padding: 4rem 0;
+  text-align: center;
+}
+
+.contactContent {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 0 2rem;
+}
+
+.contactContent h2 {
+  color: white;
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+}
+
+.contactContent p {
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 1.1rem;
+  margin-bottom: 2rem;
+}
+
+.contactButtons {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.contactBtn,
+.emailBtn {
+  padding: 1rem 2rem;
+  border-radius: 0.75rem;
+  text-decoration: none;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  display: inline-block;
+}
+
+.contactBtn {
+  background: white;
+  color: #800020;
+  border: 2px solid white;
+}
+
+.contactBtn:hover {
+  background: transparent;
+  color: white;
+}
+
+.emailBtn {
+  background: transparent;
+  color: white;
+  border: 2px solid white;
+}
+
+.emailBtn:hover {
+  background: white;
+  color: #800020;
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+  .optionsGrid {
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  }
+
+  .processSteps {
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  }
+}
+
+@media (max-width: 768px) {
+  .hero {
+    padding: 6rem 0 4rem;
+  }
+
+  .heroText h1 {
+    font-size: 2.5rem;
+  }
+
+  .sectionHeader h2 {
+    font-size: 2rem;
+  }
+
+  .shippingOptions,
+  .shippingInfo,
+  .processSection,
+  .faqSection {
+    padding: 3rem 0;
+  }
+
+  .optionsGrid,
+  .infoGrid,
+  .processSteps {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+    padding: 0 1rem;
+  }
+
+  .optionCard,
+  .infoCard,
+  .processStep {
+    padding: 1.5rem;
+  }
+
+  .faqGrid {
+    grid-template-columns: 1fr;
+    padding: 0 1rem;
+  }
+
+  .contactSection {
+    padding: 3rem 0;
+  }
+
+  .contactButtons {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .contactBtn,
+  .emailBtn {
+    width: 200px;
+  }
+}
+
+@media (max-width: 480px) {
+  .hero {
+    padding: 4rem 0 3rem;
+  }
+
+  .heroText h1 {
+    font-size: 2rem;
+  }
+
+  .heroText p {
+    font-size: 1.1rem;
+  }
+
+  .sectionHeader h2 {
+    font-size: 1.75rem;
+  }
+
+  .optionCard {
+    padding: 1.25rem;
+  }
+
+  .optionIcon {
+    width: 60px;
+    height: 60px;
+  }
+
+  .contactContent h2 {
+    font-size: 1.5rem;
+  }
+
+  .contactBtn,
+  .emailBtn {
+    width: 180px;
+    padding: 0.875rem 1.5rem;
+  }
+}

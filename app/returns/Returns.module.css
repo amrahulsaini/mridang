@@ -1,0 +1,546 @@
+/* Returns.module.css */
+.container {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #fef7f7 0%, #faf7f0 50%, #fef7f7 100%);
+  font-family: 'Sora', sans-serif;
+}
+
+/* Hero Section */
+.hero {
+  background: linear-gradient(135deg, rgba(128, 0, 32, 0.9), rgba(160, 0, 42, 0.9)),
+              url('/api/placeholder/1920/600') center/cover;
+  position: relative;
+  overflow: hidden;
+  padding: 8rem 0 6rem;
+}
+
+.hero::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.3);
+}
+
+.heroContent {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 2rem;
+  position: relative;
+  z-index: 2;
+}
+
+.heroText {
+  text-align: center;
+  color: white;
+}
+
+.heroText h1 {
+  font-size: 3.5rem;
+  font-weight: 800;
+  margin-bottom: 1.5rem;
+  background: linear-gradient(135deg, #ffffff, #f8f9fa);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.heroText p {
+  font-size: 1.25rem;
+  opacity: 0.9;
+  max-width: 600px;
+  margin: 0 auto;
+  line-height: 1.6;
+}
+
+/* Section Headers */
+.sectionHeader {
+  text-align: center;
+  margin-bottom: 4rem;
+}
+
+.sectionHeader h2 {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: #1f2937;
+  margin-bottom: 1rem;
+}
+
+.sectionHeader p {
+  font-size: 1.1rem;
+  color: #6b7280;
+  max-width: 600px;
+  margin: 0 auto;
+  line-height: 1.6;
+}
+
+/* Policy Section */
+.policySection {
+  padding: 5rem 0;
+  background: white;
+}
+
+.policyGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  gap: 2rem;
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 2rem;
+}
+
+.policyCard {
+  background: linear-gradient(135deg, #ffffff, #faf7f0);
+  border: 1px solid rgba(128, 0, 32, 0.1);
+  border-radius: 1.5rem;
+  padding: 2.5rem;
+  text-align: center;
+  box-shadow: 0 10px 30px rgba(128, 0, 32, 0.1);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.policyCard:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 20px 40px rgba(128, 0, 32, 0.15);
+}
+
+.policyIcon {
+  width: 70px;
+  height: 70px;
+  background: linear-gradient(135deg, #800020, #a0002a);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 1.5rem;
+  color: white;
+  box-shadow: 0 8px 25px rgba(128, 0, 32, 0.3);
+}
+
+.policyCard h3 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #1f2937;
+  margin-bottom: 1rem;
+}
+
+.description {
+  color: #374151;
+  font-size: 1.1rem;
+  line-height: 1.6;
+  margin-bottom: 1rem;
+}
+
+.details {
+  color: #6b7280;
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
+
+/* Conditions Section */
+.conditionsSection {
+  padding: 5rem 0;
+  background: linear-gradient(135deg, #faf7f0, #fef7f7);
+}
+
+.conditionsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+  gap: 3rem;
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 2rem;
+}
+
+.conditionCard {
+  background: white;
+  border-radius: 1.5rem;
+  padding: 2.5rem;
+  box-shadow: 0 10px 30px rgba(128, 0, 32, 0.1);
+}
+
+.conditionHeader {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.conditionIcon {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.conditionCard:nth-child(1) .conditionIcon {
+  background: linear-gradient(135deg, #10b981, #059669);
+  color: white;
+}
+
+.conditionCard:nth-child(2) .conditionIcon {
+  background: linear-gradient(135deg, #ef4444, #dc2626);
+  color: white;
+}
+
+.conditionHeader h3 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #1f2937;
+}
+
+.conditionList {
+  list-style: none;
+  padding: 0;
+}
+
+.conditionList li {
+  color: #374151;
+  margin-bottom: 0.75rem;
+  padding-left: 1.5rem;
+  position: relative;
+  line-height: 1.5;
+}
+
+.conditionList li::before {
+  content: '•';
+  color: #800020;
+  font-weight: bold;
+  position: absolute;
+  left: 0;
+}
+
+/* Process Section */
+.processSection {
+  padding: 5rem 0;
+  background: white;
+}
+
+.processGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 2rem;
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 2rem;
+}
+
+.processStep {
+  background: linear-gradient(135deg, #ffffff, #faf7f0);
+  border-radius: 1rem;
+  padding: 2rem;
+  text-align: center;
+  box-shadow: 0 8px 25px rgba(128, 0, 32, 0.1);
+  position: relative;
+  transition: all 0.3s ease;
+}
+
+.processStep:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 35px rgba(128, 0, 32, 0.15);
+}
+
+.stepIcon {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+}
+
+.stepNumber {
+  position: absolute;
+  top: -15px;
+  right: -15px;
+  width: 40px;
+  height: 40px;
+  background: linear-gradient(135deg, #800020, #a0002a);
+  color: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.1rem;
+  font-weight: 700;
+  box-shadow: 0 4px 15px rgba(128, 0, 32, 0.3);
+}
+
+.processStep h3 {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #1f2937;
+  margin-bottom: 1rem;
+}
+
+.processStep p {
+  color: #6b7280;
+  line-height: 1.6;
+}
+
+/* Notice Section */
+.noticeSection {
+  padding: 3rem 0;
+  background: linear-gradient(135deg, #fef7f7, #faf7f0);
+}
+
+.noticeCard {
+  background: linear-gradient(135deg, #fff3cd, #ffeaa7);
+  border: 1px solid #f39c12;
+  border-radius: 1rem;
+  padding: 2rem;
+  max-width: 1000px;
+  margin: 0 auto;
+  display: flex;
+  gap: 1.5rem;
+  align-items: flex-start;
+  box-shadow: 0 8px 25px rgba(243, 156, 18, 0.2);
+}
+
+.noticeIcon {
+  color: #f39c12;
+  flex-shrink: 0;
+  margin-top: 0.25rem;
+}
+
+.noticeContent h3 {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #8b4513;
+  margin-bottom: 1rem;
+}
+
+.noticeContent p {
+  color: #856404;
+  line-height: 1.6;
+  margin: 0;
+}
+
+.noticeContent a {
+  color: #800020;
+  font-weight: 600;
+  text-decoration: underline;
+}
+
+/* FAQ Section */
+.faqSection {
+  padding: 5rem 0;
+  background: white;
+}
+
+.faqGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+  gap: 2rem;
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 2rem;
+}
+
+.faqItem {
+  background: linear-gradient(135deg, #ffffff, #faf7f0);
+  border-radius: 1rem;
+  padding: 2rem;
+  box-shadow: 0 8px 25px rgba(128, 0, 32, 0.1);
+}
+
+.faqItem h3 {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #1f2937;
+  margin-bottom: 1rem;
+}
+
+.faqItem p {
+  color: #6b7280;
+  line-height: 1.6;
+}
+
+/* Contact Section */
+.contactSection {
+  background: linear-gradient(135deg, #800020, #a0002a);
+  padding: 4rem 0;
+  text-align: center;
+}
+
+.contactContent {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 0 2rem;
+}
+
+.contactContent h2 {
+  color: white;
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+}
+
+.contactContent p {
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 1.1rem;
+  margin-bottom: 2rem;
+}
+
+.contactButtons {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.contactBtn,
+.emailBtn {
+  padding: 1rem 2rem;
+  border-radius: 0.75rem;
+  text-decoration: none;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  display: inline-block;
+}
+
+.contactBtn {
+  background: white;
+  color: #800020;
+  border: 2px solid white;
+}
+
+.contactBtn:hover {
+  background: transparent;
+  color: white;
+}
+
+.emailBtn {
+  background: transparent;
+  color: white;
+  border: 2px solid white;
+}
+
+.emailBtn:hover {
+  background: white;
+  color: #800020;
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+  .conditionsGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .processGrid {
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  }
+}
+
+@media (max-width: 768px) {
+  .hero {
+    padding: 6rem 0 4rem;
+  }
+
+  .heroText h1 {
+    font-size: 2.5rem;
+  }
+
+  .sectionHeader h2 {
+    font-size: 2rem;
+  }
+
+  .policySection,
+  .conditionsSection,
+  .processSection,
+  .faqSection {
+    padding: 3rem 0;
+  }
+
+  .policyGrid,
+  .processGrid {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+    padding: 0 1rem;
+  }
+
+  .conditionsGrid {
+    padding: 0 1rem;
+  }
+
+  .policyCard,
+  .conditionCard,
+  .processStep {
+    padding: 1.5rem;
+  }
+
+  .faqGrid {
+    grid-template-columns: 1fr;
+    padding: 0 1rem;
+  }
+
+  .noticeCard {
+    flex-direction: column;
+    text-align: center;
+    padding: 1.5rem;
+  }
+
+  .contactSection {
+    padding: 3rem 0;
+  }
+
+  .contactButtons {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .contactBtn,
+  .emailBtn {
+    width: 200px;
+  }
+}
+
+@media (max-width: 480px) {
+  .hero {
+    padding: 4rem 0 3rem;
+  }
+
+  .heroText h1 {
+    font-size: 2rem;
+  }
+
+  .heroText p {
+    font-size: 1.1rem;
+  }
+
+  .sectionHeader h2 {
+    font-size: 1.75rem;
+  }
+
+  .policyCard {
+    padding: 1.25rem;
+  }
+
+  .policyIcon {
+    width: 60px;
+    height: 60px;
+  }
+
+  .conditionCard {
+    padding: 1.5rem;
+  }
+
+  .processStep {
+    padding: 1.25rem;
+  }
+
+  .noticeCard {
+    padding: 1.25rem;
+  }
+
+  .contactContent h2 {
+    font-size: 1.5rem;
+  }
+
+  .contactBtn,
+  .emailBtn {
+    width: 180px;
+    padding: 0.875rem 1.5rem;
+  }
+}

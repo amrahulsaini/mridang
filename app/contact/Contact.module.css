@@ -1,0 +1,474 @@
+/* Contact.module.css */
+.container {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #fef7f7 0%, #faf7f0 50%, #fef7f7 100%);
+  font-family: 'Sora', sans-serif;
+}
+
+/* Hero Section */
+.hero {
+  background: linear-gradient(135deg, rgba(128, 0, 32, 0.9), rgba(160, 0, 42, 0.9)),
+              url('/api/placeholder/1920/600') center/cover;
+  position: relative;
+  overflow: hidden;
+  padding: 8rem 0 6rem;
+}
+
+.hero::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.3);
+}
+
+.heroContent {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 2rem;
+  position: relative;
+  z-index: 2;
+}
+
+.heroText {
+  text-align: center;
+  color: white;
+}
+
+.heroText h1 {
+  font-size: 3.5rem;
+  font-weight: 800;
+  margin-bottom: 1.5rem;
+  background: linear-gradient(135deg, #ffffff, #f8f9fa);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.heroText p {
+  font-size: 1.25rem;
+  opacity: 0.9;
+  max-width: 600px;
+  margin: 0 auto;
+  line-height: 1.6;
+}
+
+/* Contact Info Section */
+.contactInfo {
+  padding: 5rem 0;
+  background: white;
+}
+
+.infoGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 2rem;
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 2rem;
+}
+
+.infoCard {
+  background: linear-gradient(135deg, #ffffff, #faf7f0);
+  border: 1px solid rgba(128, 0, 32, 0.1);
+  border-radius: 1.5rem;
+  padding: 2rem;
+  text-align: center;
+  box-shadow: 0 10px 30px rgba(128, 0, 32, 0.1);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.infoCard:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 20px 40px rgba(128, 0, 32, 0.15);
+}
+
+.iconWrapper {
+  width: 60px;
+  height: 60px;
+  background: linear-gradient(135deg, #800020, #a0002a);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 1.5rem;
+  color: white;
+  box-shadow: 0 8px 25px rgba(128, 0, 32, 0.3);
+}
+
+.infoCard h3 {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #1f2937;
+  margin-bottom: 1rem;
+}
+
+.details p {
+  color: #6b7280;
+  line-height: 1.6;
+  margin: 0.25rem 0;
+  font-size: 0.9rem;
+}
+
+/* Contact Section */
+.contactSection {
+  padding: 5rem 0;
+  background: linear-gradient(135deg, #faf7f0, #fef7f7);
+}
+
+.contactGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4rem;
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 2rem;
+}
+
+.formContainer,
+.mapContainer {
+  background: white;
+  border-radius: 1.5rem;
+  padding: 3rem;
+  box-shadow: 0 20px 60px rgba(128, 0, 32, 0.1);
+}
+
+.formContainer h2,
+.mapContainer h2 {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #1f2937;
+  margin-bottom: 1rem;
+}
+
+.formContainer p,
+.mapContainer p {
+  color: #6b7280;
+  line-height: 1.6;
+  margin-bottom: 2rem;
+}
+
+/* Contact Form */
+.contactForm {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.formRow {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+}
+
+.formGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.formGroup label {
+  font-weight: 600;
+  color: #374151;
+  font-size: 0.9rem;
+}
+
+.formGroup input,
+.formGroup select,
+.formGroup textarea {
+  padding: 0.875rem 1rem;
+  border: 2px solid #e5e7eb;
+  border-radius: 0.75rem;
+  font-size: 1rem;
+  font-family: 'Sora', sans-serif;
+  transition: all 0.3s ease;
+  background: white;
+}
+
+.formGroup input:focus,
+.formGroup select:focus,
+.formGroup textarea:focus {
+  outline: none;
+  border-color: #800020;
+  box-shadow: 0 0 0 4px rgba(128, 0, 32, 0.1);
+}
+
+.formGroup textarea {
+  resize: vertical;
+  min-height: 120px;
+}
+
+.submitBtn {
+  background: linear-gradient(135deg, #800020, #a0002a);
+  color: white;
+  border: none;
+  padding: 1rem 2rem;
+  border-radius: 0.75rem;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  box-shadow: 0 8px 25px rgba(128, 0, 32, 0.3);
+  margin-top: 1rem;
+}
+
+.submitBtn:hover:not(:disabled) {
+  background: linear-gradient(135deg, #600018, #800020);
+  transform: translateY(-2px);
+  box-shadow: 0 12px 35px rgba(128, 0, 32, 0.4);
+}
+
+.submitBtn:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.spinner {
+  width: 20px;
+  height: 20px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-top: 2px solid white;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.successMessage {
+  background: linear-gradient(135deg, #10b981, #059669);
+  color: white;
+  padding: 1rem 1.5rem;
+  border-radius: 0.75rem;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 2rem;
+  box-shadow: 0 8px 25px rgba(16, 185, 129, 0.3);
+}
+
+/* Map Container */
+.mapPlaceholder {
+  background: linear-gradient(135deg, #f3f4f6, #e5e7eb);
+  border: 2px dashed #d1d5db;
+  border-radius: 1rem;
+  padding: 3rem 2rem;
+  text-align: center;
+  margin: 2rem 0;
+}
+
+.mapPlaceholder svg {
+  color: #800020;
+  margin-bottom: 1rem;
+}
+
+.mapPlaceholder h3 {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #1f2937;
+  margin-bottom: 1rem;
+}
+
+.mapPlaceholder p {
+  color: #6b7280;
+  margin: 0.25rem 0;
+}
+
+.directions {
+  margin-top: 2rem;
+}
+
+.directions h4 {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #1f2937;
+  margin-bottom: 1rem;
+}
+
+.directions ul {
+  list-style: none;
+  padding: 0;
+}
+
+.directions li {
+  color: #6b7280;
+  margin-bottom: 0.5rem;
+  padding-left: 1rem;
+  position: relative;
+}
+
+.directions li::before {
+  content: '•';
+  color: #800020;
+  font-weight: bold;
+  position: absolute;
+  left: 0;
+}
+
+/* WhatsApp Section */
+.whatsappSection {
+  background: linear-gradient(135deg, #800020, #a0002a);
+  padding: 4rem 0;
+  text-align: center;
+}
+
+.whatsappContent {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 0 2rem;
+}
+
+.whatsappContent h2 {
+  color: white;
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+}
+
+.whatsappContent p {
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 1.1rem;
+  margin-bottom: 2rem;
+}
+
+.whatsappBtn {
+  background: #25d366;
+  color: white;
+  padding: 1rem 2rem;
+  border-radius: 0.75rem;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  box-shadow: 0 8px 25px rgba(37, 211, 102, 0.3);
+}
+
+.whatsappBtn:hover {
+  background: #128c7e;
+  transform: translateY(-2px);
+  box-shadow: 0 12px 35px rgba(37, 211, 102, 0.4);
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+  .contactGrid {
+    grid-template-columns: 1fr;
+    gap: 3rem;
+  }
+
+  .heroText h1 {
+    font-size: 2.5rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .hero {
+    padding: 6rem 0 4rem;
+  }
+
+  .heroText h1 {
+    font-size: 2rem;
+  }
+
+  .heroText p {
+    font-size: 1.1rem;
+  }
+
+  .contactInfo {
+    padding: 3rem 0;
+  }
+
+  .infoGrid {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+    padding: 0 1rem;
+  }
+
+  .infoCard {
+    padding: 1.5rem;
+  }
+
+  .contactSection {
+    padding: 3rem 0;
+  }
+
+  .contactGrid {
+    padding: 0 1rem;
+    gap: 2rem;
+  }
+
+  .formContainer,
+  .mapContainer {
+    padding: 2rem;
+  }
+
+  .formRow {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .whatsappSection {
+    padding: 3rem 0;
+  }
+
+  .whatsappContent h2 {
+    font-size: 1.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .hero {
+    padding: 4rem 0 3rem;
+  }
+
+  .heroText h1 {
+    font-size: 1.75rem;
+  }
+
+  .heroText p {
+    font-size: 1rem;
+  }
+
+  .infoCard {
+    padding: 1.25rem;
+  }
+
+  .iconWrapper {
+    width: 50px;
+    height: 50px;
+  }
+
+  .iconWrapper svg {
+    width: 20px;
+    height: 20px;
+  }
+
+  .formContainer,
+  .mapContainer {
+    padding: 1.5rem;
+  }
+
+  .mapPlaceholder {
+    padding: 2rem 1.5rem;
+  }
+
+  .whatsappContent h2 {
+    font-size: 1.25rem;
+  }
+
+  .whatsappBtn {
+    padding: 0.875rem 1.5rem;
+    font-size: 0.9rem;
+  }
+}
