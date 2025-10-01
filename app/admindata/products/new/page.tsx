@@ -209,6 +209,39 @@ export default function ProductEditPage() {
         return;
       }
 
+      if (!formData.category_id) {
+        setDialog({
+          isOpen: true,
+          type: 'error',
+          title: 'Validation Error',
+          message: 'Category is required'
+        });
+        setIsSaving(false);
+        return;
+      }
+
+      if (!formData.main_image_url?.trim()) {
+        setDialog({
+          isOpen: true,
+          type: 'error',
+          title: 'Validation Error',
+          message: 'Main Image URL is required'
+        });
+        setIsSaving(false);
+        return;
+      }
+
+      if (!formData.original_price || formData.original_price <= 0) {
+        setDialog({
+          isOpen: true,
+          type: 'error',
+          title: 'Validation Error',
+          message: 'Original Price is required and must be greater than 0'
+        });
+        setIsSaving(false);
+        return;
+      }
+
       // Validate key features are valid numbers
       const validKeyFeatures = (formData.key_features || []).filter(id => Number.isInteger(id) && id > 0);
       
@@ -365,11 +398,12 @@ export default function ProductEditPage() {
               </div>
 
               <div className={styles.formGroup}>
-                <label className={styles.label}>Category</label>
+                <label className={styles.label}>Category *</label>
                 <select
                   value={formData.category_id || ''}
                   onChange={(e) => setFormData({...formData, category_id: parseInt(e.target.value) || undefined})}
                   className={styles.select}
+                  required
                 >
                   <option value="">Select Category</option>
                   {categories.map((cat) => (
@@ -525,12 +559,13 @@ export default function ProductEditPage() {
             <h3 className={styles.sectionTitle}>📷 Product Images</h3>
             <div className={styles.formRow}>
               <div className={styles.formGroup}>
-                <label className={styles.label}>Main Image URL</label>
+                <label className={styles.label}>Main Image URL *</label>
                 <input
                   type="url"
                   value={formData.main_image_url || ''}
                   onChange={(e) => setFormData({...formData, main_image_url: e.target.value})}
                   className={styles.input}
+                  required
                 />
                 {formData.main_image_url && (
                   <div className={styles.imagePreview}>
@@ -732,13 +767,15 @@ export default function ProductEditPage() {
             <h3 className={styles.sectionTitle}>💰 Pricing</h3>
             <div className={styles.formRow}>
               <div className={styles.formGroup}>
-                <label className={styles.label}>Original Price (₹)</label>
+                <label className={styles.label}>Original Price (₹) *</label>
                 <input
                   type="number"
                   step="0.01"
                   value={formData.original_price || ''}
                   onChange={(e) => setFormData({...formData, original_price: parseFloat(e.target.value) || undefined})}
                   className={styles.input}
+                  required
+                  min="0.01"
                 />
               </div>
 
@@ -750,6 +787,7 @@ export default function ProductEditPage() {
                   value={formData.cut_price || ''}
                   onChange={(e) => setFormData({...formData, cut_price: parseFloat(e.target.value) || undefined})}
                   className={styles.input}
+                  min="0"
                 />
               </div>
             </div>
