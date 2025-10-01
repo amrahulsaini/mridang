@@ -14,6 +14,11 @@ const sora = Sora({
 export const metadata: Metadata = {
   title: "Mridang - Handcrafted with Love",
   description: "Beautiful handcrafted ring platters, haldi platters, and mehendi platters for your special occasions. Custom designs available.",
+  icons: {
+    icon: '/logo-icon.ico',
+    shortcut: '/logo-icon.ico',
+    apple: '/logo-icon.ico',
+  },
 };
 
 export default function RootLayout({
