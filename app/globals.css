@@ -1190,7 +1190,11 @@ html, body {
   width: 100%;
   height: 520px;
   overflow: hidden;
-  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+  background: 
+    radial-gradient(circle at 15% 15%, rgba(255, 182, 193, 0.12) 0%, transparent 40%),
+    radial-gradient(circle at 85% 85%, rgba(255, 215, 0, 0.12) 0%, transparent 40%),
+    radial-gradient(circle at 50% 50%, rgba(255, 160, 122, 0.08) 0%, transparent 50%),
+    linear-gradient(135deg, #fff8f0 0%, #fef7f7 50%, #fffaed 100%);
   border-radius: 56% 44% 40% 60% / 48% 52% 52% 48%;
   border: 8px solid #ffffff;
   box-shadow: 
@@ -1201,31 +1205,107 @@ html, body {
   z-index: 2;
 }
 
+.product-image::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: 
+    /* Delicate Flower Corners */
+    url("data:image/svg+xml,%3Csvg width='80' height='80' viewBox='0 0 80 80' xmlns='http://www.w3.org/2000/svg'%3E%3Cg transform='translate(15,15)'%3E%3Cpath d='M 25,5 Q 30,10 28,18 Q 25,22 20,22 Q 15,22 12,18 Q 10,10 15,5 Q 20,2 25,5' fill='%23ff69b425' stroke='%23ff1493' stroke-width='0.5'/%3E%3Cpath d='M 5,25 Q 10,30 18,28 Q 22,25 22,20 Q 22,15 18,12 Q 10,10 5,15 Q 2,20 5,25' fill='%23ffa07a20' stroke='%23ff6347' stroke-width='0.5'/%3E%3Ccircle cx='20' cy='20' r='4' fill='%23ffd700' stroke='%23ff8c00' stroke-width='0.8'/%3E%3Cpath d='M 15,15 L 18,12 M 25,15 L 22,12 M 15,25 L 18,22 M 25,25 L 22,22' stroke='%2390ee9020' stroke-width='1'/%3E%3C/g%3E%3C/svg%3E"),
+    /* Floating Petals */
+    url("data:image/svg+xml,%3Csvg width='120' height='120' viewBox='0 0 120 120' xmlns='http://www.w3.org/2000/svg'%3E%3Cellipse cx='30' cy='30' rx='5' ry='12' fill='%23ff69b428' transform='rotate(25 30 30)'/%3E%3Cellipse cx='90' cy='40' rx='4' ry='10' fill='%23ffa07a25' transform='rotate(-35 90 40)'/%3E%3Cellipse cx='50' cy='80' rx='6' ry='14' fill='%23ffd70028' transform='rotate(15 50 80)'/%3E%3Cellipse cx='85' cy='95' rx='4' ry='9' fill='%23ffb6c125' transform='rotate(-25 85 95)'/%3E%3Cellipse cx='20' cy='90' rx='5' ry='11' fill='%23ffe4e128' transform='rotate(40 20 90)'/%3E%3C/svg%3E"),
+    /* Delicate Vines Border */
+    url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M 5,5 Q 15,8 20,15 Q 25,22 30,25' fill='none' stroke='%2390ee9018' stroke-width='1.5'/%3E%3Cpath d='M 95,5 Q 85,8 80,15 Q 75,22 70,25' fill='none' stroke='%2390ee9018' stroke-width='1.5'/%3E%3Cpath d='M 5,95 Q 15,92 20,85 Q 25,78 30,75' fill='none' stroke='%2390ee9018' stroke-width='1.5'/%3E%3Cpath d='M 95,95 Q 85,92 80,85 Q 75,78 70,75' fill='none' stroke='%2390ee9018' stroke-width='1.5'/%3E%3Ccircle cx='10' cy='10' r='2' fill='%23ff69b420'/%3E%3Ccircle cx='90' cy='10' r='2' fill='%23ffd70020'/%3E%3Ccircle cx='10' cy='90' r='2' fill='%23ffa07a20'/%3E%3Ccircle cx='90' cy='90' r='2' fill='%23ffb6c120'/%3E%3C/svg%3E"),
+    /* Scattered Blossoms */
+    url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg transform='translate(30,15)'%3E%3Cpath d='M 0,-8 Q 3,-6 4,-2 Q 2,0 0,0 Q -2,0 -4,-2 Q -3,-6 0,-8' fill='%23ff69b430'/%3E%3Cpath d='M 8,0 Q 6,3 2,4 Q 0,2 0,0 Q 0,-2 2,-4 Q 6,-3 8,0' fill='%23ffa07a28'/%3E%3Cpath d='M 0,8 Q -3,6 -4,2 Q -2,0 0,0 Q 2,0 4,2 Q 3,6 0,8' fill='%23ffd70028'/%3E%3Cpath d='M -8,0 Q -6,-3 -2,-4 Q 0,-2 0,0 Q 0,2 -2,4 Q -6,3 -8,0' fill='%23ffb6c128'/%3E%3Ccircle cx='0' cy='0' r='1.5' fill='%23ffd700'/%3E%3C/g%3E%3Cg transform='translate(15,45)'%3E%3Ccircle cx='0' cy='0' r='3' fill='%23ff69b418'/%3E%3Ccircle cx='0' cy='0' r='1.5' fill='%23ffd700'/%3E%3C/g%3E%3Cg transform='translate(45,45)'%3E%3Ccircle cx='0' cy='0' r='3' fill='%23ffa07a18'/%3E%3Ccircle cx='0' cy='0' r='1.5' fill='%23ff69b4'/%3E%3C/g%3E%3C/svg%3E");
+  background-size: 80px 80px, 120px 120px, 100px 100px, 60px 60px;
+  background-position: top left, center, top right, center;
+  background-repeat: no-repeat, repeat, no-repeat, repeat;
+  opacity: 0.5;
+  animation: productFloralDance 80s ease-in-out infinite, productFloralPulse 35s ease-in-out infinite;
+  pointer-events: none;
+  z-index: 1;
+}
+
+@keyframes productFloralDance {
+  0%, 100% {
+    transform: translate(0, 0) rotate(0deg) scale(1);
+    opacity: 0.5;
+  }
+  25% {
+    transform: translate(8px, -8px) rotate(3deg) scale(1.05);
+    opacity: 0.6;
+  }
+  50% {
+    transform: translate(-5px, 5px) rotate(-2deg) scale(0.98);
+    opacity: 0.55;
+  }
+  75% {
+    transform: translate(6px, -6px) rotate(2deg) scale(1.02);
+    opacity: 0.65;
+  }
+}
+
+@keyframes productFloralPulse {
+  0%, 100% {
+    opacity: 0.5;
+  }
+  50% {
+    opacity: 0.75;
+  }
+}
+
 .product-image:hover {
   box-shadow: 
     0 25px 50px rgba(128, 0, 32, 0.4),
-    0 0 60px rgba(128, 0, 32, 0.3),
-    0 0 100px rgba(128, 0, 32, 0.2),
-    inset 0 0 0 3px rgba(128, 0, 32, 0.6);
+    0 0 60px rgba(255, 105, 180, 0.4),
+    0 0 100px rgba(255, 215, 0, 0.3),
+    inset 0 0 0 3px rgba(255, 182, 193, 0.8),
+    inset 0 0 30px rgba(255, 215, 0, 0.2);
   transform: scale(1.03) rotate(1deg);
-  border-color: #800020;
-  animation: glow 2s ease-in-out infinite alternate;
+  border-color: #ffb6c1;
+  animation: floralGlow 2.5s ease-in-out infinite alternate;
+  background: 
+    radial-gradient(circle at 20% 20%, rgba(255, 182, 193, 0.2) 0%, transparent 35%),
+    radial-gradient(circle at 80% 80%, rgba(255, 215, 0, 0.18) 0%, transparent 35%),
+    radial-gradient(circle at 50% 50%, rgba(255, 160, 122, 0.12) 0%, transparent 45%),
+    radial-gradient(circle at 30% 70%, rgba(255, 192, 203, 0.15) 0%, transparent 40%),
+    linear-gradient(135deg, #fff8f0 0%, #fef7f7 50%, #fffaed 100%);
 }
 
-@keyframes glow {
+.product-image:hover::before {
+  opacity: 0.85;
+  animation: productFloralDance 40s ease-in-out infinite, productFloralGlitter 3s ease-in-out infinite;
+}
+
+@keyframes floralGlow {
   from {
     box-shadow: 
       0 25px 50px rgba(128, 0, 32, 0.4),
-      0 0 60px rgba(128, 0, 32, 0.3),
-      0 0 100px rgba(128, 0, 32, 0.2),
-      inset 0 0 0 3px rgba(128, 0, 32, 0.6);
+      0 0 60px rgba(255, 105, 180, 0.4),
+      0 0 100px rgba(255, 215, 0, 0.3),
+      inset 0 0 0 3px rgba(255, 182, 193, 0.8),
+      inset 0 0 30px rgba(255, 215, 0, 0.2);
   }
   to {
     box-shadow: 
       0 35px 70px rgba(128, 0, 32, 0.6),
-      0 0 80px rgba(128, 0, 32, 0.5),
-      0 0 120px rgba(128, 0, 32, 0.3),
-      inset 0 0 0 4px rgba(255, 255, 255, 0.8);
+      0 0 80px rgba(255, 105, 180, 0.6),
+      0 0 120px rgba(255, 215, 0, 0.5),
+      inset 0 0 0 4px rgba(255, 255, 255, 0.9),
+      inset 0 0 40px rgba(255, 182, 193, 0.4);
+  }
+}
+
+@keyframes productFloralGlitter {
+  0%, 100% {
+    filter: brightness(1) contrast(1);
+  }
+  50% {
+    filter: brightness(1.1) contrast(1.05);
   }
 }
 

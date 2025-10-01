@@ -15,7 +15,11 @@ export const metadata: Metadata = {
   title: "Mridang - Handcrafted with Love",
   description: "Beautiful handcrafted ring platters, haldi platters, and mehendi platters for your special occasions. Custom designs available.",
   icons: {
-    icon: '/logo-icon.ico',
+    icon: [
+      { url: '/logo-icon.ico' },
+      { url: '/logo-icon.ico', sizes: '16x16', type: 'image/x-icon' },
+      { url: '/logo-icon.ico', sizes: '32x32', type: 'image/x-icon' },
+    ],
     shortcut: '/logo-icon.ico',
     apple: '/logo-icon.ico',
   },
