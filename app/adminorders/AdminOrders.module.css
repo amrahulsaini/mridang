@@ -284,6 +284,27 @@
   background-clip: text;
 }
 
+.orderIdCell {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.orderProductImage {
+  width: 40px;
+  height: 40px;
+  object-fit: cover;
+  border-radius: 0.5rem;
+  border: 2px solid rgba(128, 0, 32, 0.1);
+  box-shadow: 0 2px 8px rgba(128, 0, 32, 0.1);
+  transition: all 0.3s ease;
+}
+
+.orderProductImage:hover {
+  transform: scale(1.1);
+  box-shadow: 0 4px 12px rgba(128, 0, 32, 0.2);
+}
+
 .customerInfo {
   display: flex;
   flex-direction: column;
@@ -1188,6 +1209,15 @@
     font-size: 0.9rem;
   }
 
+  .orderIdCell {
+    gap: 0.5rem;
+  }
+
+  .orderProductImage {
+    width: 35px;
+    height: 35px;
+  }
+
   .customerName {
     font-size: 0.9rem;
   }
@@ -1407,6 +1437,15 @@
 
   .orderId {
     font-size: 0.8rem;
+  }
+
+  .orderIdCell {
+    gap: 0.5rem;
+  }
+
+  .orderProductImage {
+    width: 30px;
+    height: 30px;
   }
 
   .customerName {

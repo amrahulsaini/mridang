@@ -269,7 +269,16 @@ export default function AdminOrdersPage() {
                 {filteredOrders.map((order) => (
                   <tr key={order.id} className={styles.tableRow}>
                     <td className={styles.tableCell}>
-                      <span className={styles.orderId}>{order.order_id}</span>
+                      <div className={styles.orderIdCell}>
+                        {Array.isArray(order.products) && order.products.length > 0 && order.products[0].image && (
+                          <img
+                            src={order.products[0].image}
+                            alt={order.products[0].name}
+                            className={styles.orderProductImage}
+                          />
+                        )}
+                        <span className={styles.orderId}>{order.order_id}</span>
+                      </div>
                     </td>
                     <td className={styles.tableCell}>
                       <div className={styles.customerInfo}>
