@@ -46,7 +46,8 @@ const ProductCard: React.FC<Product & { onInfoClick?: (product: Product) => void
 
   const handleImageClick = () => {
     // Navigate to product detail page using category and product ID
-    const category = product.category_name?.toLowerCase().replace(/\s+/g, '-') || 'products'
+    // Format category name to match the expected URL format (lowercase, no spaces)
+    const category = product.category_name?.toLowerCase().replace(/\s+/g, '') || 'products'
     const productId = product.pro_id || product.id
     router.push(`/${category}/${productId}`)
   }
