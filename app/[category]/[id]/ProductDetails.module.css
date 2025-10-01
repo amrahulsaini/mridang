@@ -396,6 +396,55 @@
   font-family: 'Sora', sans-serif;
 }
 
+.priceContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+  margin-bottom: 1rem;
+}
+
+.currentPrice {
+  font-size: 3.5rem;
+  font-weight: 900;
+  color: #800020;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  background: linear-gradient(135deg, #800020, #a0002a);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  font-family: 'Sora', sans-serif;
+}
+
+.originalPrice {
+  font-size: 2rem;
+  font-weight: 600;
+  color: #9ca3af;
+  text-decoration: line-through;
+  font-family: 'Sora', sans-serif;
+}
+
+.discount {
+  background: linear-gradient(135deg, #10b981, #059669);
+  color: #ffffff;
+  padding: 0.5rem 1rem;
+  border-radius: 1rem;
+  font-size: 1.25rem;
+  font-weight: 700;
+  box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);
+  font-family: 'Sora', sans-serif;
+}
+
+.unitPrice {
+  font-size: 1.125rem;
+  color: #6b7280;
+  text-align: center;
+  margin-top: 0.5rem;
+  font-weight: 500;
+  font-family: 'Sora', sans-serif;
+}
+
 /* Quantity Selector */
 .quantitySection {
   margin-bottom: 3rem;
