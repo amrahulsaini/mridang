@@ -46,6 +46,10 @@ interface Product {
   stand_included?: number
   materials: string[]
   colors: string[]
+  price: number
+  cut_price?: number
+  original_price?: number
+  stock_quantity?: number
 }
 
 export default function ProductDetailsPage() {
@@ -61,6 +65,34 @@ export default function ProductDetailsPage() {
   const [quantity, setQuantity] = useState(1)
   const [isImageTransitioning, setIsImageTransitioning] = useState(false)
   const [imagesLoaded, setImagesLoaded] = useState<Set<number>>(new Set())
+
+  // Price calculation functions
+  const getUnitPrice = () => {
+    if (!product) return 0
+    return product.cut_price || product.price || 0
+  }
+
+  const getTotalPrice = () => {
+    return getUnitPrice() * quantity
+  }
+
+  const getOriginalTotalPrice = () => {
+    if (!product) return 0
+    const originalPrice = product.original_price || product.price || 0
+    return originalPrice * quantity
+  }
+
+  const hasDiscount = () => {
+    if (!product) return false
+    return product.cut_price && product.cut_price < (product.original_price || product.price || 0)
+  }
+
+  const getDiscountPercentage = () => {
+    if (!hasDiscount() || !product) return 0
+    const original = product.original_price || product.price || 0
+    const current = product.cut_price || product.price || 0
+    return Math.round(((original - current) / original) * 100)
+  }
 
   // Preload all images and track loading state
   useEffect(() => {
@@ -145,7 +177,8 @@ export default function ProductDetailsPage() {
       id: product.pro_id,  // Use pro_id as the cart item ID
       name: product.model_name,
       image: product.main_image_url,
-      price: 2999, // You'll need to add price to your product data
+      price: getUnitPrice(), // Use dynamic pricing
+      originalPrice: product.original_price || product.price,
       category: product.category_name || 'General'
     }
     
@@ -436,8 +469,22 @@ export default function ProductDetailsPage() {
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.4 }}
       >
+        {/* Price Section */}
         <div className={styles.priceSection}>
-          <div className={styles.price}>₹2,999</div>
+          {hasDiscount() ? (
+            <div className={styles.priceContainer}>
+              <div className={styles.currentPrice}>₹{getTotalPrice().toLocaleString('en-IN')}</div>
+              <div className={styles.originalPrice}>₹{getOriginalTotalPrice().toLocaleString('en-IN')}</div>
+              <div className={styles.discount}>{getDiscountPercentage()}% OFF</div>
+            </div>
+          ) : (
+            <div className={styles.price}>₹{getTotalPrice().toLocaleString('en-IN')}</div>
+          )}
+          {quantity > 1 && (
+            <div className={styles.unitPrice}>
+              Unit Price: ₹{getUnitPrice().toLocaleString('en-IN')}
+            </div>
+          )}
         </div>
 
         {/* Quantity Selector */}

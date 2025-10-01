@@ -994,3 +994,209 @@
   transform: translateY(-3px) scale(1.02);
   box-shadow: 0 12px 35px rgba(128, 0, 32, 0.4);
 }
+
+/* Action Section Styles */
+.actionSection {
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(20px);
+  border-radius: 2rem;
+  padding: 2rem;
+  box-shadow: 0 20px 60px rgba(128, 0, 32, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  margin-top: 2rem;
+}
+
+/* Price Section Styles */
+.priceSection {
+  margin-bottom: 2rem;
+}
+
+.priceContainer {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.currentPrice,
+.price {
+  font-size: 2.5rem;
+  font-weight: 800;
+  color: #800020;
+  font-family: 'Sora', sans-serif;
+}
+
+.originalPrice {
+  font-size: 1.5rem;
+  color: #6b7280;
+  text-decoration: line-through;
+  font-weight: 500;
+}
+
+.discount {
+  background: linear-gradient(135deg, #dc2626, #b91c1c);
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 0.75rem;
+  font-weight: 600;
+  font-size: 0.9rem;
+  box-shadow: 0 4px 12px rgba(220, 38, 38, 0.3);
+}
+
+.unitPrice {
+  font-size: 1rem;
+  color: #6b7280;
+  margin-top: 0.5rem;
+  font-weight: 500;
+}
+
+/* Quantity Section Styles */
+.quantitySection {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.quantityLabel {
+  font-weight: 600;
+  color: #1f2937;
+  font-size: 1.1rem;
+}
+
+.quantitySelector {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: white;
+  border: 2px solid #e5e7eb;
+  border-radius: 1rem;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.quantityButton {
+  background: none;
+  border: none;
+  padding: 0.75rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  color: #6b7280;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.quantityButton:hover:not(:disabled) {
+  background: #f3f4f6;
+  color: #800020;
+}
+
+.quantityButton:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.quantityDisplay {
+  padding: 0.75rem 1.5rem;
+  font-weight: 600;
+  color: #1f2937;
+  min-width: 3rem;
+  text-align: center;
+  border-left: 1px solid #e5e7eb;
+  border-right: 1px solid #e5e7eb;
+}
+
+/* Button Group Styles */
+.buttonGroup {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.actionButton {
+  flex: 1;
+  min-width: 200px;
+  padding: 1rem 1.5rem;
+  border: none;
+  border-radius: 1rem;
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+  font-family: 'Sora', sans-serif;
+}
+
+.addToCartBtn {
+  background: linear-gradient(135deg, #059669, #047857);
+  color: white;
+}
+
+.addToCartBtn:hover {
+  background: linear-gradient(135deg, #047857, #065f46);
+  transform: translateY(-2px);
+  box-shadow: 0 12px 35px rgba(5, 150, 105, 0.3);
+}
+
+.buyNowBtn {
+  background: linear-gradient(135deg, #800020, #a0002a);
+  color: white;
+}
+
+.buyNowBtn:hover {
+  background: linear-gradient(135deg, #600018, #800020);
+  transform: translateY(-2px);
+  box-shadow: 0 12px 35px rgba(128, 0, 32, 0.4);
+}
+
+/* Responsive Design for Action Section */
+@media (max-width: 768px) {
+  .actionSection {
+    padding: 1.5rem;
+  }
+
+  .priceContainer {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+
+  .currentPrice,
+  .price {
+    font-size: 2rem;
+  }
+
+  .buttonGroup {
+    flex-direction: column;
+  }
+
+  .actionButton {
+    min-width: auto;
+  }
+
+  .quantitySection {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.75rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .currentPrice,
+  .price {
+    font-size: 1.75rem;
+  }
+
+  .originalPrice {
+    font-size: 1.25rem;
+  }
+
+  .actionSection {
+    padding: 1rem;
+  }
+}
