@@ -140,8 +140,9 @@
 
 .overviewGrid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   gap: 2rem;
+  align-items: stretch;
 }
 
 .overviewCard {
@@ -151,6 +152,10 @@
   text-align: center;
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
+  min-height: 280px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
 }
 
 .overviewCard:hover {
@@ -180,6 +185,10 @@
 .overviewCard p {
   color: #4a5568;
   line-height: 1.6;
+  font-size: 0.95rem;
+  flex-grow: 1;
+  text-align: left;
+  margin-top: auto;
 }
 
 /* Data Collection Section */
@@ -243,9 +252,9 @@
 }
 
 .rightsSection .container {
-  max-width: 1200px;
+  max-width: 1280px;
   margin: 0 auto;
-  padding: 0 20px;
+  padding: 0 2rem;
 }
 
 .rightsGrid {
@@ -293,9 +302,9 @@
 }
 
 .contactSection .container {
-  max-width: 800px;
+  max-width: 1280px;
   margin: 0 auto;
-  padding: 0 20px;
+  padding: 0 2rem;
   text-align: center;
 }
 
@@ -425,6 +434,13 @@
   .overviewCard {
     padding: 1.5rem;
     margin: 0 0.5rem;
+    min-height: auto;
+    text-align: center;
+  }
+
+  .overviewCard p {
+    text-align: center;
+    font-size: 0.9rem;
   }
 
   .overviewContent h2 {
