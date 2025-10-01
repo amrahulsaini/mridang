@@ -69,7 +69,8 @@ export default function ProductDetailsPage() {
   // Price calculation functions
   const getUnitPrice = () => {
     if (!product) return 0
-    return product.cut_price || product.price || 0
+    // Use cut_price if available, otherwise use price, otherwise default to 2999
+    return product.cut_price || product.price || 2999
   }
 
   const getTotalPrice = () => {
@@ -78,19 +79,23 @@ export default function ProductDetailsPage() {
 
   const getOriginalTotalPrice = () => {
     if (!product) return 0
-    const originalPrice = product.original_price || product.price || 0
+    // Use original_price if available, otherwise use price, otherwise default to 2999
+    const originalPrice = product.original_price || product.price || 2999
     return originalPrice * quantity
   }
 
   const hasDiscount = () => {
     if (!product) return false
-    return product.cut_price && product.cut_price < (product.original_price || product.price || 0)
+    const originalPrice = product.original_price || product.price || 0
+    const currentPrice = product.cut_price || product.price || 0
+    return product.cut_price && currentPrice < originalPrice && originalPrice > 0
   }
 
   const getDiscountPercentage = () => {
     if (!hasDiscount() || !product) return 0
     const original = product.original_price || product.price || 0
     const current = product.cut_price || product.price || 0
+    if (original === 0) return 0
     return Math.round(((original - current) / original) * 100)
   }
 
@@ -158,6 +163,14 @@ export default function ProductDetailsPage() {
         
         setProduct(productData)
         setSelectedImageIndex(0)
+        
+        // Debug: Log pricing data
+        console.log('Product data received:', {
+          price: productData.price,
+          cut_price: productData.cut_price,
+          original_price: productData.original_price,
+          fullData: productData
+        })
       } catch (err) {
         setError(err instanceof Error ? err.message : 'Failed to load product')
       } finally {

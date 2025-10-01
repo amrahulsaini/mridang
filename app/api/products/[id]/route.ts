@@ -26,6 +26,9 @@ interface ProductRow {
   embossment?: string
   is_fragile?: number
   stand_included?: number
+  original_price?: number
+  cut_price?: number
+  price?: number
 }
 
 export async function GET(
@@ -35,11 +38,15 @@ export async function GET(
   try {
     const { id: productId } = await params
 
-    // Fetch product by pro_id
+    // Fetch product by pro_id with pricing information
     const products = await query(`
-      SELECT p.*, c.category_name
+      SELECT p.*, c.category_name,
+             pp.original_price,
+             pp.cut_price,
+             COALESCE(pp.cut_price, pp.original_price) as price
       FROM Products p
       LEFT JOIN Categories c ON p.category_id = c.category_id
+      LEFT JOIN product_prices pp ON p.id = pp.product_id AND pp.is_active = 1
       WHERE p.pro_id = ?
     `, [productId]) as ProductRow[]
 
