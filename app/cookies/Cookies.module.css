@@ -56,9 +56,9 @@
 }
 
 .overviewSection .container {
-  max-width: 1200px;
+  max-width: 1280px;
   margin: 0 auto;
-  padding: 0 20px;
+  padding: 0 2rem;
 }
 
 .overviewCard {
@@ -90,9 +90,10 @@
 }
 
 .overviewContent p {
-  color: #666;
+  color: #4a5568;
   line-height: 1.6;
   margin-bottom: 1rem;
+  font-size: 1rem;
 }
 
 .lastUpdated {
@@ -107,9 +108,9 @@
 }
 
 .cookieTypes .container {
-  max-width: 1200px;
+  max-width: 1280px;
   margin: 0 auto;
-  padding: 0 20px;
+  padding: 0 2rem;
 }
 
 .sectionHeader {
@@ -126,7 +127,7 @@
 
 .sectionHeader p {
   font-size: 1.1rem;
-  color: #666;
+  color: #4a5568;
   max-width: 600px;
   margin: 0 auto;
 }
@@ -171,7 +172,7 @@
 }
 
 .typeDescription {
-  color: #666;
+  color: #4a5568;
   line-height: 1.6;
   margin-bottom: 1.5rem;
   text-align: center;
@@ -190,7 +191,7 @@
 }
 
 .typeDetails p {
-  color: #666;
+  color: #4a5568;
   line-height: 1.6;
   margin-bottom: 1rem;
 }
@@ -202,7 +203,7 @@
 }
 
 .typeDetails li {
-  color: #666;
+  color: #4a5568;
   line-height: 1.6;
   margin-bottom: 0.25rem;
   padding-left: 1rem;
@@ -281,11 +282,11 @@
 }
 
 .cookiePurpose {
-  color: #666;
+  color: #4a5568;
 }
 
 .cookieDuration {
-  color: #666;
+  color: #4a5568;
   font-size: 0.9rem;
 }
 
@@ -335,7 +336,7 @@
 }
 
 .controlCard p {
-  color: #666;
+  color: #4a5568;
   line-height: 1.6;
   margin-bottom: 1.5rem;
   text-align: center;
@@ -361,7 +362,7 @@
 }
 
 .controlSteps li {
-  color: #666;
+  color: #4a5568;
   line-height: 1.6;
   margin-bottom: 0.5rem;
   padding-left: 2rem;
@@ -419,7 +420,7 @@
 }
 
 .noticeContent p {
-  color: #666;
+  color: #4a5568;
   line-height: 1.6;
   margin-bottom: 1rem;
 }
@@ -579,6 +580,7 @@
 
   .overviewCard {
     padding: 1.5rem;
+    margin: 0 1rem;
   }
 
   .overviewContent h2 {
@@ -592,17 +594,24 @@
   .typeCard,
   .controlCard {
     padding: 1.5rem;
+    margin: 0 0.5rem;
   }
 
   .cookieTable {
     font-size: 0.9rem;
+    overflow-x: auto;
   }
 
   .contactSection {
-    padding: 3rem 0;
+    padding: 3rem 1rem;
   }
 
   .noticeCard {
     padding: 1.5rem;
+    margin: 0 1rem;
+  }
+
+  .container {
+    padding: 0 1rem !important;
   }
 }
