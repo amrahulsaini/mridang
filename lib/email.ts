@@ -2,12 +2,12 @@ import nodemailer from 'nodemailer'
 
 // Email configuration for order confirmations
 const emailConfig = {
-  host: 'mail.mridang.co.in',
-  port: 587,
+  host: process.env.SMTP_HOST || 'smtp-relay.brevo.com',
+  port: parseInt(process.env.SMTP_PORT || '587'),
   secure: false,
   auth: {
-    user: 'admin@mridang.co.in',
-    pass: 'Admin@321',
+    user: process.env.SMTP_USER || '9848f9001@smtp-brevo.com',
+    pass: process.env.SMTP_PASS || 'WOsm8zLwJfaSFPXb',
   },
   tls: {
     ciphers: 'SSLv3',
@@ -164,7 +164,7 @@ export async function sendOrderConfirmationEmail(orderData: OrderData) {
     `
 
     const mailOptions = {
-      from: `"Mridang" <${process.env.EMAIL_USER}>`,
+      from: `"Orders" <orders@mridang.co.in>`,
       to: orderData.customer.email,
       subject: `Order Confirmation - ${orderData.orderId} - Mridang`,
       html: emailHtml,

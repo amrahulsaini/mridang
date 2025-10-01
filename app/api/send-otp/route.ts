@@ -1,6 +1,22 @@
 import { NextRequest, NextResponse } from 'next/server'
 import nodemailer from 'nodemailer'
 import { otpStore } from '../../../lib/otp-store'
+const createTransporter = () => {
+  return nodemailer.createTransport({
+    host: process.env.SMTP_HOST || 'smtp-relay.brevo.com',
+    port: parseInt(process.env.SMTP_PORT || '587'),
+    secure: false, // true for 465, false for other ports
+    auth: {
+      user: process.env.SMTP_USER || '9848f9001@smtp-brevo.com',
+      pass: process.env.SMTP_PASS || 'WOsm8zLwJfaSFPXb',
+    },
+    // Additional options for some email providers
+    tls: {
+      ciphers: 'SSLv3',
+      rejectUnauthorized: false
+    }
+  })
+}
 
 // Email template for OTP
 const createOTPEmailTemplate = (otp: string) => `
@@ -113,24 +129,6 @@ const createOTPEmailTemplate = (otp: string) => `
 </html>
 `
 
-// Create nodemailer transporter
-const createTransporter = () => {
-  return nodemailer.createTransport({
-    host: 'mail.mridang.co.in',
-    port: 587, // or 465 for SSL
-    secure: false, // true for 465, false for other ports
-    auth: {
-      user: process.env.EMAIL_USER,
-      pass: process.env.EMAIL_PASS,
-    },
-    // Additional options for some email providers
-    tls: {
-      ciphers: 'SSLv3',
-      rejectUnauthorized: false
-    }
-  })
-}
-
 // Generate 4-digit OTP
 const generateOTP = (): string => {
   return Math.floor(1000 + Math.random() * 9000).toString()
@@ -173,7 +171,7 @@ export async function POST(request: NextRequest) {
 
     // Email options
     const mailOptions = {
-      from: `"Mridang" <verify@mridang.co.in>`,
+      from: `"Verification Code" <verify@mridang.co.in>`,
       to: email,
       subject: 'Your OTP for Email Verification - Mridang',
       html: htmlContent,
