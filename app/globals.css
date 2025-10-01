@@ -702,6 +702,7 @@ html, body {
     white;
   position: relative;
   overflow: hidden;
+  contain: layout style;
 }
 
 .category-section::before {
@@ -711,19 +712,9 @@ html, body {
   left: 0;
   right: 0;
   bottom: 0;
-  will-change: transform, opacity;
-  background-image: 
-    /* Flower Border Pattern */
-    url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cg transform='translate(50,50)'%3E%3Cpath d='M 0,-20 Q 8,-15 10,-5 Q 5,0 0,0 Q -5,0 -10,-5 Q -8,-15 0,-20' fill='%23ff69b425' stroke='%23ff1493' stroke-width='0.3'/%3E%3Cpath d='M 20,0 Q 15,8 5,10 Q 0,5 0,0 Q 0,-5 5,-10 Q 15,-8 20,0' fill='%23ffa07a20' stroke='%23ff6347' stroke-width='0.3'/%3E%3Cpath d='M 0,20 Q -8,15 -10,5 Q -5,0 0,0 Q 5,0 10,5 Q 8,15 0,20' fill='%23ffd70020' stroke='%23ffa500' stroke-width='0.3'/%3E%3Cpath d='M -20,0 Q -15,-8 -5,-10 Q 0,-5 0,0 Q 0,5 -5,10 Q -15,8 -20,0' fill='%23ffb6c120' stroke='%23ff69b4' stroke-width='0.3'/%3E%3Ccircle cx='0' cy='0' r='3' fill='%23ffd700' stroke='%23ff8c00' stroke-width='0.5'/%3E%3C/g%3E%3C/svg%3E"),
-    /* Scattered Petals */
-    url("data:image/svg+xml,%3Csvg width='50' height='50' viewBox='0 0 50 50' xmlns='http://www.w3.org/2000/svg'%3E%3Cellipse cx='25' cy='15' rx='4' ry='8' fill='%23ff69b430' transform='rotate(15 25 25)'/%3E%3Cellipse cx='35' cy='25' rx='3' ry='6' fill='%23ffa07a25' transform='rotate(45 35 25)'/%3E%3Cellipse cx='15' cy='35' rx='4' ry='7' fill='%23ffd70020' transform='rotate(-30 15 35)'/%3E%3C/svg%3E"),
-    /* Vines */
-    url("data:image/svg+xml,%3Csvg width='120' height='120' viewBox='0 0 120 120' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M 10,10 Q 30,20 40,40 Q 50,60 70,70 Q 90,80 110,90' fill='none' stroke='%2390ee9020' stroke-width='2'/%3E%3Ccircle cx='20' cy='15' r='3' fill='%23ff69b420'/%3E%3Ccircle cx='45' cy='45' r='2' fill='%23ffa07a20'/%3E%3Ccircle cx='75' cy='75' r='3' fill='%23ffd70020'/%3E%3Ccircle cx='100' cy='95' r='2' fill='%23ffb6c120'/%3E%3C/svg%3E");
-  background-size: 100px 100px, 50px 50px, 120px 120px;
-  background-position: 0 0, 25px 25px, 60px 60px;
-  opacity: 0;
-  animation: categoryFadeIn 1s ease-in 0.5s forwards, categoryFloat 60s ease-in-out 1.5s infinite, categoryPulse 40s ease-in-out 1.5s infinite;
+  opacity: 0.2;
   pointer-events: none;
+  /* Animations disabled for performance */
 }
 
 .category-section::after {
@@ -733,20 +724,9 @@ html, body {
   left: 0;
   right: 0;
   bottom: 0;
-  background: 
-    linear-gradient(90deg, 
-      transparent 0%, 
-      rgba(255, 182, 193, 0.15) 10%,
-      rgba(255, 215, 0, 0.15) 25%,
-      rgba(255, 160, 122, 0.15) 40%,
-      rgba(255, 192, 203, 0.15) 55%,
-      rgba(255, 218, 185, 0.15) 70%,
-      rgba(255, 215, 0, 0.15) 85%,
-      transparent 100%);
-  background-size: 200% 100%;
   opacity: 0;
-  animation: categoryFadeIn 1s ease-in 0.5s forwards, shimmer 10s ease-in-out 1.5s infinite;
   pointer-events: none;
+  /* Shimmer animation disabled for performance */
 }
 
 @keyframes categoryFadeIn {
@@ -799,6 +779,7 @@ html, body {
     linear-gradient(135deg, #fff8dc 0%, #ffefd5 20%, #ffe4e1 40%, #fff0f5 60%, #fffacd 80%, #ffefd5 100%);
   position: relative;
   overflow: hidden;
+  contain: layout style;
 }
 
 .section-cream::before {
@@ -808,21 +789,9 @@ html, body {
   left: 0;
   right: 0;
   bottom: 0;
-  will-change: transform, opacity;
-  background-image: 
-    /* Paisley Pattern */
-    url("data:image/svg+xml,%3Csvg width='140' height='140' viewBox='0 0 140 140' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M 70,20 Q 90,30 95,50 Q 100,70 90,85 Q 80,95 70,90 Q 65,85 65,75 Q 65,65 70,60 Q 75,55 80,60 Q 82,65 80,70 Q 65,75 60,65 Q 55,50 60,35 Q 65,25 70,20' fill='%23ff69b418' stroke='%23ff1493' stroke-width='0.5'/%3E%3Cpath d='M 40,50 Q 50,55 52,65 Q 54,75 50,82 Q 45,88 40,85 Q 38,82 38,78 Q 38,73 40,70 Q 43,67 46,70 Q 47,73 46,76 Q 40,78 38,73 Q 36,67 38,60 Q 40,55 40,50' fill='%23ffa07a15' stroke='%23ff6347' stroke-width='0.5'/%3E%3C/svg%3E"),
-    /* Rangoli Stars */
-    url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cg transform='translate(50,50)'%3E%3Cpath d='M 0,-30 L 7,-10 L 28,-10 L 12,3 L 18,23 L 0,10 L -18,23 L -12,3 L -28,-10 L -7,-10 Z' fill='%23ffd70020' stroke='%23ffa500' stroke-width='0.5'/%3E%3Cpath d='M 0,-20 L 5,-8 L 18,-8 L 8,0 L 12,15 L 0,7 L -12,15 L -8,0 L -18,-8 L -5,-8 Z' fill='%23ff69b420' stroke='%23ff1493' stroke-width='0.5'/%3E%3Ccircle cx='0' cy='0' r='5' fill='%23ffd700' stroke='%23ff8c00' stroke-width='0.8'/%3E%3C/g%3E%3C/svg%3E"),
-    /* Decorative Dots */
-    url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='10' cy='10' r='2' fill='%23ff69b425'/%3E%3Ccircle cx='30' cy='10' r='1.5' fill='%23ffa07a20'/%3E%3Ccircle cx='20' cy='20' r='2.5' fill='%23ffd70025'/%3E%3Ccircle cx='10' cy='30' r='1.5' fill='%23ffb6c120'/%3E%3Ccircle cx='30' cy='30' r='2' fill='%23ffe4e120'/%3E%3C/svg%3E"),
-    /* Traditional Motifs */
-    url("data:image/svg+xml,%3Csvg width='160' height='160' viewBox='0 0 160 160' xmlns='http://www.w3.org/2000/svg'%3E%3Cg transform='translate(80,80)'%3E%3Cpath d='M 0,-50 Q 20,-45 30,-30 Q 35,-15 30,0 Q 20,15 0,20 Q -20,15 -30,0 Q -35,-15 -30,-30 Q -20,-45 0,-50' fill='none' stroke='%23ff69b412' stroke-width='1.5'/%3E%3Cpath d='M 0,-35 Q 15,-32 22,-20 Q 25,-10 22,0 Q 15,10 0,13 Q -15,10 -22,0 Q -25,-10 -22,-20 Q -15,-32 0,-35' fill='%23ffa07a10' stroke='%23ff6347' stroke-width='1'/%3E%3Ccircle cx='0' cy='-25' r='3' fill='%23ffd700'/%3E%3Ccircle cx='18' cy='-12' r='2' fill='%23ff69b4'/%3E%3Ccircle cx='18' cy='12' r='2' fill='%23ffa07a'/%3E%3Ccircle cx='0' cy='5' r='3' fill='%23ffd700'/%3E%3Ccircle cx='-18' cy='12' r='2' fill='%23ffb6c1'/%3E%3Ccircle cx='-18' cy='-12' r='2' fill='%23ffe4e1'/%3E%3C/g%3E%3C/svg%3E");
-  background-size: 140px 140px, 100px 100px, 40px 40px, 160px 160px;
-  background-position: 0 0, 70px 70px, 20px 20px, 80px 80px;
   opacity: 0;
-  animation: sectionCreamFadeIn 1s ease-in 0.5s forwards, paisleyFloat 60s ease-in-out 1.5s infinite, paisleyPulse 40s ease-in-out 1.5s infinite;
   pointer-events: none;
+  /* Animations disabled for performance */
 }
 
 .section-cream::after {
@@ -832,24 +801,9 @@ html, body {
   left: 0;
   right: 0;
   bottom: 0;
-  background: 
-    repeating-linear-gradient(
-      45deg,
-      transparent,
-      transparent 100px,
-      rgba(255, 215, 0, 0.03) 100px,
-      rgba(255, 215, 0, 0.03) 200px
-    ),
-    repeating-linear-gradient(
-      -45deg,
-      transparent,
-      transparent 100px,
-      rgba(255, 182, 193, 0.03) 100px,
-      rgba(255, 182, 193, 0.03) 200px
-    );
   opacity: 0;
-  animation: sectionCreamFadeIn 1s ease-in 0.5s forwards, patternShift 120s linear 1.5s infinite;
   pointer-events: none;
+  /* Pattern animation disabled for performance */
 }
 
 @keyframes sectionCreamFadeIn {
@@ -1000,8 +954,9 @@ html, body {
   display: flex;
   gap: 1.5rem;
   overflow-x: auto;
-  padding: 20px 0 20px 0; /* Increased padding to prevent clipping */
-  scroll-behavior: smooth;
+  padding: 20px 0 20px 0;
+  scroll-behavior: auto;
+  -webkit-overflow-scrolling: touch;
 }
 
 .product-grid::-webkit-scrollbar {
@@ -1029,9 +984,9 @@ html, body {
   flex-shrink: 0;
   position: relative;
   cursor: pointer;
-  animation: float 6s ease-in-out infinite;
-  padding: 10px; /* Add padding to prevent border clipping */
-  margin: 10px 0; /* Add margin for better spacing */
+  padding: 10px;
+  margin: 10px 0;
+  contain: layout style paint;
 }
 
 .product-card::before {
@@ -1054,7 +1009,6 @@ html, body {
 
 .product-card:hover::before {
   opacity: 0.6;
-  animation: cornerGlow 2s ease-in-out infinite;
 }
 
 @keyframes cornerGlow {
@@ -1068,8 +1022,8 @@ html, body {
 }
 
 .product-card:hover {
-  transform: translateY(-15px) scale(1.02);
-  transition: all 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
+  transform: translateY(-8px);
+  transition: transform 0.3s ease;
 }
 
 .product-card::after {
@@ -1091,8 +1045,7 @@ html, body {
 }
 
 .product-card:hover::after {
-  opacity: 1;
-  animation: pulse 2s ease-in-out infinite;
+  opacity: 0.6;
 }
 
 @keyframes pulse {
@@ -1105,10 +1058,11 @@ html, body {
   width: 100%;
   height: 520px;
   overflow: hidden;
+  contain: layout style paint;
+  will-change: transform;
   background: 
     radial-gradient(circle at 15% 15%, rgba(255, 182, 193, 0.12) 0%, transparent 40%),
     radial-gradient(circle at 85% 85%, rgba(255, 215, 0, 0.12) 0%, transparent 40%),
-    radial-gradient(circle at 50% 50%, rgba(255, 160, 122, 0.08) 0%, transparent 50%),
     linear-gradient(135deg, #fff8f0 0%, #fef7f7 50%, #fffaed 100%);
   border-radius: 56% 44% 40% 60% / 48% 52% 52% 48%;
   border: 8px solid #ffffff;
@@ -1116,7 +1070,7 @@ html, body {
     0 10px 25px rgba(0,0,0,0.2), 
     0 2px 6px rgba(0,0,0,0.1),
     inset 0 0 0 2px rgba(128, 0, 32, 0.3);
-  transition: all 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
   z-index: 2;
 }
 
@@ -1127,22 +1081,10 @@ html, body {
   left: 0;
   right: 0;
   bottom: 0;
-  background-image: 
-    /* Delicate Flower Corners */
-    url("data:image/svg+xml,%3Csvg width='80' height='80' viewBox='0 0 80 80' xmlns='http://www.w3.org/2000/svg'%3E%3Cg transform='translate(15,15)'%3E%3Cpath d='M 25,5 Q 30,10 28,18 Q 25,22 20,22 Q 15,22 12,18 Q 10,10 15,5 Q 20,2 25,5' fill='%23ff69b425' stroke='%23ff1493' stroke-width='0.5'/%3E%3Cpath d='M 5,25 Q 10,30 18,28 Q 22,25 22,20 Q 22,15 18,12 Q 10,10 5,15 Q 2,20 5,25' fill='%23ffa07a20' stroke='%23ff6347' stroke-width='0.5'/%3E%3Ccircle cx='20' cy='20' r='4' fill='%23ffd700' stroke='%23ff8c00' stroke-width='0.8'/%3E%3Cpath d='M 15,15 L 18,12 M 25,15 L 22,12 M 15,25 L 18,22 M 25,25 L 22,22' stroke='%2390ee9020' stroke-width='1'/%3E%3C/g%3E%3C/svg%3E"),
-    /* Floating Petals */
-    url("data:image/svg+xml,%3Csvg width='120' height='120' viewBox='0 0 120 120' xmlns='http://www.w3.org/2000/svg'%3E%3Cellipse cx='30' cy='30' rx='5' ry='12' fill='%23ff69b428' transform='rotate(25 30 30)'/%3E%3Cellipse cx='90' cy='40' rx='4' ry='10' fill='%23ffa07a25' transform='rotate(-35 90 40)'/%3E%3Cellipse cx='50' cy='80' rx='6' ry='14' fill='%23ffd70028' transform='rotate(15 50 80)'/%3E%3Cellipse cx='85' cy='95' rx='4' ry='9' fill='%23ffb6c125' transform='rotate(-25 85 95)'/%3E%3Cellipse cx='20' cy='90' rx='5' ry='11' fill='%23ffe4e128' transform='rotate(40 20 90)'/%3E%3C/svg%3E"),
-    /* Delicate Vines Border */
-    url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M 5,5 Q 15,8 20,15 Q 25,22 30,25' fill='none' stroke='%2390ee9018' stroke-width='1.5'/%3E%3Cpath d='M 95,5 Q 85,8 80,15 Q 75,22 70,25' fill='none' stroke='%2390ee9018' stroke-width='1.5'/%3E%3Cpath d='M 5,95 Q 15,92 20,85 Q 25,78 30,75' fill='none' stroke='%2390ee9018' stroke-width='1.5'/%3E%3Cpath d='M 95,95 Q 85,92 80,85 Q 75,78 70,75' fill='none' stroke='%2390ee9018' stroke-width='1.5'/%3E%3Ccircle cx='10' cy='10' r='2' fill='%23ff69b420'/%3E%3Ccircle cx='90' cy='10' r='2' fill='%23ffd70020'/%3E%3Ccircle cx='10' cy='90' r='2' fill='%23ffa07a20'/%3E%3Ccircle cx='90' cy='90' r='2' fill='%23ffb6c120'/%3E%3C/svg%3E"),
-    /* Scattered Blossoms */
-    url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg transform='translate(30,15)'%3E%3Cpath d='M 0,-8 Q 3,-6 4,-2 Q 2,0 0,0 Q -2,0 -4,-2 Q -3,-6 0,-8' fill='%23ff69b430'/%3E%3Cpath d='M 8,0 Q 6,3 2,4 Q 0,2 0,0 Q 0,-2 2,-4 Q 6,-3 8,0' fill='%23ffa07a28'/%3E%3Cpath d='M 0,8 Q -3,6 -4,2 Q -2,0 0,0 Q 2,0 4,2 Q 3,6 0,8' fill='%23ffd70028'/%3E%3Cpath d='M -8,0 Q -6,-3 -2,-4 Q 0,-2 0,0 Q 0,2 -2,4 Q -6,3 -8,0' fill='%23ffb6c128'/%3E%3Ccircle cx='0' cy='0' r='1.5' fill='%23ffd700'/%3E%3C/g%3E%3Cg transform='translate(15,45)'%3E%3Ccircle cx='0' cy='0' r='3' fill='%23ff69b418'/%3E%3Ccircle cx='0' cy='0' r='1.5' fill='%23ffd700'/%3E%3C/g%3E%3Cg transform='translate(45,45)'%3E%3Ccircle cx='0' cy='0' r='3' fill='%23ffa07a18'/%3E%3Ccircle cx='0' cy='0' r='1.5' fill='%23ff69b4'/%3E%3C/g%3E%3C/svg%3E");
-  background-size: 80px 80px, 120px 120px, 100px 100px, 60px 60px;
-  background-position: top left, center, top right, center;
-  background-repeat: no-repeat, repeat, no-repeat, repeat;
-  opacity: 0.5;
-  animation: productFloralDance 80s ease-in-out infinite, productFloralPulse 35s ease-in-out infinite;
+  opacity: 0;
   pointer-events: none;
   z-index: 1;
+  /* Floral animations disabled for performance */
 }
 
 @keyframes productFloralDance {
@@ -1167,20 +1109,14 @@ html, body {
 
 .product-image:hover {
   box-shadow: 
-    0 25px 50px rgba(128, 0, 32, 0.4),
-    0 0 60px rgba(255, 105, 180, 0.4),
+    0 20px 40px rgba(128, 0, 32, 0.3),
     inset 0 0 0 3px rgba(255, 182, 193, 0.8);
-  transform: scale(1.03);
+  transform: scale(1.02);
   border-color: #ffb6c1;
-  background: 
-    radial-gradient(circle at 20% 20%, rgba(255, 182, 193, 0.2) 0%, transparent 35%),
-    radial-gradient(circle at 80% 80%, rgba(255, 215, 0, 0.18) 0%, transparent 35%),
-    linear-gradient(135deg, #fff8f0 0%, #fef7f7 50%, #fffaed 100%);
 }
 
 .product-image:hover::before {
-  opacity: 0.85;
-  animation: productFloralDance 30s ease-in-out infinite;
+  opacity: 0;
 }
 
 @keyframes floralGlow {
@@ -1283,7 +1219,6 @@ html, body {
 
 .product-card:hover .product-image::after {
   transform: translateX(100%) translateY(100%) rotate(45deg);
-  animation: shimmer 2s ease-in-out infinite;
 }
 
 @keyframes shimmer {
@@ -1297,14 +1232,12 @@ html, body {
   height: 100%;
   object-fit: cover;
   object-position: center;
-  transition: all 0.6s cubic-bezier(0.25, 0.8, 0.25, 1);
-  filter: brightness(1) contrast(1) saturate(1);
+  transition: transform 0.3s ease;
   transform: scale(1.02);
 }
 
 .product-card:hover .product-image img { 
-  transform: scale(1.08) rotate(2deg);
-  filter: brightness(1.1) contrast(1.1) saturate(1.2);
+  transform: scale(1.05);
 }
 
 /* Hover action layer removed for cleaner card */
