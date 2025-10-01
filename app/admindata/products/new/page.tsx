@@ -245,24 +245,83 @@ export default function ProductEditPage() {
       // Validate key features are valid numbers
       const validKeyFeatures = (formData.key_features || []).filter(id => Number.isInteger(id) && id > 0);
       
-      const saveData = {
-        ...formData,
-        key_features: validKeyFeatures,
-        // Ensure numeric fields are properly formatted
+      // Helper function to convert undefined to null
+      const convertUndefinedToNull = (obj: any): any => {
+        const result: any = {};
+        for (const key in obj) {
+          if (obj[key] === undefined) {
+            result[key] = null;
+          } else if (obj[key] === '') {
+            result[key] = null;
+          } else {
+            result[key] = obj[key];
+          }
+        }
+        return result;
+      };
+
+      // Prepare data with proper null values instead of undefined
+      const rawData = {
+        pro_id: formData.pro_id || null,
+        flipkart_serial_number: formData.flipkart_serial_number || null,
+        catalog_qc_status: formData.catalog_qc_status || null,
+        qc_failed_reason: formData.qc_failed_reason || null,
+        flipkart_product_link: formData.flipkart_product_link || null,
+        product_data_status: formData.product_data_status || null,
+        disapproval_reason: formData.disapproval_reason || null,
+        seller_sku_id: formData.seller_sku_id || null,
+        brand: formData.brand || null,
+        model_number: formData.model_number || null,
         pack_of: formData.pack_of ? parseInt(String(formData.pack_of)) : null,
         width_inch: formData.width_inch ? parseFloat(String(formData.width_inch)) : null,
         depth_inch: formData.depth_inch ? parseFloat(String(formData.depth_inch)) : null,
+        main_image_url: formData.main_image_url || null,
+        other_image_url_1: formData.other_image_url_1 || null,
+        other_image_url_2: formData.other_image_url_2 || null,
+        other_image_url_3: formData.other_image_url_3 || null,
+        other_image_url_4: formData.other_image_url_4 || null,
+        group_id: formData.group_id || null,
+        description: formData.description || null,
+        video_url: formData.video_url || null,
+        model_name: formData.model_name,
+        brand_color: formData.brand_color || null,
+        theme: formData.theme || null,
+        design: formData.design || null,
+        finish: formData.finish || null,
+        stand_included: formData.stand_included || false,
+        embossment: formData.embossment || null,
+        regional_speciality_id: formData.regional_speciality_id ? parseInt(String(formData.regional_speciality_id)) : null,
         height_inch: formData.height_inch ? parseFloat(String(formData.height_inch)) : null,
+        art_form_type_id: formData.art_form_type_id ? parseInt(String(formData.art_form_type_id)) : null,
         diameter_inch: formData.diameter_inch ? parseFloat(String(formData.diameter_inch)) : null,
         weight_g: formData.weight_g ? parseFloat(String(formData.weight_g)) : null,
+        other_dimensions: formData.other_dimensions || null,
+        dishwasher_safe: formData.dishwasher_safe || false,
+        microwave_safe: formData.microwave_safe || false,
+        cold_proof: formData.cold_proof || false,
+        other_features: formData.other_features || null,
+        domestic_warranty: formData.domestic_warranty ? parseInt(String(formData.domestic_warranty)) : null,
+        domestic_warranty_unit: formData.domestic_warranty_unit || null,
+        international_warranty: formData.international_warranty ? parseInt(String(formData.international_warranty)) : null,
+        international_warranty_unit: formData.international_warranty_unit || null,
+        warranty_summary: formData.warranty_summary || null,
+        warranty_service_type: formData.warranty_service_type || null,
+        covered_in_warranty: formData.covered_in_warranty || null,
+        not_covered_in_warranty: formData.not_covered_in_warranty || null,
+        ean_upc: formData.ean_upc || null,
+        gift_pack: formData.gift_pack || false,
+        supplier_image: formData.supplier_image || null,
+        is_fragile: formData.is_fragile || false,
+        category_id: formData.category_id ? parseInt(String(formData.category_id)) : null,
         original_price: formData.original_price ? parseFloat(String(formData.original_price)) : null,
         cut_price: formData.cut_price ? parseFloat(String(formData.cut_price)) : null,
-        domestic_warranty: formData.domestic_warranty ? parseInt(String(formData.domestic_warranty)) : null,
-        international_warranty: formData.international_warranty ? parseInt(String(formData.international_warranty)) : null,
-        regional_speciality_id: formData.regional_speciality_id ? parseInt(String(formData.regional_speciality_id)) : null,
-        art_form_type_id: formData.art_form_type_id ? parseInt(String(formData.art_form_type_id)) : null,
-        category_id: formData.category_id ? parseInt(String(formData.category_id)) : null,
+        key_features: validKeyFeatures,
+        materials: formData.materials || [],
+        colors: formData.colors || [],
+        search_keywords: formData.search_keywords || [],
       };
+
+      const saveData = convertUndefinedToNull(rawData);
 
       console.log('Sending save data:', saveData);
 
