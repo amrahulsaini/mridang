@@ -200,10 +200,12 @@ html, body {
 
 .bg-cream {
   background: 
-    radial-gradient(circle at 10% 20%, rgba(255, 182, 193, 0.15) 0%, transparent 50%),
-    radial-gradient(circle at 90% 80%, rgba(255, 218, 185, 0.15) 0%, transparent 50%),
-    radial-gradient(circle at 50% 50%, rgba(255, 228, 196, 0.1) 0%, transparent 70%),
-    linear-gradient(135deg, #fff8dc 0%, #ffefd5 25%, #ffe4e1 50%, #fff0f5 75%, #fffacd 100%);
+    radial-gradient(circle at 10% 20%, rgba(255, 182, 193, 0.2) 0%, transparent 50%),
+    radial-gradient(circle at 90% 80%, rgba(255, 218, 185, 0.2) 0%, transparent 50%),
+    radial-gradient(circle at 50% 50%, rgba(255, 228, 196, 0.15) 0%, transparent 70%),
+    radial-gradient(circle at 25% 75%, rgba(255, 192, 203, 0.15) 0%, transparent 60%),
+    radial-gradient(circle at 75% 25%, rgba(255, 215, 0, 0.12) 0%, transparent 55%),
+    linear-gradient(135deg, #fff8dc 0%, #ffefd5 20%, #ffe4e1 40%, #fff0f5 60%, #fffacd 80%, #ffefd5 100%);
   position: relative;
   overflow: hidden;
 }
@@ -216,12 +218,18 @@ html, body {
   right: 0;
   bottom: 0;
   background-image: 
-    url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M30 20 Q35 15 30 10 Q25 15 30 20 M30 40 Q35 35 30 30 Q25 35 30 40' fill='%23ff69b420' /%3E%3Cpath d='M10 30 Q15 25 10 20 Q5 25 10 30 M50 30 Q55 25 50 20 Q45 25 50 30' fill='%23ffa07a20' /%3E%3Ccircle cx='15' cy='45' r='2' fill='%23ff69b430'/%3E%3Ccircle cx='45' cy='15' r='2' fill='%23ffa07a30'/%3E%3C/svg%3E"),
-    url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M50 30 C55 25 60 30 60 35 C60 40 55 45 50 45 C45 45 40 40 40 35 C40 30 45 25 50 30' fill='%23ffd70020' stroke='%23ff69b430' stroke-width='0.5'/%3E%3Cpath d='M25 60 C28 57 32 60 32 63 C32 66 28 69 25 69 C22 69 18 66 18 63 C18 60 22 57 25 60' fill='%23ffb6c120' stroke='%23ffa07a30' stroke-width='0.5'/%3E%3Cpath d='M75 75 C78 72 82 75 82 78 C82 81 78 84 75 84 C72 84 68 81 68 78 C68 75 72 72 75 75' fill='%23ffe4e120' stroke='%23ff69b430' stroke-width='0.5'/%3E%3C/svg%3E");
-  background-size: 60px 60px, 100px 100px;
-  background-position: 0 0, 50px 50px;
-  opacity: 0.6;
-  animation: floralFloat 60s ease-in-out infinite;
+    /* Large Lotus Flowers */
+    url("data:image/svg+xml,%3Csvg width='200' height='200' viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cg transform='translate(100,100)'%3E%3Cpath d='M 0,-40 Q 15,-35 20,-20 Q 15,-5 0,0 Q -15,-5 -20,-20 Q -15,-35 0,-40' fill='%23ff69b425' stroke='%23ff1493' stroke-width='0.5'/%3E%3Cpath d='M 0,-40 Q -15,-35 -20,-20 Q -15,-5 0,0' fill='%23ffa07a20' stroke='%23ff6347' stroke-width='0.5'/%3E%3Cpath d='M 20,-20 Q 35,-15 40,0 Q 35,15 20,20 Q 5,15 0,0 Q 5,-15 20,-20' fill='%23ffd70020' stroke='%23ffa500' stroke-width='0.5'/%3E%3Cpath d='M -20,-20 Q -35,-15 -40,0 Q -35,15 -20,20 Q -5,15 0,0 Q -5,-15 -20,-20' fill='%23ffb6c120' stroke='%23ff69b4' stroke-width='0.5'/%3E%3Ccircle cx='0' cy='0' r='8' fill='%23ffd700' stroke='%23ff8c00' stroke-width='1'/%3E%3C/g%3E%3C/svg%3E"),
+    /* Medium Flowers */
+    url("data:image/svg+xml,%3Csvg width='120' height='120' viewBox='0 0 120 120' xmlns='http://www.w3.org/2000/svg'%3E%3Cg transform='translate(60,60)'%3E%3Cpath d='M 0,-25 C 8,-20 12,-10 10,0 C 5,5 -5,5 -10,0 C -12,-10 -8,-20 0,-25' fill='%23ff69b430' stroke='%23ff1493' stroke-width='0.5'/%3E%3Cpath d='M 0,-25 C -8,-20 -12,-10 -10,0 C -5,5 5,5 10,0 C 12,-10 8,-20 0,-25' fill='%23ffa07a25' stroke='%23ff6347' stroke-width='0.5'/%3E%3Cpath d='M 25,0 C 20,8 10,12 0,10 C -5,5 -5,-5 0,-10 C 10,-12 20,-8 25,0' fill='%23ffd70025' stroke='%23ffa500' stroke-width='0.5'/%3E%3Cpath d='M -25,0 C -20,8 -10,12 0,10 C 5,5 5,-5 0,-10 C -10,-12 -20,-8 -25,0' fill='%23ffb6c125' stroke='%23ff69b4' stroke-width='0.5'/%3E%3Ccircle cx='0' cy='0' r='5' fill='%23ffa500'/%3E%3C/g%3E%3C/svg%3E"),
+    /* Small Petals */
+    url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg transform='translate(30,30)'%3E%3Cellipse cx='0' cy='-12' rx='5' ry='10' fill='%23ff69b440' transform='rotate(0)'/%3E%3Cellipse cx='0' cy='-12' rx='5' ry='10' fill='%23ffa07a35' transform='rotate(60)'/%3E%3Cellipse cx='0' cy='-12' rx='5' ry='10' fill='%23ffd70030' transform='rotate(120)'/%3E%3Cellipse cx='0' cy='-12' rx='5' ry='10' fill='%23ffb6c135' transform='rotate(180)'/%3E%3Cellipse cx='0' cy='-12' rx='5' ry='10' fill='%23ffe4e130' transform='rotate(240)'/%3E%3Cellipse cx='0' cy='-12' rx='5' ry='10' fill='%23ff69b435' transform='rotate(300)'/%3E%3Ccircle cx='0' cy='0' r='4' fill='%23ffd700'/%3E%3C/g%3E%3C/svg%3E"),
+    /* Decorative Leaves */
+    url("data:image/svg+xml,%3Csvg width='80' height='80' viewBox='0 0 80 80' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M 40,20 Q 50,30 45,50 Q 40,45 40,40 Q 40,35 40,20' fill='%2390ee9020' stroke='%23228b22' stroke-width='0.3'/%3E%3Cpath d='M 40,20 Q 30,30 35,50 Q 40,45 40,40 Q 40,35 40,20' fill='%2398fb9825' stroke='%23228b22' stroke-width='0.3'/%3E%3Cpath d='M 20,40 Q 30,35 50,45 Q 45,50 40,50 Q 35,50 20,40' fill='%2390ee9018' stroke='%23228b22' stroke-width='0.3'/%3E%3C/svg%3E");
+  background-size: 200px 200px, 120px 120px, 60px 60px, 80px 80px;
+  background-position: 0 0, 100px 100px, 50px 150px, 150px 50px;
+  opacity: 0.7;
+  animation: floralFloat 90s ease-in-out infinite, floralPulse 30s ease-in-out infinite;
   pointer-events: none;
 }
 
@@ -233,26 +241,37 @@ html, body {
   width: 200%;
   height: 200%;
   background: 
-    radial-gradient(circle, rgba(255, 105, 180, 0.08) 1px, transparent 1px),
-    radial-gradient(circle, rgba(255, 160, 122, 0.08) 1px, transparent 1px);
-  background-size: 50px 50px, 80px 80px;
-  background-position: 0 0, 40px 40px;
-  animation: sparkle 120s linear infinite;
+    /* Mandala Pattern */
+    url("data:image/svg+xml,%3Csvg width='150' height='150' viewBox='0 0 150 150' xmlns='http://www.w3.org/2000/svg'%3E%3Cg transform='translate(75,75)'%3E%3Ccircle cx='0' cy='0' r='50' fill='none' stroke='%23ff69b410' stroke-width='0.5'/%3E%3Ccircle cx='0' cy='0' r='40' fill='none' stroke='%23ffa07a10' stroke-width='0.5'/%3E%3Ccircle cx='0' cy='0' r='30' fill='none' stroke='%23ffd70010' stroke-width='0.5'/%3E%3Cpath d='M 0,-30 L 5,-35 L 0,-50 L -5,-35 Z' fill='%23ff69b415'/%3E%3Cpath d='M 0,-30 L 5,-35 L 0,-50 L -5,-35 Z' fill='%23ffa07a15' transform='rotate(45)'/%3E%3Cpath d='M 0,-30 L 5,-35 L 0,-50 L -5,-35 Z' fill='%23ffd70015' transform='rotate(90)'/%3E%3Cpath d='M 0,-30 L 5,-35 L 0,-50 L -5,-35 Z' fill='%23ffb6c115' transform='rotate(135)'/%3E%3Cpath d='M 0,-30 L 5,-35 L 0,-50 L -5,-35 Z' fill='%23ffe4e115' transform='rotate(180)'/%3E%3Cpath d='M 0,-30 L 5,-35 L 0,-50 L -5,-35 Z' fill='%23ff69b415' transform='rotate(225)'/%3E%3Cpath d='M 0,-30 L 5,-35 L 0,-50 L -5,-35 Z' fill='%23ffa07a15' transform='rotate(270)'/%3E%3Cpath d='M 0,-30 L 5,-35 L 0,-50 L -5,-35 Z' fill='%23ffd70015' transform='rotate(315)'/%3E%3C/g%3E%3C/svg%3E"),
+    radial-gradient(circle, rgba(255, 105, 180, 0.06) 1px, transparent 1px),
+    radial-gradient(circle, rgba(255, 215, 0, 0.06) 1px, transparent 1px);
+  background-size: 150px 150px, 40px 40px, 60px 60px;
+  background-position: 0 0, 0 0, 30px 30px;
+  animation: sparkle 150s linear infinite, mandalaRotate 200s linear infinite;
   pointer-events: none;
 }
 
 @keyframes floralFloat {
   0%, 100% {
-    transform: translate(0, 0) rotate(0deg);
+    transform: translate(0, 0) rotate(0deg) scale(1);
   }
   25% {
-    transform: translate(20px, -20px) rotate(5deg);
+    transform: translate(30px, -30px) rotate(5deg) scale(1.05);
   }
   50% {
-    transform: translate(-10px, 10px) rotate(-3deg);
+    transform: translate(-20px, 20px) rotate(-5deg) scale(0.95);
   }
   75% {
-    transform: translate(15px, -15px) rotate(4deg);
+    transform: translate(25px, -25px) rotate(7deg) scale(1.03);
+  }
+}
+
+@keyframes floralPulse {
+  0%, 100% {
+    opacity: 0.7;
+  }
+  50% {
+    opacity: 0.9;
   }
 }
 
@@ -262,6 +281,18 @@ html, body {
   }
   100% {
     transform: translate(50px, 50px) rotate(360deg);
+  }
+}
+
+@keyframes mandalaRotate {
+  0% {
+    transform: rotate(0deg) scale(1);
+  }
+  50% {
+    transform: rotate(180deg) scale(1.05);
+  }
+  100% {
+    transform: rotate(360deg) scale(1);
   }
 }
 
@@ -758,8 +789,10 @@ html, body {
 .category-section {
   padding: 4rem 0;
   background: 
-    radial-gradient(circle at 20% 30%, rgba(255, 182, 193, 0.08) 0%, transparent 50%),
-    radial-gradient(circle at 80% 70%, rgba(255, 218, 185, 0.08) 0%, transparent 50%),
+    radial-gradient(circle at 20% 30%, rgba(255, 182, 193, 0.12) 0%, transparent 50%),
+    radial-gradient(circle at 80% 70%, rgba(255, 218, 185, 0.12) 0%, transparent 50%),
+    radial-gradient(circle at 50% 10%, rgba(255, 215, 0, 0.08) 0%, transparent 40%),
+    radial-gradient(circle at 30% 90%, rgba(255, 192, 203, 0.1) 0%, transparent 45%),
     white;
   position: relative;
   overflow: hidden;
@@ -768,35 +801,78 @@ html, body {
 .category-section::before {
   content: '';
   position: absolute;
-  top: -10px;
+  top: 0;
   left: 0;
   right: 0;
-  height: 4px;
-  background: linear-gradient(90deg, 
-    transparent 0%, 
-    #ffb6c1 20%, 
-    #ffd700 40%, 
-    #ffa07a 60%, 
-    #ffb6c1 80%, 
-    transparent 100%);
-  opacity: 0.6;
+  bottom: 0;
+  background-image: 
+    /* Flower Border Pattern */
+    url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cg transform='translate(50,50)'%3E%3Cpath d='M 0,-20 Q 8,-15 10,-5 Q 5,0 0,0 Q -5,0 -10,-5 Q -8,-15 0,-20' fill='%23ff69b425' stroke='%23ff1493' stroke-width='0.3'/%3E%3Cpath d='M 20,0 Q 15,8 5,10 Q 0,5 0,0 Q 0,-5 5,-10 Q 15,-8 20,0' fill='%23ffa07a20' stroke='%23ff6347' stroke-width='0.3'/%3E%3Cpath d='M 0,20 Q -8,15 -10,5 Q -5,0 0,0 Q 5,0 10,5 Q 8,15 0,20' fill='%23ffd70020' stroke='%23ffa500' stroke-width='0.3'/%3E%3Cpath d='M -20,0 Q -15,-8 -5,-10 Q 0,-5 0,0 Q 0,5 -5,10 Q -15,8 -20,0' fill='%23ffb6c120' stroke='%23ff69b4' stroke-width='0.3'/%3E%3Ccircle cx='0' cy='0' r='3' fill='%23ffd700' stroke='%23ff8c00' stroke-width='0.5'/%3E%3C/g%3E%3C/svg%3E"),
+    /* Scattered Petals */
+    url("data:image/svg+xml,%3Csvg width='50' height='50' viewBox='0 0 50 50' xmlns='http://www.w3.org/2000/svg'%3E%3Cellipse cx='25' cy='15' rx='4' ry='8' fill='%23ff69b430' transform='rotate(15 25 25)'/%3E%3Cellipse cx='35' cy='25' rx='3' ry='6' fill='%23ffa07a25' transform='rotate(45 35 25)'/%3E%3Cellipse cx='15' cy='35' rx='4' ry='7' fill='%23ffd70020' transform='rotate(-30 15 35)'/%3E%3C/svg%3E"),
+    /* Vines */
+    url("data:image/svg+xml,%3Csvg width='120' height='120' viewBox='0 0 120 120' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M 10,10 Q 30,20 40,40 Q 50,60 70,70 Q 90,80 110,90' fill='none' stroke='%2390ee9020' stroke-width='2'/%3E%3Ccircle cx='20' cy='15' r='3' fill='%23ff69b420'/%3E%3Ccircle cx='45' cy='45' r='2' fill='%23ffa07a20'/%3E%3Ccircle cx='75' cy='75' r='3' fill='%23ffd70020'/%3E%3Ccircle cx='100' cy='95' r='2' fill='%23ffb6c120'/%3E%3C/svg%3E");
+  background-size: 100px 100px, 50px 50px, 120px 120px;
+  background-position: 0 0, 25px 25px, 60px 60px;
+  opacity: 0.5;
+  animation: categoryFloat 100s ease-in-out infinite, categoryPulse 40s ease-in-out infinite;
+  pointer-events: none;
 }
 
 .category-section::after {
   content: '';
   position: absolute;
-  bottom: -10px;
+  top: 0;
   left: 0;
   right: 0;
-  height: 4px;
-  background: linear-gradient(90deg, 
-    transparent 0%, 
-    #ffa07a 20%, 
-    #ffd700 40%, 
-    #ffb6c1 60%, 
-    #ffa07a 80%, 
-    transparent 100%);
-  opacity: 0.6;
+  bottom: 0;
+  background: 
+    linear-gradient(90deg, 
+      transparent 0%, 
+      rgba(255, 182, 193, 0.15) 10%,
+      rgba(255, 215, 0, 0.15) 25%,
+      rgba(255, 160, 122, 0.15) 40%,
+      rgba(255, 192, 203, 0.15) 55%,
+      rgba(255, 218, 185, 0.15) 70%,
+      rgba(255, 215, 0, 0.15) 85%,
+      transparent 100%);
+  background-size: 200% 100%;
+  animation: shimmer 15s ease-in-out infinite;
+  opacity: 0.3;
+  pointer-events: none;
+}
+
+@keyframes categoryFloat {
+  0%, 100% {
+    transform: translateY(0) rotate(0deg);
+  }
+  25% {
+    transform: translateY(-15px) rotate(2deg);
+  }
+  50% {
+    transform: translateY(0) rotate(-2deg);
+  }
+  75% {
+    transform: translateY(-10px) rotate(1deg);
+  }
+}
+
+@keyframes categoryPulse {
+  0%, 100% {
+    opacity: 0.5;
+  }
+  50% {
+    opacity: 0.8;
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
 }
 
 /* Make category sections full-bleed */
@@ -805,9 +881,12 @@ html, body {
 
 .section-cream {
   background: 
-    radial-gradient(circle at 15% 25%, rgba(255, 215, 0, 0.08) 0%, transparent 40%),
-    radial-gradient(circle at 85% 75%, rgba(255, 182, 193, 0.08) 0%, transparent 40%),
-    linear-gradient(135deg, #fff8dc 0%, #ffefd5 25%, #ffe4e1 50%, #fff0f5 75%, #fffacd 100%);
+    radial-gradient(circle at 15% 25%, rgba(255, 215, 0, 0.12) 0%, transparent 40%),
+    radial-gradient(circle at 85% 75%, rgba(255, 182, 193, 0.12) 0%, transparent 40%),
+    radial-gradient(circle at 50% 50%, rgba(255, 160, 122, 0.08) 0%, transparent 50%),
+    radial-gradient(circle at 10% 80%, rgba(255, 192, 203, 0.1) 0%, transparent 45%),
+    radial-gradient(circle at 90% 20%, rgba(255, 218, 185, 0.1) 0%, transparent 45%),
+    linear-gradient(135deg, #fff8dc 0%, #ffefd5 20%, #ffe4e1 40%, #fff0f5 60%, #fffacd 80%, #ffefd5 100%);
   position: relative;
   overflow: hidden;
 }
@@ -820,16 +899,78 @@ html, body {
   right: 0;
   bottom: 0;
   background-image: 
-    url("data:image/svg+xml,%3Csvg width='80' height='80' viewBox='0 0 80 80' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23ffd70015' %3E%3Cpath d='M40 20 L45 30 L55 30 L47 37 L50 47 L40 40 L30 47 L33 37 L25 30 L35 30 Z'/%3E%3C/g%3E%3C/svg%3E");
-  background-size: 80px 80px;
-  opacity: 0.3;
-  animation: rotate 180s linear infinite;
+    /* Paisley Pattern */
+    url("data:image/svg+xml,%3Csvg width='140' height='140' viewBox='0 0 140 140' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M 70,20 Q 90,30 95,50 Q 100,70 90,85 Q 80,95 70,90 Q 65,85 65,75 Q 65,65 70,60 Q 75,55 80,60 Q 82,65 80,70 Q 65,75 60,65 Q 55,50 60,35 Q 65,25 70,20' fill='%23ff69b418' stroke='%23ff1493' stroke-width='0.5'/%3E%3Cpath d='M 40,50 Q 50,55 52,65 Q 54,75 50,82 Q 45,88 40,85 Q 38,82 38,78 Q 38,73 40,70 Q 43,67 46,70 Q 47,73 46,76 Q 40,78 38,73 Q 36,67 38,60 Q 40,55 40,50' fill='%23ffa07a15' stroke='%23ff6347' stroke-width='0.5'/%3E%3C/svg%3E"),
+    /* Rangoli Stars */
+    url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cg transform='translate(50,50)'%3E%3Cpath d='M 0,-30 L 7,-10 L 28,-10 L 12,3 L 18,23 L 0,10 L -18,23 L -12,3 L -28,-10 L -7,-10 Z' fill='%23ffd70020' stroke='%23ffa500' stroke-width='0.5'/%3E%3Cpath d='M 0,-20 L 5,-8 L 18,-8 L 8,0 L 12,15 L 0,7 L -12,15 L -8,0 L -18,-8 L -5,-8 Z' fill='%23ff69b420' stroke='%23ff1493' stroke-width='0.5'/%3E%3Ccircle cx='0' cy='0' r='5' fill='%23ffd700' stroke='%23ff8c00' stroke-width='0.8'/%3E%3C/g%3E%3C/svg%3E"),
+    /* Decorative Dots */
+    url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='10' cy='10' r='2' fill='%23ff69b425'/%3E%3Ccircle cx='30' cy='10' r='1.5' fill='%23ffa07a20'/%3E%3Ccircle cx='20' cy='20' r='2.5' fill='%23ffd70025'/%3E%3Ccircle cx='10' cy='30' r='1.5' fill='%23ffb6c120'/%3E%3Ccircle cx='30' cy='30' r='2' fill='%23ffe4e120'/%3E%3C/svg%3E"),
+    /* Traditional Motifs */
+    url("data:image/svg+xml,%3Csvg width='160' height='160' viewBox='0 0 160 160' xmlns='http://www.w3.org/2000/svg'%3E%3Cg transform='translate(80,80)'%3E%3Cpath d='M 0,-50 Q 20,-45 30,-30 Q 35,-15 30,0 Q 20,15 0,20 Q -20,15 -30,0 Q -35,-15 -30,-30 Q -20,-45 0,-50' fill='none' stroke='%23ff69b412' stroke-width='1.5'/%3E%3Cpath d='M 0,-35 Q 15,-32 22,-20 Q 25,-10 22,0 Q 15,10 0,13 Q -15,10 -22,0 Q -25,-10 -22,-20 Q -15,-32 0,-35' fill='%23ffa07a10' stroke='%23ff6347' stroke-width='1'/%3E%3Ccircle cx='0' cy='-25' r='3' fill='%23ffd700'/%3E%3Ccircle cx='18' cy='-12' r='2' fill='%23ff69b4'/%3E%3Ccircle cx='18' cy='12' r='2' fill='%23ffa07a'/%3E%3Ccircle cx='0' cy='5' r='3' fill='%23ffd700'/%3E%3Ccircle cx='-18' cy='12' r='2' fill='%23ffb6c1'/%3E%3Ccircle cx='-18' cy='-12' r='2' fill='%23ffe4e1'/%3E%3C/g%3E%3C/svg%3E");
+  background-size: 140px 140px, 100px 100px, 40px 40px, 160px 160px;
+  background-position: 0 0, 70px 70px, 20px 20px, 80px 80px;
+  opacity: 0.4;
+  animation: paisleyFloat 120s ease-in-out infinite, paisleyPulse 50s ease-in-out infinite;
   pointer-events: none;
 }
 
-@keyframes rotate {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
+.section-cream::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: 
+    repeating-linear-gradient(
+      45deg,
+      transparent,
+      transparent 100px,
+      rgba(255, 215, 0, 0.03) 100px,
+      rgba(255, 215, 0, 0.03) 200px
+    ),
+    repeating-linear-gradient(
+      -45deg,
+      transparent,
+      transparent 100px,
+      rgba(255, 182, 193, 0.03) 100px,
+      rgba(255, 182, 193, 0.03) 200px
+    );
+  animation: patternShift 180s linear infinite;
+  pointer-events: none;
+}
+
+@keyframes paisleyFloat {
+  0%, 100% {
+    transform: translate(0, 0) rotate(0deg) scale(1);
+  }
+  25% {
+    transform: translate(20px, -20px) rotate(3deg) scale(1.02);
+  }
+  50% {
+    transform: translate(-15px, 15px) rotate(-3deg) scale(0.98);
+  }
+  75% {
+    transform: translate(18px, -18px) rotate(2deg) scale(1.01);
+  }
+}
+
+@keyframes paisleyPulse {
+  0%, 100% {
+    opacity: 0.4;
+  }
+  50% {
+    opacity: 0.6;
+  }
+}
+
+@keyframes patternShift {
+  0% {
+    background-position: 0 0, 0 0;
+  }
+  100% {
+    background-position: 200px 200px, -200px -200px;
+  }
 }
 
 .section-header {
@@ -964,7 +1105,10 @@ html, body {
 
 /* Product Card */
 .product-card {
-  background: transparent;
+  background: 
+    radial-gradient(circle at 10% 10%, rgba(255, 182, 193, 0.08) 0%, transparent 50%),
+    radial-gradient(circle at 90% 90%, rgba(255, 215, 0, 0.08) 0%, transparent 50%),
+    transparent;
   border: none;
   width: 340px;
   flex-shrink: 0;
@@ -973,6 +1117,34 @@ html, body {
   animation: float 6s ease-in-out infinite;
   padding: 10px; /* Add padding to prevent border clipping */
   margin: 10px 0; /* Add margin for better spacing */
+}
+
+.product-card::before {
+  content: '';
+  position: absolute;
+  top: 5px;
+  left: 5px;
+  right: 5px;
+  bottom: 5px;
+  background-image: 
+    url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='5' cy='5' r='1.5' fill='%23ff69b415'/%3E%3Ccircle cx='35' cy='5' r='1.5' fill='%23ffd70015'/%3E%3Ccircle cx='5' cy='35' r='1.5' fill='%23ffa07a15'/%3E%3Ccircle cx='35' cy='35' r='1.5' fill='%23ffb6c115'/%3E%3Cpath d='M 5,5 L 8,8' stroke='%23ff69b410' stroke-width='0.5'/%3E%3Cpath d='M 35,5 L 32,8' stroke='%23ffd70010' stroke-width='0.5'/%3E%3Cpath d='M 5,35 L 8,32' stroke='%23ffa07a10' stroke-width='0.5'/%3E%3Cpath d='M 35,35 L 32,32' stroke='%23ffb6c110' stroke-width='0.5'/%3E%3C/svg%3E");
+  background-size: 40px 40px;
+  background-position: top left, top right, bottom left, bottom right;
+  background-repeat: no-repeat;
+  opacity: 0.3;
+  pointer-events: none;
+  z-index: 0;
+  transition: opacity 0.4s ease;
+}
+
+.product-card:hover::before {
+  opacity: 0.6;
+  animation: cornerGlow 2s ease-in-out infinite;
+}
+
+@keyframes cornerGlow {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.1); }
 }
 
 @keyframes float {
@@ -992,9 +1164,10 @@ html, body {
   left: 10px;
   right: 10px;
   bottom: 10px;
-  background: radial-gradient(circle at 50% 50%, 
-    rgba(128, 0, 32, 0.1) 0%, 
-    transparent 70%);
+  background: 
+    radial-gradient(circle at 50% 50%, rgba(255, 105, 180, 0.15) 0%, transparent 60%),
+    radial-gradient(circle at 30% 30%, rgba(255, 215, 0, 0.1) 0%, transparent 50%),
+    radial-gradient(circle at 70% 70%, rgba(255, 160, 122, 0.1) 0%, transparent 50%);
   border-radius: inherit;
   opacity: 0;
   transition: opacity 0.4s ease;
@@ -1008,8 +1181,8 @@ html, body {
 }
 
 @keyframes pulse {
-  0%, 100% { transform: scale(1); opacity: 0.3; }
-  50% { transform: scale(1.05); opacity: 0.1; }
+  0%, 100% { transform: scale(1); opacity: 0.5; }
+  50% { transform: scale(1.05); opacity: 0.3; }
 }
 
 .product-image {

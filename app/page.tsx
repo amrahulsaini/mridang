@@ -19,20 +19,6 @@ export default async function Home() {
     <div className="min-h-screen bg-cream">
       <Header />
       
-      {/* Simple Video Player */}
-      <div className="simple-video-container">
-        <video 
-          className="simple-video"
-          src="/banner.mp4" 
-          autoPlay 
-          loop 
-          muted 
-          playsInline 
-        />
-        <div className="simple-video-overlay"></div>
-        
-      </div>
-      
       <ProductGridWrapper categoriesWithProducts={categoriesWithProducts} />
       
       <FAQAndReviews />
