@@ -9,6 +9,7 @@ interface OrderProduct {
   price: number
   quantity: number
   image_url?: string
+  model_name?: string
 }
 
 interface Order {
@@ -376,36 +377,69 @@ function OrderDetailsModal({
           </button>
         </div>
         <div className={styles.modalBody}>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className={styles.detailsGrid}>
             {/* Customer Information */}
-            <div>
-              <h4 className="font-medium text-gray-900 mb-3">Customer Information</h4>
-              <div className="space-y-2 text-sm">
-                <p><span className="font-medium">Name:</span> {order.first_name} {order.last_name}</p>
-                <p><span className="font-medium">Email:</span> {order.email}</p>
-                <p><span className="font-medium">Phone:</span> {order.phone}</p>
-                <p><span className="font-medium">Email Verified:</span> {order.email_verified ? 'Yes' : 'No'}</p>
-                <p><span className="font-medium">Phone Verified:</span> {order.phone_verified ? 'Yes' : 'No'}</p>
+            <div className={styles.detailSection}>
+              <h4 className={styles.detailTitle}>Customer Information</h4>
+              <div className={styles.detailContent}>
+                <div className={styles.detailRow}>
+                  <span>Name:</span>
+                  <span>{order.first_name} {order.last_name}</span>
+                </div>
+                <div className={styles.detailRow}>
+                  <span>Email:</span>
+                  <span>{order.email}</span>
+                </div>
+                <div className={styles.detailRow}>
+                  <span>Phone:</span>
+                  <span>{order.phone}</span>
+                </div>
+                <div className={styles.detailRow}>
+                  <span>Email Verified:</span>
+                  <span>{order.email_verified ? 'Yes' : 'No'}</span>
+                </div>
+                <div className={styles.detailRow}>
+                  <span>Phone Verified:</span>
+                  <span>{order.phone_verified ? 'Yes' : 'No'}</span>
+                </div>
               </div>
             </div>
 
             {/* Order Information */}
-            <div>
-              <h4 className="font-medium text-gray-900 mb-3">Order Information</h4>
-              <div className="space-y-2 text-sm">
-                <p><span className="font-medium">Order ID:</span> {order.order_id}</p>
-                <p><span className="font-medium">Created:</span> {formatDate(order.created_at)}</p>
-                {order.verified_at && <p><span className="font-medium">Verified:</span> {formatDate(order.verified_at)}</p>}
-                {order.completed_at && <p><span className="font-medium">Completed:</span> {formatDate(order.completed_at)}</p>}
-                <p><span className="font-medium">IP Address:</span> {order.ip_address || 'N/A'}</p>
+            <div className={styles.detailSection}>
+              <h4 className={styles.detailTitle}>Order Information</h4>
+              <div className={styles.detailContent}>
+                <div className={styles.detailRow}>
+                  <span>Order ID:</span>
+                  <span>{order.order_id}</span>
+                </div>
+                <div className={styles.detailRow}>
+                  <span>Created:</span>
+                  <span>{formatDate(order.created_at)}</span>
+                </div>
+                {order.verified_at && (
+                  <div className={styles.detailRow}>
+                    <span>Verified:</span>
+                    <span>{formatDate(order.verified_at)}</span>
+                  </div>
+                )}
+                {order.completed_at && (
+                  <div className={styles.detailRow}>
+                    <span>Completed:</span>
+                    <span>{formatDate(order.completed_at)}</span>
+                  </div>
+                )}
+                <div className={styles.detailRow}>
+                  <span>IP Address:</span>
+                  <span>{order.ip_address || 'N/A'}</span>
+                </div>
               </div>
             </div>
 
             {/* Address */}
-            <div className="md:col-span-2">
-              <h4 className="font-medium text-gray-900 mb-3">Shipping Address</h4>
-              <div className="text-sm text-gray-600 bg-gray-50 p-3 rounded">
+            <div className={`${styles.detailSection} ${styles.fullWidth}`}>
+              <h4 className={styles.detailTitle}>Shipping Address</h4>
+              <div className={styles.address}>
                 {order.address}<br />
                 {order.city}, {order.state} {order.pincode}<br />
                 {order.country}
@@ -413,36 +447,50 @@ function OrderDetailsModal({
             </div>
 
             {/* Products */}
-            <div className="md:col-span-2">
-              <h4 className="font-medium text-gray-900 mb-3">Products</h4>
-              <div className="space-y-2">
+            <div className={`${styles.detailSection} ${styles.fullWidth}`}>
+              <h4 className={styles.detailTitle}>Products</h4>
+              <div className={styles.products}>
                 {Array.isArray(order.products) ? order.products.map((product: OrderProduct, index: number) => (
-                  <div key={index} className="flex justify-between items-center p-3 bg-gray-50 rounded">
-                    <div>
-                      <p className="font-medium">{product.name}</p>
-                      <p className="text-sm text-gray-600">Quantity: {product.quantity}</p>
+                  <div key={index} className={styles.productItem}>
+                    <div className={styles.productInfo}>
+                      {product.image_url && (
+                        <div className={styles.productImageContainer}>
+                          <img
+                            src={product.image_url}
+                            alt={product.name}
+                            className={styles.productImage}
+                          />
+                        </div>
+                      )}
+                      <div className={styles.productDetails}>
+                        <p className={styles.productName}>{product.name}</p>
+                        {product.model_name && (
+                          <p className={styles.productModel}>Model: {product.model_name}</p>
+                        )}
+                        <p className={styles.productQuantity}>Quantity: {product.quantity}</p>
+                      </div>
                     </div>
-                    <p className="font-medium">{formatCurrency(product.price * product.quantity)}</p>
+                    <p className={styles.productPrice}>{formatCurrency(product.price * product.quantity)}</p>
                   </div>
                 )) : (
-                  <p className="text-sm text-gray-600">Product details not available in expected format</p>
+                  <p className={styles.noProductsText}>Product details not available in expected format</p>
                 )}
               </div>
             </div>
 
             {/* Pricing */}
-            <div>
-              <h4 className="font-medium text-gray-900 mb-3">Pricing</h4>
-              <div className="space-y-1 text-sm">
-                <div className="flex justify-between">
+            <div className={styles.detailSection}>
+              <h4 className={styles.detailTitle}>Pricing</h4>
+              <div className={styles.pricing}>
+                <div className={styles.pricingRow}>
                   <span>Subtotal:</span>
                   <span>{formatCurrency(order.subtotal)}</span>
                 </div>
-                <div className="flex justify-between">
+                <div className={styles.pricingRow}>
                   <span>Shipping:</span>
                   <span>{formatCurrency(order.shipping_cost)}</span>
                 </div>
-                <div className="flex justify-between font-medium text-lg border-t pt-1">
+                <div className={`${styles.pricingRow} ${styles.pricingTotal}`}>
                   <span>Total:</span>
                   <span>{formatCurrency(order.total_amount)}</span>
                 </div>
@@ -450,15 +498,15 @@ function OrderDetailsModal({
             </div>
 
             {/* Status Update */}
-            <div>
-              <h4 className="font-medium text-gray-900 mb-3">Update Status</h4>
-              <div className="space-y-3">
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Order Status</label>
+            <div className={styles.detailSection}>
+              <h4 className={styles.detailTitle}>Update Status</h4>
+              <div className={styles.updateForm}>
+                <div className={styles.formGroup}>
+                  <label className={styles.formLabel}>Order Status</label>
                   <select
                     value={status}
                     onChange={(e) => setStatus(e.target.value)}
-                    className="w-full border border-gray-300 rounded-md px-3 py-2"
+                    className={styles.formSelect}
                   >
                     <option value="pending">Pending</option>
                     <option value="verified">Verified</option>
@@ -468,12 +516,12 @@ function OrderDetailsModal({
                   </select>
                 </div>
 
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Payment Status</label>
+                <div className={styles.formGroup}>
+                  <label className={styles.formLabel}>Payment Status</label>
                   <select
                     value={paymentStatus}
                     onChange={(e) => setPaymentStatus(e.target.value)}
-                    className="w-full border border-gray-300 rounded-md px-3 py-2"
+                    className={styles.formSelect}
                   >
                     <option value="pending">Pending</option>
                     <option value="paid">Paid</option>
@@ -482,20 +530,20 @@ function OrderDetailsModal({
                   </select>
                 </div>
 
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Notes</label>
+                <div className={styles.formGroup}>
+                  <label className={styles.formLabel}>Notes</label>
                   <textarea
                     value={notes}
                     onChange={(e) => setNotes(e.target.value)}
                     rows={3}
-                    className="w-full border border-gray-300 rounded-md px-3 py-2"
+                    className={styles.formTextarea}
                     placeholder="Add notes about this order..."
                   />
                 </div>
 
                 <button
                   onClick={handleUpdate}
-                  className="w-full bg-red-600 text-white py-2 px-4 rounded-md hover:bg-red-700"
+                  className={styles.updateBtn}
                 >
                   Update Order
                 </button>
