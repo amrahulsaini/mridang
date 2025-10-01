@@ -1,5 +1,5 @@
 'use client'
-import { useState, useEffect, useCallback } from 'react'
+import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import Image from 'next/image'
 import Link from 'next/link'
@@ -109,7 +109,6 @@ interface Product {
 
 export default function ProductEditPage() {
   const router = useRouter()
-  const isNew = true
 
   const [formData, setFormData] = useState<Partial<Product>>({})
   const [isSaving, setIsSaving] = useState(false)
@@ -246,8 +245,8 @@ export default function ProductEditPage() {
       const validKeyFeatures = (formData.key_features || []).filter(id => Number.isInteger(id) && id > 0);
       
       // Helper function to convert undefined to null
-      const convertUndefinedToNull = (obj: any): any => {
-        const result: any = {};
+      const convertUndefinedToNull = (obj: Record<string, unknown>): Record<string, unknown> => {
+        const result: Record<string, unknown> = {};
         for (const key in obj) {
           if (obj[key] === undefined) {
             result[key] = null;
