@@ -1,7 +1,7 @@
 'use client'
 
 import { motion } from 'framer-motion'
-import { Cookie, Settings, BarChart3, Shield, Eye, X } from 'lucide-react'
+import { Cookie, Settings, BarChart3, Shield, Eye } from 'lucide-react'
 import Header from '../components/Header'
 import Footer from '../components/Footer'
 import styles from './Cookies.module.css'

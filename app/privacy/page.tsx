@@ -200,7 +200,7 @@ export default function PrivacyPage() {
         <div className={styles.container}>
           <div className={styles.sectionHeader}>
             <h2>Your Privacy Rights</h2>
-            <p>You have certain rights regarding your personal information. Here's what you can do:</p>
+            <p>You have certain rights regarding your personal information. Here&apos;s what you can do:</p>
           </div>
 
           <div className={styles.rightsGrid}>

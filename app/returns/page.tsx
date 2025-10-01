@@ -1,6 +1,7 @@
 'use client'
 
 import { motion } from 'framer-motion'
+import Link from 'next/link'
 import { RefreshCw, Shield, Clock, CheckCircle, XCircle, AlertTriangle } from 'lucide-react'
 import Header from '../components/Header'
 import Footer from '../components/Footer'
@@ -127,7 +128,7 @@ export default function ReturnsPage() {
         <div className={styles.container}>
           <div className={styles.sectionHeader}>
             <h2>Our Return Promise</h2>
-            <p>We're committed to your satisfaction with every handcrafted purchase.</p>
+            <p>We&apos;re committed to your satisfaction with every handcrafted purchase.</p>
           </div>
 
           <div className={styles.policyGrid}>
@@ -268,9 +269,9 @@ export default function ReturnsPage() {
             <h2>Need Help with a Return?</h2>
             <p>Our customer support team is here to assist you with your return or exchange.</p>
             <div className={styles.contactButtons}>
-              <a href="/contact" className={styles.contactBtn}>
+              <Link href="/contact" className={styles.contactBtn}>
                 Start Return Process
-              </a>
+              </Link>
               <a href="mailto:support@mridang.co.in" className={styles.emailBtn}>
                 Email Support
               </a>

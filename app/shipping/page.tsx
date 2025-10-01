@@ -1,6 +1,7 @@
 'use client'
 
 import { motion } from 'framer-motion'
+import Link from 'next/link'
 import { Truck, Clock, MapPin, Shield, Package, CheckCircle } from 'lucide-react'
 import Header from '../components/Header'
 import Footer from '../components/Footer'
@@ -164,7 +165,7 @@ export default function ShippingPage() {
         <div className={styles.container}>
           <div className={styles.sectionHeader}>
             <h2>How It Works</h2>
-            <p>From order to delivery - here's what happens next.</p>
+            <p>From order to delivery - here&apos;s what happens next.</p>
           </div>
 
           <div className={styles.processSteps}>
@@ -176,7 +177,7 @@ export default function ShippingPage() {
             >
               <div className={styles.stepNumber}>1</div>
               <h3>Order Confirmation</h3>
-              <p>You'll receive an email confirmation within minutes of placing your order.</p>
+              <p>You&apos;ll receive an email confirmation within minutes of placing your order.</p>
             </motion.div>
 
             <motion.div
@@ -247,9 +248,9 @@ export default function ShippingPage() {
             <h2>Need Help with Shipping?</h2>
             <p>Our customer support team is here to assist you with any shipping-related questions.</p>
             <div className={styles.contactButtons}>
-              <a href="/contact" className={styles.contactBtn}>
+              <Link href="/contact" className={styles.contactBtn}>
                 Contact Support
-              </a>
+              </Link>
               <a href="mailto:support@mridang.co.in" className={styles.emailBtn}>
                 Email Us
               </a>

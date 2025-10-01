@@ -93,7 +93,7 @@ export default function ContactPage() {
             className={styles.heroText}
           >
             <h1>Get in Touch</h1>
-            <p>We'd love to hear from you. Send us a message and we'll respond as soon as possible.</p>
+            <p>We&apos;d love to hear from you. Send us a message and we&apos;ll respond as soon as possible.</p>
           </motion.div>
         </div>
       </section>
@@ -138,7 +138,7 @@ export default function ContactPage() {
               className={styles.formContainer}
             >
               <h2>Send us a Message</h2>
-              <p>Fill out the form below and we'll get back to you within 24 hours.</p>
+              <p>Fill out the form below and we&apos;ll get back to you within 24 hours.</p>
 
               {isSubmitted && (
                 <motion.div
@@ -239,7 +239,7 @@ export default function ContactPage() {
               className={styles.mapContainer}
             >
               <h2>Visit Our Workshop</h2>
-              <p>Located in the heart of Jaipur's artisan district, our workshop is where all the magic happens.</p>
+              <p>Located in the heart of Jaipur&apos;s artisan district, our workshop is where all the magic happens.</p>
 
               <div className={styles.mapPlaceholder}>
                 <MapPin size={48} />
