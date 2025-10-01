@@ -204,7 +204,7 @@ export async function POST(request: NextRequest) {
       // Insert main product
       const [result] = await connection.execute(`
         INSERT INTO Products (
-          pro_id, flipkart_serial_number, catalog_qc_status, qc_failed_reason,
+          flipkart_serial_number, catalog_qc_status, qc_failed_reason,
           flipkart_product_link, product_data_status, disapproval_reason, seller_sku_id,
           brand, model_number, pack_of, width_inch, depth_inch, main_image_url,
           other_image_url_1, other_image_url_2, other_image_url_3, other_image_url_4,
@@ -216,9 +216,9 @@ export async function POST(request: NextRequest) {
           warranty_summary, warranty_service_type, covered_in_warranty,
           not_covered_in_warranty, ean_upc, gift_pack, supplier_image, is_fragile,
           category_id
-        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
       `, [
-        pro_id, flipkart_serial_number, catalog_qc_status, qc_failed_reason,
+        flipkart_serial_number, catalog_qc_status, qc_failed_reason,
         flipkart_product_link, product_data_status, disapproval_reason, seller_sku_id,
         brand, model_number, pack_of, width_inch, depth_inch, main_image_url,
         other_image_url_1, other_image_url_2, other_image_url_3, other_image_url_4,
