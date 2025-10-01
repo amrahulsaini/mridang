@@ -1,8 +1,14 @@
 /* Contact.module.css */
-.container {
+.pageContainer {
   min-height: 100vh;
   background: linear-gradient(135deg, #fef7f7 0%, #faf7f0 50%, #fef7f7 100%);
   font-family: 'Sora', sans-serif;
+}
+
+.container {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 2rem;
 }
 
 /* Hero Section */
@@ -425,6 +431,10 @@
   .whatsappContent h2 {
     font-size: 1.5rem;
   }
+
+  .container {
+    padding: 0 1rem !important;
+  }
 }
 
 @media (max-width: 480px) {
@@ -470,5 +480,9 @@
   .whatsappBtn {
     padding: 0.875rem 1.5rem;
     font-size: 0.9rem;
+  }
+
+  .container {
+    padding: 0 0.5rem !important;
   }
 }
