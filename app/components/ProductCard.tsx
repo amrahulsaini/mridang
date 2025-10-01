@@ -4,6 +4,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { ShoppingCart, Info, CheckCircle2, Trash2 } from 'lucide-react'
 import Image from 'next/image'
 import { useState } from 'react'
+import { useRouter } from 'next/navigation'
 import { Product } from '../types'
 import { useCart } from '../context/CartContext'
 import { useNotification } from '../context/NotificationContext'
@@ -21,6 +22,7 @@ const ProductCard: React.FC<Product & { onInfoClick?: (product: Product) => void
   const [showRemoveConfirm, setShowRemoveConfirm] = useState(false)
   const { addItem, removeItem, isItemInCart } = useCart()
   const { showNotification } = useNotification()
+  const router = useRouter()
 
   // Use main_image_url first, then fallback to image_url, then placeholder
   const productImage = main_image_url || image_url || '/file.svg'
@@ -40,6 +42,13 @@ const ProductCard: React.FC<Product & { onInfoClick?: (product: Product) => void
     if (onInfoClick) {
       onInfoClick(completeProduct)
     }
+  }
+
+  const handleImageClick = () => {
+    // Navigate to product detail page using category and product ID
+    const category = product.category_name?.toLowerCase().replace(/\s+/g, '-') || 'products'
+    const productId = product.pro_id || product.id
+    router.push(`/${category}/${productId}`)
   }
 
   // Check if item is in cart - use pro_id if available, fallback to id
@@ -91,7 +100,7 @@ const ProductCard: React.FC<Product & { onInfoClick?: (product: Product) => void
       onMouseLeave={() => setIsHovered(false)}
     >
       {/* Product Image */}
-      <div className={`product-image ${isHovered ? 'shape-morphed' : ''}`}>
+      <div className={`product-image ${isHovered ? 'shape-morphed' : ''}`} onClick={handleImageClick} style={{ cursor: 'pointer' }}>
         {isProblematicSrc ? (
           // eslint-disable-next-line @next/next/no-img-element
           <img
