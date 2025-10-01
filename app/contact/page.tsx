@@ -63,7 +63,7 @@ export default function ContactPage() {
       icon: Phone,
       title: 'Call Us',
       details: [
-        '+91 8306916176',
+        '+91 9413419163',
         'Mon-Sat: 10:00 AM - 7:00 PM IST',
         'Sunday: Closed'
       ]

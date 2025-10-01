@@ -76,8 +76,8 @@ export default function ShippingPage() {
       answer: 'Address changes are possible within 2 hours of order placement. Contact our support team at support@mridang.co.in for assistance.'
     },
     {
-      question: 'Do you offer cash on delivery?',
-      answer: 'Yes, we offer Cash on Delivery (COD) for all orders within India. Additional charges may apply for COD orders.'
+      question: 'What payment methods do you accept?',
+      answer: 'We accept all major credit/debit cards, UPI, net banking, and wallet payments through our secure payment gateway.'
     }
   ]
 

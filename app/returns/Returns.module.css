@@ -11,7 +11,7 @@
               url('/api/placeholder/1920/600') center/cover;
   position: relative;
   overflow: hidden;
-  padding: 8rem 0 6rem;
+  padding: 4rem 0 3rem;
 }
 
 .hero::before {
@@ -58,7 +58,7 @@
 /* Section Headers */
 .sectionHeader {
   text-align: center;
-  margin-bottom: 4rem;
+  margin-bottom: 2rem;
 }
 
 .sectionHeader h2 {
@@ -78,7 +78,7 @@
 
 /* Policy Section */
 .policySection {
-  padding: 5rem 0;
+  padding: 3rem 0;
   background: white;
 }
 
@@ -217,7 +217,7 @@
 
 /* Process Section */
 .processSection {
-  padding: 5rem 0;
+  padding: 3rem 0;
   background: white;
 }
 

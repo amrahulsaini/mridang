@@ -13,14 +13,6 @@ const Footer = () => {
     { name: 'Privacy Policy', href: '/privacy' }
   ]
 
-  const categories = [
-    { name: 'Ring Platters', href: '/category/ring-platters' },
-    { name: 'Haldi Platters', href: '/category/haldi-platters' },
-    { name: 'Mehendi Platters', href: '/category/mehendi-platters' },
-    { name: 'Custom Orders', href: '/custom' },
-    { name: 'Wedding Essentials', href: '/wedding' }
-  ]
-
   const socialLinks = [
     { icon: Instagram, href: 'https://instagram.com/mridang' },
     { icon: Facebook, href: 'https://facebook.com/mridang' },
@@ -102,20 +94,6 @@ const Footer = () => {
               </ul>
             </div>
 
-            {/* Categories */}
-            <div>
-              <h4 className="text-lg font-semibold text-white mb-4">Shop by Category</h4>
-              <ul className="footer-links">
-                {categories.map((category, index) => (
-                  <li key={index}>
-                    <Link href={category.href}>
-                      {category.name}
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            </div>
-
             {/* Contact Info */}
             <div>
               <h4 className="text-lg font-semibold text-white mb-4">Get in Touch</h4>
@@ -124,25 +102,25 @@ const Footer = () => {
                   <MapPin size={20} className="text-red-600 mt-1 flex-shrink-0" />
                   <div>
                     <p className="text-gray-300">
-                      123 Artisan Street,<br />
-                      Craft District, Mumbai<br />
-                      Maharashtra, India
+                      801, Barkat Nagar, Tonk Phatak<br />
+                      Jaipur, Rajasthan 302015<br />
+                      India
                     </p>
                   </div>
                 </div>
                 <div className="flex items-center gap-3">
                   <Phone size={20} className="text-red-600 flex-shrink-0" />
                   <div>
-                    <a href="tel:+918306916176" className="text-gray-300 hover:text-white transition-colors">
-                      +91 8306916176
+                    <a href="tel:+919413419163" className="text-gray-300 hover:text-white transition-colors">
+                      +91 9413419163
                     </a>
                   </div>
                 </div>
                 <div className="flex items-center gap-3">
                   <Mail size={20} className="text-red-600 flex-shrink-0" />
                   <div>
-                    <a href="mailto:hello@mridang.com" className="text-gray-300 hover:text-white transition-colors">
-                      hello@mridang.com
+                    <a href="mailto:support@mridang.co.in" className="text-gray-300 hover:text-white transition-colors">
+                      support@mridang.co.in
                     </a>
                   </div>
                 </div>

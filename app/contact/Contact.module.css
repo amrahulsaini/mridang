@@ -11,7 +11,7 @@
               url('/api/placeholder/1920/600') center/cover;
   position: relative;
   overflow: hidden;
-  padding: 8rem 0 6rem;
+  padding: 4rem 0 3rem;
 }
 
 .hero::before {
@@ -57,7 +57,7 @@
 
 /* Contact Info Section */
 .contactInfo {
-  padding: 5rem 0;
+  padding: 3rem 0;
   background: white;
 }
 
@@ -114,7 +114,7 @@
 
 /* Contact Section */
 .contactSection {
-  padding: 5rem 0;
+  padding: 3rem 0;
   background: linear-gradient(135deg, #faf7f0, #fef7f7);
 }
 
