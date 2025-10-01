@@ -720,8 +720,8 @@ html, body {
     url("data:image/svg+xml,%3Csvg width='120' height='120' viewBox='0 0 120 120' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M 10,10 Q 30,20 40,40 Q 50,60 70,70 Q 90,80 110,90' fill='none' stroke='%2390ee9020' stroke-width='2'/%3E%3Ccircle cx='20' cy='15' r='3' fill='%23ff69b420'/%3E%3Ccircle cx='45' cy='45' r='2' fill='%23ffa07a20'/%3E%3Ccircle cx='75' cy='75' r='3' fill='%23ffd70020'/%3E%3Ccircle cx='100' cy='95' r='2' fill='%23ffb6c120'/%3E%3C/svg%3E");
   background-size: 100px 100px, 50px 50px, 120px 120px;
   background-position: 0 0, 25px 25px, 60px 60px;
-  opacity: 0.5;
-  animation: categoryFloat 100s ease-in-out infinite, categoryPulse 40s ease-in-out infinite;
+  opacity: 0;
+  animation: categoryFadeIn 1s ease-in 0.5s forwards, categoryFloat 100s ease-in-out 1.5s infinite, categoryPulse 40s ease-in-out 1.5s infinite;
   pointer-events: none;
 }
 
@@ -743,9 +743,18 @@ html, body {
       rgba(255, 215, 0, 0.15) 85%,
       transparent 100%);
   background-size: 200% 100%;
-  animation: shimmer 15s ease-in-out infinite;
-  opacity: 0.3;
+  opacity: 0;
+  animation: categoryFadeIn 1s ease-in 0.5s forwards, shimmer 15s ease-in-out 1.5s infinite;
   pointer-events: none;
+}
+
+@keyframes categoryFadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 0.5;
+  }
 }
 
 @keyframes categoryFloat {
@@ -815,8 +824,8 @@ html, body {
     url("data:image/svg+xml,%3Csvg width='160' height='160' viewBox='0 0 160 160' xmlns='http://www.w3.org/2000/svg'%3E%3Cg transform='translate(80,80)'%3E%3Cpath d='M 0,-50 Q 20,-45 30,-30 Q 35,-15 30,0 Q 20,15 0,20 Q -20,15 -30,0 Q -35,-15 -30,-30 Q -20,-45 0,-50' fill='none' stroke='%23ff69b412' stroke-width='1.5'/%3E%3Cpath d='M 0,-35 Q 15,-32 22,-20 Q 25,-10 22,0 Q 15,10 0,13 Q -15,10 -22,0 Q -25,-10 -22,-20 Q -15,-32 0,-35' fill='%23ffa07a10' stroke='%23ff6347' stroke-width='1'/%3E%3Ccircle cx='0' cy='-25' r='3' fill='%23ffd700'/%3E%3Ccircle cx='18' cy='-12' r='2' fill='%23ff69b4'/%3E%3Ccircle cx='18' cy='12' r='2' fill='%23ffa07a'/%3E%3Ccircle cx='0' cy='5' r='3' fill='%23ffd700'/%3E%3Ccircle cx='-18' cy='12' r='2' fill='%23ffb6c1'/%3E%3Ccircle cx='-18' cy='-12' r='2' fill='%23ffe4e1'/%3E%3C/g%3E%3C/svg%3E");
   background-size: 140px 140px, 100px 100px, 40px 40px, 160px 160px;
   background-position: 0 0, 70px 70px, 20px 20px, 80px 80px;
-  opacity: 0.4;
-  animation: paisleyFloat 120s ease-in-out infinite, paisleyPulse 50s ease-in-out infinite;
+  opacity: 0;
+  animation: sectionCreamFadeIn 1s ease-in 0.5s forwards, paisleyFloat 120s ease-in-out 1.5s infinite, paisleyPulse 50s ease-in-out 1.5s infinite;
   pointer-events: none;
 }
 
@@ -842,8 +851,18 @@ html, body {
       rgba(255, 182, 193, 0.03) 100px,
       rgba(255, 182, 193, 0.03) 200px
     );
-  animation: patternShift 180s linear infinite;
+  opacity: 0;
+  animation: sectionCreamFadeIn 1s ease-in 0.5s forwards, patternShift 180s linear 1.5s infinite;
   pointer-events: none;
+}
+
+@keyframes sectionCreamFadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 0.4;
+  }
 }
 
 @keyframes paisleyFloat {
