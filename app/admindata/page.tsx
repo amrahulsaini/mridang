@@ -301,7 +301,7 @@ export default function AdminDataPage() {
         <div className={styles.actionButtons}>
           {activeTab === 'products' && (
             <button
-              onClick={() => router.push('/admindata/edit/new')}
+              onClick={() => router.push('/admindata/products/new')}
               className={styles.addBtn}
             >
               ➕ Add Product
@@ -327,7 +327,7 @@ export default function AdminDataPage() {
                 <h3>No products found</h3>
                 <p>Start by adding your first product</p>
                 <button
-                  onClick={() => router.push('/admindata/edit/new')}
+                  onClick={() => router.push('/admindata/products/new')}
                   className={styles.addBtn}
                 >
                   ➕ Add Product
