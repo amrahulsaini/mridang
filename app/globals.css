@@ -712,9 +712,15 @@ html, body {
   left: 0;
   right: 0;
   bottom: 0;
-  opacity: 0.2;
+  background-image: 
+    /* Simple flower corners - top left */
+    url("data:image/svg+xml,%3Csvg width='80' height='80' viewBox='0 0 80 80' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='20' cy='20' r='3' fill='%23ff69b420'/%3E%3Ccircle cx='15' cy='15' r='2' fill='%23ffd70015'/%3E%3Ccircle cx='25' cy='15' r='2' fill='%23ffa07a15'/%3E%3Ccircle cx='15' cy='25' r='2' fill='%23ffb6c115'/%3E%3Ccircle cx='25' cy='25' r='2' fill='%23ffe4e115'/%3E%3C/svg%3E"),
+    /* Simple flower corners - bottom right */
+    url("data:image/svg+xml,%3Csvg width='80' height='80' viewBox='0 0 80 80' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='60' cy='60' r='3' fill='%23ffa07a20'/%3E%3Ccircle cx='55' cy='55' r='2' fill='%23ff69b415'/%3E%3Ccircle cx='65' cy='55' r='2' fill='%23ffd70015'/%3E%3Ccircle cx='55' cy='65' r='2' fill='%23ffe4e115'/%3E%3Ccircle cx='65' cy='65' r='2' fill='%23ffb6c115'/%3E%3C/svg%3E");
+  background-position: top 20px left 20px, bottom 20px right 20px;
+  background-repeat: no-repeat;
+  opacity: 0.4;
   pointer-events: none;
-  /* Animations disabled for performance */
 }
 
 .category-section::after {
@@ -724,9 +730,12 @@ html, body {
   left: 0;
   right: 0;
   bottom: 0;
-  opacity: 0;
+  background-image: 
+    url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='10' cy='10' r='1.5' fill='%23ff69b410'/%3E%3Ccircle cx='50' cy='10' r='1.5' fill='%23ffd70010'/%3E%3Ccircle cx='30' cy='30' r='1.5' fill='%23ffa07a10'/%3E%3Ccircle cx='10' cy='50' r='1.5' fill='%23ffb6c110'/%3E%3Ccircle cx='50' cy='50' r='1.5' fill='%23ffe4e110'/%3E%3C/svg%3E");
+  background-size: 60px 60px;
+  background-repeat: repeat;
+  opacity: 0.25;
   pointer-events: none;
-  /* Shimmer animation disabled for performance */
 }
 
 @keyframes categoryFadeIn {
@@ -789,9 +798,14 @@ html, body {
   left: 0;
   right: 0;
   bottom: 0;
-  opacity: 0;
+  background-image: 
+    /* Simple paisley motifs */
+    url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cellipse cx='30' cy='30' rx='6' ry='12' fill='%23ff69b415' transform='rotate(45 30 30)'/%3E%3Ccircle cx='30' cy='30' r='3' fill='%23ffd70020'/%3E%3Cellipse cx='70' cy='70' rx='5' ry='10' fill='%23ffa07a15' transform='rotate(-45 70 70)'/%3E%3Ccircle cx='70' cy='70' r='2.5' fill='%23ffb6c120'/%3E%3C/svg%3E");
+  background-size: 100px 100px;
+  background-position: 0 0;
+  background-repeat: repeat;
+  opacity: 0.3;
   pointer-events: none;
-  /* Animations disabled for performance */
 }
 
 .section-cream::after {
@@ -801,9 +815,16 @@ html, body {
   left: 0;
   right: 0;
   bottom: 0;
-  opacity: 0;
+  background: 
+    /* Top border decoration */
+    linear-gradient(to right, transparent 0%, rgba(255, 182, 193, 0.2) 50%, transparent 100%),
+    /* Bottom border decoration */
+    linear-gradient(to right, transparent 0%, rgba(255, 215, 0, 0.2) 50%, transparent 100%);
+  background-size: 100% 2px;
+  background-position: top center, bottom center;
+  background-repeat: no-repeat;
+  opacity: 0.5;
   pointer-events: none;
-  /* Pattern animation disabled for performance */
 }
 
 @keyframes sectionCreamFadeIn {
@@ -1081,11 +1102,9 @@ html, body {
   left: 0;
   right: 0;
   bottom: 0;
-  opacity: 0;
-  pointer-events: none;
-  z-index: 1;
-  /* Floral animations disabled for performance */
-}
+  background-image: 
+    /* Corner flowers - static, no animation */
+    url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg transform='translate(15,15)'%3E%3Ccircle cx='15' cy='15' r='4' fill='%23ffd70025'/%3E%3Ccircle cx='10' cy='10' r='2.5' fill='%23ff69b420'/%3E%3Ccircle cx='20' cy='10' r='2.5' fill='%23ffa07a20'/%3E%3Ccircle cx='10' cy='20' r='2.5' fill='%23ffb6c120'/%3E%3Ccircle cx='20' cy='20' r='2.5' fill='%23ffe4e120'/%3E%3C/g%3E%3C/svg%3E\"),\n    /* Scattered petals */\n    url("data:image/svg+xml,%3Csvg width='80' height='80' viewBox='0 0 80 80' xmlns='http://www.w3.org/2000/svg'%3E%3Cellipse cx='20' cy='25' rx='3' ry='6' fill='%23ff69b418' transform='rotate(30 20 25)'/%3E%3Cellipse cx='60' cy='30' rx='2.5' ry='5' fill='%23ffa07a15' transform='rotate(-40 60 30)'/%3E%3Cellipse cx='40' cy='60' rx='3' ry='6' fill='%23ffd70018' transform='rotate(20 40 60)'/%3E%3C/svg%3E\");\n  background-position: top 10px left 10px, center;\n  background-repeat: no-repeat, repeat;\n  background-size: 60px 60px, 80px 80px;\n  opacity: 0.35;\n  pointer-events: none;\n  z-index: 1;\n}
 
 @keyframes productFloralDance {
   0%, 100% {
