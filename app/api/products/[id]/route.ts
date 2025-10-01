@@ -24,6 +24,8 @@ interface ProductRow {
   theme?: string
   finish?: string
   embossment?: string
+  is_fragile?: number
+  stand_included?: number
 }
 
 export async function GET(
@@ -50,7 +52,29 @@ export async function GET(
 
     const product = products[0]
 
-    return NextResponse.json(product)
+    // Fetch materials
+    const materials = await query(`
+      SELECT m.material_name
+      FROM Product_Materials pm
+      JOIN Materials m ON pm.material_id = m.material_id
+      WHERE pm.product_id = ?
+    `, [product.id]) as { material_name: string }[]
+
+    // Fetch colors
+    const colors = await query(`
+      SELECT c.color_name
+      FROM Product_Colors pc
+      JOIN Colors c ON pc.color_id = c.color_id
+      WHERE pc.product_id = ?
+    `, [product.id]) as { color_name: string }[]
+
+    const productWithDetails = {
+      ...product,
+      materials: materials.map(m => m.material_name),
+      colors: colors.map(c => c.color_name)
+    }
+
+    return NextResponse.json(productWithDetails)
   } catch (error) {
     console.error('Error fetching product:', error)
     return NextResponse.json(

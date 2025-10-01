@@ -42,6 +42,10 @@ interface Product {
   theme: string
   finish: string
   embossment: string
+  is_fragile?: number
+  stand_included?: number
+  materials: string[]
+  colors: string[]
 }
 
 export default function ProductDetailsPage() {
@@ -336,6 +340,30 @@ export default function ProductDetailsPage() {
                     <li className={styles.detailListItem}>
                       <span className={styles.detailLabel}>Embossment:</span>
                       <span className={styles.detailValue}>{product.embossment}</span>
+                    </li>
+                  )}
+                  {product.is_fragile !== undefined && (
+                    <li className={styles.detailListItem}>
+                      <span className={styles.detailLabel}>Fragile:</span>
+                      <span className={styles.detailValue}>{product.is_fragile ? 'Yes' : 'No'}</span>
+                    </li>
+                  )}
+                  {product.stand_included !== undefined && (
+                    <li className={styles.detailListItem}>
+                      <span className={styles.detailLabel}>Stand Included:</span>
+                      <span className={styles.detailValue}>{product.stand_included ? 'Yes' : 'No'}</span>
+                    </li>
+                  )}
+                  {product.materials && product.materials.length > 0 && (
+                    <li className={styles.detailListItem}>
+                      <span className={styles.detailLabel}>Materials:</span>
+                      <span className={styles.detailValue}>{product.materials.join(', ')}</span>
+                    </li>
+                  )}
+                  {product.colors && product.colors.length > 0 && (
+                    <li className={styles.detailListItem}>
+                      <span className={styles.detailLabel}>Colors:</span>
+                      <span className={styles.detailValue}>{product.colors.join(', ')}</span>
                     </li>
                   )}
                 </ul>
