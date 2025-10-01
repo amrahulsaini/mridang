@@ -1,6 +1,36 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { query } from '@/app/lib/database'
 
+// Define the order interface
+interface OrderRow {
+  id: number
+  order_id: string
+  first_name: string
+  last_name: string
+  email: string
+  phone: string
+  address: string
+  city: string
+  state: string
+  pincode: string
+  country: string
+  products: string | unknown[] // Can be string from DB or parsed array
+  subtotal: number
+  shipping_cost: number
+  total_amount: number
+  email_verified: boolean
+  phone_verified: boolean
+  status: string
+  payment_status: string
+  created_at: string
+  updated_at: string
+  verified_at: string | null
+  completed_at: string | null
+  ip_address: string | null
+  user_agent: string | null
+  notes: string | null
+}
+
 // GET - Fetch all orders with details
 export async function GET() {
   try {
@@ -36,7 +66,13 @@ export async function GET() {
       ORDER BY created_at DESC
     `)
 
-    return NextResponse.json(orders)
+    // Parse the JSON products field for each order
+    const processedOrders = (orders as OrderRow[]).map((order: OrderRow) => ({
+      ...order,
+      products: typeof order.products === 'string' ? JSON.parse(order.products) : order.products
+    }))
+
+    return NextResponse.json(processedOrders)
   } catch (error) {
     console.error('Error fetching orders:', error)
     return NextResponse.json(

@@ -4,12 +4,11 @@ import { useState, useEffect } from 'react'
 import styles from './AdminOrders.module.css'
 
 interface OrderProduct {
-  id: number
+  id: string
   name: string
   price: number
   quantity: number
-  image_url?: string
-  model_name?: string
+  image: string
 }
 
 interface Order {
@@ -453,10 +452,10 @@ function OrderDetailsModal({
                 {Array.isArray(order.products) ? order.products.map((product: OrderProduct, index: number) => (
                   <div key={index} className={styles.productItem}>
                     <div className={styles.productInfo}>
-                      {product.image_url && (
+                      {product.image && (
                         <div className={styles.productImageContainer}>
                           <img
-                            src={product.image_url}
+                            src={product.image}
                             alt={product.name}
                             className={styles.productImage}
                           />
@@ -464,9 +463,6 @@ function OrderDetailsModal({
                       )}
                       <div className={styles.productDetails}>
                         <p className={styles.productName}>{product.name}</p>
-                        {product.model_name && (
-                          <p className={styles.productModel}>Model: {product.model_name}</p>
-                        )}
                         <p className={styles.productQuantity}>Quantity: {product.quantity}</p>
                       </div>
                     </div>
