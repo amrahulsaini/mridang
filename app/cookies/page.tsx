@@ -114,7 +114,7 @@ export default function CookiesPage() {
   ]
 
   return (
-    <div className={styles.container}>
+    <div className={styles.pageContainer}>
       <Header />
 
       {/* Hero Section */}

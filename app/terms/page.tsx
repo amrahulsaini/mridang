@@ -96,7 +96,7 @@ export default function TermsPage() {
   ]
 
   return (
-    <div className={styles.container}>
+    <div className={styles.pageContainer}>
       <Header />
 
       {/* Hero Section */}

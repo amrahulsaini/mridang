@@ -105,7 +105,7 @@ export default function ReturnsPage() {
   ]
 
   return (
-    <div className={styles.container}>
+    <div className={styles.pageContainer}>
       <Header />
 
       {/* Hero Section */}
