@@ -33,6 +33,7 @@ export interface Category {
   name: string;
   description?: string;
   is_active: boolean;
+  arrange_order?: number;
 }
 
 // Fetch all products with category information
@@ -107,9 +108,9 @@ export async function getProductsByCategory(categoryName: string): Promise<Produ
 export async function getAllCategories(): Promise<Category[]> {
   try {
     const [rows] = await pool.execute(`
-      SELECT category_id as id, category_name as name, 1 as is_active
+      SELECT category_id as id, category_name as name, arrange_order, 1 as is_active
       FROM Categories
-      ORDER BY category_name
+      ORDER BY arrange_order ASC, category_name ASC
     `);
     
     return rows as Category[];
@@ -126,12 +127,13 @@ export async function getCategoriesWithProducts() {
       SELECT DISTINCT
         c.category_id as id,
         c.category_name as name,
+        c.arrange_order,
         COUNT(p.id) as product_count
       FROM Categories c
       INNER JOIN Products p ON c.category_id = p.category_id
-      GROUP BY c.category_id, c.category_name
+      GROUP BY c.category_id, c.category_name, c.arrange_order
       HAVING COUNT(p.id) > 0
-      ORDER BY c.category_name
+      ORDER BY c.arrange_order ASC, c.category_name ASC
     `);
     
     return rows as (Category & { product_count: number })[];
