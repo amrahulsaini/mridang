@@ -1,7 +1,7 @@
 import { Suspense } from 'react'
 import Header from '@/app/components/Header'
 import Footer from '@/app/components/Footer'
-import CategoryContent from './CategoryContent'
+import CategoryContent from '@/app/category/[name]/CategoryContent'
 import styles from '../Category.module.css'
 
 export default function CategoryPage({ params }: { params: { name: string } }) {
