@@ -120,19 +120,20 @@ const Header = () => {
               </button>
               
               {isCategoriesOpen && categories.length > 0 && (
-                <div className="absolute top-full left-0 mt-2 bg-white rounded-xl shadow-2xl border border-gray-100 min-w-[250px] max-h-[400px] overflow-y-auto z-50">
-                  <div className="py-2">
-                    {categories.map((category) => (
-                      <Link
-                        key={category.id}
-                        href={`/category/${encodeURIComponent(category.name)}`}
-                        className="block px-4 py-3 text-gray-700 hover:bg-red-50 hover:text-red-600 transition-colors no-underline"
-                        onClick={() => setIsCategoriesOpen(false)}
-                      >
-                        {category.name}
-                      </Link>
-                    ))}
+                <div className="categories-dropdown">
+                  <div className="category-dropdown-header">
+                    Browse Categories
                   </div>
+                  {categories.map((category) => (
+                    <Link
+                      key={category.id}
+                      href={`/category/${encodeURIComponent(category.name)}`}
+                      className="category-dropdown-item"
+                      onClick={() => setIsCategoriesOpen(false)}
+                    >
+                      {category.name}
+                    </Link>
+                  ))}
                 </div>
               )}
             </div>
@@ -218,11 +219,11 @@ const Header = () => {
               ))}
               
               {/* Mobile Categories */}
-              <div className="border-t border-gray-100 pt-4">
+              <div className="border-t border-gray-100 pt-4 mt-4">
                 <div className="px-4 py-2 text-sm font-semibold text-gray-500 uppercase tracking-wide">
                   Categories
                 </div>
-                <div className="space-y-2 mt-2">
+                <div className="space-y-2 mt-2 max-h-[300px] overflow-y-auto pr-2">
                   {categories.map((category) => (
                     <Link
                       key={category.id}
