@@ -165,4 +165,50 @@ export async function getProductsGroupedByCategory() {
   }
 }
 
+// Search products by category name and model name
+export async function searchProducts(searchQuery: string): Promise<Product[]> {
+  try {
+    const searchTerm = `%${searchQuery}%`;
+    const [rows] = await pool.execute(`
+      SELECT 
+        p.id,
+        p.pro_id,
+        p.model_name as name,
+        p.description,
+        COALESCE(pp.cut_price, pp.original_price, 2999) as price,
+        pp.cut_price as cut_price,
+        pp.original_price as original_price,
+        p.category_id,
+        c.category_name as category_name,
+        1 as stock_quantity,
+        p.main_image_url as main_image_url,
+        p.main_image_url as image_url,
+        1 as is_active,
+        NOW() as created_at,
+        NOW() as updated_at
+      FROM Products p
+      LEFT JOIN Categories c ON p.category_id = c.category_id
+      LEFT JOIN product_prices pp ON p.id = pp.product_id AND pp.is_active = 1
+      WHERE p.pro_id IS NOT NULL
+        AND (
+          c.category_name LIKE ? 
+          OR p.model_name LIKE ?
+          OR p.description LIKE ?
+        )
+      ORDER BY 
+        CASE 
+          WHEN c.category_name LIKE ? THEN 1
+          WHEN p.model_name LIKE ? THEN 2
+          ELSE 3
+        END,
+        p.id DESC
+    `, [searchTerm, searchTerm, searchTerm, searchTerm, searchTerm]);
+    
+    return rows as Product[];
+  } catch (error) {
+    console.error('Error searching products:', error);
+    return [];
+  }
+}
+
 export default pool;

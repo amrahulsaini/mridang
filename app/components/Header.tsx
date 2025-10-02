@@ -4,12 +4,14 @@ import { useState } from 'react'
 import { Home, Info, Search, Menu, X, ShoppingCart, Package } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
+import { useRouter } from 'next/navigation'
 import { useCart } from '../context/CartContext'
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [searchQuery, setSearchQuery] = useState('')
   const { state } = useCart()
+  const router = useRouter()
 
   const navItems = [
     { name: 'Home', href: '/', icon: Home, key: 'home' },
@@ -18,6 +20,21 @@ const Header = () => {
   ]
 
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen)
+
+  const handleSearch = (e: React.FormEvent) => {
+    e.preventDefault()
+    if (searchQuery.trim()) {
+      router.push(`/search?q=${encodeURIComponent(searchQuery.trim())}`)
+      setIsMenuOpen(false)
+    }
+  }
+
+  const handleSearchKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter' && searchQuery.trim()) {
+      router.push(`/search?q=${encodeURIComponent(searchQuery.trim())}`)
+      setIsMenuOpen(false)
+    }
+  }
 
   return (
     <header className="header">
@@ -52,16 +69,17 @@ const Header = () => {
           </nav>
 
           {/* Search Bar - Desktop */}
-          <div className="hidden-mobile search-container" aria-label="Search">
+          <form onSubmit={handleSearch} className="hidden-mobile search-container" aria-label="Search">
             <Search className="search-icon" size={20} />
             <input
               type="text"
               placeholder="Search products..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
+              onKeyPress={handleSearchKeyPress}
               className="search-input"
             />
-          </div>
+          </form>
 
           {/* Cart Section */}
           <div className="flex items-center gap-3">
@@ -96,16 +114,17 @@ const Header = () => {
         {/* Mobile Search Bar */}
         {isMenuOpen && (
           <div className="visible-mobile py-4 border-t border-gray-200">
-            <div className="search-container">
+            <form onSubmit={handleSearch} className="search-container">
               <Search className="search-icon" size={20} />
               <input
                 type="text"
                 placeholder="Search products..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
+                onKeyPress={handleSearchKeyPress}
                 className="search-input"
               />
-            </div>
+            </form>
           </div>
         )}
       </div>
