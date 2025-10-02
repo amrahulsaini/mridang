@@ -1087,13 +1087,21 @@ html, body {
 .product-card {
   background: transparent;
   border: none;
-  width: 380px;
+  width: 100%;
+  max-width: 380px;
   flex-shrink: 0;
   position: relative;
   cursor: pointer;
   padding: 0;
   margin: 10px 0;
   contain: layout style paint;
+}
+
+/* Product card in grid layouts (search page) */
+.grid .product-card {
+  width: 100%;
+  max-width: none;
+  margin: 0;
 }
 
 .product-card::before {
