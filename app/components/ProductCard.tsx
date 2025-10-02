@@ -110,7 +110,7 @@ const ProductCard: React.FC<Product & { onInfoClick?: (product: Product) => void
             style={{ 
               width: '100%', 
               height: '100%', 
-              objectFit: 'cover', 
+              objectFit: 'contain', 
               objectPosition: 'center',
               display: 'block' 
             }}
@@ -121,7 +121,7 @@ const ProductCard: React.FC<Product & { onInfoClick?: (product: Product) => void
             src={productImage}
             alt={name}
             fill
-            className="object-cover"
+            className="object-contain"
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
           />
         )}
