@@ -456,6 +456,13 @@ html, body {
   animation: dropdownFadeIn 0.2s ease-out;
 }
 
+/* Hide categories dropdown on mobile (it's in the mobile menu instead) */
+@media (max-width: 767px) {
+  .categories-dropdown {
+    display: none !important;
+  }
+}
+
 @keyframes dropdownFadeIn {
   from {
     opacity: 0;

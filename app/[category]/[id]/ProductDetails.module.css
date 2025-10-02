@@ -123,11 +123,13 @@
 
 .mainImage {
   position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
+  top: 1rem;
+  left: 1rem;
+  right: 1rem;
+  bottom: 1rem;
+  width: calc(100% - 2rem);
+  height: calc(100% - 2rem);
+  object-fit: contain;
   object-position: center;
   transition: opacity 0.3s ease;
 }
@@ -204,6 +206,10 @@
   background: linear-gradient(135deg, #f8f9fa, #faf7f0);
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
   position: relative;
+  padding: 0.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .thumbnail::before {
@@ -233,7 +239,7 @@
 .thumbnailImage {
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  object-fit: contain;
   object-position: center;
   transition: all 0.3s ease;
 }
