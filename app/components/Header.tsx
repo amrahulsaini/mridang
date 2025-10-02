@@ -13,9 +13,11 @@ interface Category {
 }
 
 const Header = () => {
+  // Initialize states - ensure they're false on mobile
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [searchQuery, setSearchQuery] = useState('')
   const [isCategoriesOpen, setIsCategoriesOpen] = useState(false)
+  const [isMobileCategoriesOpen, setIsMobileCategoriesOpen] = useState(false)
   const [categories, setCategories] = useState<Category[]>([])
   const { state } = useCart()
   const router = useRouter()
@@ -26,6 +28,14 @@ const Header = () => {
     { name: 'About', href: '/about', icon: Info, key: 'about' },
     { name: 'Orders', href: '/orders', icon: Package, key: 'orders' },
   ]
+
+  // Ensure menus are closed on mobile on mount
+  useEffect(() => {
+    if (typeof window !== 'undefined' && window.innerWidth <= 768) {
+      setIsMenuOpen(false)
+      setIsCategoriesOpen(false)
+    }
+  }, [])
 
   // Fetch categories on mount
   useEffect(() => {
@@ -65,12 +75,19 @@ const Header = () => {
     const handleResize = () => {
       if (window.innerWidth <= 768) {
         setIsCategoriesOpen(false)
+        // Also close mobile menu on page load if on mobile
+        if (isMenuOpen) {
+          setIsMenuOpen(false)
+        }
       }
     }
 
     window.addEventListener('resize', handleResize)
-    // Check on mount
-    handleResize()
+    // Check on mount and close menus on mobile
+    if (window.innerWidth <= 768) {
+      setIsCategoriesOpen(false)
+      setIsMenuOpen(false)
+    }
 
     return () => {
       window.removeEventListener('resize', handleResize)
@@ -237,22 +254,36 @@ const Header = () => {
               
               {/* Mobile Categories */}
               <div className="border-t border-gray-100 pt-4 mt-4">
-                <div className="px-4 py-2 text-sm font-semibold text-gray-500 uppercase tracking-wide">
-                  Categories
-                </div>
-                <div className="space-y-2 mt-2 max-h-[300px] overflow-y-auto pr-2">
-                  {categories.map((category) => (
-                    <Link
-                      key={category.id}
-                      href={`/category/${encodeURIComponent(category.name)}`}
-                      className="flex items-center gap-3 text-gray-700 hover:text-red-600 hover:bg-red-50 transition-all duration-200 py-3 px-4 rounded-lg no-underline"
-                      onClick={() => setIsMenuOpen(false)}
-                    >
-                      <Grid3x3 size={18} />
-                      <span className="font-medium">{category.name}</span>
-                    </Link>
-                  ))}
-                </div>
+                <button
+                  onClick={() => setIsMobileCategoriesOpen(!isMobileCategoriesOpen)}
+                  className="flex items-center justify-between w-full px-4 py-2 text-sm font-semibold text-gray-700 hover:text-red-600 transition-colors duration-200"
+                >
+                  <span className="uppercase tracking-wide">Categories</span>
+                  <ChevronDown
+                    size={18}
+                    className={`transition-transform duration-200 ${
+                      isMobileCategoriesOpen ? 'rotate-180' : ''
+                    }`}
+                  />
+                </button>
+                {isMobileCategoriesOpen && (
+                  <div className="space-y-2 mt-2 max-h-[300px] overflow-y-auto pr-2">
+                    {categories.map((category) => (
+                      <Link
+                        key={category.id}
+                        href={`/category/${encodeURIComponent(category.name)}`}
+                        className="flex items-center gap-3 text-gray-700 hover:text-red-600 hover:bg-red-50 transition-all duration-200 py-3 px-4 rounded-lg no-underline"
+                        onClick={() => {
+                          setIsMenuOpen(false)
+                          setIsMobileCategoriesOpen(false)
+                        }}
+                      >
+                        <Grid3x3 size={18} />
+                        <span className="font-medium">{category.name}</span>
+                      </Link>
+                    ))}
+                  </div>
+                )}
               </div>
             </div>
 
