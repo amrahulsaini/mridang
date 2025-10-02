@@ -457,9 +457,18 @@ html, body {
 }
 
 /* Hide categories dropdown on mobile (it's in the mobile menu instead) */
-@media (max-width: 767px) {
+@media (max-width: 768px) {
   .categories-dropdown {
     display: none !important;
+  }
+  
+  /* Also ensure the dropdown doesn't open on touch devices */
+  nav .relative {
+    pointer-events: none;
+  }
+  
+  nav .relative > * {
+    pointer-events: auto;
   }
 }
 
@@ -576,6 +585,7 @@ html, body {
 
 /* Desktop-only hide for elements that should appear only on mobile */
 @media (min-width: 768px) {
+  .hidden-mobile { display: flex !important; }
   .visible-mobile { display: none !important; }
 }
 

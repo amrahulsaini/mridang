@@ -60,6 +60,23 @@ const Header = () => {
     }
   }, [isCategoriesOpen])
 
+  // Close dropdown on window resize (especially for mobile)
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth <= 768) {
+        setIsCategoriesOpen(false)
+      }
+    }
+
+    window.addEventListener('resize', handleResize)
+    // Check on mount
+    handleResize()
+
+    return () => {
+      window.removeEventListener('resize', handleResize)
+    }
+  }, [])
+
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen)
 
   const handleSearch = (e: React.FormEvent) => {
