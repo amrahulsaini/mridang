@@ -211,4 +211,57 @@ export async function searchProducts(searchQuery: string): Promise<Product[]> {
   }
 }
 
+// Fetch all categories
+export async function getAllCategories(): Promise<Category[]> {
+  try {
+    const [rows] = await pool.execute(`
+      SELECT 
+        category_id as id,
+        category_name as name
+      FROM Categories
+      ORDER BY category_name ASC
+    `);
+    
+    return rows as Category[];
+  } catch (error) {
+    console.error('Error fetching categories:', error);
+    return [];
+  }
+}
+
+// Fetch products by category name
+export async function getProductsByCategory(categoryName: string): Promise<Product[]> {
+  try {
+    const [rows] = await pool.execute(`
+      SELECT 
+        p.id,
+        p.pro_id,
+        p.model_name as name,
+        p.description,
+        COALESCE(pp.cut_price, pp.original_price, 2999) as price,
+        pp.cut_price as cut_price,
+        pp.original_price as original_price,
+        p.category_id,
+        c.category_name as category_name,
+        1 as stock_quantity,
+        p.main_image_url as main_image_url,
+        p.main_image_url as image_url,
+        1 as is_active,
+        NOW() as created_at,
+        NOW() as updated_at
+      FROM Products p
+      LEFT JOIN Categories c ON p.category_id = c.category_id
+      LEFT JOIN product_prices pp ON p.id = pp.product_id AND pp.is_active = 1
+      WHERE p.pro_id IS NOT NULL
+        AND c.category_name = ?
+      ORDER BY p.id DESC
+    `, [categoryName]);
+    
+    return rows as Product[];
+  } catch (error) {
+    console.error('Error fetching products by category:', error);
+    return [];
+  }
+}
+
 export default pool;
