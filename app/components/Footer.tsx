@@ -14,10 +14,8 @@ const Footer = () => {
   ]
 
   const socialLinks = [
-    { icon: Instagram, href: 'https://instagram.com/mridang' },
-    { icon: Facebook, href: 'https://facebook.com/mridang' },
-    { icon: Twitter, href: 'https://twitter.com/mridang' },
-    { icon: Youtube, href: 'https://youtube.com/mridang' }
+    { icon: Instagram, href: 'https://instagram.com/mridang' }
+    
   ]
 
   return (
