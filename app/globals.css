@@ -1558,14 +1558,16 @@ html, body {
 
 /* Footer */
 footer {
-  background: #374151;
-  color: white;
+  background: linear-gradient(135deg, #fff8dc 0%, #ffefd5 20%, #ffe4e1 40%, #fff0f5 60%, #fffacd 80%, #ffefd5 100%);
+  color: #2d2d2d;
 }
 
 .newsletter-section {
-  background: linear-gradient(135deg, #800020 0%, #a0002a 100%);
+  background: linear-gradient(135deg, #fff8dc 0%, #ffefd5 50%, #ffe4e1 100%);
   padding: 3rem 0;
   text-align: center;
+  border-top: 3px solid rgba(128, 0, 32, 0.1);
+  border-bottom: 3px solid rgba(128, 0, 32, 0.1);
 }
 
 .newsletter-form {
@@ -1614,7 +1616,7 @@ footer {
 }
 
 .footer-links a {
-  color: #d1d5db;
+  color: #4b5563;
   text-decoration: none;
   transition: all 0.25s ease;
   padding: 0.4rem 0.6rem;
@@ -1623,14 +1625,14 @@ footer {
 }
 
 .footer-links a:hover {
-  color: #fff;
-  background: rgba(255,255,255,0.06);
+  color: #800020;
+  background: rgba(128, 0, 32, 0.08);
 }
 
 footer a { text-decoration: none; }
 footer a:hover { text-decoration: none; }
-footer a:link, footer a:visited { color: #d1d5db; }
-footer a:hover { color: #fff; }
+footer a:link, footer a:visited { color: #4b5563; }
+footer a:hover { color: #800020; }
 
 .social-links {
   display: flex;
@@ -1639,24 +1641,27 @@ footer a:hover { color: #fff; }
 }
 
 .social-link {
-  background: rgba(255, 255, 255, 0.1);
-  color: white;
+  background: rgba(128, 0, 32, 0.1);
+  color: #800020;
   padding: 0.75rem;
   border-radius: 50%;
   text-decoration: none;
   transition: all 0.3s ease;
+  border: 2px solid rgba(128, 0, 32, 0.2);
 }
 
 .social-link:hover {
   background: #800020;
+  color: white;
   transform: translateY(-2px);
+  border-color: #800020;
 }
 
 .footer-bottom {
-  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  border-top: 2px solid rgba(128, 0, 32, 0.1);
   padding: 2rem 0;
   text-align: center;
-  color: #9ca3af;
+  color: #6b7280;
 }
 
 /* Responsive Design */

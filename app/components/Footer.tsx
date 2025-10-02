@@ -26,8 +26,8 @@ const Footer = () => {
       <div className="newsletter-section">
         <div className="container">
           <div className="text-center">
-            <h3 className="text-2xl font-bold text-white mb-4">Stay Connected with Mridang</h3>
-            <p className="text-lg text-white mb-6 opacity-90">
+            <h3 className="text-2xl font-bold mb-4" style={{color: '#800020'}}>Stay Connected with Mridang</h3>
+            <p className="text-lg mb-6" style={{color: '#4b5563'}}>
               Get exclusive updates on new collections, special offers, and handcrafting tips
             </p>
             <div className="newsletter-form">
@@ -61,7 +61,7 @@ const Footer = () => {
                 </div>
                 <h3>Mridang</h3>
               </div>
-              <p className="text-gray-300 leading-relaxed mb-4">
+              <p className="text-gray-600 leading-relaxed mb-4">
                 A woman-led handcrafted brand celebrating life&apos;s special moments with 
                 artistry and elegance. Every creation is lovingly handmade using premium materials.
               </p>
@@ -82,7 +82,7 @@ const Footer = () => {
 
             {/* Quick Links */}
             <div>
-              <h4 className="text-lg font-semibold text-white mb-4">Quick Links</h4>
+              <h4 className="text-lg font-semibold mb-4" style={{color: '#800020'}}>Quick Links</h4>
               <ul className="footer-links">
                 {quickLinks.map((link, index) => (
                   <li key={index}>
@@ -96,12 +96,12 @@ const Footer = () => {
 
             {/* Contact Info */}
             <div>
-              <h4 className="text-lg font-semibold text-white mb-4">Get in Touch</h4>
+              <h4 className="text-lg font-semibold mb-4" style={{color: '#800020'}}>Get in Touch</h4>
               <div className="space-y-3">
                 <div className="flex items-start gap-3">
                   <MapPin size={20} className="text-red-600 mt-1 flex-shrink-0" />
                   <div>
-                    <p className="text-gray-300">
+                    <p className="text-gray-600">
                       801, Barkat Nagar, Tonk Phatak<br />
                       Jaipur, Rajasthan 302015<br />
                       India
@@ -111,7 +111,7 @@ const Footer = () => {
                 <div className="flex items-center gap-3">
                   <Phone size={20} className="text-red-600 flex-shrink-0" />
                   <div>
-                    <a href="tel:+919413419163" className="text-gray-300 hover:text-white transition-colors">
+                    <a href="tel:+919413419163" className="text-gray-600 hover:text-red-600 transition-colors">
                       +91 9413419163
                     </a>
                   </div>
@@ -119,7 +119,7 @@ const Footer = () => {
                 <div className="flex items-center gap-3">
                   <Mail size={20} className="text-red-600 flex-shrink-0" />
                   <div>
-                    <a href="mailto:support@mridang.co.in" className="text-gray-300 hover:text-white transition-colors">
+                    <a href="mailto:support@mridang.co.in" className="text-gray-600 hover:text-red-600 transition-colors">
                       support@mridang.co.in
                     </a>
                   </div>
@@ -145,19 +145,19 @@ const Footer = () => {
       <div className="footer-bottom">
         <div className="container">
           <div className="flex flex-col md:flex-row items-center justify-between gap-4">
-            <div className="flex items-center text-gray-400 text-sm">
+            <div className="flex items-center text-gray-600 text-sm">
               <span>© 2025 Mridang. Made with</span>
               <Heart size={16} className="mx-1 text-red-500 fill-current" />
               <span>in India</span>
             </div>
-            <div className="flex items-center gap-6 text-sm text-gray-400">
-              <Link href="/terms" className="hover:text-white transition-colors">
+            <div className="flex items-center gap-6 text-sm text-gray-600">
+              <Link href="/terms" className="hover:text-red-600 transition-colors">
                 Terms of Service
               </Link>
-              <Link href="/privacy" className="hover:text-white transition-colors">
+              <Link href="/privacy" className="hover:text-red-600 transition-colors">
                 Privacy Policy
               </Link>
-              <Link href="/cookies" className="hover:text-white transition-colors">
+              <Link href="/cookies" className="hover:text-red-600 transition-colors">
                 Cookie Policy
               </Link>
             </div>
