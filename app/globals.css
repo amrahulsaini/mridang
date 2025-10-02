@@ -695,17 +695,14 @@ html, body {
 .category-section {
   padding: 4rem 0;
   background: 
-    radial-gradient(circle at 20% 30%, rgba(255, 20, 147, 0.25) 0%, transparent 50%),
-    radial-gradient(circle at 80% 70%, rgba(255, 140, 0, 0.25) 0%, transparent 50%),
-    radial-gradient(circle at 50% 10%, rgba(255, 215, 0, 0.2) 0%, transparent 40%),
-    radial-gradient(circle at 30% 90%, rgba(255, 0, 255, 0.18) 0%, transparent 45%),
-    radial-gradient(circle at 70% 40%, rgba(0, 255, 255, 0.15) 0%, transparent 35%),
-    radial-gradient(circle at 90% 15%, rgba(147, 51, 234, 0.15) 0%, transparent 40%),
+    radial-gradient(circle at 20% 30%, rgba(255, 182, 193, 0.08) 0%, transparent 50%),
+    radial-gradient(circle at 80% 70%, rgba(255, 218, 185, 0.08) 0%, transparent 50%),
+    radial-gradient(circle at 50% 10%, rgba(255, 215, 0, 0.06) 0%, transparent 40%),
+    radial-gradient(circle at 30% 90%, rgba(255, 192, 203, 0.07) 0%, transparent 45%),
     white;
   position: relative;
   overflow: hidden;
   contain: layout style;
-  animation: backgroundShift 15s ease-in-out infinite;
 }
 
 .category-section::before {
@@ -716,20 +713,19 @@ html, body {
   right: 0;
   bottom: 0;
   background-image: 
-    /* Large marigold flowers - top left */
-    url("data:image/svg+xml,%3Csvg width='120' height='120' viewBox='0 0 120 120' xmlns='http://www.w3.org/2000/svg'%3E%3Cdefs%3E%3Cfilter id='glow1'%3E%3CfeGaussianBlur stdDeviation='2' result='coloredBlur'/%3E%3CfeMerge%3E%3CfeMergeNode in='coloredBlur'/%3E%3CfeMergeNode in='SourceGraphic'/%3E%3C/feMerge%3E%3C/filter%3E%3C/defs%3E%3Ccircle cx='40' cy='40' r='6' fill='%23ff1493' filter='url(%23glow1)'/%3E%3Ccircle cx='32' cy='35' r='5' fill='%23ff8c00'/%3E%3Ccircle cx='48' cy='35' r='5' fill='%23ff8c00'/%3E%3Ccircle cx='32' cy='45' r='5' fill='%23ffd700'/%3E%3Ccircle cx='48' cy='45' r='5' fill='%23ffd700'/%3E%3Ccircle cx='35' cy='30' r='4' fill='%23ff00ff'/%3E%3Ccircle cx='45' cy='30' r='4' fill='%23ff00ff'/%3E%3Ccircle cx='35' cy='50' r='4' fill='%2300ffff'/%3E%3Ccircle cx='45' cy='50' r='4' fill='%2300ffff'/%3E%3Ccircle cx='40' cy='40' r='3' fill='%23ff4500'/%3E%3C/svg%3E"),
-    /* Large lotus flowers - top right */
-    url("data:image/svg+xml,%3Csvg width='120' height='120' viewBox='0 0 120 120' xmlns='http://www.w3.org/2000/svg'%3E%3Cdefs%3E%3Cfilter id='glow2'%3E%3CfeGaussianBlur stdDeviation='2.5' result='coloredBlur'/%3E%3CfeMerge%3E%3CfeMergeNode in='coloredBlur'/%3E%3CfeMergeNode in='SourceGraphic'/%3E%3C/feMerge%3E%3C/filter%3E%3C/defs%3E%3Cellipse cx='80' cy='30' rx='8' ry='12' fill='%23ff1493' filter='url(%23glow2)' transform='rotate(0 80 30)'/%3E%3Cellipse cx='80' cy='30' rx='8' ry='12' fill='%23ff69b4' transform='rotate(60 80 30)'/%3E%3Cellipse cx='80' cy='30' rx='8' ry='12' fill='%23ff1493' transform='rotate(120 80 30)'/%3E%3Cellipse cx='80' cy='30' rx='8' ry='12' fill='%239333ea' transform='rotate(30 80 30)'/%3E%3Cellipse cx='80' cy='30' rx='8' ry='12' fill='%23ff00ff' transform='rotate(90 80 30)'/%3E%3Cellipse cx='80' cy='30' rx='8' ry='12' fill='%2300ffff' transform='rotate(150 80 30)'/%3E%3Ccircle cx='80' cy='30' r='4' fill='%23ffd700'/%3E%3C/svg%3E"),
-    /* Large marigold flowers - bottom right */
-    url("data:image/svg+xml,%3Csvg width='120' height='120' viewBox='0 0 120 120' xmlns='http://www.w3.org/2000/svg'%3E%3Cdefs%3E%3Cfilter id='glow3'%3E%3CfeGaussianBlur stdDeviation='2' result='coloredBlur'/%3E%3CfeMerge%3E%3CfeMergeNode in='coloredBlur'/%3E%3CfeMergeNode in='SourceGraphic'/%3E%3C/feMerge%3E%3C/filter%3E%3C/defs%3E%3Ccircle cx='80' cy='80' r='6' fill='%23ff8c00' filter='url(%23glow3)'/%3E%3Ccircle cx='72' cy='75' r='5' fill='%23ffd700'/%3E%3Ccircle cx='88' cy='75' r='5' fill='%23ff1493'/%3E%3Ccircle cx='72' cy='85' r='5' fill='%2300ffff'/%3E%3Ccircle cx='88' cy='85' r='5' fill='%23ff00ff'/%3E%3Ccircle cx='75' cy='70' r='4' fill='%239333ea'/%3E%3Ccircle cx='85' cy='70' r='4' fill='%23ff69b4'/%3E%3Ccircle cx='75' cy='90' r='4' fill='%23ff4500'/%3E%3Ccircle cx='85' cy='90' r='4' fill='%2300ff00'/%3E%3Ccircle cx='80' cy='80' r='3' fill='%23ffd700'/%3E%3C/svg%3E"),
-    /* Large lotus flowers - bottom left */
-    url("data:image/svg+xml,%3Csvg width='120' height='120' viewBox='0 0 120 120' xmlns='http://www.w3.org/2000/svg'%3E%3Cdefs%3E%3Cfilter id='glow4'%3E%3CfeGaussianBlur stdDeviation='2.5' result='coloredBlur'/%3E%3CfeMerge%3E%3CfeMergeNode in='coloredBlur'/%3E%3CfeMergeNode in='SourceGraphic'/%3E%3C/feMerge%3E%3C/filter%3E%3C/defs%3E%3Cellipse cx='40' cy='90' rx='8' ry='12' fill='%2300ffff' filter='url(%23glow4)' transform='rotate(0 40 90)'/%3E%3Cellipse cx='40' cy='90' rx='8' ry='12' fill='%239333ea' transform='rotate(60 40 90)'/%3E%3Cellipse cx='40' cy='90' rx='8' ry='12' fill='%23ff00ff' transform='rotate(120 40 90)'/%3E%3Cellipse cx='40' cy='90' rx='8' ry='12' fill='%23ff1493' transform='rotate(30 40 90)'/%3E%3Cellipse cx='40' cy='90' rx='8' ry='12' fill='%23ff69b4' transform='rotate(90 40 90)'/%3E%3Cellipse cx='40' cy='90' rx='8' ry='12' fill='%23ffd700' transform='rotate(150 40 90)'/%3E%3Ccircle cx='40' cy='90' r='4' fill='%23ff8c00'/%3E%3C/svg%3E");
-  background-position: top 30px left 30px, top 30px right 30px, bottom 30px right 30px, bottom 30px left 30px;
+    /* Elegant floral corner - top left */
+    url("data:image/svg+xml,%3Csvg width='150' height='150' viewBox='0 0 150 150' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M10 10 Q15 5 20 10 Q25 15 20 20 Q15 25 10 20 Q5 15 10 10' fill='%23d4a574' opacity='0.15'/%3E%3Cpath d='M15 15 Q18 12 21 15 Q24 18 21 21 Q18 24 15 21 Q12 18 15 15' fill='%23c89068' opacity='0.2'/%3E%3Ccircle cx='17.5' cy='17.5' r='2' fill='%23b87d5c' opacity='0.25'/%3E%3Cpath d='M5 20 Q8 17 11 20 Q14 23 11 26 Q8 29 5 26 Q2 23 5 20' fill='%23d4a574' opacity='0.12'/%3E%3Cpath d='M20 5 Q23 2 26 5 Q29 8 26 11 Q23 14 20 11 Q17 8 20 5' fill='%23d4a574' opacity='0.12'/%3E%3Cpath d='M25 20 Q28 17 31 20 Q34 23 31 26 Q28 29 25 26 Q22 23 25 20' fill='%23c89068' opacity='0.15'/%3E%3Cpath d='M20 25 Q23 22 26 25 Q29 28 26 31 Q23 34 20 31 Q17 28 20 25' fill='%23c89068' opacity='0.15'/%3E%3C/svg%3E"),
+    /* Elegant floral corner - top right */
+    url("data:image/svg+xml,%3Csvg width='150' height='150' viewBox='0 0 150 150' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M140 10 Q135 5 130 10 Q125 15 130 20 Q135 25 140 20 Q145 15 140 10' fill='%23d4a574' opacity='0.15'/%3E%3Cpath d='M135 15 Q132 12 129 15 Q126 18 129 21 Q132 24 135 21 Q138 18 135 15' fill='%23c89068' opacity='0.2'/%3E%3Ccircle cx='132.5' cy='17.5' r='2' fill='%23b87d5c' opacity='0.25'/%3E%3Cpath d='M145 20 Q142 17 139 20 Q136 23 139 26 Q142 29 145 26 Q148 23 145 20' fill='%23d4a574' opacity='0.12'/%3E%3Cpath d='M130 5 Q127 2 124 5 Q121 8 124 11 Q127 14 130 11 Q133 8 130 5' fill='%23d4a574' opacity='0.12'/%3E%3Cpath d='M125 20 Q122 17 119 20 Q116 23 119 26 Q122 29 125 26 Q128 23 125 20' fill='%23c89068' opacity='0.15'/%3E%3Cpath d='M130 25 Q127 22 124 25 Q121 28 124 31 Q127 34 130 31 Q133 28 130 25' fill='%23c89068' opacity='0.15'/%3E%3C/svg%3E"),
+    /* Elegant floral corner - bottom left */
+    url("data:image/svg+xml,%3Csvg width='150' height='150' viewBox='0 0 150 150' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M10 140 Q15 145 20 140 Q25 135 20 130 Q15 125 10 130 Q5 135 10 140' fill='%23d4a574' opacity='0.15'/%3E%3Cpath d='M15 135 Q18 138 21 135 Q24 132 21 129 Q18 126 15 129 Q12 132 15 135' fill='%23c89068' opacity='0.2'/%3E%3Ccircle cx='17.5' cy='132.5' r='2' fill='%23b87d5c' opacity='0.25'/%3E%3Cpath d='M5 130 Q8 133 11 130 Q14 127 11 124 Q8 121 5 124 Q2 127 5 130' fill='%23d4a574' opacity='0.12'/%3E%3Cpath d='M20 145 Q23 148 26 145 Q29 142 26 139 Q23 136 20 139 Q17 142 20 145' fill='%23d4a574' opacity='0.12'/%3E%3Cpath d='M25 130 Q28 133 31 130 Q34 127 31 124 Q28 121 25 124 Q22 127 25 130' fill='%23c89068' opacity='0.15'/%3E%3Cpath d='M20 125 Q23 128 26 125 Q29 122 26 119 Q23 116 20 119 Q17 122 20 125' fill='%23c89068' opacity='0.15'/%3E%3C/svg%3E"),
+    /* Elegant floral corner - bottom right */
+    url("data:image/svg+xml,%3Csvg width='150' height='150' viewBox='0 0 150 150' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M140 140 Q135 145 130 140 Q125 135 130 130 Q135 125 140 130 Q145 135 140 140' fill='%23d4a574' opacity='0.15'/%3E%3Cpath d='M135 135 Q132 138 129 135 Q126 132 129 129 Q132 126 135 129 Q138 132 135 135' fill='%23c89068' opacity='0.2'/%3E%3Ccircle cx='132.5' cy='132.5' r='2' fill='%23b87d5c' opacity='0.25'/%3E%3Cpath d='M145 130 Q142 133 139 130 Q136 127 139 124 Q142 121 145 124 Q148 127 145 130' fill='%23d4a574' opacity='0.12'/%3E%3Cpath d='M130 145 Q127 148 124 145 Q121 142 124 139 Q127 136 130 139 Q133 142 130 145' fill='%23d4a574' opacity='0.12'/%3E%3Cpath d='M125 130 Q122 133 119 130 Q116 127 119 124 Q122 121 125 124 Q128 127 125 130' fill='%23c89068' opacity='0.15'/%3E%3Cpath d='M130 125 Q127 128 124 125 Q121 122 124 119 Q127 116 130 119 Q133 122 130 125' fill='%23c89068' opacity='0.15'/%3E%3C/svg%3E");
+  background-position: top 0 left 0, top 0 right 0, bottom 0 left 0, bottom 0 right 0;
   background-repeat: no-repeat;
-  opacity: 0.8;
+  background-size: 150px 150px;
+  opacity: 0.5;
   pointer-events: none;
-  animation: floralFloat 6s ease-in-out infinite, floralGlow 3s ease-in-out infinite;
-  filter: drop-shadow(0 0 10px rgba(255, 20, 147, 0.3));
 }
 
 .category-section::after {
@@ -740,14 +736,12 @@ html, body {
   right: 0;
   bottom: 0;
   background-image: 
-    /* Scattered glowing flowers and petals */
-    url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cdefs%3E%3Cfilter id='sparkle'%3E%3CfeGaussianBlur stdDeviation='1.5' result='coloredBlur'/%3E%3CfeMerge%3E%3CfeMergeNode in='coloredBlur'/%3E%3CfeMergeNode in='coloredBlur'/%3E%3CfeMergeNode in='SourceGraphic'/%3E%3C/feMerge%3E%3C/filter%3E%3C/defs%3E%3Ccircle cx='15' cy='15' r='3' fill='%23ff1493' filter='url(%23sparkle)'/%3E%3Ccircle cx='12' cy='12' r='2' fill='%23ffd700'/%3E%3Ccircle cx='18' cy='12' r='2' fill='%2300ffff'/%3E%3Ccircle cx='12' cy='18' r='2' fill='%23ff00ff'/%3E%3Ccircle cx='18' cy='18' r='2' fill='%23ff8c00'/%3E%3Ccircle cx='85' cy='25' r='2.5' fill='%239333ea' filter='url(%23sparkle)'/%3E%3Ccircle cx='82' cy='23' r='1.5' fill='%23ff69b4'/%3E%3Ccircle cx='88' cy='23' r='1.5' fill='%2300ff00'/%3E%3Ccircle cx='82' cy='27' r='1.5' fill='%23ffd700'/%3E%3Ccircle cx='88' cy='27' r='1.5' fill='%2300ffff'/%3E%3Ccircle cx='45' cy='55' r='2' fill='%23ff8c00' filter='url(%23sparkle)'/%3E%3Ccircle cx='43' cy='53' r='1.2' fill='%23ff1493'/%3E%3Ccircle cx='47' cy='53' r='1.2' fill='%2300ffff'/%3E%3Ccircle cx='43' cy='57' r='1.2' fill='%23ff00ff'/%3E%3Ccircle cx='47' cy='57' r='1.2' fill='%23ffd700'/%3E%3Ccircle cx='70' cy='80' r='2.5' fill='%2300ffff' filter='url(%23sparkle)'/%3E%3Ccircle cx='30' cy='75' r='2' fill='%23ff69b4' filter='url(%23sparkle)'/%3E%3Ccircle cx='55' cy='35' r='2' fill='%239333ea'/%3E%3Ccircle cx='90' cy='60' r='1.8' fill='%23ff1493'/%3E%3C/svg%3E");
-  background-size: 100px 100px;
+    /* Subtle repeating floral pattern */
+    url("data:image/svg+xml,%3Csvg width='80' height='80' viewBox='0 0 80 80' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='40' cy='40' r='1.5' fill='%23d4a574' opacity='0.15'/%3E%3Ccircle cx='20' cy='20' r='1' fill='%23c89068' opacity='0.12'/%3E%3Ccircle cx='60' cy='20' r='1' fill='%23b87d5c' opacity='0.12'/%3E%3Ccircle cx='20' cy='60' r='1' fill='%23b87d5c' opacity='0.12'/%3E%3Ccircle cx='60' cy='60' r='1' fill='%23c89068' opacity='0.12'/%3E%3Cpath d='M40 35 L42 38 L40 41 L38 38 Z' fill='%23d4a574' opacity='0.1'/%3E%3C/svg%3E");
+  background-size: 80px 80px;
   background-repeat: repeat;
-  opacity: 0.6;
+  opacity: 0.3;
   pointer-events: none;
-  animation: floralPulse 3s ease-in-out infinite, sparkleRotate 8s linear infinite;
-  filter: drop-shadow(0 0 8px rgba(255, 0, 255, 0.4));
 }
 
 @keyframes categoryFadeIn {
@@ -792,18 +786,15 @@ html, body {
 
 .section-cream {
   background: 
-    radial-gradient(circle at 15% 25%, rgba(255, 0, 255, 0.25) 0%, transparent 40%),
-    radial-gradient(circle at 85% 75%, rgba(255, 20, 147, 0.25) 0%, transparent 40%),
-    radial-gradient(circle at 50% 50%, rgba(0, 255, 255, 0.2) 0%, transparent 50%),
-    radial-gradient(circle at 10% 80%, rgba(147, 51, 234, 0.2) 0%, transparent 45%),
-    radial-gradient(circle at 90% 20%, rgba(255, 215, 0, 0.22) 0%, transparent 45%),
-    radial-gradient(circle at 40% 60%, rgba(255, 105, 180, 0.18) 0%, transparent 40%),
-    radial-gradient(circle at 65% 85%, rgba(0, 255, 127, 0.15) 0%, transparent 38%),
-    linear-gradient(135deg, #fff8dc 0%, #ffe4f5 20%, #f0e6ff 40%, #e0f7ff 60%, #fffacd 80%, #ffe4e1 100%);
+    radial-gradient(circle at 15% 25%, rgba(212, 165, 116, 0.08) 0%, transparent 40%),
+    radial-gradient(circle at 85% 75%, rgba(200, 144, 104, 0.08) 0%, transparent 40%),
+    radial-gradient(circle at 50% 50%, rgba(184, 125, 92, 0.06) 0%, transparent 50%),
+    radial-gradient(circle at 10% 80%, rgba(255, 215, 0, 0.06) 0%, transparent 45%),
+    radial-gradient(circle at 90% 20%, rgba(255, 182, 193, 0.06) 0%, transparent 45%),
+    linear-gradient(135deg, #fff8dc 0%, #ffefd5 20%, #ffe4e1 40%, #fff0f5 60%, #fffacd 80%, #ffefd5 100%);
   position: relative;
   overflow: hidden;
   contain: layout style;
-  animation: backgroundShift 12s ease-in-out infinite;
 }
 
 .section-cream::before {
@@ -814,20 +805,19 @@ html, body {
   right: 0;
   bottom: 0;
   background-image: 
-    /* Glowing marigold garland - top left */
-    url("data:image/svg+xml,%3Csvg width='140' height='140' viewBox='0 0 140 140' xmlns='http://www.w3.org/2000/svg'%3E%3Cdefs%3E%3Cfilter id='mega-glow'%3E%3CfeGaussianBlur stdDeviation='3' result='coloredBlur'/%3E%3CfeMerge%3E%3CfeMergeNode in='coloredBlur'/%3E%3CfeMergeNode in='coloredBlur'/%3E%3CfeMergeNode in='SourceGraphic'/%3E%3C/feMerge%3E%3C/filter%3E%3C/defs%3E%3Ccircle cx='35' cy='35' r='7' fill='%23ff00ff' filter='url(%23mega-glow)'/%3E%3Ccircle cx='26' cy='29' r='6' fill='%23ff1493'/%3E%3Ccircle cx='44' cy='29' r='6' fill='%2300ffff'/%3E%3Ccircle cx='26' cy='41' r='6' fill='%23ffd700'/%3E%3Ccircle cx='44' cy='41' r='6' fill='%2300ff00'/%3E%3Ccircle cx='29' cy='24' r='5' fill='%23ff8c00'/%3E%3Ccircle cx='41' cy='24' r='5' fill='%239333ea'/%3E%3Ccircle cx='29' cy='46' r='5' fill='%23ff69b4'/%3E%3Ccircle cx='41' cy='46' r='5' fill='%2300ffff'/%3E%3Ccircle cx='35' cy='35' r='4' fill='%23ffffff'/%3E%3Ccircle cx='55' cy='25' r='4' fill='%23ff1493' filter='url(%23mega-glow)'/%3E%3Ccircle cx='52' cy='22' r='2.5' fill='%2300ffff'/%3E%3Ccircle cx='58' cy='22' r='2.5' fill='%23ffd700'/%3E%3Ccircle cx='52' cy='28' r='2.5' fill='%23ff00ff'/%3E%3Ccircle cx='58' cy='28' r='2.5' fill='%2300ff00'/%3E%3C/svg%3E"),
-    /* Vibrant rangoli mandala - top right */
-    url("data:image/svg+xml,%3Csvg width='140' height='140' viewBox='0 0 140 140' xmlns='http://www.w3.org/2000/svg'%3E%3Cdefs%3E%3Cfilter id='rainbow-glow'%3E%3CfeGaussianBlur stdDeviation='3.5' result='coloredBlur'/%3E%3CfeMerge%3E%3CfeMergeNode in='coloredBlur'/%3E%3CfeMergeNode in='coloredBlur'/%3E%3CfeMergeNode in='SourceGraphic'/%3E%3C/feMerge%3E%3C/filter%3E%3C/defs%3E%3Cellipse cx='105' cy='35' rx='10' ry='15' fill='%23ff1493' filter='url(%23rainbow-glow)' transform='rotate(0 105 35)'/%3E%3Cellipse cx='105' cy='35' rx='10' ry='15' fill='%23ff8c00' transform='rotate(45 105 35)'/%3E%3Cellipse cx='105' cy='35' rx='10' ry='15' fill='%23ffd700' transform='rotate(90 105 35)'/%3E%3Cellipse cx='105' cy='35' rx='10' ry='15' fill='%2300ff00' transform='rotate(135 105 35)'/%3E%3Cellipse cx='105' cy='35' rx='8' ry='12' fill='%2300ffff' transform='rotate(22.5 105 35)'/%3E%3Cellipse cx='105' cy='35' rx='8' ry='12' fill='%239333ea' transform='rotate(67.5 105 35)'/%3E%3Cellipse cx='105' cy='35' rx='8' ry='12' fill='%23ff00ff' transform='rotate(112.5 105 35)'/%3E%3Cellipse cx='105' cy='35' rx='8' ry='12' fill='%23ff69b4' transform='rotate(157.5 105 35)'/%3E%3Ccircle cx='105' cy='35' r='5' fill='%23ffffff'/%3E%3C/svg%3E"),
-    /* Glowing marigold garland - bottom left */
-    url("data:image/svg+xml,%3Csvg width='140' height='140' viewBox='0 0 140 140' xmlns='http://www.w3.org/2000/svg'%3E%3Cdefs%3E%3Cfilter id='neon-glow'%3E%3CfeGaussianBlur stdDeviation='3' result='coloredBlur'/%3E%3CfeMerge%3E%3CfeMergeNode in='coloredBlur'/%3E%3CfeMergeNode in='coloredBlur'/%3E%3CfeMergeNode in='SourceGraphic'/%3E%3C/feMerge%3E%3C/filter%3E%3C/defs%3E%3Ccircle cx='35' cy='105' r='7' fill='%2300ffff' filter='url(%23neon-glow)'/%3E%3Ccircle cx='26' cy='99' r='6' fill='%239333ea'/%3E%3Ccircle cx='44' cy='99' r='6' fill='%23ff00ff'/%3E%3Ccircle cx='26' cy='111' r='6' fill='%23ff1493'/%3E%3Ccircle cx='44' cy='111' r='6' fill='%2300ff00'/%3E%3Ccircle cx='29' cy='94' r='5' fill='%23ffd700'/%3E%3Ccircle cx='41' cy='94' r='5' fill='%23ff8c00'/%3E%3Ccircle cx='29' cy='116' r='5' fill='%23ff69b4'/%3E%3Ccircle cx='41' cy='116' r='5' fill='%2300ffff'/%3E%3Ccircle cx='35' cy='105' r='4' fill='%23ffffff'/%3E%3Ccircle cx='15' cy='95' r='4' fill='%23ff00ff' filter='url(%23neon-glow)'/%3E%3Ccircle cx='12' cy='92' r='2.5' fill='%2300ff00'/%3E%3Ccircle cx='18' cy='92' r='2.5' fill='%23ff1493'/%3E%3Ccircle cx='12' cy='98' r='2.5' fill='%23ffd700'/%3E%3Ccircle cx='18' cy='98' r='2.5' fill='%2300ffff'/%3E%3C/svg%3E"),
-    /* Vibrant rangoli mandala - bottom right */
-    url("data:image/svg+xml,%3Csvg width='140' height='140' viewBox='0 0 140 140' xmlns='http://www.w3.org/2000/svg'%3E%3Cdefs%3E%3Cfilter id='star-glow'%3E%3CfeGaussianBlur stdDeviation='3.5' result='coloredBlur'/%3E%3CfeMerge%3E%3CfeMergeNode in='coloredBlur'/%3E%3CfeMergeNode in='coloredBlur'/%3E%3CfeMergeNode in='SourceGraphic'/%3E%3C/feMerge%3E%3C/filter%3E%3C/defs%3E%3Cellipse cx='105' cy='105' rx='10' ry='15' fill='%2300ff00' filter='url(%23star-glow)' transform='rotate(0 105 105)'/%3E%3Cellipse cx='105' cy='105' rx='10' ry='15' fill='%2300ffff' transform='rotate(45 105 105)'/%3E%3Cellipse cx='105' cy='105' rx='10' ry='15' fill='%239333ea' transform='rotate(90 105 105)'/%3E%3Cellipse cx='105' cy='105' rx='10' ry='15' fill='%23ff00ff' transform='rotate(135 105 105)'/%3E%3Cellipse cx='105' cy='105' rx='8' ry='12' fill='%23ff1493' transform='rotate(22.5 105 105)'/%3E%3Cellipse cx='105' cy='105' rx='8' ry='12' fill='%23ff8c00' transform='rotate(67.5 105 105)'/%3E%3Cellipse cx='105' cy='105' rx='8' ry='12' fill='%23ffd700' transform='rotate(112.5 105 105)'/%3E%3Cellipse cx='105' cy='105' rx='8' ry='12' fill='%23ff69b4' transform='rotate(157.5 105 105)'/%3E%3Ccircle cx='105' cy='105' r='5' fill='%23ffffff'/%3E%3C/svg%3E");
-  background-position: top 25px left 25px, top 25px right 25px, bottom 25px left 25px, bottom 25px right 25px;
+    /* Delicate paisley corner - top left */
+    url("data:image/svg+xml,%3Csvg width='150' height='150' viewBox='0 0 150 150' xmlns='http://www.w3.org/2000/svg'%3E%3Cellipse cx='25' cy='25' rx='8' ry='16' fill='%23d4a574' opacity='0.12' transform='rotate(45 25 25)'/%3E%3Cellipse cx='25' cy='25' rx='5' ry='10' fill='%23c89068' opacity='0.15' transform='rotate(45 25 25)'/%3E%3Ccircle cx='25' cy='25' r='3' fill='%23b87d5c' opacity='0.18'/%3E%3Cellipse cx='15' cy='35' rx='5' ry='10' fill='%23d4a574' opacity='0.1' transform='rotate(30 15 35)'/%3E%3Cellipse cx='35' cy='15' rx='5' ry='10' fill='%23d4a574' opacity='0.1' transform='rotate(60 35 15)'/%3E%3C/svg%3E"),
+    /* Delicate paisley corner - top right */
+    url("data:image/svg+xml,%3Csvg width='150' height='150' viewBox='0 0 150 150' xmlns='http://www.w3.org/2000/svg'%3E%3Cellipse cx='125' cy='25' rx='8' ry='16' fill='%23d4a574' opacity='0.12' transform='rotate(-45 125 25)'/%3E%3Cellipse cx='125' cy='25' rx='5' ry='10' fill='%23c89068' opacity='0.15' transform='rotate(-45 125 25)'/%3E%3Ccircle cx='125' cy='25' r='3' fill='%23b87d5c' opacity='0.18'/%3E%3Cellipse cx='115' cy='15' rx='5' ry='10' fill='%23d4a574' opacity='0.1' transform='rotate(-30 115 15)'/%3E%3Cellipse cx='135' cy='35' rx='5' ry='10' fill='%23d4a574' opacity='0.1' transform='rotate(-60 135 35)'/%3E%3C/svg%3E"),
+    /* Delicate paisley corner - bottom left */
+    url("data:image/svg+xml,%3Csvg width='150' height='150' viewBox='0 0 150 150' xmlns='http://www.w3.org/2000/svg'%3E%3Cellipse cx='25' cy='125' rx='8' ry='16' fill='%23d4a574' opacity='0.12' transform='rotate(135 25 125)'/%3E%3Cellipse cx='25' cy='125' rx='5' ry='10' fill='%23c89068' opacity='0.15' transform='rotate(135 25 125)'/%3E%3Ccircle cx='25' cy='125' r='3' fill='%23b87d5c' opacity='0.18'/%3E%3Cellipse cx='15' cy='115' rx='5' ry='10' fill='%23d4a574' opacity='0.1' transform='rotate(120 15 115)'/%3E%3Cellipse cx='35' cy='135' rx='5' ry='10' fill='%23d4a574' opacity='0.1' transform='rotate(150 35 135)'/%3E%3C/svg%3E"),
+    /* Delicate paisley corner - bottom right */
+    url("data:image/svg+xml,%3Csvg width='150' height='150' viewBox='0 0 150 150' xmlns='http://www.w3.org/2000/svg'%3E%3Cellipse cx='125' cy='125' rx='8' ry='16' fill='%23d4a574' opacity='0.12' transform='rotate(-135 125 125)'/%3E%3Cellipse cx='125' cy='125' rx='5' ry='10' fill='%23c89068' opacity='0.15' transform='rotate(-135 125 125)'/%3E%3Ccircle cx='125' cy='125' r='3' fill='%23b87d5c' opacity='0.18'/%3E%3Cellipse cx='115' cy='135' rx='5' ry='10' fill='%23d4a574' opacity='0.1' transform='rotate(-150 115 135)'/%3E%3Cellipse cx='135' cy='115' rx='5' ry='10' fill='%23d4a574' opacity='0.1' transform='rotate(-120 135 115)'/%3E%3C/svg%3E");
+  background-position: top 0 left 0, top 0 right 0, bottom 0 left 0, bottom 0 right 0;
   background-repeat: no-repeat;
-  opacity: 0.75;
+  background-size: 150px 150px;
+  opacity: 0.5;
   pointer-events: none;
-  animation: floralFloat 5s ease-in-out infinite, floralSpin 10s linear infinite, floralGlow 2.5s ease-in-out infinite;
-  filter: drop-shadow(0 0 15px rgba(255, 0, 255, 0.5));
 }
 
 .section-cream::after {
@@ -838,14 +828,12 @@ html, body {
   right: 0;
   bottom: 0;
   background-image: 
-    /* Vibrant glowing scattered elements */
-    url("data:image/svg+xml,%3Csvg width='120' height='120' viewBox='0 0 120 120' xmlns='http://www.w3.org/2000/svg'%3E%3Cdefs%3E%3Cfilter id='twinkle'%3E%3CfeGaussianBlur stdDeviation='2' result='coloredBlur'/%3E%3CfeMerge%3E%3CfeMergeNode in='coloredBlur'/%3E%3CfeMergeNode in='coloredBlur'/%3E%3CfeMergeNode in='SourceGraphic'/%3E%3C/feMerge%3E%3C/filter%3E%3C/defs%3E%3Cellipse cx='25' cy='25' rx='7' ry='14' fill='%23ff00ff' filter='url(%23twinkle)' transform='rotate(45 25 25)'/%3E%3Ccircle cx='25' cy='25' r='4' fill='%23ffd700'/%3E%3Ccircle cx='23' cy='23' r='1.5' fill='%2300ffff'/%3E%3Ccircle cx='27' cy='23' r='1.5' fill='%23ff1493'/%3E%3Ccircle cx='70' cy='30' r='3.5' fill='%2300ff00' filter='url(%23twinkle)'/%3E%3Ccircle cx='66' cy='27' r='2.5' fill='%23ff8c00'/%3E%3Ccircle cx='74' cy='27' r='2.5' fill='%239333ea'/%3E%3Ccircle cx='66' cy='33' r='2.5' fill='%23ffd700'/%3E%3Ccircle cx='74' cy='33' r='2.5' fill='%2300ffff'/%3E%3Ccircle cx='70' cy='30' r='2' fill='%23ffffff'/%3E%3Cellipse cx='90' cy='70' rx='4' ry='6' fill='%23ff1493' filter='url(%23twinkle)' transform='rotate(0 90 70)'/%3E%3Cellipse cx='90' cy='70' rx='4' ry='6' fill='%2300ffff' transform='rotate(60 90 70)'/%3E%3Cellipse cx='90' cy='70' rx='4' ry='6' fill='%23ff00ff' transform='rotate(120 90 70)'/%3E%3Ccircle cx='90' cy='70' r='2' fill='%23ffffff'/%3E%3Cellipse cx='35' cy='85' rx='6' ry='12' fill='%239333ea' filter='url(%23twinkle)' transform='rotate(-45 35 85)'/%3E%3Ccircle cx='35' cy='85' r='3.5' fill='%23ff69b4'/%3E%3Ccircle cx='50' cy='50' r='2.5' fill='%23ff00ff' filter='url(%23twinkle)'/%3E%3Ccircle cx='15' cy='60' r='2' fill='%2300ff00' filter='url(%23twinkle)'/%3E%3Ccircle cx='95' cy='45' r='2.2' fill='%23ff1493' filter='url(%23twinkle)'/%3E%3Ccircle cx='60' cy='95' r='2' fill='%2300ffff' filter='url(%23twinkle)'/%3E%3Ccircle cx='105' cy='25' r='1.8' fill='%23ffd700'/%3E%3Ccircle cx='10' cy='100' r='2' fill='%23ff8c00'/%3E%3C/svg%3E");
-  background-size: 120px 120px;
+    /* Delicate repeating pattern */
+    url("data:image/svg+xml,%3Csvg width='90' height='90' viewBox='0 0 90 90' xmlns='http://www.w3.org/2000/svg'%3E%3Cellipse cx='45' cy='45' rx='3' ry='6' fill='%23d4a574' opacity='0.08' transform='rotate(45 45 45)'/%3E%3Ccircle cx='45' cy='45' r='1.5' fill='%23c89068' opacity='0.12'/%3E%3Ccircle cx='20' cy='20' r='1' fill='%23b87d5c' opacity='0.1'/%3E%3Ccircle cx='70' cy='20' r='1' fill='%23b87d5c' opacity='0.1'/%3E%3Ccircle cx='20' cy='70' r='1' fill='%23b87d5c' opacity='0.1'/%3E%3Ccircle cx='70' cy='70' r='1' fill='%23b87d5c' opacity='0.1'/%3E%3C/svg%3E");
+  background-size: 90px 90px;
   background-repeat: repeat;
-  opacity: 0.65;
+  opacity: 0.3;
   pointer-events: none;
-  animation: floralPulse 2.5s ease-in-out infinite, sparkleRotate 6s linear infinite, twinkle 4s ease-in-out infinite;
-  filter: drop-shadow(0 0 12px rgba(0, 255, 255, 0.5));
 }
 
 @keyframes sectionCreamFadeIn {
@@ -884,100 +872,39 @@ html, body {
   }
 }
 
-@keyframes floralFloat {
+@keyframes categoryFadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 0.5;
+  }
+}
+
+@keyframes categoryFloat {
   0%, 100% {
-    transform: translate3d(0, 0, 0) scale(1) rotate(0deg);
+    transform: translate3d(0, 0, 0);
+  }
+  50% {
+    transform: translate3d(0, -10px, 0);
+  }
+}
+
+@keyframes categoryPulse {
+  0%, 100% {
+    opacity: 0.5;
+  }
+  50% {
     opacity: 0.8;
   }
-  25% {
-    transform: translate3d(8px, -10px, 0) scale(1.05) rotate(2deg);
-    opacity: 0.9;
-  }
-  50% {
-    transform: translate3d(0, -15px, 0) scale(1.08) rotate(0deg);
-    opacity: 1;
-  }
-  75% {
-    transform: translate3d(-8px, -10px, 0) scale(1.05) rotate(-2deg);
-    opacity: 0.9;
-  }
 }
 
-@keyframes floralPulse {
-  0%, 100% {
-    opacity: 0.6;
-    transform: scale(1);
-  }
-  50% {
-    opacity: 0.85;
-    transform: scale(1.12);
-  }
-}
-
-@keyframes floralGlow {
-  0%, 100% {
-    filter: drop-shadow(0 0 10px rgba(255, 20, 147, 0.3)) brightness(1);
-  }
-  25% {
-    filter: drop-shadow(0 0 20px rgba(0, 255, 255, 0.6)) brightness(1.2);
-  }
-  50% {
-    filter: drop-shadow(0 0 25px rgba(255, 0, 255, 0.7)) brightness(1.4);
-  }
-  75% {
-    filter: drop-shadow(0 0 20px rgba(255, 215, 0, 0.6)) brightness(1.2);
-  }
-}
-
-@keyframes floralSpin {
+@keyframes shimmer {
   0% {
-    transform: rotate(0deg);
+    background-position: -200% 0;
   }
   100% {
-    transform: rotate(360deg);
-  }
-}
-
-@keyframes sparkleRotate {
-  0% {
-    transform: rotate(0deg) scale(1);
-  }
-  50% {
-    transform: rotate(180deg) scale(1.08);
-  }
-  100% {
-    transform: rotate(360deg) scale(1);
-  }
-}
-
-@keyframes twinkle {
-  0%, 100% {
-    opacity: 0.65;
-    transform: scale(1);
-  }
-  25% {
-    opacity: 0.85;
-    transform: scale(1.15);
-  }
-  50% {
-    opacity: 1;
-    transform: scale(1.25);
-  }
-  75% {
-    opacity: 0.85;
-    transform: scale(1.15);
-  }
-}
-
-@keyframes backgroundShift {
-  0%, 100% {
-    filter: brightness(1) saturate(1);
-  }
-  33% {
-    filter: brightness(1.1) saturate(1.2);
-  }
-  66% {
-    filter: brightness(1.05) saturate(1.1);
+    background-position: 200% 0;
   }
 }
 
