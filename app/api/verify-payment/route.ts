@@ -125,7 +125,7 @@ export async function POST(request: NextRequest) {
     const subtotal = orderData.items.reduce((sum: number, item: CartItem) =>
       sum + (item.price * item.quantity), 0
     )
-    const shippingCost = subtotal > 1000 ? 0 : 100 // Free shipping over ₹1000
+    const shippingCost = 0 // Free shipping on all orders
     const totalAmount = subtotal + shippingCost
 
     // Prepare products JSON

@@ -94,7 +94,7 @@ export default function CheckoutPage() {
 
   // Calculate totals
   const subtotal = state.items.reduce((sum, item) => sum + (item.price * item.quantity), 0)
-  const shippingCost = subtotal > 1000 ? 0 : 100 // Free shipping over ₹1000
+  const shippingCost: number = 0 // Free shipping on all orders
   const total = subtotal + shippingCost
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {

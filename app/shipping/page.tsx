@@ -13,16 +13,16 @@ export default function ShippingPage() {
       icon: Truck,
       title: 'Standard Shipping',
       time: '5-7 Business Days',
-      cost: '₹99',
-      description: 'Reliable delivery across India with tracking updates.',
+      cost: 'FREE',
+      description: 'Free delivery across India with tracking updates.',
       features: ['Doorstep delivery', 'Real-time tracking', 'Insurance coverage', 'Customer support']
     },
     {
       icon: Clock,
       title: 'Express Shipping',
       time: '2-3 Business Days',
-      cost: '₹199',
-      description: 'Fast delivery for urgent orders and special occasions.',
+      cost: 'FREE',
+      description: 'Free express delivery for all orders.',
       features: ['Priority handling', 'Express delivery', 'Premium packaging', 'Dedicated support']
     },
     {
@@ -30,7 +30,7 @@ export default function ShippingPage() {
       title: 'Free Shipping',
       time: '5-7 Business Days',
       cost: 'FREE',
-      description: 'Complimentary shipping on orders above ₹2000.',
+      description: 'Complimentary shipping on all orders.',
       features: ['No delivery charges', 'Standard packaging', 'Order tracking', 'Quality assurance']
     }
   ]
