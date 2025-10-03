@@ -92,105 +92,6 @@ export default function CheckoutPage() {
     }
   }, [])
 
-  // Handle return from external payment apps (GPay, PhonePe, etc.)
-  useEffect(() => {
-    // Check if user is returning from payment
-    const pendingOrderDataStr = sessionStorage.getItem('pendingOrderData')
-    
-    if (pendingOrderDataStr) {
-      console.log('Detected pending payment on page load, verifying...')
-      
-      try {
-        const pendingOrderData = JSON.parse(pendingOrderDataStr)
-        
-        // Restore form data so user can see their info
-        if (pendingOrderData.formData) {
-          setFormData(pendingOrderData.formData)
-          setEmailVerified(true) // They already verified before payment
-        }
-        
-        setIsProcessingPayment(true)
-        
-        // Wait a bit for payment to settle, then verify
-        const timer = setTimeout(() => {
-          verifyPaymentOnReturn()
-        }, 2000)
-
-        return () => clearTimeout(timer)
-      } catch (error) {
-        console.error('Error parsing pending order data:', error)
-        sessionStorage.removeItem('pendingOrderData')
-      }
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []) // Run only once on mount
-
-  const verifyPaymentOnReturn = async () => {
-    try {
-      const pendingOrderDataStr = sessionStorage.getItem('pendingOrderData')
-      if (!pendingOrderDataStr) {
-        console.log('No pending order data, skipping verification')
-        setIsProcessingPayment(false)
-        return
-      }
-
-      const pendingOrderData = JSON.parse(pendingOrderDataStr)
-      
-      console.log('Verifying payment for order:', pendingOrderData.cashfreeOrderId)
-      
-      const verificationData = {
-        cashfree_order_id: pendingOrderData.cashfreeOrderId,
-        orderData: {
-          ...pendingOrderData.formData,
-          items: pendingOrderData.items
-        }
-      }
-
-      const response = await fetch('/api/verify-payment', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(verificationData),
-      })
-
-      const result = await response.json()
-
-      if (response.ok) {
-        // Clean up session storage
-        sessionStorage.removeItem('pendingOrderData')
-        
-        // Store user email for orders page
-        if (pendingOrderData.formData?.email) {
-          localStorage.setItem('userEmail', pendingOrderData.formData.email)
-        }
-
-        // Clear the cart after successful payment
-        clearCart()
-
-        // Show success dialog
-        setSuccessOrderId(result.orderId)
-        setShowSuccessDialog(true)
-      } else {
-        // Payment might still be pending
-        if (result.error && result.error.includes('PENDING')) {
-          console.log('Payment still pending, will retry...')
-          setPaymentError('Payment is being processed. Please wait...')
-          // Retry after 3 seconds
-          setTimeout(() => verifyPaymentOnReturn(), 3000)
-        } else {
-          throw new Error(result.error || 'Payment verification failed')
-        }
-      }
-
-    } catch (error) {
-      console.error('Verification error:', error)
-      setPaymentError(error instanceof Error ? error.message : 'Payment verification failed. Please check your orders page.')
-    } finally {
-      setIsProcessingPayment(false)
-    }
-  }
-
   // Calculate totals
   const subtotal = state.items.reduce((sum, item) => sum + (item.price * item.quantity), 0)
   const shippingCost: number = 0 // Free shipping on all orders
@@ -344,33 +245,89 @@ export default function CheckoutPage() {
       // Create Cashfree instance
       const cashfree = await window.Cashfree({ mode: cashfreeEnv })
 
-      // Detect if user is on mobile device
-      const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)
-
       const checkoutOptions: CashfreeCheckoutOptions = {
         paymentSessionId: orderData.paymentSessionId,
         returnUrl: `${window.location.origin}/checkout`,
-        // Use _self for mobile (better for GPay/PhonePe redirects), _modal for desktop
-        redirectTarget: isMobile ? '_self' : '_modal'
+        redirectTarget: '_modal'
       }
 
       console.log('Opening Cashfree checkout with session:', orderData.paymentSessionId)
-      console.log('Device type:', isMobile ? 'Mobile' : 'Desktop')
 
-      // Open checkout
+      // Open checkout modal
       await cashfree.checkout(checkoutOptions)
 
-      // For desktop modal, verify after it closes
-      if (!isMobile) {
-        setTimeout(() => {
-          verifyPaymentOnReturn()
-        }, 2000)
-      }
-      // For mobile, verification happens on page reload via useEffect
+      // After checkout modal closes, verify payment
+      setTimeout(() => {
+        verifyPayment()
+      }, 2000)
 
     } catch (error) {
       console.error('Payment error:', error)
       setPaymentError(error instanceof Error ? error.message : 'Payment failed')
+      setIsProcessingPayment(false)
+    }
+  }
+
+  const verifyPayment = async () => {
+    try {
+      const pendingOrderDataStr = sessionStorage.getItem('pendingOrderData')
+      if (!pendingOrderDataStr) {
+        console.log('No pending order data, skipping verification')
+        setIsProcessingPayment(false)
+        return
+      }
+
+      const pendingOrderData = JSON.parse(pendingOrderDataStr)
+      
+      console.log('Verifying payment for order:', pendingOrderData.cashfreeOrderId)
+      
+      const verificationData = {
+        cashfree_order_id: pendingOrderData.cashfreeOrderId,
+        orderData: {
+          ...pendingOrderData.formData,
+          items: pendingOrderData.items
+        }
+      }
+
+      const response = await fetch('/api/verify-payment', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(verificationData),
+      })
+
+      const result = await response.json()
+
+      if (response.ok) {
+        // Clean up session storage
+        sessionStorage.removeItem('pendingOrderData')
+        
+        // Store user email for orders page
+        localStorage.setItem('userEmail', formData.email)
+
+        // Clear the cart after successful payment
+        clearCart()
+
+        // Show success dialog
+        setSuccessOrderId(result.orderId)
+        setShowSuccessDialog(true)
+      } else {
+        // Payment might still be pending
+        if (result.error && result.error.includes('not found')) {
+          console.log('Payment still pending, will retry...')
+          setPaymentError('Payment is being processed. Please wait...')
+          // Retry after 3 seconds
+          setTimeout(() => verifyPayment(), 3000)
+        } else {
+          throw new Error(result.error || 'Payment verification failed')
+        }
+      }
+
+    } catch (error) {
+      console.error('Verification error:', error)
+      setPaymentError(error instanceof Error ? error.message : 'Payment verification failed')
+    } finally {
       setIsProcessingPayment(false)
     }
   }
