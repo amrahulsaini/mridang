@@ -93,7 +93,7 @@ export async function sendOrderConfirmationEmail(orderData: OrderData) {
       <body>
         <div class="container">
           <div class="header">
-            <h1>🎵 Order Confirmed!</h1>
+            <h1> Order Confirmed!</h1>
             <p>Thank you for shopping with Mridang</p>
           </div>
 
