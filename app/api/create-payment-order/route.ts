@@ -1,13 +1,4 @@
 import { NextRequest, NextResponse } from 'next/server'
-// eslint-disable-next-line @typescript-eslint/no-require-imports
-const { Cashfree } = require('cashfree-pg')
-
-// Set Cashfree environment
-Cashfree.XClientId = process.env.CASHFREE_APP_ID!
-Cashfree.XClientSecret = process.env.CASHFREE_SECRET_KEY!
-Cashfree.XEnvironment = process.env.CASHFREE_ENVIRONMENT === 'production' 
-  ? Cashfree.Environment.PRODUCTION 
-  : Cashfree.Environment.SANDBOX
 
 export async function POST(request: NextRequest) {
   try {
@@ -30,7 +21,7 @@ export async function POST(request: NextRequest) {
     // Generate unique order ID
     const orderId = `order_${Date.now()}_${Math.random().toString(36).substring(7)}`
 
-    // Create Cashfree order request
+    // Create Cashfree order using REST API directly
     const orderRequest = {
       order_id: orderId,
       order_amount: amount,
@@ -38,28 +29,43 @@ export async function POST(request: NextRequest) {
       customer_details: {
         customer_id: customerData.email.replace(/[^a-zA-Z0-9]/g, '_'),
         customer_email: customerData.email,
-        customer_phone: customerData.phone.replace(/\D/g, '').slice(-10), // Last 10 digits only
+        customer_phone: customerData.phone.replace(/\D/g, '').slice(-10),
         customer_name: customerData.name || 'Customer'
       },
       order_meta: {
-        return_url: `${process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'}/checkout`,
-        notify_url: `${process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'}/api/cashfree-webhook`
+        return_url: `${process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'}/checkout`
       }
     }
 
-    // Create order using Cashfree SDK
-    const response = await Cashfree.PGCreateOrder('2023-08-01', orderRequest)
+    // Determine API endpoint based on environment
+    const apiEndpoint = process.env.CASHFREE_ENVIRONMENT === 'production'
+      ? 'https://api.cashfree.com/pg/orders'
+      : 'https://sandbox.cashfree.com/pg/orders'
 
-    if (response && response.data) {
+    // Make direct API call to Cashfree
+    const cashfreeResponse = await fetch(apiEndpoint, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'x-api-version': '2023-08-01',
+        'x-client-id': process.env.CASHFREE_APP_ID!,
+        'x-client-secret': process.env.CASHFREE_SECRET_KEY!
+      },
+      body: JSON.stringify(orderRequest)
+    })
+
+    const cashfreeData = await cashfreeResponse.json()
+
+    if (cashfreeResponse.ok && cashfreeData) {
       return NextResponse.json({
         success: true,
-        orderId: response.data.order_id,
-        paymentSessionId: response.data.payment_session_id,
+        orderId: cashfreeData.order_id,
+        paymentSessionId: cashfreeData.payment_session_id,
         amount: amount,
         currency: currency
       })
     } else {
-      throw new Error('Failed to create Cashfree order')
+      throw new Error(cashfreeData.message || 'Failed to create Cashfree order')
     }
 
   } catch (error) {

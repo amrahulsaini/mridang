@@ -1,15 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
-// eslint-disable-next-line @typescript-eslint/no-require-imports
-const { Cashfree } = require('cashfree-pg')
 import mysql from 'mysql2/promise'
 import { sendOrderConfirmationEmail } from '@/lib/email'
-
-// Set Cashfree environment
-Cashfree.XClientId = process.env.CASHFREE_APP_ID!
-Cashfree.XClientSecret = process.env.CASHFREE_SECRET_KEY!
-Cashfree.XEnvironment = process.env.CASHFREE_ENVIRONMENT === 'production' 
-  ? Cashfree.Environment.PRODUCTION 
-  : Cashfree.Environment.SANDBOX
 
 // Type definitions
 interface CartItem {
@@ -77,11 +68,27 @@ export async function POST(request: NextRequest) {
       cashfree_order_id
     })
 
-    // Verify payment with Cashfree
+    // Verify payment with Cashfree using REST API
     console.log('Verifying payment with Cashfree...')
-    const orderResponse = await Cashfree.PGOrderFetchPayments('2023-08-01', cashfree_order_id)
     
-    if (!orderResponse || !orderResponse.data || orderResponse.data.length === 0) {
+    // Determine API endpoint based on environment
+    const apiEndpoint = process.env.CASHFREE_ENVIRONMENT === 'production'
+      ? `https://api.cashfree.com/pg/orders/${cashfree_order_id}/payments`
+      : `https://sandbox.cashfree.com/pg/orders/${cashfree_order_id}/payments`
+
+    const orderResponse = await fetch(apiEndpoint, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        'x-api-version': '2023-08-01',
+        'x-client-id': process.env.CASHFREE_APP_ID!,
+        'x-client-secret': process.env.CASHFREE_SECRET_KEY!
+      }
+    })
+
+    const paymentData = await orderResponse.json()
+    
+    if (!paymentData || !Array.isArray(paymentData) || paymentData.length === 0) {
       console.log('No payment found for order')
       return NextResponse.json(
         { error: 'Payment not found' },
@@ -89,7 +96,7 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    const payment = orderResponse.data[0]
+    const payment = paymentData[0]
     
     // Check if payment is successful
     if (payment.payment_status !== 'SUCCESS') {
