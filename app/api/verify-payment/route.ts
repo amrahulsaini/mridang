@@ -1,12 +1,15 @@
 import { NextRequest, NextResponse } from 'next/server'
+// eslint-disable-next-line @typescript-eslint/no-require-imports
 const { Cashfree } = require('cashfree-pg')
 import mysql from 'mysql2/promise'
 import { sendOrderConfirmationEmail } from '@/lib/email'
 
-// Initialize Cashfree SDK
-const cashfree = new Cashfree({
-  mode: process.env.CASHFREE_ENVIRONMENT === 'production' ? 'production' : 'sandbox'
-})
+// Set Cashfree environment
+Cashfree.XClientId = process.env.CASHFREE_APP_ID!
+Cashfree.XClientSecret = process.env.CASHFREE_SECRET_KEY!
+Cashfree.XEnvironment = process.env.CASHFREE_ENVIRONMENT === 'production' 
+  ? Cashfree.Environment.PRODUCTION 
+  : Cashfree.Environment.SANDBOX
 
 // Type definitions
 interface CartItem {
@@ -76,12 +79,7 @@ export async function POST(request: NextRequest) {
 
     // Verify payment with Cashfree
     console.log('Verifying payment with Cashfree...')
-    const orderResponse = await cashfree.PGOrderFetchPayments(
-      '2023-08-01',
-      cashfree_order_id,
-      process.env.CASHFREE_APP_ID!,
-      process.env.CASHFREE_SECRET_KEY!
-    )
+    const orderResponse = await Cashfree.PGOrderFetchPayments('2023-08-01', cashfree_order_id)
     
     if (!orderResponse || !orderResponse.data || orderResponse.data.length === 0) {
       console.log('No payment found for order')

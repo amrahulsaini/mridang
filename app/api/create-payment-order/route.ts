@@ -1,10 +1,13 @@
 import { NextRequest, NextResponse } from 'next/server'
+// eslint-disable-next-line @typescript-eslint/no-require-imports
 const { Cashfree } = require('cashfree-pg')
 
-// Initialize Cashfree SDK
-const cashfree = new Cashfree({
-  mode: process.env.CASHFREE_ENVIRONMENT === 'production' ? 'production' : 'sandbox'
-})
+// Set Cashfree environment
+Cashfree.XClientId = process.env.CASHFREE_APP_ID!
+Cashfree.XClientSecret = process.env.CASHFREE_SECRET_KEY!
+Cashfree.XEnvironment = process.env.CASHFREE_ENVIRONMENT === 'production' 
+  ? Cashfree.Environment.PRODUCTION 
+  : Cashfree.Environment.SANDBOX
 
 export async function POST(request: NextRequest) {
   try {
@@ -44,13 +47,8 @@ export async function POST(request: NextRequest) {
       }
     }
 
-    // Create order using Cashfree SDK v5
-    const response = await cashfree.PGCreateOrder(
-      '2023-08-01',
-      orderRequest,
-      process.env.CASHFREE_APP_ID!,
-      process.env.CASHFREE_SECRET_KEY!
-    )
+    // Create order using Cashfree SDK
+    const response = await Cashfree.PGCreateOrder('2023-08-01', orderRequest)
 
     if (response && response.data) {
       return NextResponse.json({

@@ -12,7 +12,6 @@ import Link from 'next/link'
 
 function SearchResults() {
   const searchParams = useSearchParams()
-  const router = useRouter()
   const query = searchParams.get('q') || ''
   
   const [products, setProducts] = useState<Product[]>([])

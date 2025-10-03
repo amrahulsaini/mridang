@@ -131,7 +131,7 @@ export async function POST(request: NextRequest) {
     const productData: ProductData = await request.json()
 
     const {
-      pro_id,
+      pro_id: _pro_id, // eslint-disable-line @typescript-eslint/no-unused-vars
       flipkart_serial_number,
       catalog_qc_status,
       qc_failed_reason,

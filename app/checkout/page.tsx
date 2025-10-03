@@ -25,20 +25,6 @@ interface CashfreeCheckoutOptions {
   redirectTarget?: string
 }
 
-interface CashfreeResponse {
-  order: {
-    orderId: string
-    status: string
-  }
-  transaction: {
-    transactionId: string
-  }
-  error?: {
-    code: string
-    message: string
-  }
-}
-
 interface FormData {
   firstName: string
   lastName: string
