@@ -1,7 +1,12 @@
 import { NextRequest, NextResponse } from 'next/server'
-import crypto from 'crypto'
+const { Cashfree } = require('cashfree-pg')
 import mysql from 'mysql2/promise'
 import { sendOrderConfirmationEmail } from '@/lib/email'
+
+// Initialize Cashfree SDK
+const cashfree = new Cashfree({
+  mode: process.env.CASHFREE_ENVIRONMENT === 'production' ? 'production' : 'sandbox'
+})
 
 // Type definitions
 interface CartItem {
@@ -26,9 +31,7 @@ interface OrderData {
 }
 
 interface PaymentVerificationRequest {
-  razorpay_order_id: string
-  razorpay_payment_id: string
-  razorpay_signature: string
+  cashfree_order_id: string
   orderData: OrderData
 }
 
@@ -63,34 +66,46 @@ export async function POST(request: NextRequest) {
 
     const body = await request.json()
     const {
-      razorpay_order_id,
-      razorpay_payment_id,
-      razorpay_signature,
+      cashfree_order_id,
       orderData
     }: PaymentVerificationRequest = body
 
     console.log('Payment verification request received:', {
-      razorpay_order_id,
-      razorpay_payment_id,
-      hasSignature: !!razorpay_signature
+      cashfree_order_id
     })
 
-    // Verify payment signature
-    const sign = razorpay_order_id + '|' + razorpay_payment_id
-    const expectedSign = crypto
-      .createHmac('sha256', process.env.RAZORPAY_KEY_SECRET!)
-      .update(sign.toString())
-      .digest('hex')
+    // Verify payment with Cashfree
+    console.log('Verifying payment with Cashfree...')
+    const orderResponse = await cashfree.PGOrderFetchPayments(
+      '2023-08-01',
+      cashfree_order_id,
+      process.env.CASHFREE_APP_ID!,
+      process.env.CASHFREE_SECRET_KEY!
+    )
+    
+    if (!orderResponse || !orderResponse.data || orderResponse.data.length === 0) {
+      console.log('No payment found for order')
+      return NextResponse.json(
+        { error: 'Payment not found' },
+        { status: 400 }
+      )
+    }
 
-    if (razorpay_signature !== expectedSign) {
-      console.log('Payment signature verification failed')
+    const payment = orderResponse.data[0]
+    
+    // Check if payment is successful
+    if (payment.payment_status !== 'SUCCESS') {
+      console.log('Payment verification failed - payment status:', payment.payment_status)
       return NextResponse.json(
         { error: 'Payment verification failed' },
         { status: 400 }
       )
     }
 
-    console.log('Payment signature verified successfully')
+    console.log('Payment verified successfully')
+
+    // Get the Cashfree payment ID
+    const cashfree_payment_id = payment.cf_payment_id
 
     // Generate unique order ID
     const orderId = generateOrderId()
@@ -146,13 +161,13 @@ export async function POST(request: NextRequest) {
         'completed', // status
         request.headers.get('x-forwarded-for') || request.headers.get('x-real-ip') || 'unknown',
         request.headers.get('user-agent') || 'unknown',
-        `Payment ID: ${razorpay_payment_id}, Order ID: ${razorpay_order_id}`
+        `Payment ID: ${cashfree_payment_id}, Order ID: ${cashfree_order_id}`
       ]
     )
 
     console.log('Order saved successfully:', {
       orderId,
-      paymentId: razorpay_payment_id,
+      paymentId: cashfree_payment_id,
       amount: totalAmount
     })
 
@@ -194,7 +209,7 @@ export async function POST(request: NextRequest) {
       success: true,
       orderId,
       message: 'Order placed successfully!',
-      paymentId: razorpay_payment_id
+      paymentId: cashfree_payment_id
     })
 
   } catch (error) {

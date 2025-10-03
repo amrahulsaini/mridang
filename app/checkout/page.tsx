@@ -10,43 +10,33 @@ import { useRouter } from 'next/navigation'
 import SuccessDialog from '../components/SuccessDialog'
 import styles from './Checkout.module.css'
 
-// Razorpay type declaration
+// Cashfree type declaration
 declare global {
   interface Window {
-    Razorpay: new (options: RazorpayOptions) => RazorpayInstance
+    Cashfree: {
+      checkout: (options: CashfreeCheckoutOptions) => void
+    }
   }
 }
 
-interface RazorpayOptions {
-  key: string
-  amount: number
-  currency: string
-  order_id: string
-  name: string
-  description: string
-  image?: string
-  handler: (response: RazorpayResponse) => void
-  prefill: {
-    name: string
-    email: string
-    contact: string
-  }
-  theme: {
-    color: string
-  }
-  modal: {
-    ondismiss: () => void
-  }
+interface CashfreeCheckoutOptions {
+  paymentSessionId: string
+  returnUrl?: string
+  redirectTarget?: string
 }
 
-interface RazorpayInstance {
-  open(): void
-}
-
-interface RazorpayResponse {
-  razorpay_order_id: string
-  razorpay_payment_id: string
-  razorpay_signature: string
+interface CashfreeResponse {
+  order: {
+    orderId: string
+    status: string
+  }
+  transaction: {
+    transactionId: string
+  }
+  error?: {
+    code: string
+    message: string
+  }
 }
 
 interface FormData {
@@ -86,22 +76,24 @@ export default function CheckoutPage() {
   // Payment states
   const [isProcessingPayment, setIsProcessingPayment] = useState(false)
   const [paymentError, setPaymentError] = useState('')
-  const [razorpayLoaded, setRazorpayLoaded] = useState(false)
+  const [cashfreeLoaded, setCashfreeLoaded] = useState(false)
 
   // Success dialog states
   const [showSuccessDialog, setShowSuccessDialog] = useState(false)
   const [successOrderId, setSuccessOrderId] = useState('')
 
-  // Load Razorpay script
+  // Load Cashfree SDK script
   useEffect(() => {
     const script = document.createElement('script')
-    script.src = 'https://checkout.razorpay.com/v1/checkout.js'
-    script.onload = () => setRazorpayLoaded(true)
-    script.onerror = () => console.error('Failed to load Razorpay script')
+    script.src = 'https://sdk.cashfree.com/js/v3/cashfree.js'
+    script.onload = () => setCashfreeLoaded(true)
+    script.onerror = () => console.error('Failed to load Cashfree SDK')
     document.body.appendChild(script)
 
     return () => {
-      document.body.removeChild(script)
+      if (document.body.contains(script)) {
+        document.body.removeChild(script)
+      }
     }
   }, [])
 
@@ -213,7 +205,7 @@ export default function CheckoutPage() {
     setPaymentError('')
 
     try {
-      // Create Razorpay order
+      // Create Cashfree order
       const orderResponse = await fetch('/api/create-payment-order', {
         method: 'POST',
         headers: {
@@ -222,7 +214,11 @@ export default function CheckoutPage() {
         body: JSON.stringify({
           amount: total,
           currency: 'INR',
-          receipt: `receipt_${Date.now()}`
+          customerData: {
+            name: `${formData.firstName} ${formData.lastName}`,
+            email: formData.email,
+            phone: formData.phone
+          }
         }),
       })
 
@@ -232,38 +228,28 @@ export default function CheckoutPage() {
         throw new Error(orderData.error || 'Failed to create payment order')
       }
 
-      // Initialize Razorpay payment
-      const options = {
-        key: orderData.key,
-        amount: orderData.amount,
-        currency: orderData.currency,
-        order_id: orderData.orderId,
-        name: 'Mridang',
-        description: 'Purchase from Mridang',
-        image: '/logo.png',
-        handler: (response: RazorpayResponse) => {
-          verifyPayment(response)
-        },
-        prefill: {
-          name: `${formData.firstName} ${formData.lastName}`,
-          email: formData.email,
-          contact: formData.phone,
-        },
-        theme: {
-          color: '#8B4513',
-        },
-        modal: {
-          ondismiss: () => {
-            setIsProcessingPayment(false)
-          }
+      // Initialize Cashfree Checkout
+      if (window.Cashfree) {
+        const cashfree = window.Cashfree
+        
+        const checkoutOptions: CashfreeCheckoutOptions = {
+          paymentSessionId: orderData.paymentSessionId,
+          redirectTarget: '_modal'
         }
-      }
 
-      if (window.Razorpay) {
-        const rzp = new window.Razorpay(options)
-        rzp.open()
+        cashfree.checkout(checkoutOptions)
+        
+        // Store order data and cashfree order ID for verification
+        sessionStorage.setItem('pendingOrderData', JSON.stringify({
+          cashfreeOrderId: orderData.orderId,
+          formData,
+          items: state.items
+        }))
+        
+        // Listen for payment completion
+        window.addEventListener('message', handlePaymentMessage)
       } else {
-        throw new Error('Razorpay SDK not loaded')
+        throw new Error('Cashfree SDK not loaded')
       }
 
     } catch (error) {
@@ -273,15 +259,36 @@ export default function CheckoutPage() {
     }
   }
 
-  const verifyPayment = async (razorpayResponse: RazorpayResponse) => {
+  const handlePaymentMessage = (event: MessageEvent) => {
+    if (event.data && event.data.status) {
+      const status = event.data.status
+      
+      if (status === 'PAID' || status === 'SUCCESS') {
+        verifyPayment()
+      } else if (status === 'FAILED') {
+        setPaymentError('Payment failed. Please try again.')
+        setIsProcessingPayment(false)
+        window.removeEventListener('message', handlePaymentMessage)
+      } else if (status === 'PENDING') {
+        // Payment is pending, wait for completion
+      }
+    }
+  }
+
+  const verifyPayment = async () => {
     try {
+      const pendingOrderDataStr = sessionStorage.getItem('pendingOrderData')
+      if (!pendingOrderDataStr) {
+        throw new Error('Order data not found')
+      }
+
+      const pendingOrderData = JSON.parse(pendingOrderDataStr)
+      
       const verificationData = {
-        razorpay_order_id: razorpayResponse.razorpay_order_id,
-        razorpay_payment_id: razorpayResponse.razorpay_payment_id,
-        razorpay_signature: razorpayResponse.razorpay_signature,
+        cashfree_order_id: pendingOrderData.cashfreeOrderId,
         orderData: {
-          ...formData,
-          items: state.items
+          ...pendingOrderData.formData,
+          items: pendingOrderData.items
         }
       }
 
@@ -296,13 +303,17 @@ export default function CheckoutPage() {
       const result = await response.json()
 
       if (response.ok) {
+        // Clean up session storage
+        sessionStorage.removeItem('pendingOrderData')
+        window.removeEventListener('message', handlePaymentMessage)
+        
         // Store user email for orders page
         localStorage.setItem('userEmail', formData.email)
 
         // Clear the cart after successful payment
         clearCart()
 
-        // Show success dialog instead of alert
+        // Show success dialog
         setSuccessOrderId(result.orderId)
         setShowSuccessDialog(true)
       } else {
@@ -623,7 +634,7 @@ export default function CheckoutPage() {
             <button
               type="submit"
               className={styles.submitBtn}
-              disabled={isProcessingPayment || !razorpayLoaded}
+              disabled={isProcessingPayment || !cashfreeLoaded}
             >
               {isProcessingPayment ? (
                 <>
@@ -644,7 +655,7 @@ export default function CheckoutPage() {
               </div>
             )}
 
-            {!razorpayLoaded && (
+            {!cashfreeLoaded && (
               <div style={{ textAlign: 'center', marginTop: '10px', color: '#666' }}>
                 Loading payment gateway...
               </div>

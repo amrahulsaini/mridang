@@ -1,14 +1,14 @@
 import { NextRequest, NextResponse } from 'next/server'
-import Razorpay from 'razorpay'
+const { Cashfree } = require('cashfree-pg')
 
-const razorpay = new Razorpay({
-  key_id: process.env.RAZORPAY_KEY_ID!,
-  key_secret: process.env.RAZORPAY_KEY_SECRET!,
+// Initialize Cashfree SDK
+const cashfree = new Cashfree({
+  mode: process.env.CASHFREE_ENVIRONMENT === 'production' ? 'production' : 'sandbox'
 })
 
 export async function POST(request: NextRequest) {
   try {
-    const { amount, currency = 'INR', receipt } = await request.json()
+    const { amount, currency = 'INR', customerData } = await request.json()
 
     if (!amount || amount <= 0) {
       return NextResponse.json(
@@ -17,26 +17,55 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    // Create Razorpay order
-    const options = {
-      amount: amount * 100, // Razorpay expects amount in paisa (multiply by 100)
-      currency,
-      receipt: receipt || `receipt_${Date.now()}`,
-      payment_capture: 1, // Auto capture payment
+    if (!customerData || !customerData.email || !customerData.phone) {
+      return NextResponse.json(
+        { error: 'Customer email and phone are required' },
+        { status: 400 }
+      )
     }
 
-    const order = await razorpay.orders.create(options)
+    // Generate unique order ID
+    const orderId = `order_${Date.now()}_${Math.random().toString(36).substring(7)}`
 
-    return NextResponse.json({
-      success: true,
-      orderId: order.id,
-      amount: order.amount,
-      currency: order.currency,
-      key: process.env.RAZORPAY_KEY_ID,
-    })
+    // Create Cashfree order request
+    const orderRequest = {
+      order_id: orderId,
+      order_amount: amount,
+      order_currency: currency,
+      customer_details: {
+        customer_id: customerData.email.replace(/[^a-zA-Z0-9]/g, '_'),
+        customer_email: customerData.email,
+        customer_phone: customerData.phone.replace(/\D/g, '').slice(-10), // Last 10 digits only
+        customer_name: customerData.name || 'Customer'
+      },
+      order_meta: {
+        return_url: `${process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'}/checkout`,
+        notify_url: `${process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'}/api/cashfree-webhook`
+      }
+    }
+
+    // Create order using Cashfree SDK v5
+    const response = await cashfree.PGCreateOrder(
+      '2023-08-01',
+      orderRequest,
+      process.env.CASHFREE_APP_ID!,
+      process.env.CASHFREE_SECRET_KEY!
+    )
+
+    if (response && response.data) {
+      return NextResponse.json({
+        success: true,
+        orderId: response.data.order_id,
+        paymentSessionId: response.data.payment_session_id,
+        amount: amount,
+        currency: currency
+      })
+    } else {
+      throw new Error('Failed to create Cashfree order')
+    }
 
   } catch (error) {
-    console.error('Error creating Razorpay order:', error)
+    console.error('Error creating Cashfree order:', error)
     return NextResponse.json(
       { error: 'Failed to create payment order' },
       { status: 500 }
