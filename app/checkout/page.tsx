@@ -10,13 +10,15 @@ import { useRouter } from 'next/navigation'
 import SuccessDialog from '../components/SuccessDialog'
 import styles from './Checkout.module.css'
 
-// Cashfree type declaration
+// Cashfree type declaration for v3 SDK
 declare global {
   interface Window {
-    Cashfree: {
-      checkout: (options: CashfreeCheckoutOptions) => void
-    }
+    Cashfree: (config: { mode: string }) => Promise<CashfreeInstance>
   }
+}
+
+interface CashfreeInstance {
+  checkout: (options: CashfreeCheckoutOptions) => Promise<void>
 }
 
 interface CashfreeCheckoutOptions {
@@ -72,13 +74,20 @@ export default function CheckoutPage() {
   useEffect(() => {
     const script = document.createElement('script')
     script.src = 'https://sdk.cashfree.com/js/v3/cashfree.js'
-    script.onload = () => setCashfreeLoaded(true)
-    script.onerror = () => console.error('Failed to load Cashfree SDK')
-    document.body.appendChild(script)
+    script.async = true
+    script.onload = () => {
+      console.log('Cashfree SDK loaded successfully')
+      setCashfreeLoaded(true)
+    }
+    script.onerror = () => {
+      console.error('Failed to load Cashfree SDK')
+      setPaymentError('Failed to load payment gateway')
+    }
+    document.head.appendChild(script)
 
     return () => {
-      if (document.body.contains(script)) {
-        document.body.removeChild(script)
+      if (document.head.contains(script)) {
+        document.head.removeChild(script)
       }
     }
   }, [])
@@ -214,29 +223,43 @@ export default function CheckoutPage() {
         throw new Error(orderData.error || 'Failed to create payment order')
       }
 
-      // Initialize Cashfree Checkout
-      if (window.Cashfree) {
-        const cashfree = window.Cashfree
-        
-        const checkoutOptions: CashfreeCheckoutOptions = {
-          paymentSessionId: orderData.paymentSessionId,
-          redirectTarget: '_modal'
-        }
+      console.log('Order created:', orderData)
 
-        cashfree.checkout(checkoutOptions)
-        
-        // Store order data and cashfree order ID for verification
-        sessionStorage.setItem('pendingOrderData', JSON.stringify({
-          cashfreeOrderId: orderData.orderId,
-          formData,
-          items: state.items
-        }))
-        
-        // Listen for payment completion
-        window.addEventListener('message', handlePaymentMessage)
-      } else {
+      // Store order data for verification
+      sessionStorage.setItem('pendingOrderData', JSON.stringify({
+        cashfreeOrderId: orderData.orderId,
+        formData,
+        items: state.items
+      }))
+
+      // Initialize Cashfree Checkout using v3 SDK
+      if (typeof window.Cashfree === 'undefined') {
         throw new Error('Cashfree SDK not loaded')
       }
+
+      // Determine environment
+      const cashfreeEnv = process.env.NEXT_PUBLIC_CASHFREE_ENVIRONMENT === 'production' ? 'production' : 'sandbox'
+      
+      console.log('Initializing Cashfree with environment:', cashfreeEnv)
+
+      // Create Cashfree instance
+      const cashfree = await window.Cashfree({ mode: cashfreeEnv })
+
+      const checkoutOptions: CashfreeCheckoutOptions = {
+        paymentSessionId: orderData.paymentSessionId,
+        returnUrl: `${window.location.origin}/checkout`,
+        redirectTarget: '_modal'
+      }
+
+      console.log('Opening Cashfree checkout with session:', orderData.paymentSessionId)
+
+      // Open checkout modal
+      await cashfree.checkout(checkoutOptions)
+
+      // After checkout modal closes, verify payment
+      setTimeout(() => {
+        verifyPayment()
+      }, 2000)
 
     } catch (error) {
       console.error('Payment error:', error)
@@ -245,30 +268,18 @@ export default function CheckoutPage() {
     }
   }
 
-  const handlePaymentMessage = (event: MessageEvent) => {
-    if (event.data && event.data.status) {
-      const status = event.data.status
-      
-      if (status === 'PAID' || status === 'SUCCESS') {
-        verifyPayment()
-      } else if (status === 'FAILED') {
-        setPaymentError('Payment failed. Please try again.')
-        setIsProcessingPayment(false)
-        window.removeEventListener('message', handlePaymentMessage)
-      } else if (status === 'PENDING') {
-        // Payment is pending, wait for completion
-      }
-    }
-  }
-
   const verifyPayment = async () => {
     try {
       const pendingOrderDataStr = sessionStorage.getItem('pendingOrderData')
       if (!pendingOrderDataStr) {
-        throw new Error('Order data not found')
+        console.log('No pending order data, skipping verification')
+        setIsProcessingPayment(false)
+        return
       }
 
       const pendingOrderData = JSON.parse(pendingOrderDataStr)
+      
+      console.log('Verifying payment for order:', pendingOrderData.cashfreeOrderId)
       
       const verificationData = {
         cashfree_order_id: pendingOrderData.cashfreeOrderId,
@@ -291,7 +302,6 @@ export default function CheckoutPage() {
       if (response.ok) {
         // Clean up session storage
         sessionStorage.removeItem('pendingOrderData')
-        window.removeEventListener('message', handlePaymentMessage)
         
         // Store user email for orders page
         localStorage.setItem('userEmail', formData.email)
@@ -303,7 +313,15 @@ export default function CheckoutPage() {
         setSuccessOrderId(result.orderId)
         setShowSuccessDialog(true)
       } else {
-        throw new Error(result.error || 'Payment verification failed')
+        // Payment might still be pending
+        if (result.error && result.error.includes('not found')) {
+          console.log('Payment still pending, will retry...')
+          setPaymentError('Payment is being processed. Please wait...')
+          // Retry after 3 seconds
+          setTimeout(() => verifyPayment(), 3000)
+        } else {
+          throw new Error(result.error || 'Payment verification failed')
+        }
       }
 
     } catch (error) {
