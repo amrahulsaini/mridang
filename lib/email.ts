@@ -1,5 +1,5 @@
 import nodemailer from 'nodemailer'
-import { generateInvoicePDF } from './invoice-pdf'
+// import { generateInvoicePDF } from './invoice-pdf' // Disabled due to Next.js 15 Turbopack compatibility issues
 
 // Email configuration for order confirmations
 const emailConfig = {
@@ -64,23 +64,23 @@ export async function sendOrderConfirmationEmail(orderData: OrderData) {
   try {
     console.log('Sending order confirmation email to:', orderData.customer.email)
 
-    // Try to generate PDF invoice, but don't fail if it errors
-    let pdfBuffer: Buffer | null = null
-    try {
-      console.log('Generating PDF invoice...')
-      pdfBuffer = await generateInvoicePDF({
-        orderId: orderData.orderId,
-        orderDate: orderData.createdAt,
-        customer: orderData.customer,
-        products: orderData.products,
-        pricing: orderData.pricing
-      })
-      console.log('PDF invoice generated successfully')
-    } catch (pdfError) {
-      console.error('Failed to generate PDF invoice:', pdfError)
-      console.log('Continuing to send email without PDF attachment...')
-      // Continue without PDF - don't fail the whole email
-    }
+    // PDF generation temporarily disabled due to Next.js 15 Turbopack compatibility issues
+    // let pdfBuffer: Buffer | null = null
+    // try {
+    //   console.log('Generating PDF invoice...')
+    //   pdfBuffer = await generateInvoicePDF({
+    //     orderId: orderData.orderId,
+    //     orderDate: orderData.createdAt,
+    //     customer: orderData.customer,
+    //     products: orderData.products,
+    //     pricing: orderData.pricing
+    //   })
+    //   console.log('PDF invoice generated successfully')
+    // } catch (pdfError) {
+    //   console.error('Failed to generate PDF invoice:', pdfError)
+    //   console.log('Continuing to send email without PDF attachment...')
+    //   // Continue without PDF - don't fail the whole email
+    // }
 
     const productsHtml = orderData.products.map(product => `
       <tr>
@@ -203,19 +203,20 @@ export async function sendOrderConfirmationEmail(orderData: OrderData) {
       html: emailHtml,
     }
 
-    // Only attach PDF if it was generated successfully
-    if (pdfBuffer) {
-      mailOptions.attachments = [
-        {
-          filename: `Invoice-${orderData.orderId}.pdf`,
-          content: pdfBuffer,
-          contentType: 'application/pdf'
-        }
-      ]
-      console.log('PDF invoice will be attached to email')
-    } else {
-      console.log('No PDF attachment - sending email only')
-    }
+    // PDF attachment temporarily disabled due to Next.js 15 Turbopack compatibility issues
+    // if (pdfBuffer) {
+    //   mailOptions.attachments = [
+    //     {
+    //       filename: `Invoice-${orderData.orderId}.pdf`,
+    //       content: pdfBuffer,
+    //       contentType: 'application/pdf'
+    //     }
+    //   ]
+    //   console.log('PDF invoice will be attached to email')
+    // } else {
+    //   console.log('No PDF attachment - sending email only')
+    // }
+    console.log('Sending email without PDF attachment (PDF generation disabled)')
 
     const info = await transporter.sendMail(mailOptions)
     console.log('Order confirmation email sent successfully:', info.messageId)
