@@ -1,4 +1,5 @@
 import nodemailer from 'nodemailer'
+import { generateInvoicePDF } from './invoice-pdf'
 
 // Email configuration for order confirmations
 const emailConfig = {
@@ -49,6 +50,17 @@ interface OrderData {
 export async function sendOrderConfirmationEmail(orderData: OrderData) {
   try {
     console.log('Sending order confirmation email to:', orderData.customer.email)
+
+    // Generate PDF invoice
+    console.log('Generating PDF invoice...')
+    const pdfBuffer = await generateInvoicePDF({
+      orderId: orderData.orderId,
+      orderDate: orderData.createdAt,
+      customer: orderData.customer,
+      products: orderData.products,
+      pricing: orderData.pricing
+    })
+    console.log('PDF invoice generated successfully')
 
     const productsHtml = orderData.products.map(product => `
       <tr>
@@ -164,10 +176,17 @@ export async function sendOrderConfirmationEmail(orderData: OrderData) {
     `
 
     const mailOptions = {
-      from: `"Orders" <orders@mridang.co.in>`,
+      from: `"Mridang Orders" <orders@mridang.co.in>`,
       to: orderData.customer.email,
       subject: `Order Confirmation - ${orderData.orderId} - Mridang`,
       html: emailHtml,
+      attachments: [
+        {
+          filename: `Invoice-${orderData.orderId}.pdf`,
+          content: pdfBuffer,
+          contentType: 'application/pdf'
+        }
+      ]
     }
 
     const info = await transporter.sendMail(mailOptions)
