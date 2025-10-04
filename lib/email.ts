@@ -51,16 +51,23 @@ export async function sendOrderConfirmationEmail(orderData: OrderData) {
   try {
     console.log('Sending order confirmation email to:', orderData.customer.email)
 
-    // Generate PDF invoice
-    console.log('Generating PDF invoice...')
-    const pdfBuffer = await generateInvoicePDF({
-      orderId: orderData.orderId,
-      orderDate: orderData.createdAt,
-      customer: orderData.customer,
-      products: orderData.products,
-      pricing: orderData.pricing
-    })
-    console.log('PDF invoice generated successfully')
+    // Try to generate PDF invoice, but don't fail if it errors
+    let pdfBuffer: Buffer | null = null
+    try {
+      console.log('Generating PDF invoice...')
+      pdfBuffer = await generateInvoicePDF({
+        orderId: orderData.orderId,
+        orderDate: orderData.createdAt,
+        customer: orderData.customer,
+        products: orderData.products,
+        pricing: orderData.pricing
+      })
+      console.log('PDF invoice generated successfully')
+    } catch (pdfError) {
+      console.error('Failed to generate PDF invoice:', pdfError)
+      console.log('Continuing to send email without PDF attachment...')
+      // Continue without PDF - don't fail the whole email
+    }
 
     const productsHtml = orderData.products.map(product => `
       <tr>
@@ -175,18 +182,26 @@ export async function sendOrderConfirmationEmail(orderData: OrderData) {
       </html>
     `
 
-    const mailOptions = {
+    // Build mail options
+    const mailOptions: any = {
       from: `"Mridang Orders" <orders@mridang.co.in>`,
       to: orderData.customer.email,
       subject: `Order Confirmation - ${orderData.orderId} - Mridang`,
       html: emailHtml,
-      attachments: [
+    }
+
+    // Only attach PDF if it was generated successfully
+    if (pdfBuffer) {
+      mailOptions.attachments = [
         {
           filename: `Invoice-${orderData.orderId}.pdf`,
           content: pdfBuffer,
           contentType: 'application/pdf'
         }
       ]
+      console.log('PDF invoice will be attached to email')
+    } else {
+      console.log('No PDF attachment - sending email only')
     }
 
     const info = await transporter.sendMail(mailOptions)
