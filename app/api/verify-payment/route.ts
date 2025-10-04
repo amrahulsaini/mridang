@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import mysql from 'mysql2/promise'
-import { sendOrderConfirmationEmail } from '@/lib/email'
+import { sendOrderConfirmationEmail, sendAdminOrderNotification } from '@/lib/email'
 
 // Type definitions
 interface CartItem {
@@ -199,7 +199,7 @@ export async function POST(request: NextRequest) {
       createdAt: new Date().toISOString(),
     }
 
-    // Send email asynchronously (don't wait for it to complete)
+    // Send customer confirmation email asynchronously (don't wait for it to complete)
     sendOrderConfirmationEmail(emailOrderData).then((result) => {
       if (result.success) {
         console.log('Order confirmation email sent successfully')
@@ -208,6 +208,17 @@ export async function POST(request: NextRequest) {
       }
     }).catch((error) => {
       console.error('Error sending order confirmation email:', error)
+    })
+
+    // Send admin notification email asynchronously
+    sendAdminOrderNotification(emailOrderData).then((result) => {
+      if (result.success) {
+        console.log('Admin notification email sent successfully')
+      } else {
+        console.error('Failed to send admin notification email:', result.error)
+      }
+    }).catch((error) => {
+      console.error('Error sending admin notification email:', error)
     })
 
     return NextResponse.json({

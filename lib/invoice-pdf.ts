@@ -1,5 +1,4 @@
 import PDFDocument from 'pdfkit'
-import { Readable } from 'stream'
 
 interface InvoiceData {
   orderId: string
@@ -193,7 +192,6 @@ export async function generateInvoicePDF(invoiceData: InvoiceData): Promise<Buff
       const amountBeforeGST = invoiceData.pricing.subtotal / (1 + gstRate)
       const cgst = (amountBeforeGST * (gstRate / 2))
       const sgst = (amountBeforeGST * (gstRate / 2))
-      const igst = (amountBeforeGST * gstRate)
 
       // CGST
       doc

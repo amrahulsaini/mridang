@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
+import Image from 'next/image'
 import styles from './AdminOrders.module.css'
 
 interface OrderProduct {
@@ -271,6 +272,7 @@ export default function AdminOrdersPage() {
                     <td className={styles.tableCell}>
                       <div className={styles.orderIdCell}>
                         {Array.isArray(order.products) && order.products.length > 0 && order.products[0].image && (
+                          /* eslint-disable-next-line @next/next/no-img-element */
                           <img
                             src={order.products[0].image}
                             alt={order.products[0].name}
@@ -463,6 +465,7 @@ function OrderDetailsModal({
                     <div className={styles.productInfo}>
                       {product.image && (
                         <div className={styles.productImageContainer}>
+                          {/* eslint-disable-next-line @next/next/no-img-element */}
                           <img
                             src={product.image}
                             alt={product.name}
