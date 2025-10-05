@@ -1,8 +1,9 @@
 ﻿import Header from './components/Header';
 import ProductGridWrapper from './components/ProductGridWrapper';
+import InstagramReels from './components/InstagramReels';
 import FAQAndReviews from './components/FAQAndReviews';
 import Footer from './components/Footer';
-import { getProductsGroupedByCategory } from './lib/database';
+import { getProductsGroupedByCategory, getInstagramReels } from './lib/database';
 
 // Force dynamic rendering OR use revalidation
 // Option 1: Force dynamic (always fresh data)
@@ -14,12 +15,17 @@ export const dynamic = 'force-dynamic'
 export default async function Home() {
   // Fetch all categories that have products from database
   const categoriesWithProducts = await getProductsGroupedByCategory();
+  
+  // Fetch Instagram reels
+  const instagramReels = await getInstagramReels();
 
   return (
     <div className="min-h-screen bg-cream">
       <Header />
       
       <ProductGridWrapper categoriesWithProducts={categoriesWithProducts} />
+      
+      <InstagramReels reels={instagramReels} />
       
       <FAQAndReviews />
       <Footer />

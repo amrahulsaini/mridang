@@ -213,4 +213,20 @@ export async function searchProducts(searchQuery: string): Promise<Product[]> {
   }
 }
 
+// Fetch active Instagram reels
+export async function getInstagramReels() {
+  try {
+    const [rows] = await pool.execute(`
+      SELECT id, embed_code
+      FROM instagram_reels
+      WHERE is_active = 1
+      ORDER BY display_order ASC
+    `);
+    return rows as Array<{ id: number; embed_code: string }>;
+  } catch (error) {
+    console.error('Error fetching Instagram reels:', error);
+    return [];
+  }
+}
+
 export default pool;
