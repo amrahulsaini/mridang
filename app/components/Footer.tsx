@@ -14,7 +14,7 @@ const Footer = () => {
   ]
 
   const socialLinks = [
-    { icon: Instagram, href: 'https://instagram.com/mridang' }
+    { icon: Instagram, href: 'https://instagram.com/mridang_by_pragyajain' }
     
   ]
 
