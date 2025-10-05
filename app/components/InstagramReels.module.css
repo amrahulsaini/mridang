@@ -99,6 +99,36 @@
   border-radius: 12px !important;
 }
 
+.followButton {
+  text-align: center;
+  margin-top: 3rem;
+}
+
+.ctaButton {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 1rem 2rem;
+  background: linear-gradient(45deg, #833ab4, #fd1d1d, #fcb045);
+  color: white;
+  text-decoration: none;
+  border-radius: 50px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(131, 58, 180, 0.4);
+}
+
+.ctaButton:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 25px rgba(131, 58, 180, 0.6);
+}
+
+.ctaButton svg {
+  width: 24px;
+  height: 24px;
+}
+
 /* Mobile responsiveness */
 @media (max-width: 768px) {
   .instagramSection {

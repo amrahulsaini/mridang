@@ -148,6 +148,10 @@ export default function AdminInstaReels() {
             <li>Copy the entire embed code</li>
             <li>Paste it into the textarea below</li>
           </ol>
+          <p className={styles.note}>
+            <strong>Note:</strong> Instagram reels will display as embedded posts with a preview. 
+            Visitors can click to watch them on Instagram.
+          </p>
         </div>
 
         {message && <div className={styles.success}>{message}</div>}

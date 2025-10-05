@@ -142,6 +142,20 @@
   line-height: 1.6;
 }
 
+.note {
+  margin-top: 1rem;
+  padding: 0.75rem;
+  background: rgba(255, 193, 7, 0.1);
+  border-left: 3px solid #ffc107;
+  border-radius: 4px;
+  font-size: 0.9rem;
+  color: #856404;
+}
+
+.note strong {
+  color: #664d03;
+}
+
 .form {
   display: flex;
   flex-direction: column;
