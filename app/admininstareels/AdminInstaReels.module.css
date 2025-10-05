@@ -1,6 +1,6 @@
 .container {
   min-height: 100vh;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #fef7f7 0%, #faf7f0 50%, #fef7f7 100%);
   padding: 2rem;
   display: flex;
   align-items: center;
@@ -8,20 +8,24 @@
 }
 
 .loginBox {
-  background: white;
-  border-radius: 16px;
+  background: rgba(250, 247, 240, 0.95);
+  border-radius: 2rem;
   padding: 3rem;
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 20px 60px rgba(128, 0, 32, 0.15);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
   max-width: 400px;
   width: 100%;
   text-align: center;
 }
 
 .adminPanel {
-  background: white;
-  border-radius: 16px;
+  background: rgba(250, 247, 240, 0.95);
+  border-radius: 2rem;
   padding: 2rem;
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 20px 60px rgba(128, 0, 32, 0.15);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
   max-width: 1000px;
   width: 100%;
 }
@@ -38,11 +42,12 @@
 .title {
   font-size: 2rem;
   font-weight: 700;
-  background: linear-gradient(45deg, #667eea, #764ba2);
+  background: linear-gradient(135deg, #800020 0%, #a0002a 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
   margin: 0;
+  font-family: 'Georgia', serif;
 }
 
 .subtitle {
@@ -67,14 +72,14 @@
 
 .input:focus {
   outline: none;
-  border-color: #667eea;
-  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+  border-color: #800020;
+  box-shadow: 0 0 0 3px rgba(128, 0, 32, 0.1);
 }
 
 .button,
 .submitButton {
   padding: 1rem 2rem;
-  background: linear-gradient(45deg, #667eea, #764ba2);
+  background: linear-gradient(135deg, #800020 0%, #a0002a 100%);
   color: white;
   border: none;
   border-radius: 8px;
@@ -87,7 +92,7 @@
 .button:hover,
 .submitButton:hover {
   transform: translateY(-2px);
-  box-shadow: 0 10px 25px rgba(102, 126, 234, 0.3);
+  box-shadow: 0 10px 25px rgba(128, 0, 32, 0.3);
 }
 
 .button:active,
@@ -171,7 +176,7 @@
 }
 
 .reelItem:focus-within {
-  border-color: #667eea;
+  border-color: #800020;
 }
 
 .reelHeader {
@@ -200,8 +205,8 @@
 
 .textarea:focus {
   outline: none;
-  border-color: #667eea;
-  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+  border-color: #800020;
+  box-shadow: 0 0 0 3px rgba(128, 0, 32, 0.1);
 }
 
 .actions {
@@ -215,8 +220,8 @@
 .addButton {
   padding: 0.75rem 1.5rem;
   background: white;
-  color: #667eea;
-  border: 2px solid #667eea;
+  color: #800020;
+  border: 2px solid #800020;
   border-radius: 8px;
   font-size: 0.9rem;
   font-weight: 600;
@@ -225,7 +230,7 @@
 }
 
 .addButton:hover {
-  background: #667eea;
+  background: #800020;
   color: white;
 }
 
