@@ -144,7 +144,7 @@ export default function AdminInstaReels() {
           <ol>
             <li>Go to the Instagram reel you want to embed</li>
             <li>Click the three dots (...) menu</li>
-            <li>Select "Embed"</li>
+            <li>Select &quot;Embed&quot;</li>
             <li>Copy the entire embed code</li>
             <li>Paste it into the textarea below</li>
           </ol>
