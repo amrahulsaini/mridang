@@ -279,8 +279,7 @@ export default function About() {
             >
               <Phone className="contact-icon" />
               <h4>Call Us</h4>
-              <p>+91 98765 43210</p>
-              <p>+91 87654 32109</p>
+              <p>+91 9413419163</p>
             </motion.div>
             
             <motion.div 
@@ -292,8 +291,8 @@ export default function About() {
             >
               <MapPin className="contact-icon" />
               <h4>Visit Us</h4>
-              <p>123 Artisan Lane</p>
-              <p>Mumbai, Maharashtra 400001</p>
+              <p>801, Barkat Nagar, Tonk Phatak</p>
+              <p>Jaipur, Rajasthan 302015</p>
             </motion.div>
           </div>
         </div>
