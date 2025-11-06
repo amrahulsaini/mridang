@@ -305,7 +305,6 @@ export default function EditCategoryPage() {
 
 
             {/* Category Guidelines */}
-// Helper: Convert Dropbox share link to direct image link
             <div className={styles.formRow}>
               <div className={styles.formGroup} style={{ gridColumn: 'span 3' }}>
                 <div className={styles.infoBox}>
