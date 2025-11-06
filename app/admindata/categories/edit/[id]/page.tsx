@@ -8,6 +8,9 @@ interface Category {
   category_id: number
   category_name: string
   product_count: number
+  image?: string
+  kefeatures?: string
+
 }
 
 export default function EditCategoryPage() {
@@ -261,7 +264,48 @@ export default function EditCategoryPage() {
               </div>
             </div>
 
+            {/* Image URL Input & Preview */}
+            <div className={styles.formRow}>
+              <div className={styles.formGroup} style={{ gridColumn: 'span 3' }}>
+                <label className={styles.label}>Category Image URL</label>
+                <input
+                  type="text"
+                  value={formData.image || ''}
+                  onChange={(e) => setFormData({ ...formData, image: e.target.value })}
+                  className={styles.input}
+                  placeholder="Paste Dropbox or direct image URL"
+                />
+                {/* Image Preview: Convert Dropbox to direct link if needed */}
+                {formData.image && (
+                  <div style={{ marginTop: '1rem' }}>
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img
+                      src={convertDropboxUrl(formData.image)}
+                      alt="Category Preview"
+                      style={{ maxWidth: '220px', maxHeight: '220px', borderRadius: '12px', border: '1px solid #eee' }}
+                    />
+                  </div>
+                )}
+              </div>
+            </div>
+
+            {/* Kefeatures Input */}
+            <div className={styles.formRow}>
+              <div className={styles.formGroup} style={{ gridColumn: 'span 3' }}>
+                <label className={styles.label}>Key Features</label>
+                <textarea
+                  value={formData.kefeatures || ''}
+                  onChange={(e) => setFormData({ ...formData, kefeatures: e.target.value })}
+                  className={styles.input}
+                  rows={3}
+                  placeholder="Enter key features, separated by commas or new lines"
+                />
+              </div>
+            </div>
+
+
             {/* Category Guidelines */}
+// Helper: Convert Dropbox share link to direct image link
             <div className={styles.formRow}>
               <div className={styles.formGroup} style={{ gridColumn: 'span 3' }}>
                 <div className={styles.infoBox}>
@@ -389,4 +433,17 @@ export default function EditCategoryPage() {
       )}
     </div>
   )
+}
+
+// Helper: Convert Dropbox share link to direct image link
+function convertDropboxUrl(url: string): string {
+  if (!url) {
+    return '';
+  }
+  // Dropbox share: https://www.dropbox.com/scl/fi/.../file.jpg?...&dl=0
+  // Direct: https://dl.dropboxusercontent.com/scl/fi/.../file.jpg?...&dl=0
+  if (url.includes('dropbox.com')) {
+    return url.replace('www.dropbox.com', 'dl.dropboxusercontent.com').replace('?dl=0', '?raw=1');
+  }
+  return url;
 }
