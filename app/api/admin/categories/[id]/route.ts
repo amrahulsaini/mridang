@@ -5,8 +5,6 @@ interface CategoryData {
   category_id?: number
   category_name: string
   product_count?: number
-  image?: string
-  kefeatures?: string
 }
 
 interface ProductCountResult {
@@ -56,7 +54,7 @@ export async function PUT(
   try {
     const { id: categoryId } = await params
     const categoryData: CategoryData = await request.json()
-    const { category_name, image, kefeatures } = categoryData
+    const { category_name } = categoryData
 
     if (!category_name) {
       return NextResponse.json(
@@ -68,12 +66,8 @@ export async function PUT(
     console.log('Updating category:', categoryId, 'with data:', categoryData);
 
     await query(`
-      UPDATE Categories 
-      SET category_name = ?, 
-          image = ?, 
-          kefeatures = ? 
-      WHERE category_id = ?
-    `, [category_name, image || null, kefeatures || null, categoryId])
+      UPDATE Categories SET category_name = ? WHERE category_id = ?
+    `, [category_name, categoryId])
 
     return NextResponse.json({
       success: true,

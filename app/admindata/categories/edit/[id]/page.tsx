@@ -8,9 +8,6 @@ interface Category {
   category_id: number
   category_name: string
   product_count: number
-  image?: string
-  kefeatures?: string
-
 }
 
 export default function EditCategoryPage() {
@@ -99,24 +96,12 @@ export default function EditCategoryPage() {
         return;
       }
 
-      // Always save Dropbox image as direct link
-      const imageToSave = formData.image ? convertDropboxUrl(formData.image) : '';
-
-      // Only save key features as typed, trim whitespace
-      const kefeaturesToSave = formData.kefeatures ? formData.kefeatures.trim() : '';
-
-      const saveData = {
-        ...formData,
-        image: imageToSave,
-        kefeatures: kefeaturesToSave
-      };
-
-      console.log('Updating category:', saveData);
+      console.log('Updating category:', formData);
 
       const response = await fetch(`/api/admin/categories/${categoryId}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(saveData)
+        body: JSON.stringify(formData)
       })
 
       if (response.ok) {
@@ -276,46 +261,6 @@ export default function EditCategoryPage() {
               </div>
             </div>
 
-            {/* Image URL Input & Preview */}
-            <div className={styles.formRow}>
-              <div className={styles.formGroup} style={{ gridColumn: 'span 3' }}>
-                <label className={styles.label}>Category Image URL</label>
-                <input
-                  type="text"
-                  value={formData.image || ''}
-                  onChange={(e) => setFormData({ ...formData, image: e.target.value })}
-                  className={styles.input}
-                  placeholder="Paste Dropbox or direct image URL"
-                />
-                {/* Image Preview: Convert Dropbox to direct link if needed */}
-                {formData.image && (
-                  <div style={{ marginTop: '1rem' }}>
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img
-                      src={convertDropboxUrl(formData.image)}
-                      alt="Category Preview"
-                      style={{ maxWidth: '220px', maxHeight: '220px', borderRadius: '12px', border: '1px solid #eee' }}
-                    />
-                  </div>
-                )}
-              </div>
-            </div>
-
-            {/* Kefeatures Input */}
-            <div className={styles.formRow}>
-              <div className={styles.formGroup} style={{ gridColumn: 'span 3' }}>
-                <label className={styles.label}>Key Features</label>
-                <textarea
-                  value={formData.kefeatures || ''}
-                  onChange={(e) => setFormData({ ...formData, kefeatures: e.target.value })}
-                  className={styles.input}
-                  rows={3}
-                  placeholder="Enter key features, separated by commas or new lines"
-                />
-              </div>
-            </div>
-
-
             {/* Category Guidelines */}
             <div className={styles.formRow}>
               <div className={styles.formGroup} style={{ gridColumn: 'span 3' }}>
@@ -444,26 +389,4 @@ export default function EditCategoryPage() {
       )}
     </div>
   )
-}
-
-// Helper: Convert Dropbox share link to direct image link
-function convertDropboxUrl(url: string): string {
-  if (!url) {
-    return '';
-  }
-  // Dropbox share: https://www.dropbox.com/scl/fi/.../file.jpg?rlkey=...&st=...&dl=0
-  // Direct: https://dl.dropboxusercontent.com/scl/fi/.../file.jpg?rlkey=...&raw=1
-  if (url.includes('dropbox.com')) {
-    let directUrl = url.replace('www.dropbox.com', 'dl.dropboxusercontent.com');
-    // Remove dl=0 parameter and add raw=1
-    directUrl = directUrl.replace(/[?&]dl=0/g, '');
-    // Add raw=1 parameter
-    if (directUrl.includes('?')) {
-      directUrl = directUrl.replace(/(&st=[^&]*)/g, '') + '&raw=1';
-    } else {
-      directUrl += '?raw=1';
-    }
-    return directUrl;
-  }
-  return url;
 }

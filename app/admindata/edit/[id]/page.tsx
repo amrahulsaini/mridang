@@ -1225,6 +1225,41 @@ export default function ProductEditPage() {
           {/* Key Features Section */}
           <div className={styles.formSection}>
             <h3 className={styles.sectionTitle}>⭐ Key Features</h3>
+            
+            {/* Custom Key Feature Input */}
+            <div className={styles.formRow}>
+              <div className={styles.formGroup} style={{ gridColumn: 'span 3' }}>
+                <label className={styles.label}>Add Custom Key Features (comma-separated)</label>
+                <textarea
+                  placeholder="Type custom features here, separated by commas (e.g., Handcrafted, Premium Quality, Eco-friendly)"
+                  className={styles.textarea}
+                  rows={2}
+                  onBlur={(e) => {
+                    const customText = e.target.value.trim();
+                    if (customText) {
+                      // Parse comma-separated feature names and try to match existing ones
+                      const inputTexts = customText.split(',').map(text => text.trim()).filter(text => text);
+                      const matchingIds = keyFeatures
+                        .filter(feature => inputTexts.some(inputText => 
+                          feature.feature_text.toLowerCase() === inputText.toLowerCase()
+                        ))
+                        .map(feature => feature.feature_id);
+                      
+                      // Add matched IDs to existing selection
+                      const currentIds = formData.key_features || [];
+                      const newIds = [...new Set([...currentIds, ...matchingIds])];
+                      setFormData({...formData, key_features: newIds});
+                      e.target.value = ''; // Clear input after processing
+                    }
+                  }}
+                />
+                <small className={styles.helpText}>
+                  Type features and press Tab/Enter. Matching features will be auto-selected below.
+                </small>
+              </div>
+            </div>
+
+            {/* Checkbox Selection */}
             <div className={styles.checkboxGrid}>
               {keyFeatures.map((feature) => (
                 <label key={feature.feature_id} className={styles.checkboxLabel}>
