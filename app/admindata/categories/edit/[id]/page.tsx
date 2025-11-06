@@ -451,10 +451,19 @@ function convertDropboxUrl(url: string): string {
   if (!url) {
     return '';
   }
-  // Dropbox share: https://www.dropbox.com/scl/fi/.../file.jpg?...&dl=0
-  // Direct: https://dl.dropboxusercontent.com/scl/fi/.../file.jpg?...&dl=0
+  // Dropbox share: https://www.dropbox.com/scl/fi/.../file.jpg?rlkey=...&st=...&dl=0
+  // Direct: https://dl.dropboxusercontent.com/scl/fi/.../file.jpg?rlkey=...&raw=1
   if (url.includes('dropbox.com')) {
-    return url.replace('www.dropbox.com', 'dl.dropboxusercontent.com').replace('?dl=0', '?raw=1');
+    let directUrl = url.replace('www.dropbox.com', 'dl.dropboxusercontent.com');
+    // Remove dl=0 parameter and add raw=1
+    directUrl = directUrl.replace(/[?&]dl=0/g, '');
+    // Add raw=1 parameter
+    if (directUrl.includes('?')) {
+      directUrl = directUrl.replace(/(&st=[^&]*)/g, '') + '&raw=1';
+    } else {
+      directUrl += '?raw=1';
+    }
+    return directUrl;
   }
   return url;
 }

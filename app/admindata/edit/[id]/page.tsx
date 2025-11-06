@@ -257,6 +257,13 @@ export default function ProductEditPage() {
       const saveData = {
         ...formData,
         key_features: validKeyFeatures,
+        // Convert all Dropbox image URLs to direct links before saving
+        main_image_url: formData.main_image_url ? convertDropboxUrl(formData.main_image_url) : null,
+        other_image_url_1: formData.other_image_url_1 ? convertDropboxUrl(formData.other_image_url_1) : null,
+        other_image_url_2: formData.other_image_url_2 ? convertDropboxUrl(formData.other_image_url_2) : null,
+        other_image_url_3: formData.other_image_url_3 ? convertDropboxUrl(formData.other_image_url_3) : null,
+        other_image_url_4: formData.other_image_url_4 ? convertDropboxUrl(formData.other_image_url_4) : null,
+        supplier_image: formData.supplier_image ? convertDropboxUrl(formData.supplier_image) : null,
         // Ensure numeric fields are properly formatted
         pack_of: formData.pack_of ? parseInt(String(formData.pack_of)) : null,
         width_inch: formData.width_inch ? parseFloat(String(formData.width_inch)) : null,
@@ -586,11 +593,12 @@ export default function ProductEditPage() {
                   value={formData.main_image_url || ''}
                   onChange={(e) => setFormData({...formData, main_image_url: e.target.value})}
                   className={styles.input}
+                  placeholder="Paste Dropbox or direct image URL"
                 />
                 {formData.main_image_url && (
                   <div className={styles.imagePreview}>
                     <Image
-                      src={formData.main_image_url}
+                      src={convertDropboxUrl(formData.main_image_url)}
                       alt="Main product image"
                       width={100}
                       height={100}
@@ -607,11 +615,12 @@ export default function ProductEditPage() {
                   value={formData.other_image_url_1 || ''}
                   onChange={(e) => setFormData({...formData, other_image_url_1: e.target.value})}
                   className={styles.input}
+                  placeholder="Paste Dropbox or direct image URL"
                 />
                 {formData.other_image_url_1 && (
                   <div className={styles.imagePreview}>
                     <Image
-                      src={formData.other_image_url_1}
+                      src={convertDropboxUrl(formData.other_image_url_1)}
                       alt="Product image 1"
                       width={100}
                       height={100}
@@ -628,11 +637,12 @@ export default function ProductEditPage() {
                   value={formData.other_image_url_2 || ''}
                   onChange={(e) => setFormData({...formData, other_image_url_2: e.target.value})}
                   className={styles.input}
+                  placeholder="Paste Dropbox or direct image URL"
                 />
                 {formData.other_image_url_2 && (
                   <div className={styles.imagePreview}>
                     <Image
-                      src={formData.other_image_url_2}
+                      src={convertDropboxUrl(formData.other_image_url_2)}
                       alt="Product image 2"
                       width={100}
                       height={100}
@@ -651,11 +661,12 @@ export default function ProductEditPage() {
                   value={formData.other_image_url_3 || ''}
                   onChange={(e) => setFormData({...formData, other_image_url_3: e.target.value})}
                   className={styles.input}
+                  placeholder="Paste Dropbox or direct image URL"
                 />
                 {formData.other_image_url_3 && (
                   <div className={styles.imagePreview}>
                     <Image
-                      src={formData.other_image_url_3}
+                      src={convertDropboxUrl(formData.other_image_url_3)}
                       alt="Product image 3"
                       width={100}
                       height={100}
@@ -672,11 +683,12 @@ export default function ProductEditPage() {
                   value={formData.other_image_url_4 || ''}
                   onChange={(e) => setFormData({...formData, other_image_url_4: e.target.value})}
                   className={styles.input}
+                  placeholder="Paste Dropbox or direct image URL"
                 />
                 {formData.other_image_url_4 && (
                   <div className={styles.imagePreview}>
                     <Image
-                      src={formData.other_image_url_4}
+                      src={convertDropboxUrl(formData.other_image_url_4)}
                       alt="Product image 4"
                       width={100}
                       height={100}
@@ -1213,33 +1225,18 @@ export default function ProductEditPage() {
           {/* Key Features Section */}
           <div className={styles.formSection}>
             <h3 className={styles.sectionTitle}>⭐ Key Features</h3>
-            <div className={styles.formRow}>
-              <div className={styles.formGroup} style={{ gridColumn: 'span 3' }}>
-                <label className={styles.label}>Key Features</label>
-                <textarea
-                  value={keyFeatures
-                    .filter(feature => (formData.key_features || []).includes(feature.feature_id))
-                    .map(feature => feature.feature_text)
-                    .join(', ')}
-                  onChange={(e) => {
-                    // Parse comma-separated feature names and match them to IDs
-                    const inputTexts = e.target.value.split(',').map(text => text.trim()).filter(text => text);
-                    const matchingIds = keyFeatures
-                      .filter(feature => inputTexts.some(inputText => 
-                        feature.feature_text.toLowerCase().includes(inputText.toLowerCase()) ||
-                        inputText.toLowerCase().includes(feature.feature_text.toLowerCase())
-                      ))
-                      .map(feature => feature.feature_id);
-                    setFormData({...formData, key_features: matchingIds});
-                  }}
-                  className={styles.textarea}
-                  placeholder="Enter feature names separated by commas (e.g., Durable, Lightweight, Easy to Clean)"
-                  rows={3}
-                />
-                <small className={styles.helpText}>
-                  Available features: {keyFeatures.map(f => f.feature_text).join(', ')}
-                </small>
-              </div>
+            <div className={styles.checkboxGrid}>
+              {keyFeatures.map((feature) => (
+                <label key={feature.feature_id} className={styles.checkboxLabel}>
+                  <input
+                    type="checkbox"
+                    checked={(formData.key_features || []).includes(feature.feature_id)}
+                    onChange={(e) => handleArrayFieldChange('key_features', feature.feature_id, e.target.checked)}
+                    className={styles.checkbox}
+                  />
+                  {feature.feature_text}
+                </label>
+              ))}
             </div>
 
             {/* Section Update Button */}
@@ -1365,4 +1362,27 @@ export default function ProductEditPage() {
       )}
     </div>
   )
+}
+
+// Helper: Convert Dropbox share link to direct image link
+function convertDropboxUrl(url: string): string {
+  if (!url) {
+    return '';
+  }
+  // Dropbox share: https://www.dropbox.com/scl/fi/.../file.jpg?rlkey=...&st=...&dl=0
+  // Direct: https://dl.dropboxusercontent.com/scl/fi/.../file.jpg?rlkey=...&raw=1
+  if (url.includes('dropbox.com')) {
+    let directUrl = url.replace('www.dropbox.com', 'dl.dropboxusercontent.com');
+    // Remove dl=0 and st parameters, add raw=1
+    directUrl = directUrl.replace(/[?&]dl=0/g, '');
+    directUrl = directUrl.replace(/&st=[^&]*/g, '');
+    // Add raw=1 parameter
+    if (directUrl.includes('?')) {
+      directUrl += '&raw=1';
+    } else {
+      directUrl += '?raw=1';
+    }
+    return directUrl;
+  }
+  return url;
 }
