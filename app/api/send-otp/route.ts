@@ -3,12 +3,12 @@ import nodemailer from 'nodemailer'
 import { otpStore } from '../../../lib/otp-store'
 const createTransporter = () => {
   return nodemailer.createTransport({
-    host: process.env.SMTP_HOST || 'smtp-relay.brevo.com',
+    host: process.env.SMTP_HOST,
     port: parseInt(process.env.SMTP_PORT || '587'),
     secure: false, // true for 465, false for other ports
     auth: {
-      user: process.env.SMTP_USER || '9848f9001@smtp-brevo.com',
-      pass: process.env.SMTP_PASS || 'WOsm8zLwJfaSFPXb',
+      user: process.env.SMTP_USER,
+      pass: process.env.SMTP_PASS,
     },
     // Additional options for some email providers
     tls: {

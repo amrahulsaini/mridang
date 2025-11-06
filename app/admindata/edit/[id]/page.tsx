@@ -1259,19 +1259,28 @@ export default function ProductEditPage() {
               </div>
             </div>
 
-            {/* Checkbox Selection */}
+            {/* Display selected key features ONLY */}
             <div className={styles.checkboxGrid}>
-              {keyFeatures.map((feature) => (
-                <label key={feature.feature_id} className={styles.checkboxLabel}>
-                  <input
-                    type="checkbox"
-                    checked={(formData.key_features || []).includes(feature.feature_id)}
-                    onChange={(e) => handleArrayFieldChange('key_features', feature.feature_id, e.target.checked)}
-                    className={styles.checkbox}
-                  />
-                  {feature.feature_text}
-                </label>
-              ))}
+              {keyFeatures
+                .filter(feature => (formData.key_features || []).includes(feature.feature_id))
+                .map((feature) => (
+                  <label key={feature.feature_id} className={styles.checkboxLabel}>
+                    <input
+                      type="checkbox"
+                      checked={true}
+                      onChange={(e) => handleArrayFieldChange('key_features', feature.feature_id, e.target.checked)}
+                      className={styles.checkbox}
+                    />
+                    {feature.feature_text}
+                  </label>
+                ))}
+              
+              {/* Show message if no features selected */}
+              {(!formData.key_features || formData.key_features.length === 0) && (
+                <p style={{ color: '#666', fontStyle: 'italic' }}>
+                  No key features selected. Type features above or browse all features to add.
+                </p>
+              )}
             </div>
 
             {/* Section Update Button */}
