@@ -99,12 +99,24 @@ export default function EditCategoryPage() {
         return;
       }
 
-      console.log('Updating category:', formData);
+      // Always save Dropbox image as direct link
+      const imageToSave = formData.image ? convertDropboxUrl(formData.image) : '';
+
+      // Only save key features as typed, trim whitespace
+      const kefeaturesToSave = formData.kefeatures ? formData.kefeatures.trim() : '';
+
+      const saveData = {
+        ...formData,
+        image: imageToSave,
+        kefeatures: kefeaturesToSave
+      };
+
+      console.log('Updating category:', saveData);
 
       const response = await fetch(`/api/admin/categories/${categoryId}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formData)
+        body: JSON.stringify(saveData)
       })
 
       if (response.ok) {
