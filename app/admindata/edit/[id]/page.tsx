@@ -292,6 +292,15 @@ export default function ProductEditPage() {
       })
 
       if (response.ok) {
+        const savedProduct = await response.json();
+        
+        // Update formData with the saved data (in case of new product with generated ID)
+        if (isNew && savedProduct.id) {
+          setFormData(savedProduct);
+          // Update URL to the new product ID without navigation
+          window.history.replaceState({}, '', `/admindata/edit/${savedProduct.id}`);
+        }
+        
         setDialog({
           isOpen: true,
           type: 'success',
@@ -299,7 +308,7 @@ export default function ProductEditPage() {
           message: 'Product saved successfully!',
           onConfirm: () => {
             setDialog(prev => ({ ...prev, isOpen: false }));
-            router.push('/admindata');
+            // Don't redirect, stay on the page
           }
         });
       } else {
@@ -1333,7 +1342,28 @@ export default function ProductEditPage() {
             <svg className={styles.submitIcon} fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
             </svg>
-            {isSaving ? 'Saving...' : (isNew ? 'Create Product' : 'Update Product')}
+            {isSaving ? 'Saving...' : (isNew ? 'Create Product' : 'Save & Continue Editing')}
+          </button>
+          
+          <button
+            type="button"
+            onClick={async (e) => {
+              await handleSave(e as any);
+              // After save completes successfully, redirect
+              setTimeout(() => {
+                if (!dialog.isOpen || dialog.type === 'success') {
+                  router.push('/admindata');
+                }
+              }, 500);
+            }}
+            disabled={isSaving}
+            className={styles.submitBtn}
+            style={{ marginLeft: '10px' }}
+          >
+            <svg className={styles.submitIcon} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+            </svg>
+            {isSaving ? 'Saving...' : 'Save & Return to List'}
           </button>
         </div>
       </form>
