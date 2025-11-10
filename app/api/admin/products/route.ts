@@ -59,8 +59,9 @@ interface ProductData {
   // Pricing
   original_price?: number
   cut_price?: number
+  // Custom key features (free-form text)
+  custom_key_features?: string
   // Relationships
-  key_features?: number[]
   materials?: number[]
   colors?: number[]
   search_keywords?: number[]
@@ -89,10 +90,6 @@ export async function GET() {
     // For each product, fetch relationships
     const productsWithRelationships = await Promise.all(
       (products as any[]).map(async (product: any) => {
-        const keyFeatures = await query(`
-          SELECT feature_id FROM Product_KeyFeatures WHERE product_id = ?
-        `, [product.id]) as any
-
         const materials = await query(`
           SELECT material_id FROM Product_Materials WHERE product_id = ?
         `, [product.id]) as any
@@ -107,7 +104,6 @@ export async function GET() {
 
         return {
           ...product,
-          key_features: keyFeatures.map((kf: any) => kf.feature_id),
           materials: materials.map((m: any) => m.material_id),
           colors: colors.map((c: any) => c.color_id),
           search_keywords: searchKeywords.map((sk: any) => sk.keyword_id)
@@ -184,7 +180,7 @@ export async function POST(request: NextRequest) {
       category_id,
       original_price,
       cut_price,
-      key_features,
+      custom_key_features,
       materials,
       colors,
       search_keywords
@@ -215,8 +211,8 @@ export async function POST(request: NextRequest) {
           domestic_warranty_unit, international_warranty, international_warranty_unit,
           warranty_summary, warranty_service_type, covered_in_warranty,
           not_covered_in_warranty, ean_upc, gift_pack, supplier_image, is_fragile,
-          category_id
-        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+          category_id, custom_key_features
+        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
       `, [
         flipkart_serial_number, catalog_qc_status, qc_failed_reason,
         flipkart_product_link, product_data_status, disapproval_reason, seller_sku_id,
@@ -229,7 +225,7 @@ export async function POST(request: NextRequest) {
         domestic_warranty_unit, international_warranty, international_warranty_unit,
         warranty_summary, warranty_service_type, covered_in_warranty,
         not_covered_in_warranty, ean_upc, gift_pack, supplier_image, is_fragile,
-        category_id
+        category_id, custom_key_features
       ])
 
       const productId = (result as mysql.ResultSetHeader).insertId
@@ -243,10 +239,6 @@ export async function POST(request: NextRequest) {
       }
 
       // Insert relationships
-      if (key_features && key_features.length > 0) {
-        const values = key_features.map((featureId: number) => `(${productId}, ${featureId})`).join(', ')
-        await connection.execute(`INSERT INTO Product_KeyFeatures (product_id, feature_id) VALUES ${values}`)
-      }
 
       if (materials && materials.length > 0) {
         const values = materials.map((materialId: number) => `(${productId}, ${materialId})`).join(', ')
@@ -357,7 +349,7 @@ export async function PUT(request: NextRequest) {
       category_id,
       original_price,
       cut_price,
-      key_features,
+      custom_key_features,
       materials,
       colors,
       search_keywords
@@ -420,12 +412,6 @@ export async function PUT(request: NextRequest) {
       }
 
       // Update relationships - delete existing and insert new
-      await connection.execute('DELETE FROM Product_KeyFeatures WHERE product_id = ?', [id])
-      if (key_features && key_features.length > 0) {
-        const values = key_features.map((featureId: number) => `(${id}, ${featureId})`).join(', ')
-        await connection.execute(`INSERT INTO Product_KeyFeatures (product_id, feature_id) VALUES ${values}`)
-      }
-
       await connection.execute('DELETE FROM Product_Materials WHERE product_id = ?', [id])
       if (materials && materials.length > 0) {
         const values = materials.map((materialId: number) => `(${id}, ${materialId})`).join(', ')

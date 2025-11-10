@@ -5,11 +5,6 @@ import Image from 'next/image'
 import Link from 'next/link'
 import styles from '../../AdminData.module.css'
 
-interface KeyFeature {
-  feature_id: number
-  feature_text: string
-}
-
 interface Material {
   material_id: number
   material_name: string
@@ -100,8 +95,9 @@ interface Product {
   // Pricing
   original_price?: number
   cut_price?: number
+  // Custom key features text (free-form text)
+  custom_key_features?: string
   // Relationships (arrays of IDs)
-  key_features?: number[]
   materials?: number[]
   colors?: number[]
   search_keywords?: number[]
@@ -134,7 +130,6 @@ export default function ProductEditPage() {
 
   // Reference data
   const [categories, setCategories] = useState<Category[]>([])
-  const [keyFeatures, setKeyFeatures] = useState<KeyFeature[]>([])
   const [materials, setMaterials] = useState<Material[]>([])
   const [colors, setColors] = useState<Color[]>([])
   const [searchKeywords, setSearchKeywords] = useState<SearchKeyword[]>([])
@@ -194,7 +189,7 @@ export default function ProductEditPage() {
         description: '',
         original_price: 0,
         cut_price: 0,
-        key_features: [],
+        custom_key_features: '',
         materials: [],
         colors: [],
         search_keywords: []
@@ -206,7 +201,6 @@ export default function ProductEditPage() {
     try {
       const [
         categoriesRes,
-        keyFeaturesRes,
         materialsRes,
         colorsRes,
         searchKeywordsRes,
@@ -214,7 +208,6 @@ export default function ProductEditPage() {
         artFormTypesRes
       ] = await Promise.all([
         fetch('/api/admin/categories'),
-        fetch('/api/admin/key-features'),
         fetch('/api/admin/materials'),
         fetch('/api/admin/colors'),
         fetch('/api/admin/search-keywords'),
@@ -223,7 +216,6 @@ export default function ProductEditPage() {
       ])
 
       if (categoriesRes.ok) setCategories(await categoriesRes.json())
-      if (keyFeaturesRes.ok) setKeyFeatures(await keyFeaturesRes.json())
       if (materialsRes.ok) setMaterials(await materialsRes.json())
       if (colorsRes.ok) setColors(await colorsRes.json())
       if (searchKeywordsRes.ok) setSearchKeywords(await searchKeywordsRes.json())
@@ -251,12 +243,8 @@ export default function ProductEditPage() {
         return;
       }
 
-      // Validate key features are valid numbers
-      const validKeyFeatures = (formData.key_features || []).filter(id => Number.isInteger(id) && id > 0);
-      
       const saveData = {
         ...formData,
-        key_features: validKeyFeatures,
         // Convert all Dropbox image URLs to direct links before saving
         main_image_url: formData.main_image_url ? convertDropboxUrl(formData.main_image_url) : null,
         other_image_url_1: formData.other_image_url_1 ? convertDropboxUrl(formData.other_image_url_1) : null,
@@ -337,7 +325,6 @@ export default function ProductEditPage() {
   const handleArrayFieldChange = (field: string, value: number, checked: boolean) => {
     const currentArray: number[] = (() => {
       switch (field) {
-        case 'key_features': return formData.key_features || []
         case 'materials': return formData.materials || []
         case 'colors': return formData.colors || []
         case 'search_keywords': return formData.search_keywords || []
@@ -1235,90 +1222,20 @@ export default function ProductEditPage() {
           <div className={styles.formSection}>
             <h3 className={styles.sectionTitle}>⭐ Key Features</h3>
             
-            {/* Custom Key Feature Input */}
             <div className={styles.formRow}>
               <div className={styles.formGroup} style={{ gridColumn: 'span 3' }}>
-                <label className={styles.label}>Add Custom Key Features (comma-separated)</label>
+                <label className={styles.label}>Key Features (One per line)</label>
                 <textarea
-                  placeholder="Type custom features here, separated by commas (e.g., Handcrafted, Premium Quality, Eco-friendly)"
+                  value={formData.custom_key_features || ''}
+                  onChange={(e) => setFormData({...formData, custom_key_features: e.target.value})}
                   className={styles.textarea}
-                  rows={2}
-                  onBlur={async (e) => {
-                    const customText = e.target.value.trim();
-                    if (customText) {
-                      // Parse comma-separated feature names
-                      const inputTexts = customText.split(',').map(text => text.trim()).filter(text => text);
-                      const newFeatureIds: number[] = [];
-                      
-                      for (const inputText of inputTexts) {
-                        // Check if feature already exists
-                        const existingFeature = keyFeatures.find(
-                          feature => feature.feature_text.toLowerCase() === inputText.toLowerCase()
-                        );
-                        
-                        if (existingFeature) {
-                          // Feature exists, use its ID
-                          newFeatureIds.push(existingFeature.feature_id);
-                        } else {
-                          // Feature doesn't exist, create it
-                          try {
-                            const response = await fetch('/api/admin/key-features', {
-                              method: 'POST',
-                              headers: { 'Content-Type': 'application/json' },
-                              body: JSON.stringify({ feature_text: inputText })
-                            });
-                            
-                            if (response.ok) {
-                              const result = await response.json();
-                              newFeatureIds.push(result.featureId);
-                              // Add to keyFeatures list
-                              setKeyFeatures(prev => [...prev, { 
-                                feature_id: result.featureId, 
-                                feature_text: inputText 
-                              }]);
-                            }
-                          } catch (error) {
-                            console.error('Error creating key feature:', error);
-                          }
-                        }
-                      }
-                      
-                      // Add all new IDs to existing selection
-                      const currentIds = formData.key_features || [];
-                      const updatedIds = [...new Set([...currentIds, ...newFeatureIds])];
-                      setFormData({...formData, key_features: updatedIds});
-                      e.target.value = ''; // Clear input after processing
-                    }
-                  }}
+                  rows={6}
+                  placeholder="Enter key features, one per line:&#10;Handcrafted Design&#10;Premium Quality Material&#10;Eco-friendly&#10;Durable Construction&#10;Easy to Clean"
                 />
                 <small className={styles.helpText}>
-                  Type new or existing features and press Tab/Enter. New features will be created automatically and added to your product.
+                  Type each key feature on a new line. Write anything you want - these will be displayed on the product page.
                 </small>
               </div>
-            </div>
-
-            {/* Display selected key features ONLY */}
-            <div className={styles.checkboxGrid}>
-              {keyFeatures
-                .filter(feature => (formData.key_features || []).includes(feature.feature_id))
-                .map((feature) => (
-                  <label key={feature.feature_id} className={styles.checkboxLabel}>
-                    <input
-                      type="checkbox"
-                      checked={true}
-                      onChange={(e) => handleArrayFieldChange('key_features', feature.feature_id, e.target.checked)}
-                      className={styles.checkbox}
-                    />
-                    {feature.feature_text}
-                  </label>
-                ))}
-              
-              {/* Show message if no features selected */}
-              {(!formData.key_features || formData.key_features.length === 0) && (
-                <p style={{ color: '#666', fontStyle: 'italic' }}>
-                  No key features selected. Type features above to add them.
-                </p>
-              )}
             </div>
 
             {/* Section Update Button */}

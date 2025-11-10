@@ -59,8 +59,9 @@ interface ProductData {
   // Pricing
   original_price?: number
   cut_price?: number
+  // Custom key features (free-form text)
+  custom_key_features?: string
   // Relationships
-  key_features?: number[]
   materials?: number[]
   colors?: number[]
   search_keywords?: number[]
@@ -101,10 +102,6 @@ export async function GET(
     const product = products[0] as any
 
     // Fetch relationships
-    const keyFeatures = await query(`
-      SELECT feature_id FROM Product_KeyFeatures WHERE product_id = ?
-    `, [productId]) as any
-
     const materials = await query(`
       SELECT material_id FROM Product_Materials WHERE product_id = ?
     `, [productId]) as any
@@ -119,7 +116,6 @@ export async function GET(
 
     const productWithRelationships = {
       ...product,
-      key_features: keyFeatures.map((kf: any) => kf.feature_id),
       materials: materials.map((m: any) => m.material_id),
       colors: colors.map((c: any) => c.color_id),
       search_keywords: searchKeywords.map((sk: any) => sk.keyword_id)
@@ -200,7 +196,7 @@ export async function PUT(
       category_id,
       original_price,
       cut_price,
-      key_features,
+      custom_key_features,
       materials,
       colors,
       search_keywords
@@ -231,7 +227,7 @@ export async function PUT(
           domestic_warranty_unit = ?, international_warranty = ?, international_warranty_unit = ?,
           warranty_summary = ?, warranty_service_type = ?, covered_in_warranty = ?,
           not_covered_in_warranty = ?, ean_upc = ?, gift_pack = ?, supplier_image = ?, is_fragile = ?,
-          category_id = ?
+          category_id = ?, custom_key_features = ?
         WHERE id = ?
       `, [
         pro_id, flipkart_serial_number, catalog_qc_status, qc_failed_reason,
@@ -245,7 +241,7 @@ export async function PUT(
         domestic_warranty_unit, international_warranty, international_warranty_unit,
         warranty_summary, warranty_service_type, covered_in_warranty,
         not_covered_in_warranty, ean_upc, gift_pack, supplier_image, is_fragile,
-        category_id, productId
+        category_id, custom_key_features, productId
       ])
 
       // Update pricing
@@ -266,23 +262,11 @@ export async function PUT(
       }
 
       // Update relationships - delete old ones first, then insert new ones
-      await connection.execute('DELETE FROM Product_KeyFeatures WHERE product_id = ?', [productId])
       await connection.execute('DELETE FROM Product_Materials WHERE product_id = ?', [productId])
       await connection.execute('DELETE FROM Product_Colors WHERE product_id = ?', [productId])
       await connection.execute('DELETE FROM Product_SearchKeywords WHERE product_id = ?', [productId])
 
       // Insert new relationships
-      if (key_features && key_features.length > 0) {
-        // Validate that all key_features are valid numbers
-        const validFeatures = key_features.filter(id => Number.isInteger(id) && id > 0)
-        if (validFeatures.length > 0) {
-          const values = validFeatures.map((featureId: number) => `(${productId}, ${featureId})`).join(', ')
-          await connection.execute(`INSERT INTO Product_KeyFeatures (product_id, feature_id) VALUES ${values}`)
-          console.log(`Inserted ${validFeatures.length} key features`)
-        } else {
-          console.warn('No valid key features provided')
-        }
-      }
 
       if (materials && materials.length > 0) {
         const values = materials.map((materialId: number) => `(${productId}, ${materialId})`).join(', ')
