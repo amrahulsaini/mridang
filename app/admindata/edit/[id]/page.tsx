@@ -1243,27 +1243,56 @@ export default function ProductEditPage() {
                   placeholder="Type custom features here, separated by commas (e.g., Handcrafted, Premium Quality, Eco-friendly)"
                   className={styles.textarea}
                   rows={2}
-                  onBlur={(e) => {
+                  onBlur={async (e) => {
                     const customText = e.target.value.trim();
                     if (customText) {
-                      // Parse comma-separated feature names and try to match existing ones
+                      // Parse comma-separated feature names
                       const inputTexts = customText.split(',').map(text => text.trim()).filter(text => text);
-                      const matchingIds = keyFeatures
-                        .filter(feature => inputTexts.some(inputText => 
-                          feature.feature_text.toLowerCase() === inputText.toLowerCase()
-                        ))
-                        .map(feature => feature.feature_id);
+                      const newFeatureIds: number[] = [];
                       
-                      // Add matched IDs to existing selection
+                      for (const inputText of inputTexts) {
+                        // Check if feature already exists
+                        const existingFeature = keyFeatures.find(
+                          feature => feature.feature_text.toLowerCase() === inputText.toLowerCase()
+                        );
+                        
+                        if (existingFeature) {
+                          // Feature exists, use its ID
+                          newFeatureIds.push(existingFeature.feature_id);
+                        } else {
+                          // Feature doesn't exist, create it
+                          try {
+                            const response = await fetch('/api/admin/key-features', {
+                              method: 'POST',
+                              headers: { 'Content-Type': 'application/json' },
+                              body: JSON.stringify({ feature_text: inputText })
+                            });
+                            
+                            if (response.ok) {
+                              const result = await response.json();
+                              newFeatureIds.push(result.featureId);
+                              // Add to keyFeatures list
+                              setKeyFeatures(prev => [...prev, { 
+                                feature_id: result.featureId, 
+                                feature_text: inputText 
+                              }]);
+                            }
+                          } catch (error) {
+                            console.error('Error creating key feature:', error);
+                          }
+                        }
+                      }
+                      
+                      // Add all new IDs to existing selection
                       const currentIds = formData.key_features || [];
-                      const newIds = [...new Set([...currentIds, ...matchingIds])];
-                      setFormData({...formData, key_features: newIds});
+                      const updatedIds = [...new Set([...currentIds, ...newFeatureIds])];
+                      setFormData({...formData, key_features: updatedIds});
                       e.target.value = ''; // Clear input after processing
                     }
                   }}
                 />
                 <small className={styles.helpText}>
-                  Type features and press Tab/Enter. Matching features will be auto-selected below.
+                  Type new or existing features and press Tab/Enter. New features will be created automatically and added to your product.
                 </small>
               </div>
             </div>
@@ -1287,7 +1316,7 @@ export default function ProductEditPage() {
               {/* Show message if no features selected */}
               {(!formData.key_features || formData.key_features.length === 0) && (
                 <p style={{ color: '#666', fontStyle: 'italic' }}>
-                  No key features selected. Type features above or browse all features to add.
+                  No key features selected. Type features above to add them.
                 </p>
               )}
             </div>
