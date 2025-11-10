@@ -1348,7 +1348,7 @@ export default function ProductEditPage() {
           <button
             type="button"
             onClick={async (e) => {
-              await handleSave(e as any);
+              await handleSave(e as React.FormEvent);
               // After save completes successfully, redirect
               setTimeout(() => {
                 if (!dialog.isOpen || dialog.type === 'success') {
