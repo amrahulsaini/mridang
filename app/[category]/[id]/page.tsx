@@ -28,6 +28,7 @@ interface Product {
   height_inch: number
   weight_g: number
   other_features: string
+  custom_key_features?: string
   main_image_url: string
   other_image_url_1?: string
   other_image_url_2?: string
@@ -458,12 +459,31 @@ export default function ProductDetailsPage() {
               </div>
             </div>
 
-            {/* Features */}
-            {product.other_features && (
+            {/* Key Features */}
+            {product.custom_key_features && (
               <div className={styles.detailSection}>
                 <div className={styles.detailTitle}>
                   <Star className={styles.detailIcon} />
-                  Features
+                  Key Features
+                </div>
+                <div className={styles.detailContent}>
+                  <ul className={styles.featuresList}>
+                    {product.custom_key_features.split('\n').filter(line => line.trim()).map((feature, index) => (
+                      <li key={index} className={styles.featureItem}>
+                        {feature.trim()}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </div>
+            )}
+
+            {/* Other Features */}
+            {product.other_features && (
+              <div className={styles.detailSection}>
+                <div className={styles.detailTitle}>
+                  <Package className={styles.detailIcon} />
+                  Additional Features
                 </div>
                 <div className={styles.detailContent}>
                   {product.other_features}
