@@ -1229,11 +1229,23 @@ export default function ProductEditPage() {
                   value={formData.custom_key_features || ''}
                   onChange={(e) => setFormData({...formData, custom_key_features: e.target.value})}
                   className={styles.textarea}
-                  rows={6}
-                  placeholder="Enter key features, one per line:&#10;Handcrafted Design&#10;Premium Quality Material&#10;Eco-friendly&#10;Durable Construction&#10;Easy to Clean"
+                  rows={8}
+                  placeholder="Enter each key feature on a new line (press Enter after each feature):
+
+• Handcrafted Design
+• Premium Quality Material  
+• Eco-friendly and Sustainable
+• Durable Construction
+• Easy to Clean and Maintain
+• Lightweight and Portable
+• Perfect for Gifting"
+                  style={{ 
+                    fontFamily: 'monospace',
+                    lineHeight: '1.6'
+                  }}
                 />
                 <small className={styles.helpText}>
-                  Type each key feature on a new line. Write anything you want - these will be displayed on the product page.
+                  <strong>📝 How to add features:</strong> Type each feature and press <strong>Enter</strong> to start a new line. You can add bullet points (•, -, *) or just plain text. Each line will be displayed as a separate feature on the product page.
                 </small>
               </div>
             </div>
