@@ -64,7 +64,6 @@ interface ProductData {
   // Relationships
   materials?: number[]
   colors?: number[]
-  search_keywords?: number[]
 }
 
 // GET - Fetch single product with all details
@@ -110,15 +109,10 @@ export async function GET(
       SELECT color_id FROM Product_Colors WHERE product_id = ?
     `, [productId]) as any
 
-    const searchKeywords = await query(`
-      SELECT keyword_id FROM Product_SearchKeywords WHERE product_id = ?
-    `, [productId]) as any
-
     const productWithRelationships = {
       ...product,
       materials: materials.map((m: any) => m.material_id),
-      colors: colors.map((c: any) => c.color_id),
-      search_keywords: searchKeywords.map((sk: any) => sk.keyword_id)
+      colors: colors.map((c: any) => c.color_id)
     }
 
     return NextResponse.json(productWithRelationships)
@@ -198,8 +192,7 @@ export async function PUT(
       cut_price,
       custom_key_features,
       materials,
-      colors,
-      search_keywords
+      colors
     } = productData
 
     // Start transaction
@@ -264,7 +257,6 @@ export async function PUT(
       // Update relationships - delete old ones first, then insert new ones
       await connection.execute('DELETE FROM Product_Materials WHERE product_id = ?', [productId])
       await connection.execute('DELETE FROM Product_Colors WHERE product_id = ?', [productId])
-      await connection.execute('DELETE FROM Product_SearchKeywords WHERE product_id = ?', [productId])
 
       // Insert new relationships
 
@@ -276,11 +268,6 @@ export async function PUT(
       if (colors && colors.length > 0) {
         const values = colors.map((colorId: number) => `(${productId}, ${colorId})`).join(', ')
         await connection.execute(`INSERT INTO Product_Colors (product_id, color_id) VALUES ${values}`)
-      }
-
-      if (search_keywords && search_keywords.length > 0) {
-        const values = search_keywords.map((keywordId: number) => `(${productId}, ${keywordId})`).join(', ')
-        await connection.execute(`INSERT INTO Product_SearchKeywords (product_id, keyword_id) VALUES ${values}`)
       }
 
       await connection.commit()

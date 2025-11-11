@@ -64,7 +64,6 @@ interface ProductData {
   // Relationships
   materials?: number[]
   colors?: number[]
-  search_keywords?: number[]
 }
 
 // GET - Fetch all products with full details
@@ -98,15 +97,10 @@ export async function GET() {
           SELECT color_id FROM Product_Colors WHERE product_id = ?
         `, [product.id]) as any
 
-        const searchKeywords = await query(`
-          SELECT keyword_id FROM Product_SearchKeywords WHERE product_id = ?
-        `, [product.id]) as any
-
         return {
           ...product,
           materials: materials.map((m: any) => m.material_id),
-          colors: colors.map((c: any) => c.color_id),
-          search_keywords: searchKeywords.map((sk: any) => sk.keyword_id)
+          colors: colors.map((c: any) => c.color_id)
         }
       })
     )
@@ -182,8 +176,7 @@ export async function POST(request: NextRequest) {
       cut_price,
       custom_key_features,
       materials,
-      colors,
-      search_keywords
+      colors
     } = productData
 
     // Start transaction
@@ -248,11 +241,6 @@ export async function POST(request: NextRequest) {
       if (colors && colors.length > 0) {
         const values = colors.map((colorId: number) => `(${productId}, ${colorId})`).join(', ')
         await connection.execute(`INSERT INTO Product_Colors (product_id, color_id) VALUES ${values}`)
-      }
-
-      if (search_keywords && search_keywords.length > 0) {
-        const values = search_keywords.map((keywordId: number) => `(${productId}, ${keywordId})`).join(', ')
-        await connection.execute(`INSERT INTO Product_SearchKeywords (product_id, keyword_id) VALUES ${values}`)
       }
 
       await connection.commit()
@@ -351,8 +339,7 @@ export async function PUT(request: NextRequest) {
       cut_price,
       custom_key_features,
       materials,
-      colors,
-      search_keywords
+      colors
     } = productData
 
     // Start transaction
@@ -422,12 +409,6 @@ export async function PUT(request: NextRequest) {
       if (colors && colors.length > 0) {
         const values = colors.map((colorId: number) => `(${id}, ${colorId})`).join(', ')
         await connection.execute(`INSERT INTO Product_Colors (product_id, color_id) VALUES ${values}`)
-      }
-
-      await connection.execute('DELETE FROM Product_SearchKeywords WHERE product_id = ?', [id])
-      if (search_keywords && search_keywords.length > 0) {
-        const values = search_keywords.map((keywordId: number) => `(${id}, ${keywordId})`).join(', ')
-        await connection.execute(`INSERT INTO Product_SearchKeywords (product_id, keyword_id) VALUES ${values}`)
       }
 
       await connection.commit()

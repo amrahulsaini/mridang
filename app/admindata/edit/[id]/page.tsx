@@ -15,11 +15,6 @@ interface Color {
   color_name: string
 }
 
-interface SearchKeyword {
-  keyword_id: number
-  keyword_text: string
-}
-
 interface RegionalSpeciality {
   regional_speciality_id: number
   regional_speciality_name: string
@@ -100,7 +95,6 @@ interface Product {
   // Relationships (arrays of IDs)
   materials?: number[]
   colors?: number[]
-  search_keywords?: number[]
 }
 
 export default function ProductEditPage() {
@@ -132,7 +126,6 @@ export default function ProductEditPage() {
   const [categories, setCategories] = useState<Category[]>([])
   const [materials, setMaterials] = useState<Material[]>([])
   const [colors, setColors] = useState<Color[]>([])
-  const [searchKeywords, setSearchKeywords] = useState<SearchKeyword[]>([])
   const [regionalSpecialities, setRegionalSpecialities] = useState<RegionalSpeciality[]>([])
   const [artFormTypes, setArtFormTypes] = useState<ArtFormType[]>([])
 
@@ -191,8 +184,7 @@ export default function ProductEditPage() {
         cut_price: 0,
         custom_key_features: '',
         materials: [],
-        colors: [],
-        search_keywords: []
+        colors: []
       })
     }
   }, [productId, isNew, router, loadProduct])
@@ -203,14 +195,12 @@ export default function ProductEditPage() {
         categoriesRes,
         materialsRes,
         colorsRes,
-        searchKeywordsRes,
         regionalSpecialitiesRes,
         artFormTypesRes
       ] = await Promise.all([
         fetch('/api/admin/categories'),
         fetch('/api/admin/materials'),
         fetch('/api/admin/colors'),
-        fetch('/api/admin/search-keywords'),
         fetch('/api/admin/regional-specialities'),
         fetch('/api/admin/art-form-types')
       ])
@@ -218,7 +208,6 @@ export default function ProductEditPage() {
       if (categoriesRes.ok) setCategories(await categoriesRes.json())
       if (materialsRes.ok) setMaterials(await materialsRes.json())
       if (colorsRes.ok) setColors(await colorsRes.json())
-      if (searchKeywordsRes.ok) setSearchKeywords(await searchKeywordsRes.json())
       if (regionalSpecialitiesRes.ok) setRegionalSpecialities(await regionalSpecialitiesRes.json())
       if (artFormTypesRes.ok) setArtFormTypes(await artFormTypesRes.json())
     } catch (error) {
@@ -327,7 +316,6 @@ export default function ProductEditPage() {
       switch (field) {
         case 'materials': return formData.materials || []
         case 'colors': return formData.colors || []
-        case 'search_keywords': return formData.search_keywords || []
         default: return []
       }
     })()
@@ -1260,24 +1248,6 @@ export default function ProductEditPage() {
               >
                 {isSaving ? 'Updating...' : 'Update Key Features'}
               </button>
-            </div>
-          </div>
-
-          {/* Search Keywords Section */}
-          <div className={styles.formSection}>
-            <h3 className={styles.sectionTitle}>🔍 Search Keywords</h3>
-            <div className={styles.checkboxGrid}>
-              {searchKeywords.map((keyword) => (
-                <label key={keyword.keyword_id} className={styles.checkboxLabel}>
-                  <input
-                    type="checkbox"
-                    checked={(formData.search_keywords || []).includes(keyword.keyword_id)}
-                    onChange={(e) => handleArrayFieldChange('search_keywords', keyword.keyword_id, e.target.checked)}
-                    className={styles.checkbox}
-                  />
-                  {keyword.keyword_text}
-                </label>
-              ))}
             </div>
           </div>
         </div>
