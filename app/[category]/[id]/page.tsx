@@ -486,7 +486,17 @@ export default function ProductDetailsPage() {
                   Additional Features
                 </div>
                 <div className={styles.detailContent}>
-                  {product.other_features}
+                  <ul className={styles.featuresList}>
+                    {product.other_features
+                      .split('.')
+                      .map(line => line.trim())
+                      .filter(line => line.length > 0)
+                      .map((feature, index) => (
+                        <li key={index} className={styles.featureItem}>
+                          {feature}
+                        </li>
+                      ))}
+                  </ul>
                 </div>
               </div>
             )}
