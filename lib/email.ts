@@ -389,7 +389,7 @@ export async function sendAdminOrderNotification(orderData: OrderData) {
 
     const adminMailOptions: MailOptions = {
       from: `"Mridang Orders" <orders@mridang.co.in>`,
-      to: 'orders@mridang.co.in',
+      to: 'riddhiventuresjaipur@gmail.com, ammrahulsaini@gmail.com',
       subject: `🔔 New Order ${orderData.orderId} - ₹${orderData.pricing.totalAmount.toLocaleString('en-IN')}`,
       html: adminEmailHtml,
     }
