@@ -93,9 +93,7 @@
   display: flex;
   flex-direction: column;
   gap: 2rem;
-  position: sticky;
-  top: 2rem;
-  align-self: start;
+  position: relative;
   width: 100%;
   max-width: 100%;
   overflow: hidden;
@@ -290,6 +288,32 @@
   font-family: 'Sora', sans-serif;
 }
 
+.detailsGridWrapper {
+  background: rgba(250, 247, 240, 0.8);
+  backdrop-filter: blur(20px);
+  border-radius: 2rem;
+  padding: 3rem;
+  margin-bottom: 3rem;
+  box-shadow: 0 20px 60px rgba(128, 0, 32, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+.detailsGridWrapper::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, rgba(128, 0, 32, 0.02), rgba(160, 0, 42, 0.02));
+  pointer-events: none;
+}
+
 .detailsGrid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
@@ -297,6 +321,8 @@
   width: 100%;
   max-width: 100%;
   overflow: hidden;
+  position: relative;
+  z-index: 1;
 }
 
 .detailSection {
@@ -1400,11 +1426,15 @@
 
   /* Image gallery adjustments */
   .imageGallery {
-    position: relative;
-    top: auto;
     gap: 1rem;
     width: 100%;
     max-width: 100%;
+  }
+
+  .detailsGridWrapper {
+    padding: 1.5rem;
+    border-radius: 1rem;
+    margin-bottom: 1.5rem;
   }
 
   .mainImageContainer {
@@ -1550,6 +1580,12 @@
     padding: 1rem;
     gap: 1rem;
     max-width: 100%;
+  }
+
+  .detailsGridWrapper {
+    padding: 1rem;
+    border-radius: 1rem;
+    margin-bottom: 1rem;
   }
 
   .mainImageContainer {

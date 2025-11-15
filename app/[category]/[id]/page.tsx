@@ -339,7 +339,7 @@ export default function ProductDetailsPage() {
           )}
         </div>
 
-        {/* Product Details */}
+        {/* Product Title */}
         <div className={styles.productDetails}>
           <motion.h1 
             className={styles.productTitle}
@@ -349,14 +349,17 @@ export default function ProductDetailsPage() {
           >
             {product.model_name}
           </motion.h1>
+        </div>
+      </motion.div>
 
-          {/* Details Grid */}
-          <motion.div 
-            className={styles.detailsGrid}
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.3 }}
-          >
+      {/* Details Grid - Full Width */}
+      <motion.div 
+        className={styles.detailsGridWrapper}
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.3 }}
+      >
+        <div className={styles.detailsGrid}>
             {/* Design & Style */}
             <div className={styles.detailSection}>
               <div className={styles.detailTitle}>
@@ -501,7 +504,6 @@ export default function ProductDetailsPage() {
               </div>
             )}
 
-          </motion.div>
         </div>
       </motion.div>
 
