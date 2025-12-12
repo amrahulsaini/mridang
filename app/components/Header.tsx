@@ -115,7 +115,7 @@ const Header = () => {
   return (
     <header className="header">
       <div className="container">
-  <div className="flex items-center justify-between h-16 gap-3" style={{paddingLeft:0}}>
+  <div className="flex items-center justify-between h-20 gap-3" style={{paddingLeft:0}}>
           {/* Logo Section */}
           <Link href="/" className="logo-container" aria-label="Mridang Home">
             <div className="logo-image">
