@@ -1,4 +1,5 @@
-﻿import Header from './components/Header';
+﻿import TopBanner from './components/TopBanner';
+import Header from './components/Header';
 import HeroSection from './components/HeroSection';
 import ProductGridWrapper from './components/ProductGridWrapper';
 import InstagramReels from './components/InstagramReels';
@@ -22,6 +23,7 @@ export default async function Home() {
 
   return (
     <div className="min-h-screen bg-cream">
+      <TopBanner />
       <Header />
       <HeroSection />
       
