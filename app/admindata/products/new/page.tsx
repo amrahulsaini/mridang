@@ -453,36 +453,43 @@ export default function ProductEditPage() {
                   value={formData.category_id || ''}
                   onChange={async (e) => {
                     const selectedCategoryId = parseInt(e.target.value) || undefined;
-                    setFormData({...formData, category_id: selectedCategoryId});
+                    const selectedCategory = categories.find(cat => cat.category_id === selectedCategoryId);
                     
                     // Fetch a sample product from this category to auto-fill fields
-                    if (selectedCategoryId) {
+                    if (selectedCategory) {
                       try {
-                        const response = await fetch(`/api/products?category_id=${selectedCategoryId}&limit=1`);
+                        const response = await fetch(`/api/products?category=${encodeURIComponent(selectedCategory.category_name)}`);
                         if (response.ok) {
                           const data = await response.json();
                           const sampleProduct = data.products?.[0];
                           
                           if (sampleProduct) {
-                            // Auto-fill fields from the sample product
+                            console.log('Sample product:', sampleProduct);
+                            // Auto-fill fields from the sample product, keeping existing values if no sample value
                             setFormData(prev => ({
                               ...prev,
                               category_id: selectedCategoryId,
-                              description: sampleProduct.description || prev.description,
-                              other_features: sampleProduct.other_features || prev.other_features,
-                              custom_key_features: sampleProduct.custom_key_features || prev.custom_key_features,
-                              weight_g: sampleProduct.weight_g || prev.weight_g,
-                              width_inch: sampleProduct.width_inch || prev.width_inch,
-                              height_inch: sampleProduct.height_inch || prev.height_inch,
-                              depth_inch: sampleProduct.depth_inch || prev.depth_inch,
-                              diameter_inch: sampleProduct.diameter_inch || prev.diameter_inch,
-                              other_dimensions: sampleProduct.other_dimensions || prev.other_dimensions,
+                              description: sampleProduct.description || '',
+                              other_features: sampleProduct.other_features || '',
+                              custom_key_features: sampleProduct.custom_key_features || '',
+                              weight_g: sampleProduct.weight_g || undefined,
+                              width_inch: sampleProduct.width_inch || undefined,
+                              height_inch: sampleProduct.height_inch || undefined,
+                              depth_inch: sampleProduct.depth_inch || undefined,
+                              diameter_inch: sampleProduct.diameter_inch || undefined,
+                              other_dimensions: sampleProduct.other_dimensions || '',
                             }));
+                          } else {
+                            // No sample product, just set category
+                            setFormData(prev => ({...prev, category_id: selectedCategoryId}));
                           }
                         }
                       } catch (error) {
                         console.error('Error fetching sample product:', error);
+                        setFormData(prev => ({...prev, category_id: selectedCategoryId}));
                       }
+                    } else {
+                      setFormData(prev => ({...prev, category_id: selectedCategoryId}));
                     }
                   }}
                   className={styles.select}
