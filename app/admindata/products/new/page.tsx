@@ -458,27 +458,37 @@ export default function ProductEditPage() {
                     // Fetch a sample product from this category to auto-fill fields
                     if (selectedCategory) {
                       try {
-                        const response = await fetch(`/api/products?category=${encodeURIComponent(selectedCategory.category_name)}`);
-                        if (response.ok) {
-                          const data = await response.json();
-                          const sampleProduct = data.products?.[0];
+                        // First get basic product list
+                        const listResponse = await fetch(`/api/products?category=${encodeURIComponent(selectedCategory.category_name)}`);
+                        if (listResponse.ok) {
+                          const listData = await listResponse.json();
+                          const basicProduct = listData.products?.[0];
                           
-                          if (sampleProduct) {
-                            console.log('Sample product:', sampleProduct);
-                            // Auto-fill fields from the sample product, keeping existing values if no sample value
-                            setFormData(prev => ({
-                              ...prev,
-                              category_id: selectedCategoryId,
-                              description: sampleProduct.description || '',
-                              other_features: sampleProduct.other_features || '',
-                              custom_key_features: sampleProduct.custom_key_features || '',
-                              weight_g: sampleProduct.weight_g || undefined,
-                              width_inch: sampleProduct.width_inch || undefined,
-                              height_inch: sampleProduct.height_inch || undefined,
-                              depth_inch: sampleProduct.depth_inch || undefined,
-                              diameter_inch: sampleProduct.diameter_inch || undefined,
-                              other_dimensions: sampleProduct.other_dimensions || '',
-                            }));
+                          if (basicProduct && basicProduct.pro_id) {
+                            // Fetch full product details using the product ID
+                            const detailResponse = await fetch(`/api/products/${basicProduct.pro_id}`);
+                            if (detailResponse.ok) {
+                              const sampleProduct = await detailResponse.json();
+                              console.log('Sample product with full details:', sampleProduct);
+                              
+                              // Auto-fill fields from the sample product
+                              setFormData(prev => ({
+                                ...prev,
+                                category_id: selectedCategoryId,
+                                description: sampleProduct.description || '',
+                                other_features: sampleProduct.other_features || '',
+                                custom_key_features: sampleProduct.custom_key_features || '',
+                                weight_g: sampleProduct.weight_g || undefined,
+                                width_inch: sampleProduct.width_inch || undefined,
+                                height_inch: sampleProduct.height_inch || undefined,
+                                depth_inch: sampleProduct.depth_inch || undefined,
+                                diameter_inch: sampleProduct.diameter_inch || undefined,
+                                other_dimensions: sampleProduct.other_dimensions || '',
+                              }));
+                            } else {
+                              // Full details failed, just set category
+                              setFormData(prev => ({...prev, category_id: selectedCategoryId}));
+                            }
                           } else {
                             // No sample product, just set category
                             setFormData(prev => ({...prev, category_id: selectedCategoryId}));
