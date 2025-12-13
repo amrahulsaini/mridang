@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useEffect, useRef } from 'react'
+import styles from './Header.module.css'
 import { Home, Info, Search, Menu, X, ShoppingCart, Package, ChevronDown, Grid3x3 } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
@@ -113,12 +114,12 @@ const Header = () => {
   }
 
   return (
-    <header className="header">
-      <div className="container">
-  <div className="flex items-center justify-between h-20 gap-3" style={{paddingLeft:0}}>
+    <header className={styles.header}>
+      <div className={styles.container}>
+        <div className="flex items-center justify-between h-24 gap-3" style={{paddingLeft:0}}>
           {/* Logo Section */}
-          <Link href="/" className="logo-container" aria-label="Mridang Home">
-            <div className="logo-image">
+          <Link href="/" className={styles['logo-container']} aria-label="Mridang Home">
+            <div className={styles['logo-image']}>
               <Image
                 src="/logo.png"
                 alt="Mridang Logo"
@@ -127,7 +128,7 @@ const Header = () => {
                 priority
               />
             </div>
-            <h1 className="logo-text hidden-mobile">Mridang</h1>
+            <h1 className={`${styles['logo-text']} hidden-mobile`}>Mridang</h1>
           </Link>
 
           {/* Desktop Navigation */}

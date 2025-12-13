@@ -4,6 +4,7 @@ import { motion } from 'framer-motion'
 import { ChevronLeft, ChevronRight } from 'lucide-react'
 import { useRef, useEffect, useState } from 'react'
 import ProductCard from '../components/ProductCard'
+import styles from './CategorySection.module.css'
 import { Product } from '../types'
 
 interface CategorySectionProps {
@@ -50,19 +51,19 @@ const CategorySection: React.FC<CategorySectionProps> = ({ title, products, onIn
   }, [])
 
   return (
-    <section className="category-section">
-      <div className="container">
+    <section className={styles['category-section']}>
+      <div className={styles.container}>
         {/* Section Header */}
         <motion.div 
-          className="section-header centered"
+          className={styles['section-header'] + ' centered'}
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
         >
-          <div className="category-title-wrapper">
-            <h2 className="category-title">{title}</h2>
-            <div className="curved-underline">
+          <div className={styles['category-title-wrapper']}>
+            <h2 className={styles['category-title']}>{title}</h2>
+            <div className={styles['curved-underline']}>
               <svg width="120" height="12" viewBox="0 0 120 12" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M2 10C20 2 40 2 60 6C80 10 100 10 118 6" stroke="url(#gradient)" strokeWidth="3" strokeLinecap="round"/>
                 <defs>
@@ -107,7 +108,7 @@ const CategorySection: React.FC<CategorySectionProps> = ({ title, products, onIn
           </motion.button>
           <div
             ref={scrollRef}
-            className="product-grid"
+            className={styles['product-grid']}
           >
             {products.map((product, index) => (
               <motion.div
