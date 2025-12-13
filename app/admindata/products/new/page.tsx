@@ -43,9 +43,8 @@ interface ArtFormType {
 }
 
 interface Category {
-  category_id: number;
-  category_name: string;
-  kefeatures?: string;
+  category_id: number
+  category_name: string
 }
 
 interface Product {
@@ -452,17 +451,7 @@ export default function ProductEditPage() {
                 <label className={styles.label}>Category *</label>
                 <select
                   value={formData.category_id || ''}
-                  onChange={(e) => {
-                    const selectedId = parseInt(e.target.value) || undefined;
-                    const selectedCat = categories.find(cat => cat.category_id === selectedId);
-                    setFormData(prev => ({
-                      ...prev,
-                      category_id: selectedId,
-                      // Auto-fill fields from category defaults if available
-                      custom_key_features: selectedCat?.kefeatures || '',
-                      // You can add more fields here if you add them to the category table/API
-                    }));
-                  }}
+                  onChange={(e) => setFormData({...formData, category_id: parseInt(e.target.value) || undefined})}
                   className={styles.select}
                   required
                 >

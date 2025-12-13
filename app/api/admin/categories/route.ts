@@ -13,7 +13,8 @@ export async function GET() {
 
     const categories = await query(`
       SELECT
-        c.*, c.kefeatures, COUNT(p.id) as product_count
+        c.*,
+        COUNT(p.id) as product_count
       FROM Categories c
       LEFT JOIN Products p ON c.category_id = p.category_id
       GROUP BY c.category_id, c.category_name
