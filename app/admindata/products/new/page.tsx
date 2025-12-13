@@ -478,11 +478,11 @@ export default function ProductEditPage() {
                                 description: sampleProduct.description || '',
                                 other_features: sampleProduct.other_features || '',
                                 custom_key_features: sampleProduct.custom_key_features || '',
-                                weight_g: sampleProduct.weight_g || undefined,
-                                width_inch: sampleProduct.width_inch || undefined,
-                                height_inch: sampleProduct.height_inch || undefined,
-                                depth_inch: sampleProduct.depth_inch || undefined,
-                                diameter_inch: sampleProduct.diameter_inch || undefined,
+                                weight_g: sampleProduct.weight_g || null,
+                                width_inch: sampleProduct.width_inch || null,
+                                height_inch: sampleProduct.height_inch || null,
+                                depth_inch: sampleProduct.depth_inch || null,
+                                diameter_inch: sampleProduct.diameter_inch || null,
                                 other_dimensions: sampleProduct.other_dimensions || '',
                               }));
                             } else {
