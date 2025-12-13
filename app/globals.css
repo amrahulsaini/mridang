@@ -783,38 +783,24 @@ html, body {
 }
 
 .mobile-cart-btn {
-  font-size: 1rem !important;
-  font-weight: 700 !important;
-  letter-spacing: 0.02em;
-  background: linear-gradient(135deg, #800020 0%, #a0002a 50%, #800020 100%) !important;
-  background-size: 200% 200% !important;
-  animation: gradient-shift 3s ease infinite;
+  font-size: 0.875rem !important;
+  font-weight: 600 !important;
+  background: linear-gradient(135deg, #800020, #a0002a) !important;
   border: none !important;
-  box-shadow: 0 4px 12px rgba(128, 0, 32, 0.3) !important;
+  box-shadow: 0 2px 6px rgba(128, 0, 32, 0.2) !important;
 }
 
 .mobile-cart-btn:hover {
-  transform: translateY(-2px) !important;
-  box-shadow: 0 6px 16px rgba(128, 0, 32, 0.4) !important;
-  filter: brightness(1.1) !important;
+  transform: translateY(-1px) !important;
+  box-shadow: 0 3px 8px rgba(128, 0, 32, 0.3) !important;
+  filter: brightness(1.05) !important;
 }
 
 .mobile-cart-btn:active {
   transform: translateY(0) !important;
-  box-shadow: 0 2px 8px rgba(128, 0, 32, 0.3) !important;
+  box-shadow: 0 1px 4px rgba(128, 0, 32, 0.2) !important;
 }
 
-@keyframes gradient-shift {
-  0% {
-    background-position: 0% 50%;
-  }
-  50% {
-    background-position: 100% 50%;
-  }
-  100% {
-    background-position: 0% 50%;
-  }
-}
 
 /* Ensure no overlapping on mobile menu */
 @media (max-width: 768px) {
@@ -833,7 +819,7 @@ html, body {
   
   .mobile-cart-section {
     clear: both;
-    margin-top: 1.5rem !important;
+    margin-top: 1rem !important;
     padding-top: 1rem !important;
     position: relative;
     z-index: 0;

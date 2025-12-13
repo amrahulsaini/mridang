@@ -309,19 +309,19 @@ const Header = () => {
             </div>
 
             {/* Cart Button */}
-            <div className="mobile-cart-section flex flex-col gap-3 mt-6 pt-4 border-t border-gray-200">
+            <div className="mobile-cart-section flex flex-col gap-3 mt-4 pt-4 border-t border-gray-200">
               <Link
                 href="/cart"
-                className="mobile-cart-btn btn btn-primary w-full relative flex flex-row items-center justify-center gap-2 py-3.5 px-4 rounded-xl shadow-md hover:shadow-lg transition-all duration-200"
+                className="mobile-cart-btn btn btn-primary w-full relative flex flex-row items-center justify-center gap-2 py-2.5 px-3 rounded-lg transition-all duration-200"
                 onClick={() => setIsMenuOpen(false)}
               >
-                <ShoppingCart size={20} />
+                <ShoppingCart size={18} />
                 {state.totalItems === 0 ? (
-                  <span className="text-base font-semibold">Cart</span>
+                  <span className="text-sm font-medium">Cart</span>
                 ) : (
                   <>
-                    <span className="text-base font-semibold">Cart</span>
-                    <span className="bg-white text-red-600 rounded-full text-sm px-2.5 py-1 font-bold min-w-[1.75rem] text-center shadow-sm">
+                    <span className="text-sm font-medium">Cart</span>
+                    <span className="bg-white text-red-600 rounded-full text-xs px-2 py-0.5 font-bold min-w-[1.5rem] text-center">
                       {state.totalItems}
                     </span>
                   </>
