@@ -451,7 +451,40 @@ export default function ProductEditPage() {
                 <label className={styles.label}>Category *</label>
                 <select
                   value={formData.category_id || ''}
-                  onChange={(e) => setFormData({...formData, category_id: parseInt(e.target.value) || undefined})}
+                  onChange={async (e) => {
+                    const selectedCategoryId = parseInt(e.target.value) || undefined;
+                    setFormData({...formData, category_id: selectedCategoryId});
+                    
+                    // Fetch a sample product from this category to auto-fill fields
+                    if (selectedCategoryId) {
+                      try {
+                        const response = await fetch(`/api/products?category_id=${selectedCategoryId}&limit=1`);
+                        if (response.ok) {
+                          const data = await response.json();
+                          const sampleProduct = data.products?.[0];
+                          
+                          if (sampleProduct) {
+                            // Auto-fill fields from the sample product
+                            setFormData(prev => ({
+                              ...prev,
+                              category_id: selectedCategoryId,
+                              description: sampleProduct.description || prev.description,
+                              other_features: sampleProduct.other_features || prev.other_features,
+                              custom_key_features: sampleProduct.custom_key_features || prev.custom_key_features,
+                              weight_g: sampleProduct.weight_g || prev.weight_g,
+                              width_inch: sampleProduct.width_inch || prev.width_inch,
+                              height_inch: sampleProduct.height_inch || prev.height_inch,
+                              depth_inch: sampleProduct.depth_inch || prev.depth_inch,
+                              diameter_inch: sampleProduct.diameter_inch || prev.diameter_inch,
+                              other_dimensions: sampleProduct.other_dimensions || prev.other_dimensions,
+                            }));
+                          }
+                        }
+                      } catch (error) {
+                        console.error('Error fetching sample product:', error);
+                      }
+                    }
+                  }}
                   className={styles.select}
                   required
                 >
