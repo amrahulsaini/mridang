@@ -207,18 +207,18 @@ export async function POST(request: NextRequest) {
           category_id, custom_key_features
         ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
       `, [
-        flipkart_serial_number, catalog_qc_status, qc_failed_reason,
-        flipkart_product_link, product_data_status, disapproval_reason, seller_sku_id,
-        brand, model_number, pack_of, width_inch, depth_inch, main_image_url,
-        other_image_url_1, other_image_url_2, other_image_url_3, other_image_url_4,
-        group_id, description, video_url, model_name, brand_color, theme, design,
-        finish, stand_included, embossment, regional_speciality_id, height_inch,
-        art_form_type_id, diameter_inch, weight_g, other_dimensions, dishwasher_safe,
-        microwave_safe, cold_proof, other_features, domestic_warranty,
-        domestic_warranty_unit, international_warranty, international_warranty_unit,
-        warranty_summary, warranty_service_type, covered_in_warranty,
-        not_covered_in_warranty, ean_upc, gift_pack, supplier_image, is_fragile,
-        category_id, custom_key_features
+        flipkart_serial_number ?? null, catalog_qc_status ?? null, qc_failed_reason ?? null,
+        flipkart_product_link ?? null, product_data_status ?? null, disapproval_reason ?? null, seller_sku_id ?? null,
+        brand ?? null, model_number ?? null, pack_of ?? null, width_inch ?? null, depth_inch ?? null, main_image_url ?? null,
+        other_image_url_1 ?? null, other_image_url_2 ?? null, other_image_url_3 ?? null, other_image_url_4 ?? null,
+        group_id ?? null, description ?? null, video_url ?? null, model_name, brand_color ?? null, theme ?? null, design ?? null,
+        finish ?? null, stand_included ?? false, embossment ?? null, regional_speciality_id ?? null, height_inch ?? null,
+        art_form_type_id ?? null, diameter_inch ?? null, weight_g ?? null, other_dimensions ?? null, dishwasher_safe ?? false,
+        microwave_safe ?? false, cold_proof ?? false, other_features ?? null, domestic_warranty ?? null,
+        domestic_warranty_unit ?? null, international_warranty ?? null, international_warranty_unit ?? null,
+        warranty_summary ?? null, warranty_service_type ?? null, covered_in_warranty ?? null,
+        not_covered_in_warranty ?? null, ean_upc ?? null, gift_pack ?? false, supplier_image ?? null, is_fragile ?? false,
+        category_id ?? null, custom_key_features ?? null
       ])
 
       const productId = (result as mysql.ResultSetHeader).insertId
