@@ -238,8 +238,8 @@ const Header = () => {
 
       {/* Mobile Menu */}
       {isMenuOpen && (
-        <div className="visible-mobile bg-white border-t border-gray-200 shadow-lg">
-          <div className="container py-6">
+        <div className="visible-mobile bg-white border-t border-gray-200 shadow-lg overflow-hidden">
+          <div className="container py-6 px-4">
             {/* Navigation Links */}
             <div className="space-y-4 mb-6">
               {navItems.map((item) => (
@@ -255,12 +255,15 @@ const Header = () => {
               ))}
               
               {/* Mobile Categories */}
-              <div className="border-t border-gray-100 pt-4 mt-4">
+              <div className="mobile-categories-section border-t border-gray-100 pt-4 mt-4 mb-4">
                 <button
                   onClick={() => setIsMobileCategoriesOpen(!isMobileCategoriesOpen)}
-                  className="flex items-center justify-between w-full px-4 py-2 text-sm font-semibold text-gray-700 hover:text-red-600 transition-colors duration-200"
+                  className="mobile-categories-btn flex items-center justify-between w-full px-4 py-3.5 text-sm font-bold text-gray-800 hover:text-red-600 transition-all duration-200 rounded-lg bg-gray-50 hover:bg-gray-100 border border-gray-200"
                 >
-                  <span className="uppercase tracking-wide">Categories</span>
+                  <span className="uppercase tracking-wide flex items-center gap-2">
+                    <Grid3x3 size={18} />
+                    Categories
+                  </span>
                   <ChevronDown
                     size={18}
                     className={`transition-transform duration-200 ${
@@ -269,14 +272,16 @@ const Header = () => {
                   />
                 </button>
                 {isMobileCategoriesOpen && (
-                  <div style={{
+                  <div className="mobile-categories-dropdown" style={{
                     maxHeight: 320,
                     overflowY: 'auto',
-                    marginTop: 8,
+                    marginTop: 12,
                     border: '1px solid #e5e7eb',
-                    borderRadius: 8,
+                    borderRadius: 12,
                     background: '#faf9f6',
-                    boxShadow: '0 2px 8px rgba(0,0,0,0.04)',
+                    boxShadow: '0 4px 12px rgba(0,0,0,0.08)',
+                    position: 'relative',
+                    zIndex: 1,
                   }}>
                     {categories.map((category) => (
                       <Link
@@ -304,18 +309,22 @@ const Header = () => {
             </div>
 
             {/* Cart Button */}
-            <div className="flex flex-col gap-3">
+            <div className="mobile-cart-section flex flex-col gap-3 mt-6 pt-4 border-t border-gray-200">
               <Link
                 href="/cart"
-                className="btn btn-primary w-full relative flex flex-col items-center gap-1"
+                className="mobile-cart-btn btn btn-primary w-full relative flex flex-row items-center justify-center gap-2 py-3.5 px-4 rounded-xl shadow-md hover:shadow-lg transition-all duration-200"
+                onClick={() => setIsMenuOpen(false)}
               >
-                <ShoppingCart size={18} />
+                <ShoppingCart size={20} />
                 {state.totalItems === 0 ? (
-                  <span className="text-sm">Cart</span>
+                  <span className="text-base font-semibold">Cart</span>
                 ) : (
-                  <span className="bg-red-600 text-white rounded-full text-xs px-2 py-1 font-bold min-w-[1.5rem] text-center">
-                    {state.totalItems}
-                  </span>
+                  <>
+                    <span className="text-base font-semibold">Cart</span>
+                    <span className="bg-white text-red-600 rounded-full text-sm px-2.5 py-1 font-bold min-w-[1.75rem] text-center shadow-sm">
+                      {state.totalItems}
+                    </span>
+                  </>
                 )}
               </Link>
             </div>

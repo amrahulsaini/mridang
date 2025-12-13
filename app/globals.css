@@ -746,6 +746,121 @@ html, body {
   }
 }
 
+/* Mobile Menu Button Styles */
+.mobile-categories-section {
+  position: relative;
+  z-index: 1;
+  margin-bottom: 1rem !important;
+}
+
+.mobile-categories-btn {
+  font-weight: 700 !important;
+  letter-spacing: 0.05em;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.mobile-categories-btn:hover {
+  background: #f3f4f6 !important;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.mobile-categories-btn:active {
+  transform: translateY(0);
+}
+
+.mobile-categories-dropdown {
+  position: relative !important;
+  z-index: 2 !important;
+  margin-bottom: 0 !important;
+}
+
+.mobile-cart-section {
+  position: relative;
+  z-index: 0;
+  margin-top: 1.5rem !important;
+  padding-top: 1rem !important;
+}
+
+.mobile-cart-btn {
+  font-size: 1rem !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.02em;
+  background: linear-gradient(135deg, #800020 0%, #a0002a 50%, #800020 100%) !important;
+  background-size: 200% 200% !important;
+  animation: gradient-shift 3s ease infinite;
+  border: none !important;
+  box-shadow: 0 4px 12px rgba(128, 0, 32, 0.3) !important;
+}
+
+.mobile-cart-btn:hover {
+  transform: translateY(-2px) !important;
+  box-shadow: 0 6px 16px rgba(128, 0, 32, 0.4) !important;
+  filter: brightness(1.1) !important;
+}
+
+.mobile-cart-btn:active {
+  transform: translateY(0) !important;
+  box-shadow: 0 2px 8px rgba(128, 0, 32, 0.3) !important;
+}
+
+@keyframes gradient-shift {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+/* Ensure no overlapping on mobile menu */
+@media (max-width: 768px) {
+  .visible-mobile.bg-white {
+    position: relative;
+    z-index: 100;
+    max-height: calc(100vh - 80px);
+    overflow-y: auto;
+  }
+  
+  .mobile-categories-section {
+    margin-bottom: 1.5rem !important;
+    position: relative;
+    z-index: 1;
+  }
+  
+  .mobile-cart-section {
+    clear: both;
+    margin-top: 1.5rem !important;
+    padding-top: 1rem !important;
+    position: relative;
+    z-index: 0;
+    width: 100%;
+  }
+  
+  /* Prevent categories dropdown from overlapping cart */
+  .mobile-categories-dropdown {
+    max-height: 280px !important;
+    margin-bottom: 0.5rem !important;
+    position: relative !important;
+    z-index: 2 !important;
+  }
+  
+  /* Ensure proper spacing in mobile menu container */
+  .container.py-6 {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+  
+  .container.py-6 > div:first-child {
+    flex: 1;
+    min-height: 0;
+  }
+}
+
 /* Reusable buttons */
 .btn {
   display: inline-flex;
