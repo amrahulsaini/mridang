@@ -10,20 +10,27 @@ interface KeyFeature {
   feature_text: string
 }
 
+
 interface Material {
   material_id: number
   material_name: string
 }
 
 interface Color {
-  color_id: number
-  color_name: string
+  color_id: number;
+  color_name: string;
 }
 
-interface SearchKeyword {
-  keyword_id: number
-  keyword_text: string
-}
+// Removed KeyFeature and SearchKeyword interfaces
+// interface KeyFeature {
+//   feature_id: number
+//   feature_text: string
+// }
+// 
+// interface SearchKeyword {
+//   keyword_id: number
+//   keyword_text: string
+// }
 
 interface RegionalSpeciality {
   regional_speciality_id: number
@@ -103,10 +110,8 @@ interface Product {
   // Custom key features text (free-form text)
   custom_key_features?: string
   // Relationships (arrays of IDs)
-  key_features?: number[]
   materials?: number[]
   colors?: number[]
-  search_keywords?: number[]
 }
 
 export default function ProductEditPage() {
@@ -132,10 +137,8 @@ export default function ProductEditPage() {
 
   // Reference data
   const [categories, setCategories] = useState<Category[]>([])
-  const [keyFeatures, setKeyFeatures] = useState<KeyFeature[]>([])
   const [materials, setMaterials] = useState<Material[]>([])
   const [colors, setColors] = useState<Color[]>([])
-  const [searchKeywords, setSearchKeywords] = useState<SearchKeyword[]>([])
   const [regionalSpecialities, setRegionalSpecialities] = useState<RegionalSpeciality[]>([])
   const [artFormTypes, setArtFormTypes] = useState<ArtFormType[]>([])
 
@@ -164,27 +167,21 @@ export default function ProductEditPage() {
     try {
       const [
         categoriesRes,
-        keyFeaturesRes,
         materialsRes,
         colorsRes,
-        searchKeywordsRes,
         regionalSpecialitiesRes,
         artFormTypesRes
       ] = await Promise.all([
         fetch('/api/admin/categories'),
-        fetch('/api/admin/key-features'),
         fetch('/api/admin/materials'),
         fetch('/api/admin/colors'),
-        fetch('/api/admin/search-keywords'),
         fetch('/api/admin/regional-specialities'),
         fetch('/api/admin/art-form-types')
       ])
 
       if (categoriesRes.ok) setCategories(await categoriesRes.json())
-      if (keyFeaturesRes.ok) setKeyFeatures(await keyFeaturesRes.json())
       if (materialsRes.ok) setMaterials(await materialsRes.json())
       if (colorsRes.ok) setColors(await colorsRes.json())
-      if (searchKeywordsRes.ok) setSearchKeywords(await searchKeywordsRes.json())
       if (regionalSpecialitiesRes.ok) setRegionalSpecialities(await regionalSpecialitiesRes.json())
       if (artFormTypesRes.ok) setArtFormTypes(await artFormTypesRes.json())
     } catch (error) {
@@ -242,8 +239,6 @@ export default function ProductEditPage() {
         return;
       }
 
-      // Validate key features are valid numbers
-      const validKeyFeatures = (formData.key_features || []).filter(id => Number.isInteger(id) && id > 0);
       
       // Helper function to convert undefined to null
       const convertUndefinedToNull = (obj: Record<string, unknown>): Record<string, unknown> => {
@@ -315,10 +310,8 @@ export default function ProductEditPage() {
         category_id: formData.category_id ? parseInt(String(formData.category_id)) : null,
         original_price: formData.original_price ? parseFloat(String(formData.original_price)) : null,
         cut_price: formData.cut_price ? parseFloat(String(formData.cut_price)) : null,
-        key_features: validKeyFeatures,
         materials: formData.materials || [],
         colors: formData.colors || [],
-        search_keywords: formData.search_keywords || [],
       };
 
       const saveData = convertUndefinedToNull(rawData);
@@ -366,15 +359,13 @@ export default function ProductEditPage() {
   }
 
   const handleArrayFieldChange = (field: string, value: number, checked: boolean) => {
-    const currentArray: number[] = (() => {
-      switch (field) {
-        case 'key_features': return formData.key_features || []
-        case 'materials': return formData.materials || []
-        case 'colors': return formData.colors || []
-        case 'search_keywords': return formData.search_keywords || []
-        default: return []
-      }
-    })()
+      const currentArray: number[] = (() => {
+        switch (field) {
+          case 'materials': return formData.materials || []
+          case 'colors': return formData.colors || []
+          default: return []
+        }
+      })()
     
     let newArray: number[]
     
@@ -1252,66 +1243,25 @@ export default function ProductEditPage() {
             </div>
           </div>
 
-          {/* Key Features Section */}
+          {/* Key Features Section (Custom Free-form) */}
           <div className={styles.formSection}>
             <h3 className={styles.sectionTitle}>⭐ Key Features</h3>
             <div className={styles.formRow}>
               <div className={styles.formGroup} style={{ gridColumn: 'span 3' }}>
-                <label className={styles.label}>Key Features</label>
+                <label className={styles.label}>Key Features (One per line)</label>
                 <textarea
-                  value={keyFeatures
-                    .filter(feature => (formData.key_features || []).includes(feature.feature_id))
-                    .map(feature => feature.feature_text)
-                    .join(', ')}
-                  onChange={(e) => {
-                    // Parse comma-separated feature names and match them to IDs
-                    const inputTexts = e.target.value.split(',').map(text => text.trim()).filter(text => text);
-                    const matchingIds = keyFeatures
-                      .filter(feature => inputTexts.some(inputText => 
-                        feature.feature_text.toLowerCase().includes(inputText.toLowerCase()) ||
-                        inputText.toLowerCase().includes(feature.feature_text.toLowerCase())
-                      ))
-                      .map(feature => feature.feature_id);
-                    setFormData({...formData, key_features: matchingIds});
-                  }}
+                  value={formData.custom_key_features || ''}
+                  onChange={(e) => setFormData({ ...formData, custom_key_features: e.target.value })}
                   className={styles.textarea}
-                  placeholder="Enter feature names separated by commas (e.g., Durable, Lightweight, Easy to Clean)"
-                  rows={3}
+                  rows={8}
+                  placeholder={
+                    'Enter each key feature on a new line (press Enter after each feature):\n\n• Handcrafted Design\n• Premium Materials\n• Traditional Techniques\n• Unique Sound Quality'
+                  }
                 />
                 <small className={styles.helpText}>
-                  Available features: {keyFeatures.map(f => f.feature_text).join(', ')}
+                  Example: Enter each feature on a new line. These will be shown as bullet points on the product page.
                 </small>
               </div>
-            </div>
-
-            {/* Section Update Button */}
-            <div className={styles.sectionUpdateButton}>
-              <button
-                type="button"
-                onClick={handleSave}
-                disabled={isSaving}
-                className={styles.updateSectionBtn}
-              >
-                {isSaving ? 'Updating...' : 'Update Key Features'}
-              </button>
-            </div>
-          </div>
-
-          {/* Search Keywords Section */}
-          <div className={styles.formSection}>
-            <h3 className={styles.sectionTitle}>🔍 Search Keywords</h3>
-            <div className={styles.checkboxGrid}>
-              {searchKeywords.map((keyword) => (
-                <label key={keyword.keyword_id} className={styles.checkboxLabel}>
-                  <input
-                    type="checkbox"
-                    checked={(formData.search_keywords || []).includes(keyword.keyword_id)}
-                    onChange={(e) => handleArrayFieldChange('search_keywords', keyword.keyword_id, e.target.checked)}
-                    className={styles.checkbox}
-                  />
-                  {keyword.keyword_text}
-                </label>
-              ))}
             </div>
           </div>
         </div>
