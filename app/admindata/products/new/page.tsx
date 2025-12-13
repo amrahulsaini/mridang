@@ -100,6 +100,8 @@ interface Product {
   // Pricing
   original_price?: number
   cut_price?: number
+  // Custom key features text (free-form text)
+  custom_key_features?: string
   // Relationships (arrays of IDs)
   key_features?: number[]
   materials?: number[]
@@ -152,10 +154,9 @@ export default function ProductEditPage() {
       description: '',
       original_price: 0,
       cut_price: 0,
-      key_features: [],
+      custom_key_features: '',
       materials: [],
-      colors: [],
-      search_keywords: []
+      colors: []
     })
   }, [router])
 
