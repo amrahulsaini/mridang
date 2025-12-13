@@ -269,12 +269,26 @@ const Header = () => {
                   />
                 </button>
                 {isMobileCategoriesOpen && (
-                  <div className="space-y-2 mt-2 max-h-[300px] overflow-y-auto pr-2">
+                  <div style={{
+                    maxHeight: 320,
+                    overflowY: 'auto',
+                    marginTop: 8,
+                    border: '1px solid #e5e7eb',
+                    borderRadius: 8,
+                    background: '#faf9f6',
+                    boxShadow: '0 2px 8px rgba(0,0,0,0.04)',
+                  }}>
                     {categories.map((category) => (
                       <Link
                         key={category.id}
                         href={`/category/${encodeURIComponent(category.name)}`}
                         className="flex items-center gap-3 text-gray-700 hover:text-red-600 hover:bg-red-50 transition-all duration-200 py-3 px-4 rounded-lg no-underline"
+                        style={{
+                          borderBottom: '1px solid #eee',
+                          fontSize: 16,
+                          fontWeight: 500,
+                          textTransform: 'capitalize',
+                        }}
                         onClick={() => {
                           setIsMenuOpen(false)
                           setIsMobileCategoriesOpen(false)
