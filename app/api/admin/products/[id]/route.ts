@@ -332,10 +332,8 @@ export async function DELETE(
 
     try {
       // Delete relationships first (foreign key constraints)
-      await connection.execute('DELETE FROM Product_KeyFeatures WHERE product_id = ?', [productId])
       await connection.execute('DELETE FROM Product_Materials WHERE product_id = ?', [productId])
       await connection.execute('DELETE FROM Product_Colors WHERE product_id = ?', [productId])
-      await connection.execute('DELETE FROM Product_SearchKeywords WHERE product_id = ?', [productId])
       
       // Delete pricing
       await connection.execute('DELETE FROM product_prices WHERE product_id = ?', [productId])

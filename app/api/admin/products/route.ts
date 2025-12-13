@@ -457,10 +457,8 @@ export async function DELETE(request: NextRequest) {
 
     try {
       // Delete relationships first
-      await connection.execute('DELETE FROM Product_KeyFeatures WHERE product_id = ?', [id])
       await connection.execute('DELETE FROM Product_Materials WHERE product_id = ?', [id])
       await connection.execute('DELETE FROM Product_Colors WHERE product_id = ?', [id])
-      await connection.execute('DELETE FROM Product_SearchKeywords WHERE product_id = ?', [id])
 
       // Delete pricing
       await connection.execute('DELETE FROM product_prices WHERE product_id = ?', [id])
