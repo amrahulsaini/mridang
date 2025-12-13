@@ -116,7 +116,7 @@ const Header = () => {
   return (
     <header className={styles.header}>
       <div className={styles.container}>
-        <div className="flex items-center justify-between h-24 gap-3" style={{paddingLeft:0}}>
+        <div className={`${styles['header-content']} flex items-center justify-between gap-3`} style={{paddingLeft:0}}>
           {/* Logo Section */}
           <Link href="/" className={styles['logo-container']} aria-label="Mridang Home">
             <div className={styles['logo-image']}>
@@ -132,7 +132,7 @@ const Header = () => {
           </Link>
 
           {/* Desktop Navigation */}
-          <nav className="hidden-mobile flex items-center gap-8">
+          <nav className="hidden-mobile flex items-center gap-6 flex-wrap">
             {navItems.map((item) => (
               <Link 
                 key={item.key}
@@ -189,12 +189,12 @@ const Header = () => {
           </form>
 
           {/* Cart Section */}
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2 flex-shrink-0">
             {/* Desktop Cart Button */}
             <div className="hidden-mobile flex items-center gap-2">
               <Link
                 href="/cart"
-                className="btn btn-primary inline-flex relative flex-col items-center gap-1"
+                className="btn btn-primary inline-flex relative flex-col items-center gap-1 whitespace-nowrap"
               >
                 <ShoppingCart size={18} />
                 {state.totalItems === 0 ? (
@@ -209,7 +209,7 @@ const Header = () => {
 
             {/* Mobile Menu Button - hidden on desktop */}
             <button
-              className="visible-mobile p-3 text-gray-700 hover:text-red-600 transition-colors rounded-lg hover:bg-gray-100"
+              className="visible-mobile p-2.5 text-gray-700 hover:text-red-600 transition-colors rounded-lg hover:bg-gray-100 flex-shrink-0"
               onClick={toggleMenu}
               aria-label="Toggle menu"
             >

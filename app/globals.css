@@ -697,6 +697,55 @@ html, body {
 .header .container { padding-left: 0; padding-right: 0; }
 .header .logo-container { margin-left: 0; }
 
+/* Prevent overlapping on mobile devices */
+@media (max-width: 768px) {
+  .header .container > div {
+    flex-wrap: nowrap;
+    overflow: visible;
+  }
+  
+  /* Ensure logo doesn't shrink too much */
+  .header .logo-container {
+    min-width: fit-content;
+    flex-shrink: 0;
+    max-width: 60%;
+  }
+  
+  /* Ensure cart/menu button area doesn't overlap */
+  .header .flex.items-center.gap-2,
+  .header .flex.items-center.gap-3 {
+    flex-shrink: 0;
+    min-width: fit-content;
+    z-index: 10;
+  }
+  
+  /* Hide desktop nav completely on mobile */
+  .header nav.hidden-mobile {
+    display: none !important;
+  }
+  
+  /* Ensure search bar doesn't cause issues */
+  .header .search-container.hidden-mobile {
+    display: none !important;
+  }
+  
+  /* Prevent categories dropdown from showing on mobile */
+  .header .categories-dropdown {
+    display: none !important;
+  }
+}
+
+/* Additional fixes for very small screens */
+@media (max-width: 480px) {
+  .header .container {
+    padding: 0 0.5rem !important;
+  }
+  
+  .header .logo-container {
+    max-width: 55%;
+  }
+}
+
 /* Reusable buttons */
 .btn {
   display: inline-flex;
