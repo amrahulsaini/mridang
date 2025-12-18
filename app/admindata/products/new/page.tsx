@@ -449,18 +449,27 @@ export default function ProductEditPage() {
                     const selectedCategoryId = parseInt(e.target.value) || undefined;
                     const selectedCategory = categories.find(cat => cat.category_id === selectedCategoryId);
 
+                    console.log('🔍 Category selected:', selectedCategoryId, selectedCategory?.category_name);
+
                     // Fetch a sample product from this category to auto-fill fields.
                     // Use an admin endpoint keyed by category_id so it works even when pro_id is missing.
                     if (selectedCategory && selectedCategoryId) {
                       try {
-                        const response = await fetch(`/api/admin/sample-product?category_id=${selectedCategoryId}`);
+                        const url = `/api/admin/sample-product?category_id=${selectedCategoryId}`;
+                        console.log('🌐 Fetching sample product from:', url);
+                        
+                        const response = await fetch(url);
+                        console.log('📥 Response status:', response.status, response.ok);
+                        
                         if (response.ok) {
                           const sampleProduct = await response.json();
+                          console.log('📦 Sample product received:', sampleProduct);
+                          console.log('⭐ Key features from sample:', sampleProduct?.custom_key_features);
 
                           // If endpoint returns null (no products), just set category.
                           if (sampleProduct) {
-                            setFormData(prev => ({
-                              ...prev,
+                            const newFormData = {
+                              ...formData,
                               category_id: selectedCategoryId,
                               description: sampleProduct.description || '',
                               other_features: sampleProduct.other_features || '',
@@ -471,17 +480,25 @@ export default function ProductEditPage() {
                               depth_inch: sampleProduct.depth_inch ?? null,
                               diameter_inch: sampleProduct.diameter_inch ?? null,
                               other_dimensions: sampleProduct.other_dimensions || '',
-                            }));
+                            };
+                            console.log('✅ Updating form with custom_key_features:', newFormData.custom_key_features);
+                            setFormData(newFormData);
                             return;
+                          } else {
+                            console.log('⚠️ Sample product is null or empty');
                           }
+                        } else {
+                          console.error('❌ Response not OK:', response.status);
                         }
 
+                        console.log('📝 Setting only category_id');
                         setFormData(prev => ({ ...prev, category_id: selectedCategoryId }));
                       } catch (error) {
-                        console.error('Error fetching sample product:', error);
+                        console.error('💥 Error fetching sample product:', error);
                         setFormData(prev => ({ ...prev, category_id: selectedCategoryId }));
                       }
                     } else {
+                      console.log('📝 No valid category, setting category_id');
                       setFormData(prev => ({ ...prev, category_id: selectedCategoryId }));
                     }
                   }}

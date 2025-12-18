@@ -35,6 +35,8 @@ export async function GET(request: NextRequest) {
 
     // Grab the newest product in this category to use as a template.
     // We only return the fields that the admin "new product" page auto-fills.
+    console.log('🔍 Fetching sample product for category_id:', categoryId);
+    
     const rows = await query(
       `
       SELECT
@@ -55,11 +57,22 @@ export async function GET(request: NextRequest) {
       [categoryId]
     )
 
+    console.log('📊 Query returned rows:', rows?.length || 0);
+
     if (!Array.isArray(rows) || rows.length === 0) {
+      console.log('⚠️ No products found for category_id:', categoryId);
       return NextResponse.json(null)
     }
 
     const [sample] = rows as SampleProductRow[]
+    console.log('✅ Sample product:', {
+      has_description: !!sample.description,
+      has_other_features: !!sample.other_features,
+      has_custom_key_features: !!sample.custom_key_features,
+      custom_key_features_length: sample.custom_key_features?.length || 0,
+      custom_key_features_preview: sample.custom_key_features?.substring(0, 50)
+    });
+    
     return NextResponse.json(sample)
   } catch (error) {
     console.error('Error fetching sample product:', error)
