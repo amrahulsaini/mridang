@@ -57,7 +57,7 @@ export async function GET(request: NextRequest) {
       [categoryId]
     )
 
-    console.log('📊 Query returned rows:', rows?.length || 0);
+    console.log('📊 Query returned rows:', Array.isArray(rows) ? rows.length : 0);
 
     if (!Array.isArray(rows) || rows.length === 0) {
       console.log('⚠️ No products found for category_id:', categoryId);
