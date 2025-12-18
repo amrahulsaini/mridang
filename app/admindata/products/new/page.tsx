@@ -304,6 +304,7 @@ export default function ProductEditPage() {
         category_id: formData.category_id ? parseInt(String(formData.category_id)) : null,
         original_price: formData.original_price ? parseFloat(String(formData.original_price)) : null,
         cut_price: formData.cut_price ? parseFloat(String(formData.cut_price)) : null,
+        custom_key_features: formData.custom_key_features || null,
         materials: formData.materials || [],
         colors: formData.colors || [],
       };
@@ -311,6 +312,7 @@ export default function ProductEditPage() {
       const saveData = convertUndefinedToNull(rawData);
 
       console.log('Sending save data:', saveData);
+      console.log('🔑 Custom key features being saved:', saveData.custom_key_features);
 
       const response = await fetch('/api/admin/products', {
         method: 'POST',
