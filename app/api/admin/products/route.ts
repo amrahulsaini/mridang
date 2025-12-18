@@ -367,7 +367,7 @@ export async function PUT(request: NextRequest) {
           domestic_warranty_unit = ?, international_warranty = ?, international_warranty_unit = ?,
           warranty_summary = ?, warranty_service_type = ?, covered_in_warranty = ?,
           not_covered_in_warranty = ?, ean_upc = ?, gift_pack = ?, supplier_image = ?, is_fragile = ?,
-          category_id = ?
+          category_id = ?, custom_key_features = ?
         WHERE id = ?
       `, [
         pro_id, flipkart_serial_number, catalog_qc_status, qc_failed_reason,
@@ -381,7 +381,7 @@ export async function PUT(request: NextRequest) {
         domestic_warranty_unit, international_warranty, international_warranty_unit,
         warranty_summary, warranty_service_type, covered_in_warranty,
         not_covered_in_warranty, ean_upc, gift_pack, supplier_image, is_fragile,
-        category_id, id
+        category_id, custom_key_features ?? null, id
       ])
 
       // Update pricing

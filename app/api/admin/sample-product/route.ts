@@ -1,6 +1,18 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { query } from '@/app/lib/database'
 
+interface SampleProductRow {
+  description: string | null
+  other_features: string | null
+  custom_key_features: string | null
+  weight_g: number | null
+  width_inch: number | null
+  height_inch: number | null
+  depth_inch: number | null
+  diameter_inch: number | null
+  other_dimensions: string | null
+}
+
 export async function GET(request: NextRequest) {
   try {
     const { searchParams } = new URL(request.url)
@@ -47,7 +59,8 @@ export async function GET(request: NextRequest) {
       return NextResponse.json(null)
     }
 
-    return NextResponse.json((rows as any[])[0])
+    const [sample] = rows as SampleProductRow[]
+    return NextResponse.json(sample)
   } catch (error) {
     console.error('Error fetching sample product:', error)
     return NextResponse.json(

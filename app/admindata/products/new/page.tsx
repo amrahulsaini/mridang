@@ -5,12 +5,6 @@ import Image from 'next/image'
 import Link from 'next/link'
 import styles from '../../AdminData.module.css'
 
-interface KeyFeature {
-  feature_id: number
-  feature_text: string
-}
-
-
 interface Material {
   material_id: number
   material_name: string
