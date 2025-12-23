@@ -101,14 +101,11 @@ const Header = () => {
   useEffect(() => {
     if (typeof document === 'undefined') return
     const prevOverflow = document.body.style.overflow
-    const prevTouchAction = (document.body.style as unknown as { touchAction?: string }).touchAction || ''
     if (isMenuOpen) {
       document.body.style.overflow = 'hidden'
-      ;(document.body.style as unknown as { touchAction?: string }).touchAction = 'none'
     }
     return () => {
       document.body.style.overflow = prevOverflow
-      ;(document.body.style as unknown as { touchAction?: string }).touchAction = prevTouchAction
     }
   }, [isMenuOpen])
 

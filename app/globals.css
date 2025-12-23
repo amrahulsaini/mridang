@@ -464,11 +464,11 @@ html, body {
 
 .product-marquee-track {
   display: flex;
-  gap: 12px;
+  gap: 14px;
   width: max-content;
   animation: marqueeScroll 70s linear infinite;
   will-change: transform;
-  padding: 0 12px;
+  padding: 4px 14px;
 }
 
 .product-marquee:hover .product-marquee-track {
@@ -485,7 +485,7 @@ html, body {
 }
 
 .product-marquee-item {
-  width: 72px;
+  width: 144px;
   flex: 0 0 auto;
   display: inline-flex;
   align-items: center;
@@ -500,8 +500,8 @@ html, body {
 
 .product-marquee-thumb {
   position: relative;
-  width: 72px;
-  height: 72px;
+  width: 144px;
+  height: 144px;
   border-radius: 9999px;
   overflow: hidden;
   border: 1px solid rgba(229, 231, 235, 1);
@@ -697,6 +697,7 @@ html, body {
   flex: 1 1 auto;
   overflow: auto;
   -webkit-overflow-scrolling: touch;
+  touch-action: pan-y;
   padding-bottom: 12px;
 }
 
