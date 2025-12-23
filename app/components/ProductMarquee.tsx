@@ -65,12 +65,6 @@ export default function ProductMarquee() {
                   className="object-cover"
                 />
               </div>
-              <div className="product-marquee-meta">
-                <div className="product-marquee-name">{p.name}</div>
-                <div className="product-marquee-price">
-                  ₹{((p.cut_price ?? p.original_price ?? p.price ?? 0) as number).toLocaleString()}
-                </div>
-              </div>
             </Link>
           ))}
         </div>
