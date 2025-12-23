@@ -1,7 +1,8 @@
-'use client'
+"use client"
 
 import { useState, useEffect, Suspense } from 'react'
 import { useSearchParams } from 'next/navigation'
+import { useRouter } from 'next/navigation'
 import Header from '../components/Header'
 import Footer from '../components/Footer'
 import ProductCard from '../components/ProductCard'
@@ -13,12 +14,19 @@ import Link from 'next/link'
 function SearchResults() {
   const searchParams = useSearchParams()
   const query = searchParams.get('q') || ''
+  const router = useRouter()
+
+  const [inputValue, setInputValue] = useState(query)
   
   const [products, setProducts] = useState<Product[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null)
   const [isInfoModalOpen, setIsInfoModalOpen] = useState(false)
+
+  useEffect(() => {
+    setInputValue(query)
+  }, [query])
 
   useEffect(() => {
     if (!query) {
@@ -60,6 +68,13 @@ function SearchResults() {
     setSelectedProduct(null)
   }
 
+  const submitSearch = (e: React.FormEvent) => {
+    e.preventDefault()
+    const next = inputValue.trim()
+    if (!next) return
+    router.push(`/search?q=${encodeURIComponent(next)}`)
+  }
+
   return (
     <div className="min-h-screen bg-cream">
       <Header />
@@ -80,6 +95,18 @@ function SearchResults() {
             <Search size={28} className="text-red-600" />
             <h1 className="text-3xl font-bold text-gray-800">Search Results</h1>
           </div>
+
+          <form onSubmit={submitSearch} className="search-container" aria-label="Search products">
+            <Search className="search-icon" size={20} />
+            <input
+              type="text"
+              placeholder="Search products..."
+              value={inputValue}
+              onChange={(e) => setInputValue(e.target.value)}
+              className="search-input"
+            />
+          </form>
+
           {query && (
             <p className="text-gray-600">
               Showing results for: <span className="font-semibold text-gray-800">&quot;{query}&quot;</span>
@@ -106,8 +133,8 @@ function SearchResults() {
         {!query && !loading && (
           <div className="bg-gray-50 border border-gray-200 rounded-lg p-12 text-center">
             <Search size={48} className="mx-auto mb-4 text-gray-400" />
-            <p className="text-gray-600 text-lg mb-2">No search query provided</p>
-            <p className="text-gray-500">Please enter a search term to find products</p>
+            <p className="text-gray-600 text-lg mb-2">Type something to search</p>
+            <p className="text-gray-500">Use the search box above to find products</p>
           </div>
         )}
 

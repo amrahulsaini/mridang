@@ -61,7 +61,6 @@ const HeroSection = () => {
         >
           <h1 className="hero-title">
             <span className="hero-typed">{typed}</span>
-            <span className="hero-caret" aria-hidden="true">|</span>
           </h1>
           <p className="hero-subtitle">
             Ring trays, haldi & mehendi platters, and custom designs — made to match your theme.

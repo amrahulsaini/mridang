@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useEffect, useRef } from 'react'
-import { Home, Info, Search, X, ShoppingCart, Package, ChevronDown, Grid3x3, Store, User } from 'lucide-react'
+import { Home, Info, Search, X, ShoppingCart, Package, ChevronDown, Grid3x3, Store, User, MessageCircle } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
@@ -157,7 +157,12 @@ const Header = () => {
             type="button"
             className="mobile-icon-button"
             aria-label={isMenuOpen ? 'Close categories' : 'Open categories'}
-            onClick={() => (isMenuOpen ? closeMenu() : openCategoriesDrawer())}
+            onClick={(e) => {
+              e.preventDefault()
+              e.stopPropagation()
+              if (isMenuOpen) closeMenu()
+              else openCategoriesDrawer()
+            }}
           >
             <Grid3x3 size={22} />
           </button>
@@ -165,6 +170,16 @@ const Header = () => {
             <ShoppingCart size={22} />
             {state.totalItems > 0 && <span className="mobile-cart-badge">{state.totalItems}</span>}
           </Link>
+          <a
+            href="https://wa.me/919413419163"
+            className="mobile-icon-button"
+            aria-label="Chat with us on WhatsApp"
+            target="_blank"
+            rel="noopener noreferrer"
+            onClick={closeMenu}
+          >
+            <MessageCircle size={22} />
+          </a>
           <Link href="/orders" className="mobile-icon-button" aria-label="Profile" onClick={closeMenu}>
             <User size={22} />
           </Link>
@@ -246,6 +261,15 @@ const Header = () => {
           {/* Cart Section */}
           <div className="flex items-center gap-2 flex-shrink-0">
             <div className="flex items-center gap-2">
+              <a
+                href="https://wa.me/919413419163"
+                className="btn btn-secondary inline-flex whitespace-nowrap"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Chat with us on WhatsApp"
+              >
+                <span>Chat with us</span>
+              </a>
               <Link
                 href="/cart"
                 className="btn btn-primary inline-flex relative whitespace-nowrap"
