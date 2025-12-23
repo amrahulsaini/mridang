@@ -3,6 +3,7 @@ import { Sora } from "next/font/google";
 import "./globals.css";
 import { CartProvider } from "./context/CartContext";
 import { NotificationProvider } from "./context/NotificationContext";
+import WhatsAppFloating from "./components/WhatsAppFloating";
 
 const sora = Sora({
   variable: "--font-sora",
@@ -29,6 +30,7 @@ export default function RootLayout({
         <CartProvider>
           <NotificationProvider>
             {children}
+            <WhatsAppFloating />
           </NotificationProvider>
         </CartProvider>
       </body>

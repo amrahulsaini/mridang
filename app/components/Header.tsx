@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useEffect, useRef } from 'react'
-import { Home, Info, Search, X, ShoppingCart, Package, ChevronDown, Grid3x3, Store, User, MessageCircle } from 'lucide-react'
+import { Home, Info, Search, X, ShoppingCart, Package, ChevronDown, Grid3x3, Store, User } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
@@ -135,6 +135,7 @@ const Header = () => {
   }
 
   return (
+    <>
     <header className="header">
       {/* Mobile sticky bar (logo + menu only) */}
       <div className="mobile-header-bar visible-mobile">
@@ -170,16 +171,6 @@ const Header = () => {
             <ShoppingCart size={22} />
             {state.totalItems > 0 && <span className="mobile-cart-badge">{state.totalItems}</span>}
           </Link>
-          <a
-            href="https://wa.me/919413419163"
-            className="mobile-icon-button"
-            aria-label="Chat with us on WhatsApp"
-            target="_blank"
-            rel="noopener noreferrer"
-            onClick={closeMenu}
-          >
-            <MessageCircle size={22} />
-          </a>
           <Link href="/orders" className="mobile-icon-button" aria-label="Profile" onClick={closeMenu}>
             <User size={22} />
           </Link>
@@ -261,15 +252,6 @@ const Header = () => {
           {/* Cart Section */}
           <div className="flex items-center gap-2 flex-shrink-0">
             <div className="flex items-center gap-2">
-              <a
-                href="https://wa.me/919413419163"
-                className="btn btn-secondary inline-flex whitespace-nowrap"
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label="Chat with us on WhatsApp"
-              >
-                <span>Chat with us</span>
-              </a>
               <Link
                 href="/cart"
                 className="btn btn-primary inline-flex relative whitespace-nowrap"
@@ -287,54 +269,54 @@ const Header = () => {
           </div>
         </div>
       </div>
-
-      {/* Mobile Drawer */}
-      <AnimatePresence>
-        {isMenuOpen && (
-          <motion.div
-            className="mobile-drawer-overlay"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-          >
-            <button className="mobile-drawer-backdrop" aria-label="Close menu" onClick={closeMenu} />
-
-            <motion.aside
-              className="mobile-drawer"
-              initial={{ x: '100%' }}
-              animate={{ x: 0 }}
-              exit={{ x: '100%' }}
-              transition={{ type: 'tween', duration: 0.22 }}
-              role="dialog"
-              aria-modal="true"
-            >
-              <div className="mobile-drawer-header">
-                <span className="mobile-drawer-title">Categories</span>
-                <button className="mobile-drawer-close" onClick={closeMenu} aria-label="Close menu">
-                  <X size={22} />
-                </button>
-              </div>
-
-              <div className="mobile-drawer-body">
-                <div className="mobile-categories-inner" aria-label="Categories">
-                  {categories.map((category) => (
-                    <Link
-                      key={category.id}
-                      href={`/category/${encodeURIComponent(category.name)}`}
-                      className="mobile-categories-link"
-                      onClick={closeMenu}
-                    >
-                      {category.name}
-                    </Link>
-                  ))}
-                </div>
-              </div>
-            </motion.aside>
-          </motion.div>
-        )}
-      </AnimatePresence>
-
     </header>
+
+    {/* Mobile Drawer (rendered outside header to avoid stacking/positioning issues) */}
+    <AnimatePresence>
+      {isMenuOpen && (
+        <motion.div
+          className="mobile-drawer-overlay"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+        >
+          <button className="mobile-drawer-backdrop" aria-label="Close categories" onClick={closeMenu} />
+
+          <motion.aside
+            className="mobile-drawer"
+            initial={{ x: '100%' }}
+            animate={{ x: 0 }}
+            exit={{ x: '100%' }}
+            transition={{ type: 'tween', duration: 0.22 }}
+            role="dialog"
+            aria-modal="true"
+          >
+            <div className="mobile-drawer-header">
+              <span className="mobile-drawer-title">Categories</span>
+              <button className="mobile-drawer-close" onClick={closeMenu} aria-label="Close categories">
+                <X size={22} />
+              </button>
+            </div>
+
+            <div className="mobile-drawer-body">
+              <div className="mobile-categories-inner" aria-label="Categories">
+                {categories.map((category) => (
+                  <Link
+                    key={category.id}
+                    href={`/category/${encodeURIComponent(category.name)}`}
+                    className="mobile-categories-link"
+                    onClick={closeMenu}
+                  >
+                    {category.name}
+                  </Link>
+                ))}
+              </div>
+            </div>
+          </motion.aside>
+        </motion.div>
+      )}
+    </AnimatePresence>
+    </>
   )
 }
 

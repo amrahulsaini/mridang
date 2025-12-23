@@ -124,16 +124,6 @@ const Footer = () => {
                 </div>
               </div>
 
-              {/* WhatsApp Contact */}
-              <a
-                href="https://wa.me/918306916176"
-                className="inline-flex items-center bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg transition-colors mt-4"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <Phone size={16} className="mr-2" />
-                WhatsApp Us
-              </a>
             </div>
           </div>
         </div>

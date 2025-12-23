@@ -81,11 +81,8 @@ function SearchResults() {
       
       <div className="container py-8">
         {/* Back Button */}
-        <Link
-          href="/"
-          className="inline-flex items-center gap-2 text-gray-700 hover:text-red-600 transition-colors mb-6 no-underline"
-        >
-          <ArrowLeft size={20} />
+        <Link href="/" className="btn btn-secondary inline-flex items-center gap-2 mb-6">
+          <ArrowLeft size={18} />
           <span>Back to Home</span>
         </Link>
 
