@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useEffect, useRef } from 'react'
-import { Home, Info, Search, Menu, X, ShoppingCart, Package, ChevronDown, Grid3x3, Store } from 'lucide-react'
+import { Home, Info, Search, X, ShoppingCart, Package, ChevronDown, Grid3x3, Store, User } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
@@ -109,7 +109,10 @@ const Header = () => {
     }
   }, [isMenuOpen])
 
-  const toggleMenu = () => setIsMenuOpen(!isMenuOpen)
+  const openCategoriesDrawer = () => {
+    setIsMenuOpen(true)
+    setIsMobileCategoriesOpen(true)
+  }
 
   const closeMenu = () => {
     setIsMenuOpen(false)
@@ -146,13 +149,26 @@ const Header = () => {
             />
           </span>
         </Link>
-        <button
-          className="mobile-menu-button"
-          onClick={toggleMenu}
-          aria-label={isMenuOpen ? 'Close menu' : 'Open menu'}
-        >
-          {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
-        </button>
+        <div className="mobile-header-actions" aria-label="Quick actions">
+          <Link href="/search" className="mobile-icon-button" aria-label="Search" onClick={closeMenu}>
+            <Search size={22} />
+          </Link>
+          <button
+            type="button"
+            className="mobile-icon-button"
+            aria-label={isMenuOpen ? 'Close categories' : 'Open categories'}
+            onClick={() => (isMenuOpen ? closeMenu() : openCategoriesDrawer())}
+          >
+            <Grid3x3 size={22} />
+          </button>
+          <Link href="/cart" className="mobile-icon-button" aria-label="Cart" onClick={closeMenu}>
+            <ShoppingCart size={22} />
+            {state.totalItems > 0 && <span className="mobile-cart-badge">{state.totalItems}</span>}
+          </Link>
+          <Link href="/orders" className="mobile-icon-button" aria-label="Profile" onClick={closeMenu}>
+            <User size={22} />
+          </Link>
+        </div>
       </div>
 
       {/* Desktop header */}
@@ -269,90 +285,25 @@ const Header = () => {
               aria-modal="true"
             >
               <div className="mobile-drawer-header">
-                <span className="mobile-drawer-title">Menu</span>
+                <span className="mobile-drawer-title">Categories</span>
                 <button className="mobile-drawer-close" onClick={closeMenu} aria-label="Close menu">
                   <X size={22} />
                 </button>
               </div>
 
               <div className="mobile-drawer-body">
-                <form onSubmit={handleSearch} className="mobile-drawer-search" aria-label="Search">
-                  <Search className="search-icon" size={20} />
-                  <input
-                    type="text"
-                    placeholder="Search products..."
-                    value={searchQuery}
-                    onChange={(e) => setSearchQuery(e.target.value)}
-                    onKeyPress={handleSearchKeyPress}
-                    className="search-input"
-                  />
-                </form>
-
-                <nav className="mobile-drawer-nav" aria-label="Navigation">
-                  {navItems.map((item) => (
+                <div className="mobile-categories-inner" aria-label="Categories">
+                  {categories.map((category) => (
                     <Link
-                      key={item.key}
-                      href={item.href}
-                      className="mobile-drawer-link"
+                      key={category.id}
+                      href={`/category/${encodeURIComponent(category.name)}`}
+                      className="mobile-categories-link"
                       onClick={closeMenu}
                     >
-                      <item.icon size={20} />
-                      <span>{item.name}</span>
+                      {category.name}
                     </Link>
                   ))}
-                </nav>
-
-                <div className="mobile-drawer-section">
-                  <button
-                    className="mobile-categories-toggle"
-                    onClick={() => setIsMobileCategoriesOpen((v) => !v)}
-                    type="button"
-                  >
-                    <span className="mobile-categories-toggle-left">
-                      <Grid3x3 size={18} />
-                      Categories
-                    </span>
-                    <motion.span
-                      animate={{ rotate: isMobileCategoriesOpen ? 180 : 0 }}
-                      transition={{ duration: 0.18 }}
-                    >
-                      <ChevronDown size={18} />
-                    </motion.span>
-                  </button>
-
-                  <AnimatePresence>
-                    {isMobileCategoriesOpen && (
-                      <motion.div
-                        className="mobile-categories-list"
-                        initial={{ height: 0, opacity: 0 }}
-                        animate={{ height: 'auto', opacity: 1 }}
-                        exit={{ height: 0, opacity: 0 }}
-                        transition={{ duration: 0.2 }}
-                      >
-                        <div className="mobile-categories-inner">
-                          {categories.map((category) => (
-                            <Link
-                              key={category.id}
-                              href={`/category/${encodeURIComponent(category.name)}`}
-                              className="mobile-categories-link"
-                              onClick={closeMenu}
-                            >
-                              {category.name}
-                            </Link>
-                          ))}
-                        </div>
-                      </motion.div>
-                    )}
-                  </AnimatePresence>
                 </div>
-              </div>
-
-              <div className="mobile-drawer-footer">
-                <Link href="/cart" className="mobile-cart-cta" onClick={closeMenu}>
-                  <ShoppingCart size={18} />
-                  <span>Cart</span>
-                  {state.totalItems > 0 && <span className="mobile-cart-count">{state.totalItems}</span>}
-                </Link>
               </div>
             </motion.aside>
           </motion.div>

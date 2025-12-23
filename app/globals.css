@@ -620,6 +620,48 @@ html, body {
   height: 54px;
 }
 
+.mobile-header-actions {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.mobile-icon-button {
+  position: relative;
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  border: 1px solid rgba(128, 0, 32, 0.12);
+  background: white;
+  color: #374151;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+}
+
+.mobile-icon-button:active {
+  transform: scale(0.98);
+}
+
+.mobile-cart-badge {
+  position: absolute;
+  top: -6px;
+  right: -6px;
+  min-width: 18px;
+  height: 18px;
+  padding: 0 6px;
+  border-radius: 9999px;
+  background: #800020;
+  color: white;
+  font-size: 11px;
+  font-weight: 800;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid rgba(255, 255, 255, 1);
+}
+
 .mobile-menu-button {
   width: 44px;
   height: 44px;
