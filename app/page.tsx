@@ -1,6 +1,7 @@
 ﻿import TopBanner from './components/TopBanner';
 import Header from './components/Header';
 import HeroSection from './components/HeroSection';
+import ProductMarquee from './components/ProductMarquee';
 import ProductGridWrapper from './components/ProductGridWrapper';
 import InstagramReels from './components/InstagramReels';
 import FAQAndReviews from './components/FAQAndReviews';
@@ -26,6 +27,7 @@ export default async function Home() {
       <TopBanner />
       <Header />
       <HeroSection />
+      <ProductMarquee />
 
       <div id="categories">
         <ProductGridWrapper categoriesWithProducts={categoriesWithProducts} />

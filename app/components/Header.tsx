@@ -97,6 +97,21 @@ const Header = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
+  // Lock page scroll when mobile drawer is open
+  useEffect(() => {
+    if (typeof document === 'undefined') return
+    const prevOverflow = document.body.style.overflow
+    const prevTouchAction = (document.body.style as unknown as { touchAction?: string }).touchAction || ''
+    if (isMenuOpen) {
+      document.body.style.overflow = 'hidden'
+      ;(document.body.style as unknown as { touchAction?: string }).touchAction = 'none'
+    }
+    return () => {
+      document.body.style.overflow = prevOverflow
+      ;(document.body.style as unknown as { touchAction?: string }).touchAction = prevTouchAction
+    }
+  }, [isMenuOpen])
+
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen)
 
   const closeMenu = () => {

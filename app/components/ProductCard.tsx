@@ -97,6 +97,8 @@ const ProductCard: React.FC<Product & { onInfoClick?: (product: Product) => void
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.3 }}
+      whileHover={{ y: -4 }}
+      whileTap={{ scale: 0.98 }}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
