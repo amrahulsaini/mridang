@@ -415,6 +415,11 @@ html, body {
   color: #1f2937;
   margin-bottom: 1rem;
   line-height: 1.2;
+  min-height: calc(1.2em * 2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 0.25rem;
 }
 
 .hero-typed {
@@ -2302,6 +2307,7 @@ footer a:hover { color: #800020; }
 
   .hero-title {
     font-size: 2rem;
+    min-height: calc(1.2em * 3);
   }
 
   .hero-subtitle {
@@ -2363,6 +2369,7 @@ footer a:hover { color: #800020; }
 
   .hero-title {
     font-size: 1.75rem;
+    min-height: calc(1.2em * 3);
   }
 
   .hero-subtitle {
