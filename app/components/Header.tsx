@@ -6,6 +6,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { useCart } from '../context/CartContext'
+import { AnimatePresence, motion } from 'framer-motion'
 
 interface Category {
   id: number;
@@ -98,26 +99,53 @@ const Header = () => {
 
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen)
 
+  const closeMenu = () => {
+    setIsMenuOpen(false)
+    setIsMobileCategoriesOpen(false)
+  }
+
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault()
     if (searchQuery.trim()) {
       router.push(`/search?q=${encodeURIComponent(searchQuery.trim())}`)
-      setIsMenuOpen(false)
+      closeMenu()
     }
   }
 
   const handleSearchKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter' && searchQuery.trim()) {
       router.push(`/search?q=${encodeURIComponent(searchQuery.trim())}`)
-      setIsMenuOpen(false)
+      closeMenu()
     }
   }
 
   return (
     <header className="header">
-      <div className="container">
+      {/* Mobile sticky bar (logo + menu only) */}
+      <div className="mobile-header-bar visible-mobile">
+        <Link href="/" className="mobile-logo" aria-label="Mridang Home" onClick={closeMenu}>
+          <span className="mobile-logo-image">
+            <Image
+              src="/logo.png"
+              alt="Mridang Logo"
+              fill
+              className="object-contain"
+              priority
+            />
+          </span>
+        </Link>
+        <button
+          className="mobile-menu-button"
+          onClick={toggleMenu}
+          aria-label={isMenuOpen ? 'Close menu' : 'Open menu'}
+        >
+          {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
+        </button>
+      </div>
+
+      {/* Desktop header */}
+      <div className="container hidden-mobile">
         <div className="header-content flex items-center justify-between gap-3">
-          {/* Logo Section */}
           <Link href="/" className="logo-container" aria-label="Mridang Home">
             <div className="logo-image">
               <Image
@@ -128,11 +156,10 @@ const Header = () => {
                 priority
               />
             </div>
-            <h1 className="logo-text hidden-mobile">Mridang</h1>
+            <h1 className="logo-text">Mridang</h1>
           </Link>
 
-          {/* Desktop Navigation */}
-          <nav className="hidden-mobile flex items-center gap-6 flex-wrap">
+          <nav className="flex items-center gap-6 flex-wrap">
             {navItems.map((item) => (
               <Link 
                 key={item.key}
@@ -176,7 +203,7 @@ const Header = () => {
           </nav>
 
           {/* Search Bar - Desktop */}
-          <form onSubmit={handleSearch} className="hidden-mobile search-container" aria-label="Search">
+          <form onSubmit={handleSearch} className="search-container" aria-label="Search">
             <Search className="search-icon" size={20} />
             <input
               type="text"
@@ -190,11 +217,10 @@ const Header = () => {
 
           {/* Cart Section */}
           <div className="flex items-center gap-2 flex-shrink-0">
-            {/* Desktop Cart Button */}
-            <div className="hidden-mobile flex items-center gap-2">
+            <div className="flex items-center gap-2">
               <Link
                 href="/cart"
-                className="btn btn-primary inline-flex relative flex-col items-center gap-1 whitespace-nowrap"
+                className="btn btn-primary inline-flex relative whitespace-nowrap"
               >
                 <ShoppingCart size={18} />
                 {state.totalItems === 0 ? (
@@ -206,131 +232,116 @@ const Header = () => {
                 )}
               </Link>
             </div>
-
-            {/* Mobile Menu Button - hidden on desktop */}
-            <button
-              className="visible-mobile p-2.5 text-gray-700 hover:text-red-600 transition-colors rounded-lg hover:bg-gray-100 flex-shrink-0"
-              onClick={toggleMenu}
-              aria-label="Toggle menu"
-            >
-              {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
-            </button>
           </div>
         </div>
-
-        {/* Mobile Search Bar */}
-        {isMenuOpen && (
-          <div className="visible-mobile py-4 border-t border-gray-200">
-            <form onSubmit={handleSearch} className="search-container">
-              <Search className="search-icon" size={20} />
-              <input
-                type="text"
-                placeholder="Search products..."
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                onKeyPress={handleSearchKeyPress}
-                className="search-input"
-              />
-            </form>
-          </div>
-        )}
       </div>
 
-      {/* Mobile Menu */}
-      {isMenuOpen && (
-        <div className="visible-mobile bg-white border-t border-gray-200 shadow-lg overflow-hidden">
-          <div className="container py-6 px-4">
-            {/* Navigation Links */}
-            <div className="space-y-4 mb-6">
-              {navItems.map((item) => (
-                <Link
-                  key={item.key}
-                  href={item.href}
-                  className="flex items-center gap-3 text-gray-700 hover:text-red-600 hover:bg-red-50 transition-all duration-200 py-3 px-4 rounded-lg no-underline"
-                  onClick={() => setIsMenuOpen(false)}
-                >
-                  <item.icon size={20} />
-                  <span className="font-medium">{item.name}</span>
-                </Link>
-              ))}
-              
-              {/* Mobile Categories */}
-              <div className="mobile-categories-section border-t border-gray-100 pt-4 mt-4 mb-4">
+      {/* Mobile Drawer */}
+      <AnimatePresence>
+        {isMenuOpen && (
+          <motion.div
+            className="mobile-drawer-overlay"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+          >
+            <button className="mobile-drawer-backdrop" aria-label="Close menu" onClick={closeMenu} />
+
+            <motion.aside
+              className="mobile-drawer"
+              initial={{ x: '100%' }}
+              animate={{ x: 0 }}
+              exit={{ x: '100%' }}
+              transition={{ type: 'tween', duration: 0.22 }}
+              role="dialog"
+              aria-modal="true"
+            >
+              <div className="mobile-drawer-header">
+                <span className="mobile-drawer-title">Menu</span>
+                <button className="mobile-drawer-close" onClick={closeMenu} aria-label="Close menu">
+                  <X size={22} />
+                </button>
+              </div>
+
+              <form onSubmit={handleSearch} className="mobile-drawer-search" aria-label="Search">
+                <Search className="search-icon" size={20} />
+                <input
+                  type="text"
+                  placeholder="Search products..."
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  onKeyPress={handleSearchKeyPress}
+                  className="search-input"
+                />
+              </form>
+
+              <nav className="mobile-drawer-nav" aria-label="Navigation">
+                {navItems.map((item) => (
+                  <Link
+                    key={item.key}
+                    href={item.href}
+                    className="mobile-drawer-link"
+                    onClick={closeMenu}
+                  >
+                    <item.icon size={20} />
+                    <span>{item.name}</span>
+                  </Link>
+                ))}
+              </nav>
+
+              <div className="mobile-drawer-section">
                 <button
-                  onClick={() => setIsMobileCategoriesOpen(!isMobileCategoriesOpen)}
-                  className="mobile-categories-btn flex items-center justify-between w-full px-4 py-3.5 text-sm font-bold text-gray-800 hover:text-red-600 transition-all duration-200 rounded-lg bg-gray-50 hover:bg-gray-100 border border-gray-200"
+                  className="mobile-categories-toggle"
+                  onClick={() => setIsMobileCategoriesOpen((v) => !v)}
+                  type="button"
                 >
-                  <span className="uppercase tracking-wide flex items-center gap-2">
+                  <span className="mobile-categories-toggle-left">
                     <Grid3x3 size={18} />
                     Categories
                   </span>
-                  <ChevronDown
-                    size={18}
-                    className={`transition-transform duration-200 ${
-                      isMobileCategoriesOpen ? 'rotate-180' : ''
-                    }`}
-                  />
+                  <motion.span
+                    animate={{ rotate: isMobileCategoriesOpen ? 180 : 0 }}
+                    transition={{ duration: 0.18 }}
+                  >
+                    <ChevronDown size={18} />
+                  </motion.span>
                 </button>
-                {isMobileCategoriesOpen && (
-                  <div className="mobile-categories-dropdown" style={{
-                    maxHeight: 320,
-                    overflowY: 'auto',
-                    marginTop: 12,
-                    border: '1px solid #e5e7eb',
-                    borderRadius: 12,
-                    background: '#faf9f6',
-                    boxShadow: '0 4px 12px rgba(0,0,0,0.08)',
-                    position: 'relative',
-                    zIndex: 1,
-                  }}>
-                    {categories.map((category) => (
-                      <Link
-                        key={category.id}
-                        href={`/category/${encodeURIComponent(category.name)}`}
-                        className="flex items-center gap-3 text-gray-700 hover:text-red-600 hover:bg-red-50 transition-all duration-200 py-3 px-4 rounded-lg no-underline"
-                        style={{
-                          borderBottom: '1px solid #eee',
-                          fontSize: 16,
-                          fontWeight: 500,
-                          textTransform: 'capitalize',
-                        }}
-                        onClick={() => {
-                          setIsMenuOpen(false)
-                          setIsMobileCategoriesOpen(false)
-                        }}
-                      >
-                        <Grid3x3 size={18} />
-                        <span className="font-medium">{category.name}</span>
-                      </Link>
-                    ))}
-                  </div>
-                )}
-              </div>
-            </div>
 
-            {/* Cart Button */}
-            <div className="mobile-cart-section flex flex-col gap-3 mt-4 pt-4 border-t border-gray-200">
-              <Link
-                href="/cart"
-                className="mobile-cart-btn btn btn-primary w-full relative flex flex-row items-center justify-center gap-2 py-2.5 px-3 rounded-lg transition-all duration-200"
-                onClick={() => setIsMenuOpen(false)}
-              >
+                <AnimatePresence>
+                  {isMobileCategoriesOpen && (
+                    <motion.div
+                      className="mobile-categories-list"
+                      initial={{ height: 0, opacity: 0 }}
+                      animate={{ height: 'auto', opacity: 1 }}
+                      exit={{ height: 0, opacity: 0 }}
+                      transition={{ duration: 0.2 }}
+                    >
+                      <div className="mobile-categories-inner">
+                        {categories.map((category) => (
+                          <Link
+                            key={category.id}
+                            href={`/category/${encodeURIComponent(category.name)}`}
+                            className="mobile-categories-link"
+                            onClick={closeMenu}
+                          >
+                            {category.name}
+                          </Link>
+                        ))}
+                      </div>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </div>
+
+              <Link href="/cart" className="mobile-cart-cta" onClick={closeMenu}>
                 <ShoppingCart size={18} />
-                {state.totalItems === 0 ? (
-                  <span className="text-sm font-medium">Cart</span>
-                ) : (
-                  <>
-                    <span className="text-sm font-medium">Cart</span>
-                    <span className="bg-white text-red-600 rounded-full text-xs px-2 py-0.5 font-bold min-w-[1.5rem] text-center">
-                      {state.totalItems}
-                    </span>
-                  </>
-                )}
+                <span>Cart</span>
+                {state.totalItems > 0 && <span className="mobile-cart-count">{state.totalItems}</span>}
               </Link>
-            </div>
-          </div>
-        </div>
-      )}
+            </motion.aside>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
     </header>
   )

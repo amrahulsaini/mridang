@@ -39,6 +39,16 @@
   gap: 1rem;
 }
 
+.product-grid :global(.product-card) {
+  max-width: none;
+  width: 100%;
+  margin: 0;
+}
+
+.product-grid :global(.product-image) {
+  height: 220px;
+}
+
 .view-all-row {
   display: flex;
   justify-content: center;
@@ -49,6 +59,10 @@
   .product-grid {
     grid-template-columns: repeat(4, minmax(0, 1fr));
     gap: 1.25rem;
+  }
+
+  .product-grid :global(.product-image) {
+    height: 280px;
   }
 }
 
