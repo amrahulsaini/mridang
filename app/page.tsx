@@ -26,8 +26,10 @@ export default async function Home() {
       <TopBanner />
       <Header />
       <HeroSection />
-      
-      <ProductGridWrapper categoriesWithProducts={categoriesWithProducts} />
+
+      <div id="categories">
+        <ProductGridWrapper categoriesWithProducts={categoriesWithProducts} />
+      </div>
       
       <InstagramReels reels={instagramReels} />
       

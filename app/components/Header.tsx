@@ -1,8 +1,7 @@
 'use client'
 
 import { useState, useEffect, useRef } from 'react'
-import styles from './Header.module.css'
-import { Home, Info, Search, Menu, X, ShoppingCart, Package, ChevronDown, Grid3x3 } from 'lucide-react'
+import { Home, Info, Search, Menu, X, ShoppingCart, Package, ChevronDown, Grid3x3, Store } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
@@ -26,6 +25,7 @@ const Header = () => {
 
   const navItems = [
     { name: 'Home', href: '/', icon: Home, key: 'home' },
+    { name: 'Shop', href: '/shop', icon: Store, key: 'shop' },
     { name: 'About', href: '/about', icon: Info, key: 'about' },
     { name: 'Orders', href: '/orders', icon: Package, key: 'orders' },
   ]
@@ -114,12 +114,12 @@ const Header = () => {
   }
 
   return (
-    <header className={styles.header}>
-      <div className={styles.container}>
-        <div className={`${styles['header-content']} flex items-center justify-between gap-3`} style={{paddingLeft:0}}>
+    <header className="header">
+      <div className="container">
+        <div className="header-content flex items-center justify-between gap-3">
           {/* Logo Section */}
-          <Link href="/" className={styles['logo-container']} aria-label="Mridang Home">
-            <div className={styles['logo-image']}>
+          <Link href="/" className="logo-container" aria-label="Mridang Home">
+            <div className="logo-image">
               <Image
                 src="/logo.png"
                 alt="Mridang Logo"
@@ -128,7 +128,7 @@ const Header = () => {
                 priority
               />
             </div>
-            <h1 className={`${styles['logo-text']} hidden-mobile`}>Mridang</h1>
+            <h1 className="logo-text hidden-mobile">Mridang</h1>
           </Link>
 
           {/* Desktop Navigation */}

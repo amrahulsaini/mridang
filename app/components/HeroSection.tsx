@@ -1,16 +1,9 @@
 'use client'
 
 import { motion } from 'framer-motion'
-import { ShoppingBag, Truck, Shield, Star } from 'lucide-react'
+import Link from 'next/link'
 
 const HeroSection = () => {
-  const features = [
-    { icon: ShoppingBag, text: 'Premium Quality', color: '#800020' },
-    { icon: Truck, text: 'Fast Delivery', color: '#059669' },
-    { icon: Shield, text: 'Secure Payments', color: '#2563eb' },
-    { icon: Star, text: 'Handcrafted', color: '#f59e0b' }
-  ]
-
   return (
     <section className="hero-section">
       <div className="container">
@@ -21,27 +14,14 @@ const HeroSection = () => {
           transition={{ duration: 0.6 }}
         >
           <h1 className="hero-title">
-            Welcome to <span className="hero-brand">Mridang</span>
+            Handcrafted platters that look premium in every photo
           </h1>
           <p className="hero-subtitle">
-            Premium Wedding & Ceremonial Platters - Handcrafted with Tradition
+            Ring trays, haldi & mehendi platters, and custom designs — made to match your theme.
           </p>
-          <div className="hero-features">
-            {features.map((feature, index) => (
-              <motion.div
-                key={index}
-                className="hero-feature"
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.2 + index * 0.1, duration: 0.4 }}
-              >
-                <feature.icon 
-                  size={24} 
-                  style={{ color: feature.color, flexShrink: 0 }} 
-                />
-                <span>{feature.text}</span>
-              </motion.div>
-            ))}
+          <div className="flex items-center justify-center gap-4" style={{ flexWrap: 'wrap' }}>
+            <Link href="/shop" className="btn btn-primary">Shop all products</Link>
+            <Link href="/#categories" className="btn btn-secondary">Browse categories</Link>
           </div>
         </motion.div>
       </div>
