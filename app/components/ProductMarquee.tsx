@@ -38,6 +38,20 @@ export default function ProductMarquee() {
 
   return (
     <section className="product-marquee-section">
+      <div className="container">
+        <motion.div
+          initial={{ opacity: 0, y: 16 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.45 }}
+        >
+          <h2 className="product-marquee-title">Explore designs people love</h2>
+          <p className="product-marquee-subtitle">
+            Scroll-free browsing — this strip keeps moving. Tap any product to open details.
+          </p>
+        </motion.div>
+      </div>
+
       <div className="product-marquee" aria-label="Product highlights">
         <div className="product-marquee-track">
           {doubled.map((p, idx) => (
@@ -47,13 +61,17 @@ export default function ProductMarquee() {
                   src={p.main_image_url || p.image_url || '/file.svg'}
                   alt={p.name}
                   fill
-                  sizes="220px"
-                  className="object-contain"
+                  sizes="140px"
+                  className="object-cover"
                 />
               </div>
             </Link>
           ))}
         </div>
+      </div>
+
+      <div className="container" style={{ paddingTop: 14 }}>
+        <Link href="/shop" className="btn btn-primary">Shop all products</Link>
       </div>
     </section>
   )

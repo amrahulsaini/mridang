@@ -3,9 +3,9 @@
 }
 
 .category-section .container {
-  max-width: 1400px;
+  max-width: 1200px;
   margin: 0 auto;
-  padding: 0 0.5rem;
+  padding: 0 1rem;
 }
 
 .section-header.centered {
@@ -58,7 +58,7 @@
 @media (min-width: 768px) {
   .product-grid {
     grid-template-columns: repeat(4, minmax(0, 1fr));
-    gap: 1.5rem;
+    gap: 1.25rem;
   }
 
   .product-grid :global(.product-image) {
