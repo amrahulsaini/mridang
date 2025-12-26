@@ -214,6 +214,7 @@ export default function AdminDataPage() {
   const filteredProducts = products.filter(product => 
     product.model_name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
     product.pro_id?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    product.seller_sku_id?.toLowerCase().includes(searchTerm.toLowerCase()) ||
     product.brand?.toLowerCase().includes(searchTerm.toLowerCase()) ||
     product.category_name?.toLowerCase().includes(searchTerm.toLowerCase())
   )

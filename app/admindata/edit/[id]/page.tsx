@@ -271,11 +271,23 @@ export default function ProductEditPage() {
       if (response.ok) {
         const savedProduct = await response.json();
         
-        // Update formData with the saved data (in case of new product with generated ID)
-        if (isNew && savedProduct.id) {
-          setFormData(savedProduct);
-          // Update URL to the new product ID without navigation
-          window.history.replaceState({}, '', `/admindata/edit/${savedProduct.id}`);
+        // For new products, update the URL and reload the product data
+        if (isNew && savedProduct.productId) {
+          // Update URL to the new product ID
+          window.history.replaceState({}, '', `/admindata/edit/${savedProduct.productId}`);
+          // Reload the product to get the saved data
+          const reloadResponse = await fetch(`/api/admin/products/${savedProduct.productId}`);
+          if (reloadResponse.ok) {
+            const reloadedProduct = await reloadResponse.json();
+            setFormData(reloadedProduct);
+          }
+        } else {
+          // For existing products, reload to get updated data
+          const reloadResponse = await fetch(`/api/admin/products/${productId}`);
+          if (reloadResponse.ok) {
+            const reloadedProduct = await reloadResponse.json();
+            setFormData(reloadedProduct);
+          }
         }
         
         setDialog({

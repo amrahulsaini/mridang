@@ -246,10 +246,53 @@ export async function POST(request: NextRequest) {
       await connection.commit()
       await connection.end()
 
+      // Fetch the complete product data after creation
+      const createdProducts = await query(`
+        SELECT
+          p.*,
+          c.category_name,
+          rs.regional_speciality_name,
+          aft.art_form_type_name,
+          pp.original_price,
+          pp.cut_price
+        FROM Products p
+        LEFT JOIN Categories c ON p.category_id = c.category_id
+        LEFT JOIN RegionalSpecialities rs ON p.regional_speciality_id = rs.regional_speciality_id
+        LEFT JOIN ArtFormTypes aft ON p.art_form_type_id = aft.art_form_type_id
+        LEFT JOIN product_prices pp ON p.id = pp.product_id AND pp.is_active = 1
+        WHERE p.id = ?
+      `, [productId])
+
+      if (!Array.isArray(createdProducts) || createdProducts.length === 0) {
+        return NextResponse.json({
+          success: true,
+          message: 'Product created successfully',
+          productId
+        })
+      }
+
+      const createdProduct = createdProducts[0] as any
+
+      // Fetch relationships
+      const createdMaterials = await query(`
+        SELECT material_id FROM Product_Materials WHERE product_id = ?
+      `, [productId]) as any
+
+      const createdColors = await query(`
+        SELECT color_id FROM Product_Colors WHERE product_id = ?
+      `, [productId]) as any
+
+      const fullProduct = {
+        ...createdProduct,
+        materials: createdMaterials.map((m: any) => m.material_id),
+        colors: createdColors.map((c: any) => c.color_id)
+      }
+
       return NextResponse.json({
         success: true,
         message: 'Product created successfully',
-        productId
+        productId,
+        ...fullProduct
       })
     } catch (error) {
       await connection.rollback()
