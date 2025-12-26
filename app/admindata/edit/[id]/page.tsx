@@ -235,12 +235,12 @@ export default function ProductEditPage() {
       const saveData = {
         ...formData,
         // Convert all Dropbox image URLs to direct links before saving
-        main_image_url: formData.main_image_url ? convertDropboxUrl(formData.main_image_url) : null,
-        other_image_url_1: formData.other_image_url_1 ? convertDropboxUrl(formData.other_image_url_1) : null,
-        other_image_url_2: formData.other_image_url_2 ? convertDropboxUrl(formData.other_image_url_2) : null,
-        other_image_url_3: formData.other_image_url_3 ? convertDropboxUrl(formData.other_image_url_3) : null,
-        other_image_url_4: formData.other_image_url_4 ? convertDropboxUrl(formData.other_image_url_4) : null,
-        supplier_image: formData.supplier_image ? convertDropboxUrl(formData.supplier_image) : null,
+        main_image_url: formData.main_image_url && formData.main_image_url.trim() ? convertDropboxUrl(formData.main_image_url.trim()) : null,
+        other_image_url_1: formData.other_image_url_1 && formData.other_image_url_1.trim() ? convertDropboxUrl(formData.other_image_url_1.trim()) : null,
+        other_image_url_2: formData.other_image_url_2 && formData.other_image_url_2.trim() ? convertDropboxUrl(formData.other_image_url_2.trim()) : null,
+        other_image_url_3: formData.other_image_url_3 && formData.other_image_url_3.trim() ? convertDropboxUrl(formData.other_image_url_3.trim()) : null,
+        other_image_url_4: formData.other_image_url_4 && formData.other_image_url_4.trim() ? convertDropboxUrl(formData.other_image_url_4.trim()) : null,
+        supplier_image: formData.supplier_image && formData.supplier_image.trim() ? convertDropboxUrl(formData.supplier_image.trim()) : null,
         // Ensure numeric fields are properly formatted
         pack_of: formData.pack_of ? parseInt(String(formData.pack_of)) : null,
         width_inch: formData.width_inch ? parseFloat(String(formData.width_inch)) : null,
@@ -270,24 +270,22 @@ export default function ProductEditPage() {
 
       if (response.ok) {
         const savedProduct = await response.json();
+        console.log('Save response:', savedProduct);
         
-        // For new products, update the URL and reload the product data
+        // Determine the product ID to reload
+        const reloadId = isNew && savedProduct.productId ? savedProduct.productId : productId;
+        
+        // For new products, update the URL
         if (isNew && savedProduct.productId) {
-          // Update URL to the new product ID
           window.history.replaceState({}, '', `/admindata/edit/${savedProduct.productId}`);
-          // Reload the product to get the saved data
-          const reloadResponse = await fetch(`/api/admin/products/${savedProduct.productId}`);
-          if (reloadResponse.ok) {
-            const reloadedProduct = await reloadResponse.json();
-            setFormData(reloadedProduct);
-          }
-        } else {
-          // For existing products, reload to get updated data
-          const reloadResponse = await fetch(`/api/admin/products/${productId}`);
-          if (reloadResponse.ok) {
-            const reloadedProduct = await reloadResponse.json();
-            setFormData(reloadedProduct);
-          }
+        }
+        
+        // Always reload the product data from the server to get the saved values
+        const reloadResponse = await fetch(`/api/admin/products/${reloadId}`);
+        if (reloadResponse.ok) {
+          const reloadedProduct = await reloadResponse.json();
+          console.log('Reloaded product:', reloadedProduct);
+          setFormData(reloadedProduct);
         }
         
         setDialog({
@@ -297,7 +295,10 @@ export default function ProductEditPage() {
           message: 'Product saved successfully!',
           onConfirm: () => {
             setDialog(prev => ({ ...prev, isOpen: false }));
-            // Don't redirect, stay on the page
+            // Reload the page to ensure fresh data
+            if (isNew && savedProduct.productId) {
+              window.location.href = `/admindata/edit/${savedProduct.productId}`;
+            }
           }
         });
       } else {
