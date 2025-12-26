@@ -358,6 +358,15 @@ html, body {
   overflow-x: auto;
 }
 
+/* Object Fit */
+.object-contain {
+  object-fit: contain;
+}
+
+.object-cover {
+  object-fit: cover;
+}
+
 /* Top Banner Styles */
 .top-banner {
   background: linear-gradient(135deg, #800020 0%, #a0002a 100%);
@@ -490,7 +499,7 @@ html, body {
 }
 
 .product-marquee-item {
-  width: 144px;
+  width: 220px;
   flex: 0 0 auto;
   display: inline-flex;
   align-items: center;
@@ -505,8 +514,8 @@ html, body {
 
 .product-marquee-thumb {
   position: relative;
-  width: 144px;
-  height: 144px;
+  width: 220px;
+  height: 220px;
   border-radius: 9999px;
   overflow: hidden;
   border: 1px solid rgba(229, 231, 235, 1);
@@ -516,6 +525,13 @@ html, body {
 @media (max-width: 480px) {
   .product-marquee-track {
     animation-duration: 85s;
+  }
+  .product-marquee-item {
+    width: 144px;
+  }
+  .product-marquee-thumb {
+    width: 144px;
+    height: 144px;
   }
 }
 
@@ -1994,7 +2010,7 @@ html, body {
   width: 100%;
   height: 100%;
   display: block;
-  object-fit: cover;
+  object-fit: contain;
   object-position: center;
   z-index: 2;
   position: relative;
@@ -2004,7 +2020,7 @@ html, body {
 .grid .product-card .product-image img {
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  object-fit: contain;
   object-position: center;
 }
 
