@@ -257,7 +257,17 @@ export default function ProductEditPage() {
         category_id: formData.category_id ? parseInt(String(formData.category_id)) : null,
       };
 
-      console.log('Sending save data:', saveData);
+      console.log('=== FRONTEND SAVE DATA ===');
+      console.log('isNew:', isNew);
+      console.log('Image URLs being sent:', {
+        main_image_url: saveData.main_image_url,
+        other_image_url_1: saveData.other_image_url_1,
+        other_image_url_2: saveData.other_image_url_2,
+        other_image_url_3: saveData.other_image_url_3,
+        other_image_url_4: saveData.other_image_url_4,
+        supplier_image: saveData.supplier_image
+      });
+      console.log('Full save data:', saveData);
 
       const method = isNew ? 'POST' : 'PUT'
       const url = isNew ? '/api/admin/products' : `/api/admin/products/${productId}`

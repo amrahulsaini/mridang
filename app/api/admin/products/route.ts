@@ -190,6 +190,16 @@ export async function POST(request: NextRequest) {
     await connection.beginTransaction()
 
     try {
+      // Log the image URLs being saved
+      console.log('POST - Saving image URLs:', {
+        main_image_url,
+        other_image_url_1,
+        other_image_url_2,
+        other_image_url_3,
+        other_image_url_4,
+        supplier_image
+      });
+
       // Insert main product
       const [result] = await connection.execute(`
         INSERT INTO Products (
