@@ -131,6 +131,8 @@
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
+  overflow: hidden;
+  width: 100%;
 }
 
 .cartItem {
@@ -145,6 +147,8 @@
   backdrop-filter: blur(10px);
   border: 1px solid rgba(255, 255, 255, 0.3);
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  overflow: hidden;
+  width: 100%;
 }
 
 .cartItem:hover {
@@ -169,6 +173,8 @@
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
+  min-width: 0;
+  overflow: hidden;
 }
 
 .itemName {
@@ -177,6 +183,11 @@
   color: #1f2937;
   margin: 0;
   line-height: 1.3;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  word-break: break-word;
+  hyphens: auto;
+  max-width: 100%;
 }
 
 .itemCategory {
@@ -481,6 +492,14 @@
 
   .itemDetails {
     flex: 1;
+    min-width: 0;
+    max-width: 100%;
+  }
+
+  .itemName {
+    font-size: 0.95rem;
+    word-break: break-word;
+    overflow-wrap: break-word;
   }
 
   .quantityControls {
