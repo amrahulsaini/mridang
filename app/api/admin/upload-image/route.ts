@@ -52,8 +52,8 @@ export async function POST(request: NextRequest) {
     
     await writeFile(filePath, buffer)
 
-    // Return the URL path
-    const imageUrl = `/uploads/products/${fileName}`
+    // Return the URL path using API route for better production support
+    const imageUrl = `/api/admin/serve-image/${fileName}`
 
     return NextResponse.json({
       success: true,
