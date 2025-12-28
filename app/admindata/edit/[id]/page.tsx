@@ -106,6 +106,7 @@ export default function ProductEditPage() {
   const [formData, setFormData] = useState<Partial<Product>>({})
   const [isLoading, setIsLoading] = useState(!isNew)
   const [isSaving, setIsSaving] = useState(false)
+  const [uploadingImages, setUploadingImages] = useState<{[key: string]: boolean}>({})
 
   // Dialog state
   const [dialog, setDialog] = useState<{
@@ -354,6 +355,69 @@ export default function ProductEditPage() {
     setFormData(prev => ({ ...prev, [field]: newArray }))
   }
 
+  const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>, fieldName: string) => {
+    const file = e.target.files?.[0]
+    if (!file) return
+
+    // Validate file type
+    const validTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/webp', 'image/gif']
+    if (!validTypes.includes(file.type)) {
+      setDialog({
+        isOpen: true,
+        type: 'error',
+        title: 'Invalid File Type',
+        message: 'Please upload only JPEG, PNG, WebP, or GIF images'
+      })
+      return
+    }
+
+    // Validate file size (5MB)
+    if (file.size > 5 * 1024 * 1024) {
+      setDialog({
+        isOpen: true,
+        type: 'error',
+        title: 'File Too Large',
+        message: 'Image size must be less than 5MB'
+      })
+      return
+    }
+
+    setUploadingImages(prev => ({ ...prev, [fieldName]: true }))
+
+    try {
+      const formData = new FormData()
+      formData.append('file', file)
+
+      const response = await fetch('/api/admin/upload-image', {
+        method: 'POST',
+        body: formData
+      })
+
+      if (response.ok) {
+        const data = await response.json()
+        setFormData(prev => ({ ...prev, [fieldName]: data.imageUrl }))
+      } else {
+        const error = await response.json()
+        setDialog({
+          isOpen: true,
+          type: 'error',
+          title: 'Upload Failed',
+          message: error.error || 'Failed to upload image'
+        })
+      }
+    } catch (error) {
+      console.error('Error uploading image:', error)
+      setDialog({
+        isOpen: true,
+        type: 'error',
+        title: 'Upload Error',
+        message: 'An error occurred while uploading the image'
+      })
+    } finally {
+      setUploadingImages(prev => ({ ...prev, [fieldName]: false }))
+    }
+  }
+
   if (isLoading) {
     return (
       <div className={styles.container}>
@@ -594,14 +658,17 @@ export default function ProductEditPage() {
             <h3 className={styles.sectionTitle}>📷 Product Images</h3>
             <div className={styles.formRow}>
               <div className={styles.formGroup}>
-                <label className={styles.label}>Main Image URL</label>
+                <label className={styles.label}>Main Image</label>
                 <input
-                  type="url"
-                  value={formData.main_image_url || ''}
-                  onChange={(e) => setFormData({...formData, main_image_url: e.target.value})}
+                  type="file"
+                  accept="image/*"
+                  onChange={(e) => handleImageUpload(e, 'main_image_url')}
                   className={styles.input}
-                  placeholder="Paste Dropbox or direct image URL"
+                  disabled={uploadingImages['main_image_url']}
                 />
+                {uploadingImages['main_image_url'] && (
+                  <p style={{ color: '#666', fontSize: '14px', marginTop: '5px' }}>Uploading...</p>
+                )}
                 {formData.main_image_url && (
                   <div className={styles.imagePreview}>
                     <Image
@@ -611,19 +678,37 @@ export default function ProductEditPage() {
                       height={100}
                       className={styles.previewImage}
                     />
+                    <button
+                      type="button"
+                      onClick={() => setFormData({...formData, main_image_url: ''})}
+                      style={{ 
+                        marginTop: '5px', 
+                        padding: '5px 10px',
+                        background: '#dc3545',
+                        color: 'white',
+                        border: 'none',
+                        borderRadius: '4px',
+                        cursor: 'pointer'
+                      }}
+                    >
+                      Remove
+                    </button>
                   </div>
                 )}
               </div>
 
               <div className={styles.formGroup}>
-                <label className={styles.label}>Other Image URL 1</label>
+                <label className={styles.label}>Other Image 1</label>
                 <input
-                  type="url"
-                  value={formData.other_image_url_1 || ''}
-                  onChange={(e) => setFormData({...formData, other_image_url_1: e.target.value})}
+                  type="file"
+                  accept="image/*"
+                  onChange={(e) => handleImageUpload(e, 'other_image_url_1')}
                   className={styles.input}
-                  placeholder="Paste Dropbox or direct image URL"
+                  disabled={uploadingImages['other_image_url_1']}
                 />
+                {uploadingImages['other_image_url_1'] && (
+                  <p style={{ color: '#666', fontSize: '14px', marginTop: '5px' }}>Uploading...</p>
+                )}
                 {formData.other_image_url_1 && (
                   <div className={styles.imagePreview}>
                     <Image
@@ -633,19 +718,37 @@ export default function ProductEditPage() {
                       height={100}
                       className={styles.previewImage}
                     />
+                    <button
+                      type="button"
+                      onClick={() => setFormData({...formData, other_image_url_1: ''})}
+                      style={{ 
+                        marginTop: '5px', 
+                        padding: '5px 10px',
+                        background: '#dc3545',
+                        color: 'white',
+                        border: 'none',
+                        borderRadius: '4px',
+                        cursor: 'pointer'
+                      }}
+                    >
+                      Remove
+                    </button>
                   </div>
                 )}
               </div>
 
               <div className={styles.formGroup}>
-                <label className={styles.label}>Other Image URL 2</label>
+                <label className={styles.label}>Other Image 2</label>
                 <input
-                  type="url"
-                  value={formData.other_image_url_2 || ''}
-                  onChange={(e) => setFormData({...formData, other_image_url_2: e.target.value})}
+                  type="file"
+                  accept="image/*"
+                  onChange={(e) => handleImageUpload(e, 'other_image_url_2')}
                   className={styles.input}
-                  placeholder="Paste Dropbox or direct image URL"
+                  disabled={uploadingImages['other_image_url_2']}
                 />
+                {uploadingImages['other_image_url_2'] && (
+                  <p style={{ color: '#666', fontSize: '14px', marginTop: '5px' }}>Uploading...</p>
+                )}
                 {formData.other_image_url_2 && (
                   <div className={styles.imagePreview}>
                     <Image
@@ -655,6 +758,21 @@ export default function ProductEditPage() {
                       height={100}
                       className={styles.previewImage}
                     />
+                    <button
+                      type="button"
+                      onClick={() => setFormData({...formData, other_image_url_2: ''})}
+                      style={{ 
+                        marginTop: '5px', 
+                        padding: '5px 10px',
+                        background: '#dc3545',
+                        color: 'white',
+                        border: 'none',
+                        borderRadius: '4px',
+                        cursor: 'pointer'
+                      }}
+                    >
+                      Remove
+                    </button>
                   </div>
                 )}
               </div>
@@ -662,14 +780,17 @@ export default function ProductEditPage() {
 
             <div className={styles.formRow}>
               <div className={styles.formGroup}>
-                <label className={styles.label}>Other Image URL 3</label>
+                <label className={styles.label}>Other Image 3</label>
                 <input
-                  type="url"
-                  value={formData.other_image_url_3 || ''}
-                  onChange={(e) => setFormData({...formData, other_image_url_3: e.target.value})}
+                  type="file"
+                  accept="image/*"
+                  onChange={(e) => handleImageUpload(e, 'other_image_url_3')}
                   className={styles.input}
-                  placeholder="Paste Dropbox or direct image URL"
+                  disabled={uploadingImages['other_image_url_3']}
                 />
+                {uploadingImages['other_image_url_3'] && (
+                  <p style={{ color: '#666', fontSize: '14px', marginTop: '5px' }}>Uploading...</p>
+                )}
                 {formData.other_image_url_3 && (
                   <div className={styles.imagePreview}>
                     <Image
@@ -679,19 +800,37 @@ export default function ProductEditPage() {
                       height={100}
                       className={styles.previewImage}
                     />
+                    <button
+                      type="button"
+                      onClick={() => setFormData({...formData, other_image_url_3: ''})}
+                      style={{ 
+                        marginTop: '5px', 
+                        padding: '5px 10px',
+                        background: '#dc3545',
+                        color: 'white',
+                        border: 'none',
+                        borderRadius: '4px',
+                        cursor: 'pointer'
+                      }}
+                    >
+                      Remove
+                    </button>
                   </div>
                 )}
               </div>
 
               <div className={styles.formGroup}>
-                <label className={styles.label}>Other Image URL 4</label>
+                <label className={styles.label}>Other Image 4</label>
                 <input
-                  type="url"
-                  value={formData.other_image_url_4 || ''}
-                  onChange={(e) => setFormData({...formData, other_image_url_4: e.target.value})}
+                  type="file"
+                  accept="image/*"
+                  onChange={(e) => handleImageUpload(e, 'other_image_url_4')}
                   className={styles.input}
-                  placeholder="Paste Dropbox or direct image URL"
+                  disabled={uploadingImages['other_image_url_4']}
                 />
+                {uploadingImages['other_image_url_4'] && (
+                  <p style={{ color: '#666', fontSize: '14px', marginTop: '5px' }}>Uploading...</p>
+                )}
                 {formData.other_image_url_4 && (
                   <div className={styles.imagePreview}>
                     <Image
@@ -701,6 +840,21 @@ export default function ProductEditPage() {
                       height={100}
                       className={styles.previewImage}
                     />
+                    <button
+                      type="button"
+                      onClick={() => setFormData({...formData, other_image_url_4: ''})}
+                      style={{ 
+                        marginTop: '5px', 
+                        padding: '5px 10px',
+                        background: '#dc3545',
+                        color: 'white',
+                        border: 'none',
+                        borderRadius: '4px',
+                        cursor: 'pointer'
+                      }}
+                    >
+                      Remove
+                    </button>
                   </div>
                 )}
               </div>
