@@ -101,10 +101,6 @@ export default function BannerShowcase() {
             ))}
           </div>
 
-          {/* Counter */}
-          <div className={styles.counter}>
-            {currentBanner + 1} / {banners.length}
-          </div>
         </div>
 
         {/* Thumbnail Preview (Hidden on Mobile) */}
