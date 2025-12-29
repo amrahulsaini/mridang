@@ -1,5 +1,6 @@
 ﻿import TopBanner from './components/TopBanner';
 import Header from './components/Header';
+import BannerShowcase from './components/BannerShowcase';
 import HeroSection from './components/HeroSection';
 import ProductMarquee from './components/ProductMarquee';
 import ProductGridWrapper from './components/ProductGridWrapper';
@@ -26,6 +27,7 @@ export default async function Home() {
     <div className="min-h-screen bg-cream">
       <TopBanner />
       <Header />
+      <BannerShowcase />
       <HeroSection />
       <ProductMarquee />
 
