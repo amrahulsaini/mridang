@@ -8,6 +8,14 @@ interface CategoryData {
   arrange_order?: number
 }
 
+interface CountResult {
+  count: number
+}
+
+interface MaxOrderResult {
+  max_order: number
+}
+
 // GET - Fetch all categories
 export async function GET() {
   try {
@@ -47,9 +55,38 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    const result = await query(`
-      INSERT INTO Categories (category_name, arrange_order) VALUES (?, ?)
-    `, [category_name, Number.isFinite(arrange_order) ? arrange_order : 0])
+    const requestedOrder = Number.isFinite(arrange_order) ? Number(arrange_order) : null
+
+    let finalOrder: number
+    if (requestedOrder == null) {
+      const maxRows = (await query(
+        'SELECT COALESCE(MAX(arrange_order), 0) AS max_order FROM Categories'
+      )) as MaxOrderResult[]
+      finalOrder = Number(maxRows?.[0]?.max_order ?? 0) + 1
+    } else {
+      if (requestedOrder < 1) {
+        return NextResponse.json(
+          { error: 'Sort order must be 1 or higher' },
+          { status: 400 }
+        )
+      }
+      const dupRows = (await query(
+        'SELECT COUNT(*) AS count FROM Categories WHERE arrange_order = ?'
+        , [requestedOrder]
+      )) as CountResult[]
+      if (Number(dupRows?.[0]?.count ?? 0) > 0) {
+        return NextResponse.json(
+          { error: `Sort order ${requestedOrder} is already used by another category` },
+          { status: 400 }
+        )
+      }
+      finalOrder = requestedOrder
+    }
+
+    const result = await query(
+      'INSERT INTO Categories (category_name, arrange_order) VALUES (?, ?)',
+      [category_name, finalOrder]
+    )
 
     return NextResponse.json({
       success: true,
@@ -78,9 +115,36 @@ export async function PUT(request: NextRequest) {
       )
     }
 
-    await query(`
-      UPDATE Categories SET category_name = ?, arrange_order = ? WHERE category_id = ?
-    `, [category_name, Number.isFinite(arrange_order) ? arrange_order : 0, category_id])
+    const requestedOrder = Number.isFinite(arrange_order) ? Number(arrange_order) : null
+
+    if (requestedOrder != null) {
+      if (requestedOrder < 1) {
+        return NextResponse.json(
+          { error: 'Sort order must be 1 or higher' },
+          { status: 400 }
+        )
+      }
+      const dupRows = (await query(
+        'SELECT COUNT(*) AS count FROM Categories WHERE arrange_order = ? AND category_id <> ?'
+        , [requestedOrder, category_id]
+      )) as CountResult[]
+      if (Number(dupRows?.[0]?.count ?? 0) > 0) {
+        return NextResponse.json(
+          { error: `Sort order ${requestedOrder} is already used by another category` },
+          { status: 400 }
+        )
+      }
+
+      await query(
+        'UPDATE Categories SET category_name = ?, arrange_order = ? WHERE category_id = ?',
+        [category_name, requestedOrder, category_id]
+      )
+    } else {
+      await query(
+        'UPDATE Categories SET category_name = ? WHERE category_id = ?',
+        [category_name, category_id]
+      )
+    }
 
     return NextResponse.json({
       success: true,

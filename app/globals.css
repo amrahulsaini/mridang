@@ -532,18 +532,23 @@ textarea {
   color: inherit;
   background: transparent;
   border: none;
-  border-radius: 18px;
+  border-radius: 9999px;
   padding: 0;
 }
 
 .product-marquee-thumb {
   position: relative;
   width: 220px;
-  height: 220px;
-  border-radius: 18px;
-  overflow: visible;
+  height: 200px;
+  border-radius: 9999px;
+  overflow: hidden;
   border: 1px solid rgba(229, 231, 235, 1);
   background: rgba(255, 255, 255, 0.92);
+}
+
+.product-marquee-image {
+  object-fit: cover;
+  object-position: center;
 }
 
 @media (max-width: 480px) {
@@ -555,7 +560,7 @@ textarea {
   }
   .product-marquee-thumb {
     width: 144px;
-    height: 144px;
+    height: 132px;
   }
 }
 

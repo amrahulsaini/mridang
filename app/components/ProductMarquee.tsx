@@ -48,7 +48,7 @@ export default function ProductMarquee() {
                   alt={p.name}
                   fill
                   sizes="220px"
-                  className="object-contain"
+                  className="product-marquee-image"
                 />
               </div>
             </Link>

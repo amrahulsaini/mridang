@@ -8,7 +8,7 @@ export default function NewCategoryPage() {
   const router = useRouter()
   const [formData, setFormData] = useState({
     category_name: '',
-    arrange_order: 0
+    arrange_order: 1
   })
   const [isSaving, setIsSaving] = useState(false)
   
@@ -147,7 +147,7 @@ export default function NewCategoryPage() {
                   required
                 />
                 <small className={styles.helpText}>
-                  Lower number shows first on the homepage.
+                  Must be unique. Lower number shows first on the homepage.
                 </small>
               </div>
             </div>

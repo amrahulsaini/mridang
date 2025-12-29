@@ -88,14 +88,6 @@
   transform: scale(1.05);
 }
 
-/* Fix mobile cropping */
-@media (max-width: 768px) {
-  .bannerImage {
-    object-fit: contain;
-    background: #000;
-  }
-}
-
 .gradientOverlay {
   position: absolute;
   inset: 0;
@@ -110,7 +102,7 @@
 
 /* Dot Indicators */
 .indicators {
-  position:10absolute;
+  position: absolute;
   bottom: 20px;
   left: 50%;
   transform: translateX(-50%);

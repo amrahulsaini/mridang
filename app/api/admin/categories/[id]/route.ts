@@ -12,6 +12,10 @@ interface ProductCountResult {
   count: number
 }
 
+interface CountResult {
+  count: number
+}
+
 // GET - Fetch single category
 export async function GET(
   request: NextRequest,
@@ -68,9 +72,36 @@ export async function PUT(
 
     console.log('Updating category:', categoryId, 'with data:', categoryData);
 
-    await query(`
-      UPDATE Categories SET category_name = ?, arrange_order = ? WHERE category_id = ?
-    `, [category_name, Number.isFinite(arrange_order) ? arrange_order : 0, categoryId])
+    const requestedOrder = Number.isFinite(arrange_order) ? Number(arrange_order) : null
+    if (requestedOrder != null) {
+      if (requestedOrder < 1) {
+        return NextResponse.json(
+          { error: 'Sort order must be 1 or higher' },
+          { status: 400 }
+        )
+      }
+
+      const dupRows = (await query(
+        'SELECT COUNT(*) AS count FROM Categories WHERE arrange_order = ? AND category_id <> ?'
+        , [requestedOrder, categoryId]
+      )) as CountResult[]
+      if (Number(dupRows?.[0]?.count ?? 0) > 0) {
+        return NextResponse.json(
+          { error: `Sort order ${requestedOrder} is already used by another category` },
+          { status: 400 }
+        )
+      }
+
+      await query(
+        'UPDATE Categories SET category_name = ?, arrange_order = ? WHERE category_id = ?',
+        [category_name, requestedOrder, categoryId]
+      )
+    } else {
+      await query(
+        'UPDATE Categories SET category_name = ? WHERE category_id = ?',
+        [category_name, categoryId]
+      )
+    }
 
     return NextResponse.json({
       success: true,

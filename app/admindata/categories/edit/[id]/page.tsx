@@ -275,7 +275,7 @@ export default function EditCategoryPage() {
                   required
                 />
                 <small className={styles.helpText}>
-                  Lower number shows first on the homepage.
+                  Must be unique. Lower number shows first on the homepage.
                 </small>
               </div>
             </div>
