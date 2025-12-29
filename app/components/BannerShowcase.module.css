@@ -43,11 +43,20 @@
 
 .bannerImage {
   object-fit: cover;
+  object-position: center;
   transition: transform 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
 .bannerSlide:hover .bannerImage {
   transform: scale(1.02);
+}
+
+/* Fix mobile cropping */
+@media (max-width: 768px) {
+  .bannerImage {
+    object-fit: contain;
+    background: #000;
+  }
 }
 
 .gradientOverlay {
@@ -59,49 +68,6 @@
     transparent 50%
   );
   pointer-events: none;
-}
-
-/* Navigation Buttons */
-.navButton {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  background: rgba(255, 255, 255, 0.95);
-  border: none;
-  width: 50px;
-  height: 50px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  z-index: 10;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-}
-
-.navButton:hover {
-  background: white;
-  transform: translateY(-50%) scale(1.1);
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
-}
-
-.navButton:active {
-  transform: translateY(-50%) scale(0.95);
-}
-
-.navButton svg {
-  width: 24px;
-  height: 24px;
-  color: #333;
-}
-
-.navButtonPrev {
-  left: 20px;
-}
-
-.navButtonNext {
-  right: 20px;
 }
 
 /* Dot Indicators */
@@ -139,10 +105,7 @@
 
 /* Thumbnail Preview */
 .thumbnailsWrapper {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 1rem;
-  margin-top: 1.5rem;
+  display: none;
 }
 
 .thumbnail {
@@ -188,16 +151,6 @@
     border-radius: 0;
   }
 
-  .navButton {
-    width: 45px;
-    height: 45px;
-  }
-
-  .navButton svg {
-    width: 20px;
-    height: 20px;
-  }
-
   .thumbnailsWrapper {
     grid-template-columns: repeat(4, 1fr);
     gap: 0.75rem;
@@ -222,24 +175,6 @@
     height: 280px;
     border-radius: 0;
     margin-bottom: 0;
-  }
-
-  .navButton {
-    width: 36px;
-    height: 36px;
-  }
-
-  .navButton svg {
-    width: 18px;
-    height: 18px;
-  }
-
-  .navButtonPrev {
-    left: 10px;
-  }
-
-  .navButtonNext {
-    right: 10px;
   }
 
   .indicators {

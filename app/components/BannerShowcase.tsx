@@ -19,7 +19,7 @@ export default function BannerShowcase() {
 
     const interval = setInterval(() => {
       setCurrentBanner((prev) => (prev + 1) % banners.length)
-    }, 5000) // Change banner every 5 seconds
+    }, 3000) // Change banner every 3 seconds
 
     return () => clearInterval(interval)
   }, [isAutoPlaying])
@@ -65,27 +65,6 @@ export default function BannerShowcase() {
               </div>
             ))}
           </div>
-
-          {/* Navigation Arrows */}
-          <button 
-            onClick={goToPrevious}
-            className={`${styles.navButton} ${styles.navButtonPrev}`}
-            aria-label="Previous banner"
-          >
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3">
-              <path d="M15 18l-6-6 6-6" strokeLinecap="round" strokeLinejoin="round" />
-            </svg>
-          </button>
-          
-          <button 
-            onClick={goToNext}
-            className={`${styles.navButton} ${styles.navButtonNext}`}
-            aria-label="Next banner"
-          >
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3">
-              <path d="M9 18l6-6-6-6" strokeLinecap="round" strokeLinejoin="round" />
-            </svg>
-          </button>
 
           {/* Dot Indicators */}
           <div className={styles.indicators}>
