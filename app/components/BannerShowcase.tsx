@@ -13,12 +13,17 @@ const banners = [
 export default function BannerShowcase() {
   const [currentBanner, setCurrentBanner] = useState(0)
   const [isAutoPlaying, setIsAutoPlaying] = useState(true)
+  const [isTransitioning, setIsTransitioning] = useState(false)
 
   useEffect(() => {
     if (!isAutoPlaying) return
 
     const interval = setInterval(() => {
-      setCurrentBanner((prev) => (prev + 1) % banners.length)
+      setIsTransitioning(true)
+      setTimeout(() => {
+        setCurrentBanner((prev) => (prev + 1) % banners.length)
+        setIsTransitioning(false)
+      }, 600) // Half of transition time for smooth crossfade
     }, 3000) // Change banner every 3 seconds
 
     return () => clearInterval(interval)
@@ -35,8 +40,12 @@ export default function BannerShowcase() {
   }
 
   const goToSlide = (index: number) => {
-    setCurrentBanner(index)
-    setIsAutoPlaying(false)
+    setIsTransitioning(true)
+    setTimeout(() => {
+      setCurrentBanner(index)
+      setIsAutoPlaying(false)
+      setIsTransitioning(false)
+    }, 600)
   }
 
   return (
@@ -44,12 +53,14 @@ export default function BannerShowcase() {
       <div className={styles.container}>
         {/* Main Banner Display */}
         <div className={styles.bannerWrapper}>
-          <div 
-            className={styles.bannersTrack}
-            style={{ transform: `translateX(-${currentBanner * 100}%)` }}
-          >
+          <div className={styles.bannersTrack}>
             {banners.map((banner, index) => (
-              <div key={index} className={styles.bannerSlide}>
+              <div 
+                key={index} 
+                className={`${styles.bannerSlide} ${
+                  index === currentBanner ? styles.bannerSlideActive : ''
+                } ${isTransitioning ? styles.bannerSlideTransitioning : ''}`}
+              >
                 <div className={styles.imageWrapper}>
                   <Image
                     src={banner}
