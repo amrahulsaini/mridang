@@ -62,6 +62,7 @@ export default function BannerShowcase() {
                 </div>
               </div>
             ))}
+          </div>
 
           <div className={styles.gradientOverlay} />
 
@@ -78,28 +79,6 @@ export default function BannerShowcase() {
               />
             ))}
           </div>
-
-        </div>
-
-        {/* Thumbnail Preview (Hidden on Mobile) */}
-        <div className={styles.thumbnailsWrapper}>
-          {banners.map((banner, index) => (
-            <button
-              key={index}
-              onClick={() => goToSlide(index)}
-              className={`${styles.thumbnail} ${
-                index === currentBanner ? styles.thumbnailActive : ''
-              }`}
-            >
-              <Image
-                src={banner}
-                alt={`Thumbnail ${index + 1}`}
-                fill
-                className={styles.thumbnailImage}
-                sizes="150px"
-              />
-            </button>
-          ))}
         </div>
       </div>
     </section>
