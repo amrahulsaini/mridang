@@ -5,6 +5,7 @@ import mysql from 'mysql2/promise'
 interface CategoryData {
   category_id?: number
   category_name: string
+  arrange_order?: number
 }
 
 // GET - Fetch all categories
@@ -13,12 +14,14 @@ export async function GET() {
 
     const categories = await query(`
       SELECT
-        c.*,
+        c.category_id,
+        c.category_name,
+        c.arrange_order,
         COUNT(p.id) as product_count
       FROM Categories c
       LEFT JOIN Products p ON c.category_id = p.category_id
-      GROUP BY c.category_id, c.category_name
-      ORDER BY c.category_name
+      GROUP BY c.category_id, c.category_name, c.arrange_order
+      ORDER BY c.arrange_order ASC, c.category_name ASC
     `)
 
     return NextResponse.json(categories)
@@ -35,7 +38,7 @@ export async function GET() {
 export async function POST(request: NextRequest) {
   try {
     const categoryData: CategoryData = await request.json()
-    const { category_name } = categoryData
+    const { category_name, arrange_order } = categoryData
 
     if (!category_name) {
       return NextResponse.json(
@@ -45,8 +48,8 @@ export async function POST(request: NextRequest) {
     }
 
     const result = await query(`
-      INSERT INTO Categories (category_name) VALUES (?)
-    `, [category_name])
+      INSERT INTO Categories (category_name, arrange_order) VALUES (?, ?)
+    `, [category_name, Number.isFinite(arrange_order) ? arrange_order : 0])
 
     return NextResponse.json({
       success: true,
@@ -66,7 +69,7 @@ export async function POST(request: NextRequest) {
 export async function PUT(request: NextRequest) {
   try {
     const categoryData: CategoryData = await request.json()
-    const { category_id, category_name } = categoryData
+    const { category_id, category_name, arrange_order } = categoryData
 
     if (!category_id || !category_name) {
       return NextResponse.json(
@@ -76,8 +79,8 @@ export async function PUT(request: NextRequest) {
     }
 
     await query(`
-      UPDATE Categories SET category_name = ? WHERE category_id = ?
-    `, [category_name, category_id])
+      UPDATE Categories SET category_name = ?, arrange_order = ? WHERE category_id = ?
+    `, [category_name, Number.isFinite(arrange_order) ? arrange_order : 0, category_id])
 
     return NextResponse.json({
       success: true,

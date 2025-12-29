@@ -179,20 +179,23 @@ const Header = () => {
 
       {/* Desktop header */}
       <div className="container hidden-mobile">
-        <div className="header-content flex items-center justify-between gap-3">
-          <Link href="/" className="logo-container" aria-label="Mridang Home">
-            <div className="logo-image">
-              <Image
-                src="/logo.png"
-                alt="Mridang Logo"
-                fill
-                className="object-contain"
-                priority
-              />
-            </div>
-          </Link>
+        <div className="header-content desktop-header">
+          <div className="desktop-header-left">
+            <Link href="/" className="logo-container" aria-label="Mridang Home">
+              <div className="logo-image">
+                <Image
+                  src="/logo.png"
+                  alt="Mridang Logo"
+                  fill
+                  className="object-contain"
+                  priority
+                />
+              </div>
+            </Link>
+          </div>
 
-          <nav className="flex items-center gap-6 flex-wrap">
+          <div className="desktop-header-center">
+            <nav className="flex items-center gap-6 flex-wrap">
             {navItems.map((item) => (
               <Link 
                 key={item.key}
@@ -233,37 +236,40 @@ const Header = () => {
                 </div>
               )}
             </div>
-          </nav>
+            </nav>
+          </div>
 
-          {/* Search Bar - Desktop */}
-          <form onSubmit={handleSearch} className="search-container" aria-label="Search">
-            <Search className="search-icon" size={20} />
-            <input
-              type="text"
-              placeholder="Search products..."
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              onKeyPress={handleSearchKeyPress}
-              className="search-input"
-            />
-          </form>
+          <div className="desktop-header-right">
+            {/* Search Bar - Desktop */}
+            <form onSubmit={handleSearch} className="search-container" aria-label="Search">
+              <Search className="search-icon" size={20} />
+              <input
+                type="text"
+                placeholder="Search products..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                onKeyPress={handleSearchKeyPress}
+                className="search-input"
+              />
+            </form>
 
-          {/* Cart Section */}
-          <div className="flex items-center gap-2 flex-shrink-0">
-            <div className="flex items-center gap-2">
-              <Link
-                href="/cart"
-                className="btn btn-primary inline-flex relative whitespace-nowrap"
-              >
-                <ShoppingCart size={18} />
-                {state.totalItems === 0 ? (
-                  <span className="text-sm">Cart</span>
-                ) : (
-                  <span className="bg-red-600 text-white rounded-full text-xs px-2 py-1 font-bold min-w-[1.5rem] text-center">
-                    {state.totalItems}
-                  </span>
-                )}
-              </Link>
+            {/* Cart Section */}
+            <div className="flex items-center gap-2 flex-shrink-0">
+              <div className="flex items-center gap-2">
+                <Link
+                  href="/cart"
+                  className="btn btn-primary inline-flex relative whitespace-nowrap"
+                >
+                  <ShoppingCart size={18} />
+                  {state.totalItems === 0 ? (
+                    <span className="text-sm">Cart</span>
+                  ) : (
+                    <span className="bg-red-600 text-white rounded-full text-xs px-2 py-1 font-bold min-w-[1.5rem] text-center">
+                      {state.totalItems}
+                    </span>
+                  )}
+                </Link>
+              </div>
             </div>
           </div>
         </div>

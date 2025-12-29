@@ -5,6 +5,7 @@ interface CategoryData {
   category_id?: number
   category_name: string
   product_count?: number
+  arrange_order?: number
 }
 
 interface ProductCountResult {
@@ -21,12 +22,14 @@ export async function GET(
 
     const categories = await query(`
       SELECT
-        c.*,
+        c.category_id,
+        c.category_name,
+        c.arrange_order,
         COUNT(p.id) as product_count
       FROM Categories c
       LEFT JOIN Products p ON c.category_id = p.category_id
       WHERE c.category_id = ?
-      GROUP BY c.category_id, c.category_name
+      GROUP BY c.category_id, c.category_name, c.arrange_order
     `, [categoryId])
 
     if (!categories || (categories as CategoryData[]).length === 0) {
@@ -54,7 +57,7 @@ export async function PUT(
   try {
     const { id: categoryId } = await params
     const categoryData: CategoryData = await request.json()
-    const { category_name } = categoryData
+    const { category_name, arrange_order } = categoryData
 
     if (!category_name) {
       return NextResponse.json(
@@ -66,8 +69,8 @@ export async function PUT(
     console.log('Updating category:', categoryId, 'with data:', categoryData);
 
     await query(`
-      UPDATE Categories SET category_name = ? WHERE category_id = ?
-    `, [category_name, categoryId])
+      UPDATE Categories SET category_name = ?, arrange_order = ? WHERE category_id = ?
+    `, [category_name, Number.isFinite(arrange_order) ? arrange_order : 0, categoryId])
 
     return NextResponse.json({
       success: true,

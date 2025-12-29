@@ -75,6 +75,7 @@ interface Category {
   category_id: number
   category_name: string
   product_count: number
+  arrange_order?: number
 }
 
 export default function AdminDataPage() {
@@ -220,9 +221,14 @@ export default function AdminDataPage() {
   )
 
   // Filter categories based on search term
-  const filteredCategories = categories.filter(category => 
-    category.category_name.toLowerCase().includes(searchTerm.toLowerCase())
-  )
+  const filteredCategories = categories
+    .filter(category => category.category_name.toLowerCase().includes(searchTerm.toLowerCase()))
+    .sort((a, b) => {
+      const ao = a.arrange_order ?? 0
+      const bo = b.arrange_order ?? 0
+      if (ao !== bo) return ao - bo
+      return a.category_name.localeCompare(b.category_name)
+    })
 
   if (!isAuthenticated) {
     return (
@@ -440,7 +446,7 @@ export default function AdminDataPage() {
                   <div className={styles.categoryInfo}>
                     <h3 className={styles.categoryTitle}>{category.category_name}</h3>
                     <p className={styles.productCount}>
-                      {category.product_count} products
+                      Order: {category.arrange_order ?? 0}  {category.product_count} products
                     </p>
                   </div>
                   

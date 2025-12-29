@@ -7,7 +7,8 @@ import styles from '../../AdminData.module.css'
 export default function NewCategoryPage() {
   const router = useRouter()
   const [formData, setFormData] = useState({
-    category_name: ''
+    category_name: '',
+    arrange_order: 0
   })
   const [isSaving, setIsSaving] = useState(false)
   
@@ -130,6 +131,24 @@ export default function NewCategoryPage() {
                   placeholder="Enter category name (e.g., Engagement Rings, Wedding Platters)"
                   required
                 />
+              </div>
+            </div>
+
+            <div className={styles.formRow}>
+              <div className={styles.formGroup} style={{ gridColumn: 'span 3' }}>
+                <label className={styles.label}>Sort Order (Homepage) *</label>
+                <input
+                  type="number"
+                  value={formData.arrange_order}
+                  onChange={(e) => setFormData({ ...formData, arrange_order: Number(e.target.value) })}
+                  className={styles.input}
+                  min={0}
+                  step={1}
+                  required
+                />
+                <small className={styles.helpText}>
+                  Lower number shows first on the homepage.
+                </small>
               </div>
             </div>
 

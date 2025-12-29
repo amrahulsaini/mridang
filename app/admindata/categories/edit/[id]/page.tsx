@@ -8,6 +8,7 @@ interface Category {
   category_id: number
   category_name: string
   product_count: number
+  arrange_order?: number
 }
 
 export default function EditCategoryPage() {
@@ -258,6 +259,24 @@ export default function EditCategoryPage() {
                   className={`${styles.input} ${styles.readOnly}`}
                   style={{ backgroundColor: '#f5f5f5', cursor: 'not-allowed' }}
                 />
+              </div>
+            </div>
+
+            <div className={styles.formRow}>
+              <div className={styles.formGroup} style={{ gridColumn: 'span 3' }}>
+                <label className={styles.label}>Sort Order (Homepage) *</label>
+                <input
+                  type="number"
+                  value={formData.arrange_order ?? 0}
+                  onChange={(e) => setFormData({ ...formData, arrange_order: Number(e.target.value) })}
+                  className={styles.input}
+                  min={0}
+                  step={1}
+                  required
+                />
+                <small className={styles.helpText}>
+                  Lower number shows first on the homepage.
+                </small>
               </div>
             </div>
 
