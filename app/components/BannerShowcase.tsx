@@ -19,7 +19,7 @@ export default function BannerShowcase() {
 
     const interval = setInterval(() => {
       setCurrentBanner((prev) => (prev + 1) % banners.length)
-    }, 4000) // Change banner every 4 seconds
+    }, 3000) // Change banner every 3 seconds
 
     return () => clearInterval(interval)
   }, [isAutoPlaying])
@@ -44,23 +44,24 @@ export default function BannerShowcase() {
       <div className={styles.container}>
         {/* Main Banner Display */}
         <div className={styles.bannerWrapper}>
-          {banners.map((banner, index) => (
-            <div
-              key={index}
-              className={`${styles.slide} ${
-                index === currentBanner ? styles.slideActive : ''
-              }`}
-            >
-              <Image
-                src={banner}
-                alt={`Featured banner ${index + 1}`}
-                fill
-                priority={index === 0}
-                className={styles.bannerImage}
-                sizes="100vw"
-              />
-            </div>
-          ))}
+          <div 
+            className={styles.bannersTrack}
+            style={{ transform: `translateX(-${currentBanner * 100}%)` }}
+          >
+            {banners.map((banner, index) => (
+              <div key={index} className={styles.bannerSlide}>
+                <div className={styles.imageWrapper}>
+                  <Image
+                    src={banner}
+                    alt={`Featured banner ${index + 1}`}
+                    fill
+                    priority={index === 0}
+                    className={styles.bannerImage}
+                    sizes="100vw"
+                  />
+                </div>
+              </div>
+            ))}
 
           <div className={styles.gradientOverlay} />
 
