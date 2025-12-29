@@ -12,26 +12,17 @@ const banners = [
 
 export default function BannerShowcase() {
   const [currentBanner, setCurrentBanner] = useState(0)
-  const [nextBanner, setNextBanner] = useState(1)
   const [isAutoPlaying, setIsAutoPlaying] = useState(true)
-  const [isAnimating, setIsAnimating] = useState(false)
 
   useEffect(() => {
     if (!isAutoPlaying) return
 
     const interval = setInterval(() => {
-      setIsAnimating(true)
-      const next = (currentBanner + 1) % banners.length
-      setNextBanner(next)
-      
-      setTimeout(() => {
-        setCurrentBanner(next)
-        setIsAnimating(false)
-      }, 1500) // Animation duration
-    }, 3000) // Change banner every 3 seconds
+      setCurrentBanner((prev) => (prev + 1) % banners.length)
+    }, 4000) // Change banner every 4 seconds
 
     return () => clearInterval(interval)
-  }, [isAutoPlaying, currentBanner])
+  }, [isAutoPlaying])
 
   const goToNext = () => {
     setCurrentBanner((prev) => (prev + 1) % banners.length)
@@ -44,16 +35,8 @@ export default function BannerShowcase() {
   }
 
   const goToSlide = (index: number) => {
-    if (index === currentBanner || isAnimating) return
-    
-    setIsAnimating(true)
-    setNextBanner(index)
+    setCurrentBanner(index)
     setIsAutoPlaying(false)
-    
-    setTimeout(() => {
-      setCurrentBanner(index)
-      setIsAnimating(false)
-    }, 1500)
   }
 
   return (
@@ -61,40 +44,23 @@ export default function BannerShowcase() {
       <div className={styles.container}>
         {/* Main Banner Display */}
         <div className={styles.bannerWrapper}>
-          {/* Current Banner */}
-          <div className={`${styles.bannerLayer} ${isAnimating ? styles.bannerLayerExit : ''}`}>
-            <div className={styles.imageWrapper}>
+          {banners.map((banner, index) => (
+            <div
+              key={index}
+              className={`${styles.slide} ${
+                index === currentBanner ? styles.slideActive : ''
+              }`}
+            >
               <Image
-                src={banners[currentBanner]}
-                alt={`Featured banner ${currentBanner + 1}`}
+                src={banner}
+                alt={`Featured banner ${index + 1}`}
                 fill
-                priority
+                priority={index === 0}
                 className={styles.bannerImage}
                 sizes="100vw"
               />
             </div>
-          </div>
-
-          {/* Next Banner (during transition) */}
-          {isAnimating && (
-            <div className={styles.bannerLayer}>
-              <div className={styles.imageWrapper}>
-                <Image
-                  src={banners[nextBanner]}
-                  alt={`Featured banner ${nextBanner + 1}`}
-                  fill
-                  className={styles.bannerImage}
-                  sizes="100vw"
-                />
-              </div>
-              {/* Pixel Grid Overlay */}
-              <div className={styles.pixelGrid}>
-                {Array.from({ length: 100 }).map((_, i) => (
-                  <div key={i} className={styles.pixelTile} style={{ '--delay': `${i * 0.01}s` } as React.CSSProperties} />
-                ))}
-              </div>
-            </div>
-          )}
+          ))}
 
           <div className={styles.gradientOverlay} />
 
