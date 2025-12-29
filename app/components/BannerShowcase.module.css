@@ -22,32 +22,104 @@
   background: #000;
 }
 
-.bannersTrack {
-  display: flex;
-  height: 100%;
-  position: relative;
-}
-
-.bannerSlide {
+.bannerLayer {
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  opacity: 0;
-  transform: scale(1.1);
-  transition: all 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-  z-index: 0;
-}
-
-.bannerSlideActive {
-  opacity: 1;
-  transform: scale(1);
   z-index: 1;
 }
 
-.bannerSlideTransitioning {
-  transform: scale(0.95);
+.bannerLayerExit {
+  animation: scaleBlur 1.5s cubic-bezier(0.645, 0.045, 0.355, 1) forwards;
+  z-index: 0;
+}
+
+@keyframes scaleBlur {
+  0% {
+    transform: scale(1);
+    filter: blur(0px) brightness(1);
+  }
+  100% {
+    transform: scale(0.8);
+    filter: blur(20px) brightness(0.7);
+    opacity: 0;
+  }
+}
+
+.bannerWrapper {
+  position: relative;
+  width: 100%;
+  height: 500px;
+  border-radius: 0;
+  overflow: hidden;
+  box-shadow: none;
+  margin-bottom: 0;
+  background: #000;
+}
+
+.bannerLayer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+}
+
+.bannerLayerExit {
+  animation: scaleBlur 1.5s cubic-bezier(0.645, 0.045, 0.355, 1) forwards;
+  z-index: 0;
+}
+
+@keyframes scaleBlur {
+  0% {
+    transform: scale(1);
+    filter: blur(0px) brightness(1);
+  }
+  100% {
+    transform: scale(0.8);
+    filter: blur(20px) brightness(0.7);
+    opacity: 0;
+  }
+}
+
+.pixelGrid {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: grid;
+  grid-template-columns: repeat(10, 1fr);
+  grid-template-rows: repeat(10, 1fr);
+  z-index: 2;
+  pointer-events: none;
+}
+
+.pixelTile {
+  background: linear-gradient(135deg, rgba(255,255,255,0.1) 0%, transparent 100%);
+  animation: pixelReveal 1.5s cubic-bezier(0.215, 0.610, 0.355, 1.000) forwards;
+  animation-delay: var(--delay);
+  transform-origin: center;
+  opacity: 0;
+}
+
+@keyframes pixelReveal {
+  0% {
+    opacity: 1;
+    transform: scale(1.5) rotate(180deg);
+    filter: blur(10px);
+  }
+  50% {
+    opacity: 0.5;
+  }
+  100% {
+    opacity: 0;
+    transform: scale(1) rotate(0deg);
+    filter: blur(0px);
+  }
 }
 
 .imageWrapper {
@@ -60,24 +132,6 @@
 .bannerImage {
   object-fit: cover;
   object-position: center;
-  transition: transform 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-}
-
-.bannerSlideActive .bannerImage {
-  animation: zoomIn 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
-}
-
-@keyframes zoomIn {
-  from {
-    transform: scale(1.1);
-  }
-  to {
-    transform: scale(1);
-  }
-}
-
-.bannerSlide:hover .bannerImage {
-  transform: scale(1.02);
 }
 
 /* Fix mobile cropping */
@@ -93,10 +147,11 @@
   inset: 0;
   background: linear-gradient(
     to top,
-    rgba(0, 0, 0, 0.3) 0%,
+    rgba(0, 0, 0, 0.2) 0%,
     transparent 50%
   );
   pointer-events: none;
+  z-index: 3;
 }
 
 /* Dot Indicators */

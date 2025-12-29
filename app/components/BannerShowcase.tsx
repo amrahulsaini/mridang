@@ -12,22 +12,26 @@ const banners = [
 
 export default function BannerShowcase() {
   const [currentBanner, setCurrentBanner] = useState(0)
+  const [nextBanner, setNextBanner] = useState(1)
   const [isAutoPlaying, setIsAutoPlaying] = useState(true)
-  const [isTransitioning, setIsTransitioning] = useState(false)
+  const [isAnimating, setIsAnimating] = useState(false)
 
   useEffect(() => {
     if (!isAutoPlaying) return
 
     const interval = setInterval(() => {
-      setIsTransitioning(true)
+      setIsAnimating(true)
+      const next = (currentBanner + 1) % banners.length
+      setNextBanner(next)
+      
       setTimeout(() => {
-        setCurrentBanner((prev) => (prev + 1) % banners.length)
-        setIsTransitioning(false)
-      }, 600) // Half of transition time for smooth crossfade
+        setCurrentBanner(next)
+        setIsAnimating(false)
+      }, 1500) // Animation duration
     }, 3000) // Change banner every 3 seconds
 
     return () => clearInterval(interval)
-  }, [isAutoPlaying])
+  }, [isAutoPlaying, currentBanner])
 
   const goToNext = () => {
     setCurrentBanner((prev) => (prev + 1) % banners.length)
@@ -40,12 +44,16 @@ export default function BannerShowcase() {
   }
 
   const goToSlide = (index: number) => {
-    setIsTransitioning(true)
+    if (index === currentBanner || isAnimating) return
+    
+    setIsAnimating(true)
+    setNextBanner(index)
+    setIsAutoPlaying(false)
+    
     setTimeout(() => {
       setCurrentBanner(index)
-      setIsAutoPlaying(false)
-      setIsTransitioning(false)
-    }, 600)
+      setIsAnimating(false)
+    }, 1500)
   }
 
   return (
@@ -53,29 +61,42 @@ export default function BannerShowcase() {
       <div className={styles.container}>
         {/* Main Banner Display */}
         <div className={styles.bannerWrapper}>
-          <div className={styles.bannersTrack}>
-            {banners.map((banner, index) => (
-              <div 
-                key={index} 
-                className={`${styles.bannerSlide} ${
-                  index === currentBanner ? styles.bannerSlideActive : ''
-                } ${isTransitioning ? styles.bannerSlideTransitioning : ''}`}
-              >
-                <div className={styles.imageWrapper}>
-                  <Image
-                    src={banner}
-                    alt={`Featured banner ${index + 1}`}
-                    fill
-                    priority={index === 0}
-                    className={styles.bannerImage}
-                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 90vw, 1200px"
-                  />
-                  {/* Gradient Overlay for better text visibility if needed */}
-                  <div className={styles.gradientOverlay} />
-                </div>
-              </div>
-            ))}
+          {/* Current Banner */}
+          <div className={`${styles.bannerLayer} ${isAnimating ? styles.bannerLayerExit : ''}`}>
+            <div className={styles.imageWrapper}>
+              <Image
+                src={banners[currentBanner]}
+                alt={`Featured banner ${currentBanner + 1}`}
+                fill
+                priority
+                className={styles.bannerImage}
+                sizes="100vw"
+              />
+            </div>
           </div>
+
+          {/* Next Banner (during transition) */}
+          {isAnimating && (
+            <div className={styles.bannerLayer}>
+              <div className={styles.imageWrapper}>
+                <Image
+                  src={banners[nextBanner]}
+                  alt={`Featured banner ${nextBanner + 1}`}
+                  fill
+                  className={styles.bannerImage}
+                  sizes="100vw"
+                />
+              </div>
+              {/* Pixel Grid Overlay */}
+              <div className={styles.pixelGrid}>
+                {Array.from({ length: 100 }).map((_, i) => (
+                  <div key={i} className={styles.pixelTile} style={{ '--delay': `${i * 0.01}s` } as React.CSSProperties} />
+                ))}
+              </div>
+            </div>
+          )}
+
+          <div className={styles.gradientOverlay} />
 
           {/* Dot Indicators */}
           <div className={styles.indicators}>
