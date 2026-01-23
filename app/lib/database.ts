@@ -43,6 +43,7 @@ export async function getAllProducts(): Promise<Product[]> {
       SELECT 
         p.id,
         p.pro_id,
+        p.seller_sku_id,
         p.model_name as name,
         p.description,
         COALESCE(pp.cut_price, pp.original_price, 2999) as price,
@@ -77,6 +78,7 @@ export async function getProductsByCategory(categoryName: string): Promise<Produ
       SELECT 
         p.id,
         p.pro_id,
+        p.seller_sku_id,
         p.model_name as name,
         p.description,
         COALESCE(pp.cut_price, pp.original_price, 2999) as price,
