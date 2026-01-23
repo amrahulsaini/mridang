@@ -76,8 +76,9 @@ export async function GET() {
           if (!sku && prod.id) {
             // Try to fetch from Products table
             const result = await query('SELECT seller_sku_id FROM Products WHERE id = ? LIMIT 1', [prod.id]);
-            if (Array.isArray(result) && result.length > 0) {
-              sku = result[0].seller_sku_id || sku;
+            const rows = result as any[];
+            if (Array.isArray(rows) && rows.length > 0) {
+              sku = rows[0].seller_sku_id || sku;
             }
           }
           return { ...prod, seller_sku_id: sku };
