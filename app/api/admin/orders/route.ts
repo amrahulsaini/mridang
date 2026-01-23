@@ -74,12 +74,17 @@ export async function GET() {
         // For each product, fetch the current SKU from Products table
         products = await Promise.all(products.map(async (prod) => {
           let sku = prod.seller_sku_id;
-          if (!sku && prod.id) {
-            // Try to fetch from Products table
-            const result = await query('SELECT seller_sku_id FROM Products WHERE id = ? LIMIT 1', [prod.id]);
-            const rows = result as RowDataPacket[];
-            if (Array.isArray(rows) && rows.length > 0) {
-              sku = rows[0].seller_sku_id || sku;
+          if (!sku) {
+            // Try to fetch from Products table by id or pro_id
+            let result;
+            if (prod.id) {
+              result = await query('SELECT seller_sku_id FROM Products WHERE id = ? OR pro_id = ? LIMIT 1', [prod.id, prod.id]);
+            }
+            if (result) {
+              const rows = result as RowDataPacket[];
+              if (Array.isArray(rows) && rows.length > 0 && rows[0].seller_sku_id) {
+                sku = rows[0].seller_sku_id;
+              }
             }
           }
           return { ...prod, seller_sku_id: sku };
