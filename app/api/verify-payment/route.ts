@@ -5,6 +5,7 @@ import { sendOrderConfirmationEmail, sendAdminOrderNotification } from '@/lib/em
 // Type definitions
 interface CartItem {
   id: string
+  seller_sku_id?: string
   name: string
   price: number
   quantity: number
@@ -131,6 +132,7 @@ export async function POST(request: NextRequest) {
     // Prepare products JSON
     const productsJson = JSON.stringify(orderData.items.map((item: CartItem) => ({
       id: item.id,
+      seller_sku_id: item.seller_sku_id,
       name: item.name,
       price: item.price,
       quantity: item.quantity,

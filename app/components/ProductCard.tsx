@@ -59,6 +59,7 @@ const ProductCard: React.FC<Product & { onInfoClick?: (product: Product) => void
   const handleAddToCart = () => {
     addItem({
       id: cartItemId,
+      seller_sku_id: product.seller_sku_id,
       name: name,
       price: cut_price || original_price || product.price,
       image: productImage,

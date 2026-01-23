@@ -5,6 +5,7 @@ import React, { createContext, useContext, useReducer, ReactNode, useEffect } fr
 // Cart Item interface
 export interface CartItem {
   id: string  // Changed to string to use pro_id
+  seller_sku_id?: string  // Added for seller SKU ID
   name: string
   price: number
   image: string

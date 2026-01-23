@@ -5,6 +5,7 @@ import styles from './AdminOrders.module.css'
 
 interface OrderProduct {
   id: string
+  seller_sku_id?: string
   name: string
   price: number
   quantity: number
@@ -474,6 +475,9 @@ function OrderDetailsModal({
                       )}
                       <div className={styles.productDetails}>
                         <p className={styles.productName}>{product.name}</p>
+                        {product.seller_sku_id && (
+                          <p className={styles.productSku}>SKU: {product.seller_sku_id}</p>
+                        )}
                         <p className={styles.productQuantity}>Quantity: {product.quantity}</p>
                       </div>
                     </div>

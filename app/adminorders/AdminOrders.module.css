@@ -688,6 +688,14 @@
   font-family: 'Sora', sans-serif;
 }
 
+.productSku {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #800020;
+  margin: 0.25rem 0;
+  font-family: 'Sora', sans-serif;
+}
+
 .productModel {
   font-size: 0.9rem;
   font-weight: 600;

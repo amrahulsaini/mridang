@@ -2,6 +2,7 @@
 export interface Product {
   id: number;
   pro_id?: string;          // Added for product ID from database
+  seller_sku_id?: string;   // Added for seller SKU ID
   name: string;
   description?: string;
   price: number;
