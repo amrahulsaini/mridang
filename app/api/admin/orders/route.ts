@@ -66,13 +66,27 @@ export async function GET() {
       ORDER BY created_at DESC
     `)
 
-    // Parse the JSON products field for each order
-    const processedOrders = (orders as OrderRow[]).map((order: OrderRow) => ({
-      ...order,
-      products: typeof order.products === 'string' ? JSON.parse(order.products) : order.products
-    }))
+    // Parse the JSON products field for each order and attach current SKU from Products table
+    const allOrders = await Promise.all((orders as OrderRow[]).map(async (order: OrderRow) => {
+      let products = typeof order.products === 'string' ? JSON.parse(order.products) : order.products;
+      if (Array.isArray(products)) {
+        // For each product, fetch the current SKU from Products table
+        products = await Promise.all(products.map(async (prod) => {
+          let sku = prod.seller_sku_id;
+          if (!sku && prod.id) {
+            // Try to fetch from Products table
+            const result = await query('SELECT seller_sku_id FROM Products WHERE id = ? LIMIT 1', [prod.id]);
+            if (Array.isArray(result) && result.length > 0) {
+              sku = result[0].seller_sku_id || sku;
+            }
+          }
+          return { ...prod, seller_sku_id: sku };
+        }));
+      }
+      return { ...order, products };
+    }));
 
-    return NextResponse.json(processedOrders)
+    return NextResponse.json(allOrders)
   } catch (error) {
     console.error('Error fetching orders:', error)
     return NextResponse.json(
