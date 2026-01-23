@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { query } from '@/app/lib/database'
+import type { RowDataPacket } from 'mysql2'
 
 // Define the order interface
 interface OrderRow {
@@ -76,7 +77,7 @@ export async function GET() {
           if (!sku && prod.id) {
             // Try to fetch from Products table
             const result = await query('SELECT seller_sku_id FROM Products WHERE id = ? LIMIT 1', [prod.id]);
-            const rows = result as any[];
+            const rows = result as RowDataPacket[];
             if (Array.isArray(rows) && rows.length > 0) {
               sku = rows[0].seller_sku_id || sku;
             }
