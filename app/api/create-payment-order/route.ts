@@ -40,7 +40,15 @@ export async function POST(request: NextRequest) {
   let connection
   
   try {
-    const { amount, currency = 'INR', customerData, orderData, items, subtotal, shippingCost } = await request.json()
+    const { amount, currency = 'INR', customerData, orderData, items, subtotal, shippingCost }: {
+      amount: number
+      currency?: string
+      customerData: { name: string; email: string; phone: string }
+      orderData?: OrderData
+      items?: CartItem[]
+      subtotal?: number
+      shippingCost?: number
+    } = await request.json()
 
     if (!amount || amount <= 0) {
       return NextResponse.json(

@@ -144,7 +144,7 @@ export async function POST(request: NextRequest) {
       [cashfree_order_id]
     )
     
-    const existingOrderRows = existingOrders as any[]
+    const existingOrderRows = existingOrders as RowDataPacket[]
     let orderId: string
 
     if (existingOrderRows.length > 0) {
