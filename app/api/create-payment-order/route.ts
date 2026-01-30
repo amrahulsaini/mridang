@@ -62,12 +62,6 @@ export async function POST(request: NextRequest) {
     // Generate our internal order ID
     const internalOrderId = generateOrderId()
 
-    // Generate unique cashfree order ID
-    const cashfreeOrderId = `order_${Date.now()}_${Math.random().toString(36).substring(7)}`
-    
-    // Generate our internal order ID
-    const internalOrderId = generateOrderId()
-
     // Create Cashfree order using REST API directly
     const orderRequest = {
       order_id: cashfreeOrderId,
