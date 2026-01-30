@@ -219,6 +219,7 @@ export default function AdminOrdersPage() {
                   <option value="processing">Processing</option>
                   <option value="completed">Completed</option>
                   <option value="cancelled">Cancelled</option>
+                  <option value="failed">Failed</option>
                 </select>
               </div>
 
@@ -524,6 +525,7 @@ function OrderDetailsModal({
                     <option value="processing">Processing</option>
                     <option value="completed">Completed</option>
                     <option value="cancelled">Cancelled</option>
+                    <option value="failed">Failed</option>
                   </select>
                 </div>
 

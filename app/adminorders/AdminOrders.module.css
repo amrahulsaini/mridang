@@ -371,6 +371,12 @@
   border: 1px solid rgba(220, 38, 38, 0.2);
 }
 
+.statusFailed {
+  background: linear-gradient(135deg, #fee2e2, #fecaca);
+  color: #dc2626;
+  border: 1px solid rgba(220, 38, 38, 0.2);
+}
+
 .paymentPending {
   background: linear-gradient(135deg, #fef3c7, #fde68a);
   color: #d97706;

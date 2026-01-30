@@ -1,8 +1,46 @@
 import { NextRequest, NextResponse } from 'next/server'
+import mysql from 'mysql2/promise'
+
+interface CartItem {
+  id: string
+  seller_sku_id?: string
+  name: string
+  price: number
+  quantity: number
+  image: string
+}
+
+interface OrderData {
+  firstName: string
+  lastName: string
+  email: string
+  phone: string
+  address: string
+  city: string
+  state: string
+  pincode: string
+  country: string
+}
+
+const dbConfig = {
+  host: process.env.DB_HOST,
+  user: process.env.DB_USER,
+  password: process.env.DB_PASS,
+  database: process.env.DB_NAME,
+  port: parseInt(process.env.DB_PORT || '3306'),
+}
+
+function generateOrderId(): string {
+  const date = new Date().toISOString().slice(0, 10).replace(/-/g, '')
+  const random = Math.floor(Math.random() * 1000).toString().padStart(3, '0')
+  return `ORD-${date}-${random}`
+}
 
 export async function POST(request: NextRequest) {
+  let connection
+  
   try {
-    const { amount, currency = 'INR', customerData } = await request.json()
+    const { amount, currency = 'INR', customerData, orderData, items, subtotal, shippingCost } = await request.json()
 
     if (!amount || amount <= 0) {
       return NextResponse.json(
@@ -18,12 +56,21 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    // Generate unique order ID
-    const orderId = `order_${Date.now()}_${Math.random().toString(36).substring(7)}`
+    // Generate unique cashfree order ID
+    const cashfreeOrderId = `order_${Date.now()}_${Math.random().toString(36).substring(7)}`
+    
+    // Generate our internal order ID
+    const internalOrderId = generateOrderId()
+
+    // Generate unique cashfree order ID
+    const cashfreeOrderId = `order_${Date.now()}_${Math.random().toString(36).substring(7)}`
+    
+    // Generate our internal order ID
+    const internalOrderId = generateOrderId()
 
     // Create Cashfree order using REST API directly
     const orderRequest = {
-      order_id: orderId,
+      order_id: cashfreeOrderId,
       order_amount: amount,
       order_currency: currency,
       customer_details: {
@@ -56,17 +103,66 @@ export async function POST(request: NextRequest) {
 
     const cashfreeData = await cashfreeResponse.json()
 
-    if (cashfreeResponse.ok && cashfreeData) {
-      return NextResponse.json({
-        success: true,
-        orderId: cashfreeData.order_id,
-        paymentSessionId: cashfreeData.payment_session_id,
-        amount: amount,
-        currency: currency
-      })
-    } else {
+    if (!cashfreeResponse.ok || !cashfreeData) {
       throw new Error(cashfreeData.message || 'Failed to create Cashfree order')
     }
+
+    // If order data is provided, create pending order in database
+    if (orderData && items) {
+      try {
+        connection = await mysql.createConnection(dbConfig)
+        
+        const productsJson = JSON.stringify(items)
+        
+        await connection.execute(
+          `INSERT INTO checkout_orders (
+            order_id, first_name, last_name, email, phone,
+            address, city, state, pincode, country,
+            products, subtotal, shipping_cost, total_amount,
+            email_verified, payment_status, status,
+            cashfree_order_id, created_at
+          ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW())`,
+          [
+            internalOrderId,
+            orderData.firstName,
+            orderData.lastName,
+            orderData.email,
+            orderData.phone,
+            orderData.address,
+            orderData.city,
+            orderData.state,
+            orderData.pincode,
+            orderData.country,
+            productsJson,
+            subtotal || 0,
+            shippingCost || 0,
+            amount,
+            true, // email_verified (assuming verified before checkout)
+            'pending', // payment_status
+            'pending', // status
+            cashfreeOrderId // Store cashfree order ID for later verification
+          ]
+        )
+        
+        console.log('Pending order created in database:', internalOrderId)
+      } catch (dbError) {
+        console.error('Error creating pending order in database:', dbError)
+        // Continue even if database insert fails - we'll handle it in verify-payment
+      } finally {
+        if (connection) {
+          await connection.end()
+        }
+      }
+    }
+
+    return NextResponse.json({
+      success: true,
+      orderId: cashfreeData.order_id,
+      internalOrderId: internalOrderId,
+      paymentSessionId: cashfreeData.payment_session_id,
+      amount: amount,
+      currency: currency
+    })
 
   } catch (error) {
     console.error('Error creating Cashfree order:', error)

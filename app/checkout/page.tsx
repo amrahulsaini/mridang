@@ -200,7 +200,7 @@ export default function CheckoutPage() {
     setPaymentError('')
 
     try {
-      // Create Cashfree order
+      // Create Cashfree order with full order details
       const orderResponse = await fetch('/api/create-payment-order', {
         method: 'POST',
         headers: {
@@ -213,7 +213,11 @@ export default function CheckoutPage() {
             name: `${formData.firstName} ${formData.lastName}`,
             email: formData.email,
             phone: formData.phone
-          }
+          },
+          orderData: formData,
+          items: state.items,
+          subtotal: subtotal,
+          shippingCost: shippingCost
         }),
       })
 
@@ -228,6 +232,7 @@ export default function CheckoutPage() {
       // Store order data for verification
       sessionStorage.setItem('pendingOrderData', JSON.stringify({
         cashfreeOrderId: orderData.orderId,
+        internalOrderId: orderData.internalOrderId,
         formData,
         items: state.items
       }))

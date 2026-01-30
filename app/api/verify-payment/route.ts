@@ -102,6 +102,26 @@ export async function POST(request: NextRequest) {
     // Check if payment is successful
     if (payment.payment_status !== 'SUCCESS') {
       console.log('Payment verification failed - payment status:', payment.payment_status)
+      
+      // Update order status to failed if it exists
+      try {
+        connection = await mysql.createConnection(dbConfig)
+        await connection.execute(
+          `UPDATE checkout_orders 
+           SET payment_status = ?, status = ?, notes = ?, updated_at = NOW()
+           WHERE cashfree_order_id = ?`,
+          [payment.payment_status.toLowerCase(), 'failed', `Payment failed with status: ${payment.payment_status}`, cashfree_order_id]
+        )
+        console.log('Updated order status to failed')
+      } catch (dbError) {
+        console.error('Error updating order status:', dbError)
+      } finally {
+        if (connection) {
+          await connection.end()
+          connection = undefined
+        }
+      }
+      
       return NextResponse.json(
         { error: 'Payment verification failed' },
         { status: 400 }
@@ -113,70 +133,102 @@ export async function POST(request: NextRequest) {
     // Get the Cashfree payment ID
     const cashfree_payment_id = payment.cf_payment_id
 
-    // Generate unique order ID
-    const orderId = generateOrderId()
-    console.log('Generated order ID:', orderId)
-
     // Connect to database
     console.log('Attempting database connection...')
     connection = await mysql.createConnection(dbConfig)
     console.log('Database connection established successfully')
 
-    // Calculate totals
+    // Check if order already exists with this cashfree_order_id
+    const [existingOrders] = await connection.execute(
+      'SELECT id, order_id FROM checkout_orders WHERE cashfree_order_id = ?',
+      [cashfree_order_id]
+    )
+    
+    const existingOrderRows = existingOrders as any[]
+    let orderId: string
+
+    if (existingOrderRows.length > 0) {
+      // Update existing order
+      orderId = existingOrderRows[0].order_id
+      console.log('Updating existing order:', orderId)
+      
+      await connection.execute(
+        `UPDATE checkout_orders 
+         SET payment_status = ?, status = ?, notes = ?, updated_at = NOW(), completed_at = NOW()
+         WHERE cashfree_order_id = ?`,
+        ['paid', 'completed', `Payment ID: ${cashfree_payment_id}, Order ID: ${cashfree_order_id}`, cashfree_order_id]
+      )
+      
+      console.log('Order updated successfully:', orderId)
+    } else {
+      // Create new order (fallback for old flow)
+      orderId = generateOrderId()
+      console.log('Generated order ID:', orderId)
+
+      // Calculate totals
+      const subtotal = orderData.items.reduce((sum: number, item: CartItem) =>
+        sum + (item.price * item.quantity), 0
+      )
+      const shippingCost = 0 // Free shipping on all orders
+      const totalAmount = subtotal + shippingCost
+
+      // Prepare products JSON
+      const productsJson = JSON.stringify(orderData.items.map((item: CartItem) => ({
+        id: item.id,
+        seller_sku_id: item.seller_sku_id,
+        name: item.name,
+        price: item.price,
+        quantity: item.quantity,
+        image: item.image
+      })))
+
+      // Insert order into database
+      await connection.execute(
+        `INSERT INTO checkout_orders (
+          order_id, first_name, last_name, email, phone,
+          address, city, state, pincode, country,
+          products, subtotal, shipping_cost, total_amount,
+          email_verified, payment_status, status,
+          ip_address, user_agent, notes, cashfree_order_id, completed_at
+        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW())`,
+        [
+          orderId,
+          orderData.firstName,
+          orderData.lastName,
+          orderData.email,
+          orderData.phone,
+          orderData.address,
+          orderData.city,
+          orderData.state,
+          orderData.pincode,
+          orderData.country,
+          productsJson,
+          subtotal,
+          shippingCost,
+          totalAmount,
+          true, // email_verified
+          'paid', // payment_status
+          'completed', // status
+          request.headers.get('x-forwarded-for') || request.headers.get('x-real-ip') || 'unknown',
+          request.headers.get('user-agent') || 'unknown',
+          `Payment ID: ${cashfree_payment_id}, Order ID: ${cashfree_order_id}`,
+          cashfree_order_id
+        ]
+      )
+
+      console.log('Order saved successfully:', {
+        orderId,
+        paymentId: cashfree_payment_id,
+        amount: totalAmount
+      })
+    }
+
+    // Calculate totals for email (need to recalculate for existing orders)
     const subtotal = orderData.items.reduce((sum: number, item: CartItem) =>
       sum + (item.price * item.quantity), 0
     )
-    const shippingCost = 0 // Free shipping on all orders
+    const shippingCost = 0
     const totalAmount = subtotal + shippingCost
-
-    // Prepare products JSON
-    const productsJson = JSON.stringify(orderData.items.map((item: CartItem) => ({
-      id: item.id,
-      seller_sku_id: item.seller_sku_id,
-      name: item.name,
-      price: item.price,
-      quantity: item.quantity,
-      image: item.image
-    })))
-
-    // Insert order into database
-    await connection.execute(
-      `INSERT INTO checkout_orders (
-        order_id, first_name, last_name, email, phone,
-        address, city, state, pincode, country,
-        products, subtotal, shipping_cost, total_amount,
-        email_verified, payment_status, status,
-        ip_address, user_agent, notes
-      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
-      [
-        orderId,
-        orderData.firstName,
-        orderData.lastName,
-        orderData.email,
-        orderData.phone,
-        orderData.address,
-        orderData.city,
-        orderData.state,
-        orderData.pincode,
-        orderData.country,
-        productsJson,
-        subtotal,
-        shippingCost,
-        totalAmount,
-        true, // email_verified
-        'paid', // payment_status
-        'completed', // status
-        request.headers.get('x-forwarded-for') || request.headers.get('x-real-ip') || 'unknown',
-        request.headers.get('user-agent') || 'unknown',
-        `Payment ID: ${cashfree_payment_id}, Order ID: ${cashfree_order_id}`
-      ]
-    )
-
-    console.log('Order saved successfully:', {
-      orderId,
-      paymentId: cashfree_payment_id,
-      amount: totalAmount
-    })
 
     // Send order confirmation email
     const emailOrderData = {
