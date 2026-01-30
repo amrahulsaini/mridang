@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import mysql from 'mysql2/promise'
+import mysql, { RowDataPacket } from 'mysql2/promise'
 import { sendOrderConfirmationEmail, sendAdminOrderNotification } from '@/lib/email'
 
 // Type definitions
