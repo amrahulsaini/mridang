@@ -662,19 +662,14 @@
   box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
   font-family: 'Sora', sans-serif;
   outline: none !important;
+  border: 3px solid transparent;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
 }
 
 .actionButton:focus,
 .actionButton:active {
   outline: none !important;
-}
-  border: 3px solid transparent;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  position: relative;
-  overflow: hidden;
-  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
-  font-family: 'Sora', sans-serif;
 }
 
 .actionButton::before {
