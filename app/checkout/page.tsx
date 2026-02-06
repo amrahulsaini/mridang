@@ -37,6 +37,9 @@ interface FormData {
   state: string
   pincode: string
   country: string
+  brideName: string
+  groomName: string
+  engagementDate: string
 }
 
 export default function CheckoutPage() {
@@ -51,14 +54,11 @@ export default function CheckoutPage() {
     city: '',
     state: '',
     pincode: '',
-    country: 'India'
+    country: 'India',
+    brideName: '',
+    groomName: '',
+    engagementDate: ''
   })
-  const [emailVerified, setEmailVerified] = useState(false)
-  const [isVerifyingEmail, setIsVerifyingEmail] = useState(false)
-  const [otpSent, setOtpSent] = useState(false)
-  const [otp, setOtp] = useState('')
-  const [isVerifyingOtp, setIsVerifyingOtp] = useState(false)
-  const [otpError, setOtpError] = useState('')
   const [errors, setErrors] = useState<Partial<FormData>>({})
 
   // Payment states
@@ -105,92 +105,39 @@ export default function CheckoutPage() {
     if (errors[name as keyof FormData]) {
       setErrors(prev => ({ ...prev, [name]: '' }))
     }
-
-    // Reset email verification if email changes
-    if (name === 'email') {
-      setEmailVerified(false)
-      setOtpSent(false)
-      setOtp('')
-      setOtpError('')
-    }
   }
 
-  const sendOTP = async () => {
-    if (!formData.email) {
-      setErrors(prev => ({ ...prev, email: 'Email is required' }))
-      return
+  const validateForm = () => {
+    const newErrors: Partial<FormData> = {}
+
+    if (!formData.firstName.trim()) newErrors.firstName = 'First name is required'
+    if (!formData.lastName.trim()) newErrors.lastName = 'Last name is required'
+    if (!formData.email.trim()) {
+      newErrors.email = 'Email is required'
+    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
+      newErrors.email = 'Please enter a valid email address'
+    }
+    if (!formData.phone.trim()) {
+      newErrors.phone = 'Phone number is required'
+    } else if (!/^\d{10}$/.test(formData.phone.replace(/\D/g, ''))) {
+      newErrors.phone = 'Please enter a valid 10-digit phone number'
+    }
+    if (!formData.address.trim()) newErrors.address = 'Address is required'
+    if (!formData.city.trim()) newErrors.city = 'City is required'
+    if (!formData.state.trim()) newErrors.state = 'State is required'
+    if (!formData.pincode.trim()) {
+      newErrors.pincode = 'Pincode is required'
+    } else if (!/^\d{6}$/.test(formData.pincode)) {
+      newErrors.pincode = 'Please enter a valid 6-digit pincode'
     }
 
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
-    if (!emailRegex.test(formData.email)) {
-      setErrors(prev => ({ ...prev, email: 'Please enter a valid email address' }))
-      return
-    }
-
-    setIsVerifyingEmail(true)
-    setOtpError('')
-    setOtpSent(true) // Show OTP field immediately
-
-    try {
-      const response = await fetch('/api/send-otp', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ email: formData.email }),
-      })
-
-      const data = await response.json()
-
-      if (response.ok) {
-        // OTP sent successfully, keep otpSent as true
-        setOtp('') // Clear any previous OTP
-      } else {
-        setErrors(prev => ({ ...prev, email: data.error || 'Failed to send OTP' }))
-        setOtpSent(false) // Hide OTP field if sending failed
-      }
-    } catch (error) {
-      console.error('Error sending OTP:', error)
-      setErrors(prev => ({ ...prev, email: 'Failed to send OTP. Please try again.' }))
-      setOtpSent(false) // Hide OTP field if sending failed
-    } finally {
-      setIsVerifyingEmail(false)
-    }
+    setErrors(newErrors)
+    return Object.keys(newErrors).length === 0
   }
 
-  const verifyOTP = async () => {
-    if (!otp || otp.length !== 4) {
-      setOtpError('Please enter a valid 4-digit OTP')
-      return
-    }
-
-    setIsVerifyingOtp(true)
-    setOtpError('')
-
-    try {
-      const response = await fetch('/api/verify-otp', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ email: formData.email, otp }),
-      })
-
-      const data = await response.json()
-
-      if (response.ok && data.verified) {
-        setEmailVerified(true)
-        setOtpSent(false)
-        setErrors(prev => ({ ...prev, email: '' }))
-      } else {
-        setOtpError(data.error || 'Invalid OTP')
-      }
-    } catch (error) {
-      console.error('Error verifying OTP:', error)
-      setOtpError('Failed to verify OTP. Please try again.')
-    } finally {
-      setIsVerifyingOtp(false)
-    }
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault()
+    handlePayment()
   }
 
   const handlePayment = async () => {
@@ -337,28 +284,6 @@ export default function CheckoutPage() {
     }
   }
 
-  const validateForm = (): boolean => {
-    const newErrors: Partial<FormData> = {}
-
-    if (!formData.firstName.trim()) newErrors.firstName = 'First name is required'
-    if (!formData.lastName.trim()) newErrors.lastName = 'Last name is required'
-    if (!formData.email.trim()) newErrors.email = 'Email is required'
-    if (!emailVerified) newErrors.email = 'Please verify your email'
-    if (!formData.phone.trim()) newErrors.phone = 'Phone number is required'
-    if (!formData.address.trim()) newErrors.address = 'Address is required'
-    if (!formData.city.trim()) newErrors.city = 'City is required'
-    if (!formData.state.trim()) newErrors.state = 'State is required'
-    if (!formData.pincode.trim()) newErrors.pincode = 'Pincode is required'
-
-    setErrors(newErrors)
-    return Object.keys(newErrors).length === 0
-  }
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault()
-    handlePayment()
-  }
-
   return (
     <div className={styles.container}>
       {/* Header */}
@@ -480,73 +405,15 @@ export default function CheckoutPage() {
             {/* Email Field */}
             <div className={styles.formGroup}>
               <label className={styles.label}>Email Address *</label>
-              <div className={styles.emailGroup}>
-                <input
-                  type="email"
-                  name="email"
-                  value={formData.email}
-                  onChange={handleInputChange}
-                  className={`${styles.input} ${errors.email ? styles.error : ''}`}
-                  placeholder="Enter your email address"
-                  disabled={emailVerified}
-                />
-                <button
-                  type="button"
-                  onClick={otpSent ? verifyOTP : sendOTP}
-                  disabled={emailVerified || isVerifyingEmail || isVerifyingOtp}
-                  className={styles.verifyBtn}
-                >
-                  {emailVerified ? (
-                    <CheckCircle className={styles.verifyIcon} />
-                  ) : isVerifyingEmail ? (
-                    'Sending...'
-                  ) : isVerifyingOtp ? (
-                    'Verifying...'
-                  ) : otpSent ? (
-                    'Verify OTP'
-                  ) : (
-                    'Send OTP'
-                  )}
-                </button>
-              </div>
+              <input
+                type="email"
+                name="email"
+                value={formData.email}
+                onChange={handleInputChange}
+                className={`${styles.input} ${errors.email ? styles.error : ''}`}
+                placeholder="Enter your email address"
+              />
               {errors.email && <span className={styles.errorText}>{errors.email}</span>}
-              {emailVerified && (
-                <span className={styles.successText}>
-                  <CheckCircle className={styles.successIcon} />
-                  Email verified successfully!
-                </span>
-              )}
-
-              {/* OTP Field */}
-              {otpSent && (
-                <div className={styles.otpGroup}>
-                  <label className={styles.label}>Enter OTP *</label>
-                  <input
-                    type="text"
-                    value={otp}
-                    onChange={(e) => {
-                      const value = e.target.value.replace(/\D/g, '').slice(0, 4)
-                      setOtp(value)
-                      if (otpError) setOtpError('')
-                    }}
-                    className={`${styles.input} ${otpError ? styles.error : ''}`}
-                    placeholder="Enter 4-digit OTP"
-                    maxLength={4}
-                    disabled={emailVerified}
-                  />
-                  {otpError && <span className={styles.errorText}>{otpError}</span>}
-                  {emailVerified ? (
-                    <span className={styles.successText}>
-                      <CheckCircle className={styles.successIcon} />
-                      OTP verified successfully!
-                    </span>
-                  ) : (
-                    <span className={styles.otpHint}>
-                      OTP sent to {formData.email}. Check your email and enter the 4-digit code.
-                    </span>
-                  )}
-                </div>
-              )}
             </div>
 
             {/* Phone Field */}
@@ -637,6 +504,50 @@ export default function CheckoutPage() {
                 <option value="Canada">Canada</option>
                 <option value="Australia">Australia</option>
               </select>
+            </div>
+
+            {/* Customization Details Section */}
+            <div className={styles.customizationSection}>
+              <h3 className={styles.sectionTitle}>Customization Details (Optional)</h3>
+              <p className={styles.sectionDescription}>
+                Add personalization details for your order
+              </p>
+
+              <div className={styles.formRow}>
+                <div className={styles.formGroup}>
+                  <label className={styles.label}>Bride Name</label>
+                  <input
+                    type="text"
+                    name="brideName"
+                    value={formData.brideName}
+                    onChange={handleInputChange}
+                    className={styles.input}
+                    placeholder="Enter bride's name (optional)"
+                  />
+                </div>
+                <div className={styles.formGroup}>
+                  <label className={styles.label}>Groom Name</label>
+                  <input
+                    type="text"
+                    name="groomName"
+                    value={formData.groomName}
+                    onChange={handleInputChange}
+                    className={styles.input}
+                    placeholder="Enter groom's name (optional)"
+                  />
+                </div>
+              </div>
+
+              <div className={styles.formGroup}>
+                <label className={styles.label}>Date of Engagement</label>
+                <input
+                  type="date"
+                  name="engagementDate"
+                  value={formData.engagementDate}
+                  onChange={handleInputChange}
+                  className={styles.input}
+                />
+              </div>
             </div>
 
             {/* Submit Button */}

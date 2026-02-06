@@ -349,6 +349,76 @@ export default function ProductDetailsPage() {
           >
             {product.model_name}
           </motion.h1>
+
+          {/* Quick Buy Section at Top */}
+          <motion.div 
+            className={styles.topActionSection}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.3 }}
+          >
+            {/* Price Section */}
+            <div className={styles.priceSection}>
+              {hasDiscount() ? (
+                <div className={styles.priceContainer}>
+                  <div className={styles.currentPrice}>₹{getTotalPrice().toLocaleString('en-IN')}</div>
+                  <div className={styles.originalPrice}>₹{getOriginalTotalPrice().toLocaleString('en-IN')}</div>
+                  <div className={styles.discount}>{getDiscountPercentage()}% OFF</div>
+                </div>
+              ) : (
+                <div className={styles.price}>₹{getTotalPrice().toLocaleString('en-IN')}</div>
+              )}
+              {quantity > 1 && (
+                <div className={styles.unitPrice}>
+                  Unit Price: ₹{getUnitPrice().toLocaleString('en-IN')}
+                </div>
+              )}
+            </div>
+
+            {/* Quantity Selector */}
+            <div className={styles.quantitySection}>
+              <label className={styles.quantityLabel}>Quantity:</label>
+              <div className={styles.quantitySelector}>
+                <button 
+                  className={styles.quantityButton}
+                  onClick={decrementQuantity}
+                  disabled={quantity <= 1}
+                >
+                  <Minus />
+                </button>
+                <span className={styles.quantityDisplay}>{quantity}</span>
+                <button 
+                  className={styles.quantityButton}
+                  onClick={incrementQuantity}
+                >
+                  <Plus />
+                </button>
+              </div>
+            </div>
+
+            {/* Action Buttons */}
+            <div className={styles.buttonGroup}>
+              <motion.button
+                className={`${styles.actionButton} ${styles.addToCartBtn}`}
+                onClick={handleAddToCart}
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+              >
+                <ShoppingCart className="w-5 h-5" />
+                Add to Cart
+              </motion.button>
+              
+              <motion.button
+                className={`${styles.actionButton} ${styles.buyNowBtn}`}
+                onClick={handleBuyNow}
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+              >
+                <CreditCard className="w-5 h-5" />
+                Buy Now
+              </motion.button>
+            </div>
+          </motion.div>
         </div>
       </motion.div>
 

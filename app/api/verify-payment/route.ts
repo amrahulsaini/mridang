@@ -23,6 +23,9 @@ interface OrderData {
   pincode: string
   country: string
   items: CartItem[]
+  brideName?: string
+  groomName?: string
+  engagementDate?: string
 }
 
 interface PaymentVerificationRequest {
@@ -189,8 +192,9 @@ export async function POST(request: NextRequest) {
           address, city, state, pincode, country,
           products, subtotal, shipping_cost, total_amount,
           email_verified, payment_status, status,
-          ip_address, user_agent, notes, cashfree_order_id, completed_at
-        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW())`,
+          ip_address, user_agent, notes, cashfree_order_id, completed_at,
+          bride_name, groom_name, engagement_date
+        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW(), ?, ?, ?)`,
         [
           orderId,
           orderData.firstName,
@@ -212,7 +216,10 @@ export async function POST(request: NextRequest) {
           request.headers.get('x-forwarded-for') || request.headers.get('x-real-ip') || 'unknown',
           request.headers.get('user-agent') || 'unknown',
           `Payment ID: ${cashfree_payment_id}, Order ID: ${cashfree_order_id}`,
-          cashfree_order_id
+          cashfree_order_id,
+          orderData.brideName || null,
+          orderData.groomName || null,
+          orderData.engagementDate || null
         ]
       )
 
@@ -250,6 +257,11 @@ export async function POST(request: NextRequest) {
         shippingCost,
         totalAmount,
       },
+      customization: (orderData.brideName || orderData.groomName || orderData.engagementDate) ? {
+        brideName: orderData.brideName,
+        groomName: orderData.groomName,
+        engagementDate: orderData.engagementDate
+      } : undefined,
       createdAt: new Date().toISOString(),
     }
 

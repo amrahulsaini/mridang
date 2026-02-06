@@ -57,6 +57,11 @@ interface OrderData {
     shippingCost: number
     totalAmount: number
   }
+  customization?: {
+    brideName?: string
+    groomName?: string
+    engagementDate?: string
+  }
   createdAt: string
 }
 
@@ -175,6 +180,21 @@ export async function sendOrderConfirmationEmail(orderData: OrderData) {
                 ${orderData.customer.country}
               </p>
             </div>
+
+            ${orderData.customization && (orderData.customization.brideName || orderData.customization.groomName || orderData.customization.engagementDate) ? `
+            <div style="background: #f8d7da; border: 1px solid #f5c6cb; padding: 15px; border-radius: 4px; margin: 20px 0;">
+              <h4 style="margin: 0 0 10px 0; color: #721c24;">💝 Customization Details</h4>
+              <div style="color: #721c24;">
+                ${orderData.customization.brideName ? `<p style="margin: 5px 0;"><strong>Bride Name:</strong> ${orderData.customization.brideName}</p>` : ''}
+                ${orderData.customization.groomName ? `<p style="margin: 5px 0;"><strong>Groom Name:</strong> ${orderData.customization.groomName}</p>` : ''}
+                ${orderData.customization.engagementDate ? `<p style="margin: 5px 0;"><strong>Engagement Date:</strong> ${new Date(orderData.customization.engagementDate).toLocaleDateString('en-IN', {
+                  year: 'numeric',
+                  month: 'long',
+                  day: 'numeric'
+                })}</p>` : ''}
+              </div>
+            </div>
+            ` : ''}
 
             <div style="background: #d1ecf1; border: 1px solid #bee5eb; padding: 15px; border-radius: 4px; margin: 20px 0;">
               <h4 style="margin: 0 0 10px 0; color: #0c5460;">🚚 What's Next?</h4>

@@ -20,6 +20,9 @@ interface OrderData {
   state: string
   pincode: string
   country: string
+  brideName?: string
+  groomName?: string
+  engagementDate?: string
 }
 
 const dbConfig = {
@@ -122,8 +125,9 @@ export async function POST(request: NextRequest) {
             address, city, state, pincode, country,
             products, subtotal, shipping_cost, total_amount,
             email_verified, payment_status, status,
-            cashfree_order_id, created_at
-          ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW())`,
+            cashfree_order_id, created_at,
+            bride_name, groom_name, engagement_date
+          ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW(), ?, ?, ?)`,
           [
             internalOrderId,
             orderData.firstName,
@@ -142,7 +146,10 @@ export async function POST(request: NextRequest) {
             true, // email_verified (assuming verified before checkout)
             'pending', // payment_status
             'pending', // status
-            cashfreeOrderId // Store cashfree order ID for later verification
+            cashfreeOrderId, // Store cashfree order ID for later verification
+            orderData.brideName || null,
+            orderData.groomName || null,
+            orderData.engagementDate || null
           ]
         )
         

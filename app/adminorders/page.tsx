@@ -39,6 +39,9 @@ interface Order {
   ip_address?: string
   user_agent?: string
   notes?: string
+  bride_name?: string
+  groom_name?: string
+  engagement_date?: string
 }
 
 export default function AdminOrdersPage() {
@@ -456,6 +459,37 @@ function OrderDetailsModal({
                 {order.country}
               </div>
             </div>
+
+            {/* Customization Details */}
+            {(order.bride_name || order.groom_name || order.engagement_date) && (
+              <div className={`${styles.detailSection} ${styles.fullWidth}`}>
+                <h4 className={styles.detailTitle}>Customization Details</h4>
+                <div className={styles.detailContent}>
+                  {order.bride_name && (
+                    <div className={styles.detailRow}>
+                      <span>Bride Name:</span>
+                      <span>{order.bride_name}</span>
+                    </div>
+                  )}
+                  {order.groom_name && (
+                    <div className={styles.detailRow}>
+                      <span>Groom Name:</span>
+                      <span>{order.groom_name}</span>
+                    </div>
+                  )}
+                  {order.engagement_date && (
+                    <div className={styles.detailRow}>
+                      <span>Engagement Date:</span>
+                      <span>{new Date(order.engagement_date).toLocaleDateString('en-IN', {
+                        year: 'numeric',
+                        month: 'long',
+                        day: 'numeric'
+                      })}</span>
+                    </div>
+                  )}
+                </div>
+              </div>
+            )}
 
             {/* Products */}
             <div className={`${styles.detailSection} ${styles.fullWidth}`}>
