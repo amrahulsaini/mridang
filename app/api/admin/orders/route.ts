@@ -30,6 +30,9 @@ interface OrderRow {
   ip_address: string | null
   user_agent: string | null
   notes: string | null
+  bride_name: string | null
+  groom_name: string | null
+  engagement_date: string | null
 }
 
 // GET - Fetch all orders with details
@@ -62,7 +65,10 @@ export async function GET() {
         completed_at,
         ip_address,
         user_agent,
-        notes
+        notes,
+        bride_name,
+        groom_name,
+        engagement_date
       FROM checkout_orders
       ORDER BY created_at DESC
     `)

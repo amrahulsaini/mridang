@@ -348,6 +348,22 @@ export async function sendAdminOrderNotification(orderData: OrderData) {
               </p>
             </div>
 
+            ${orderData.customization && (orderData.customization.brideName || orderData.customization.groomName || orderData.customization.engagementDate) ? `
+            <div class="section" style="background: #fff3cd; border-left: 4px solid #ffc107;">
+              <div class="section-title" style="color: #856404;">💝 CUSTOMIZATION DETAILS</div>
+              ${orderData.customization.brideName ? `<p style="margin: 5px 0;"><strong>Bride Name:</strong> ${orderData.customization.brideName}</p>` : ''}
+              ${orderData.customization.groomName ? `<p style="margin: 5px 0;"><strong>Groom Name:</strong> ${orderData.customization.groomName}</p>` : ''}
+              ${orderData.customization.engagementDate ? `<p style="margin: 5px 0;"><strong>Engagement Date:</strong> ${new Date(orderData.customization.engagementDate).toLocaleDateString('en-IN', {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric'
+              })}</p>` : ''}
+              <p style="margin: 10px 0 0 0; padding: 10px; background: #fff; border-radius: 4px; font-size: 13px; color: #856404;">
+                <strong>⚠️ Note:</strong> Please ensure these customization details are applied to the order before shipping!
+              </p>
+            </div>
+            ` : ''}
+
             <div class="section">
               <div class="section-title">🛒 PRODUCTS ORDERED</div>
               <table>
