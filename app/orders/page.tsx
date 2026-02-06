@@ -33,6 +33,11 @@ interface Order {
     shippingCost: number
     totalAmount: number
   }
+  customization?: {
+    brideName?: string
+    groomName?: string
+    engagementDate?: string
+  }
   status: string
   paymentStatus: string
   createdAt: string
@@ -300,6 +305,37 @@ export default function OrdersPage() {
                   </div>
                 </div>
               </div>
+
+              {/* Customization Details */}
+              {selectedOrder.customization && (selectedOrder.customization.brideName || selectedOrder.customization.groomName || selectedOrder.customization.engagementDate) && (
+                <div className={styles.customizationInfo}>
+                  <h3>💝 Customization Details</h3>
+                  <div className={styles.customizationGrid}>
+                    {selectedOrder.customization.brideName && (
+                      <div className={styles.customItem}>
+                        <strong>Bride Name:</strong>
+                        <span>{selectedOrder.customization.brideName}</span>
+                      </div>
+                    )}
+                    {selectedOrder.customization.groomName && (
+                      <div className={styles.customItem}>
+                        <strong>Groom Name:</strong>
+                        <span>{selectedOrder.customization.groomName}</span>
+                      </div>
+                    )}
+                    {selectedOrder.customization.engagementDate && (
+                      <div className={styles.customItem}>
+                        <strong>Engagement Date:</strong>
+                        <span>{new Date(selectedOrder.customization.engagementDate).toLocaleDateString('en-IN', {
+                          year: 'numeric',
+                          month: 'long',
+                          day: 'numeric'
+                        })}</span>
+                      </div>
+                    )}
+                  </div>
+                </div>
+              )}
 
               <div className={styles.productsList}>
                 <h3>Products</h3>

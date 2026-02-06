@@ -31,6 +31,9 @@ interface DatabaseOrderRow {
   payment_status: string
   created_at: Date
   completed_at: Date | null
+  bride_name: string | null
+  groom_name: string | null
+  engagement_date: Date | null
 }
 
 export async function GET(request: NextRequest) {
@@ -72,7 +75,10 @@ export async function GET(request: NextRequest) {
         status,
         payment_status,
         created_at,
-        completed_at
+        completed_at,
+        bride_name,
+        groom_name,
+        engagement_date
       FROM checkout_orders
       WHERE email = ?
       ORDER BY created_at DESC`,
@@ -103,6 +109,11 @@ export async function GET(request: NextRequest) {
         shippingCost: parseFloat(order.shipping_cost),
         totalAmount: parseFloat(order.total_amount),
       },
+      customization: (order.bride_name || order.groom_name || order.engagement_date) ? {
+        brideName: order.bride_name || undefined,
+        groomName: order.groom_name || undefined,
+        engagementDate: order.engagement_date || undefined,
+      } : undefined,
       status: order.status,
       paymentStatus: order.payment_status,
       createdAt: order.created_at,
