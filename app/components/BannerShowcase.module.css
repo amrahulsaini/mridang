@@ -86,11 +86,12 @@
 }
 
 .bannerImage {
-  object-fit: cover;
+  object-fit: contain;
   object-position: center center;
   width: 100%;
   height: 100%;
   transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  background: #ffffff;
 }
 
 .gradientOverlay {

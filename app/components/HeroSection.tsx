@@ -131,10 +131,10 @@ const HeroSection = () => {
       <style jsx>{`
         .hero-section-modern {
           position: relative;
-          padding: 4rem 1.5rem;
+          padding: 5rem 1.5rem;
           overflow: hidden;
-          background: linear-gradient(135deg, #fff8f0 0%, #ffe4e1 50%, #fff5f5 100%);
-          border-top: 4px solid #800020;
+          background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 50%, #e2e8f0 100%);
+          border-top: 3px solid #6366f1;
         }
 
         .hero-gradient-bg {
@@ -142,8 +142,8 @@ const HeroSection = () => {
           position: absolute;
           inset: 0;
           background: 
-            radial-gradient(circle at 20% 20%, rgba(128, 0, 32, 0.08) 0%, transparent 40%),
-            radial-gradient(circle at 80% 80%, rgba(212, 165, 116, 0.12) 0%, transparent 50%);
+            radial-gradient(circle at 20% 20%, rgba(99, 102, 241, 0.08) 0%, transparent 50%),
+            radial-gradient(circle at 80% 80%, rgba(139, 92, 246, 0.08) 0%, transparent 50%);
           pointer-events: none;
         }
 
@@ -160,37 +160,40 @@ const HeroSection = () => {
           align-items: center;
           gap: 0.625rem;
           padding: 0.75rem 1.5rem;
-          background: linear-gradient(135deg, #800020 0%, #a0002a 100%);
+          background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
           border: none;
           border-radius: 100px;
           font-size: 0.9375rem;
           font-weight: 600;
           color: white;
           margin-bottom: 2rem;
-          box-shadow: 0 4px 16px rgba(128, 0, 32, 0.3);
+          box-shadow: 0 4px 16px rgba(99, 102, 241, 0.3);
         }
 
         .hero-badge-icon {
-          color: #d4a574;
+          color: #fbbf24;
         }
 
         .hero-title-modern {
-          font-size: 3rem;
-          font-weight: 800;
+          font-size: 3.5rem;
+          font-weight: 900;
           line-height: 1.15;
           margin-bottom: 1.5rem;
-          letter-spacing: -0.03em;
-          color: #2d2d2d;
-          text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.05);
+          letter-spacing: -0.04em;
+          background: linear-gradient(135deg, #0f172a 0%, #334155 100%);
+          -webkit-background-clip: text;
+          -webkit-text-fill-color: transparent;
+          background-clip: text;
+          text-shadow: none;
         }
 
         .hero-typed-modern {
           display: inline-block;
-          min-height: 4rem;
+          min-height: 4.5rem;
         }
 
         .hero-cursor {
-          color: #d4a574;
+          color: #6366f1;
           animation: blink 1s step-end infinite;
         }
 
@@ -201,11 +204,12 @@ const HeroSection = () => {
         .hero-subtitle-modern {
           font-size: 1.25rem;
           line-height: 1.8;
-          color: #6b7280;
+          color: #64748b;
           margin-bottom: 2.5rem;
           max-width: 700px;
           margin-left: auto;
           margin-right: auto;
+          font-weight: 500;
         }
 
         .hero-cta-modern {
@@ -221,16 +225,16 @@ const HeroSection = () => {
           display: inline-flex;
           align-items: center;
           gap: 0.75rem;
-          padding: 1rem 2rem;
-          background: linear-gradient(135deg, #800020 0%, #a0002a 100%);
+          padding: 1.125rem 2.25rem;
+          background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
           color: white;
-          border-radius: 14px;
-          font-weight: 600;
+          border-radius: 16px;
+          font-weight: 700;
           font-size: 1.0625rem;
           text-decoration: none;
           box-shadow: 
-            0 4px 16px rgba(128, 0, 32, 0.25),
-            inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            0 8px 24px rgba(99, 102, 241, 0.3),
+            0 4px 12px rgba(0, 0, 0, 0.08);
           transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
           position: relative;
           overflow: hidden;
@@ -241,10 +245,11 @@ const HeroSection = () => {
         }
 
         .btn-hero-primary:hover {
-          transform: translateY(-2px);
+          transform: translateY(-3px);
+          background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
           box-shadow: 
-            0 6px 24px rgba(128, 0, 32, 0.35),
-            inset 0 1px 0 rgba(255, 255, 255, 0.15);
+            0 12px 36px rgba(99, 102, 241, 0.4),
+            0 6px 16px rgba(0, 0, 0, 0.12);
         }
 
         .btn-arrow {
@@ -258,66 +263,69 @@ const HeroSection = () => {
         .btn-hero-secondary {
           display: inline-flex;
           align-items: center;
-          padding: 1rem 2rem;
-          background: white;
-          color: #800020;
-          border: 2px solid rgba(128, 0, 32, 0.2);
-          border-radius: 14px;
-          font-weight: 600;
+          padding: 1.125rem 2.25rem;
+          background: rgba(255, 255, 255, 0.95);
+          color: #6366f1;
+          border: 2px solid rgba(99, 102, 241, 0.3);
+          border-radius: 16px;
+          font-weight: 700;
           font-size: 1.0625rem;
           text-decoration: none;
           transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-          box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+          backdrop-filter: blur(10px);
         }
 
         .btn-hero-secondary:hover {
-          background: rgba(128, 0, 32, 0.04);
-          border-color: rgba(128, 0, 32, 0.3);
-          transform: translateY(-2px);
-          box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+          background: rgba(99, 102, 241, 0.05);
+          border-color: rgba(99, 102, 241, 0.5);
+          transform: translateY(-3px);
+          box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
         }
 
         .hero-trust-indicators {
           display: flex;
           align-items: center;
           justify-content: center;
-          gap: 1.5rem;
+          gap: 2rem;
           flex-wrap: wrap;
-          padding: 1.5rem;
-          background: rgba(255, 255, 255, 0.6);
-          backdrop-filter: blur(8px);
-          border-radius: 16px;
-          border: 1px solid rgba(212, 165, 116, 0.15);
-          max-width: 600px;
+          padding: 1.75rem 2rem;
+          background: rgba(255, 255, 255, 0.8);
+          backdrop-filter: blur(16px);
+          border-radius: 20px;
+          border: 1px solid rgba(226, 232, 240, 0.8);
+          max-width: 650px;
           margin: 0 auto;
+          box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04);
         }
 
         .trust-item {
           display: flex;
           align-items: center;
-          gap: 0.5rem;
+          gap: 0.625rem;
           font-size: 0.9375rem;
-          font-weight: 500;
-          color: #4a4a4a;
+          font-weight: 600;
+          color: #334155;
         }
 
         .trust-icon {
           display: flex;
           align-items: center;
           justify-content: center;
-          width: 24px;
-          height: 24px;
-          background: linear-gradient(135deg, #d4a574 0%, #c89b68 100%);
+          width: 28px;
+          height: 28px;
+          background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
           color: white;
           border-radius: 50%;
-          font-size: 0.75rem;
+          font-size: 0.875rem;
           font-weight: 700;
+          box-shadow: 0 2px 8px rgba(99, 102, 241, 0.3);
         }
 
         .trust-divider {
           width: 1px;
-          height: 24px;
-          background: linear-gradient(180deg, transparent 0%, rgba(0, 0, 0, 0.1) 50%, transparent 100%);
+          height: 28px;
+          background: linear-gradient(180deg, transparent 0%, rgba(99, 102, 241, 0.2) 50%, transparent 100%);
         }
 
         @media (max-width: 768px) {
