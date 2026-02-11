@@ -131,13 +131,9 @@ const HeroSection = () => {
       <style jsx>{`
         .hero-section-modern {
           position: relative;
-          padding: 6rem 0;
+          padding: 3rem 1rem;
           overflow: hidden;
-          background: linear-gradient(180deg, 
-            rgba(255, 248, 240, 0.6) 0%, 
-            rgba(255, 253, 250, 0.4) 50%,
-            rgba(255, 255, 255, 0) 100%
-          );
+          background: white;
         }
 
         .hero-gradient-bg {
@@ -353,11 +349,18 @@ const HeroSection = () => {
 
         @media (max-width: 768px) {
           .hero-section-modern {
-            padding: 4rem 0;
+            padding: 2rem 1rem;
+          }
+
+          .hero-badge {
+            font-size: 0.75rem;
+            padding: 0.5rem 1rem;
+            margin-bottom: 1rem;
           }
 
           .hero-title-modern {
-            font-size: 2rem;
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
           }
 
           .hero-typed-modern {
@@ -365,29 +368,43 @@ const HeroSection = () => {
           }
 
           .hero-subtitle-modern {
-            font-size: 1.0625rem;
-            margin-bottom: 2rem;
+            font-size: 0.875rem;
+            margin-bottom: 1.5rem;
+            line-height: 1.5;
           }
 
           .hero-cta-modern {
             flex-direction: column;
             width: 100%;
+            gap: 0.75rem;
+            margin-bottom: 2rem;
           }
 
           .btn-hero-primary,
           .btn-hero-secondary {
             width: 100%;
             justify-content: center;
+            padding: 0.875rem 1.5rem;
+            font-size: 0.9375rem;
           }
 
           .hero-trust-indicators {
-            flex-direction: column;
-            gap: 1rem;
+            padding: 1rem;
+            gap: 0.75rem;
+          }
+
+          .trust-item {
+            font-size: 0.8125rem;
+          }
+
+          .trust-icon {
+            width: 20px;
+            height: 20px;
+            font-size: 0.625rem;
           }
 
           .trust-divider {
-            width: 40px;
-            height: 1px;
+            display: none;
           }
         }
       `}</style>

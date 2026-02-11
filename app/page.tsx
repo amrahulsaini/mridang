@@ -62,12 +62,8 @@ export default async function Home() {
     <div className="min-h-screen modern-layout">
       <TopBanner />
       <Header />
-      
-      {/* Hero section with banner */}
-      <div className="hero-wrapper">
-        <BannerShowcase />
-        <HeroSection />
-      </div>
+      <BannerShowcase />
+      <HeroSection />
 
       {/* Product marquee with better spacing */}
       <div className="section-spacing">
