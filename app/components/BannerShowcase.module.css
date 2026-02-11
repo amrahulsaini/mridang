@@ -296,7 +296,7 @@
   }
 
   .bannerWrapper {
-    height: 400px;
+    height: 500px;
     border-radius: 0;
     margin-bottom: 0;
   }
@@ -342,7 +342,7 @@
 /* Small Mobile */
 @media (max-width: 480px) {
   .bannerWrapper {
-    height: 320px;
+    height: 450px;
     border-radius: 0;
   }
 

@@ -131,13 +131,20 @@ const HeroSection = () => {
       <style jsx>{`
         .hero-section-modern {
           position: relative;
-          padding: 3rem 1rem;
+          padding: 4rem 1.5rem;
           overflow: hidden;
-          background: white;
+          background: linear-gradient(135deg, #fff8f0 0%, #ffe4e1 50%, #fff5f5 100%);
+          border-top: 4px solid #800020;
         }
 
         .hero-gradient-bg {
-          display: none;
+          display: block;
+          position: absolute;
+          inset: 0;
+          background: 
+            radial-gradient(circle at 20% 20%, rgba(128, 0, 32, 0.08) 0%, transparent 40%),
+            radial-gradient(circle at 80% 80%, rgba(212, 165, 116, 0.12) 0%, transparent 50%);
+          pointer-events: none;
         }
 
         .hero-content-modern {
@@ -151,16 +158,16 @@ const HeroSection = () => {
         .hero-badge {
           display: inline-flex;
           align-items: center;
-          gap: 0.5rem;
-          padding: 0.625rem 1.25rem;
-          background: linear-gradient(135deg, #fff5e8 0%, #fffaf0 100%);
-          border: 1px solid rgba(212, 165, 116, 0.2);
+          gap: 0.625rem;
+          padding: 0.75rem 1.5rem;
+          background: linear-gradient(135deg, #800020 0%, #a0002a 100%);
+          border: none;
           border-radius: 100px;
-          font-size: 0.875rem;
-          font-weight: 500;
-          color: #8b6f47;
+          font-size: 0.9375rem;
+          font-weight: 600;
+          color: white;
           margin-bottom: 2rem;
-          box-shadow: 0 4px 12px rgba(212, 165, 116, 0.1);
+          box-shadow: 0 4px 16px rgba(128, 0, 32, 0.3);
         }
 
         .hero-badge-icon {
@@ -168,15 +175,13 @@ const HeroSection = () => {
         }
 
         .hero-title-modern {
-          font-size: 3.5rem;
-          font-weight: 700;
+          font-size: 3rem;
+          font-weight: 800;
           line-height: 1.15;
           margin-bottom: 1.5rem;
           letter-spacing: -0.03em;
-          background: linear-gradient(135deg, #2d2d2d 0%, #4a4a4a 50%, #2d2d2d 100%);
-          -webkit-background-clip: text;
-          -webkit-text-fill-color: transparent;
-          background-clip: text;
+          color: #2d2d2d;
+          text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.05);
         }
 
         .hero-typed-modern {

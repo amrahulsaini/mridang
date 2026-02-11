@@ -37,7 +37,7 @@ div:active {
 html, body {
   height: 100%;
   font-family: 'Sora', sans-serif;
-  background-color: #ffffff;
+  background: linear-gradient(to bottom, #fffbf7 0%, #fff5f0 100%);
   color: #2d2d2d;
   line-height: 1.6;
   overflow-x: hidden;
@@ -3265,8 +3265,20 @@ footer a:hover { color: #800020; }
 
 /* Modern Background */
 .modern-layout {
-  background: linear-gradient(to bottom, #ffffff 0%, #fffbf5 100%);
+  background: linear-gradient(180deg, #fffbf7 0%, #fff5f0 50%, #fffaf5 100%);
   position: relative;
+}
+
+.modern-layout::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 400px;
+  background: radial-gradient(ellipse at top, rgba(255, 235, 220, 0.4) 0%, transparent 70%);
+  pointer-events: none;
+  z-index: 0;
 }
 
 /* Hero Wrapper - Modern Layout */
