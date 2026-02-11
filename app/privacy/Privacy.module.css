@@ -1,6 +1,6 @@
 /* ============================================
    Privacy Policy – Luxe Design System
-   Primary: #6B2D3E | Secondary: #D4A373 | Accent: #C9A96E
+   Primary: #8B1A3A | Secondary: #D4A373 | Accent: #C9A96E
    ============================================ */
 
 /* ── Page Container ── */
@@ -16,7 +16,7 @@
 .hero {
   position: relative;
   padding: 7rem 2rem 5rem;
-  background: linear-gradient(135deg, #6B2D3E, #8B3A4A, #5A2333);
+  background: linear-gradient(135deg, #8B1A3A, #8B3A4A, #5A2333);
   text-align: center;
   overflow: hidden;
 }
@@ -138,7 +138,7 @@
   align-items: center;
   justify-content: center;
   margin-bottom: 1.25rem;
-  color: #6B2D3E;
+  color: #8B1A3A;
   font-size: 1.5rem;
 }
 
@@ -209,7 +209,7 @@
   width: 48px;
   height: 48px;
   border-radius: 0.85rem;
-  background: linear-gradient(135deg, #6B2D3E, #8B3A4A);
+  background: linear-gradient(135deg, #8B1A3A, #8B3A4A);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -344,7 +344,7 @@
   align-items: center;
   justify-content: center;
   margin: 0 auto 1.25rem;
-  color: #6B2D3E;
+  color: #8B1A3A;
   font-size: 1.4rem;
 }
 
@@ -365,7 +365,7 @@
 /* ── Contact Section ── */
 .contactSection {
   padding: 5rem 0;
-  background: linear-gradient(135deg, #6B2D3E, #8B3A4A, #5A2333);
+  background: linear-gradient(135deg, #8B1A3A, #8B3A4A, #5A2333);
   color: #F5EDE3;
 }
 

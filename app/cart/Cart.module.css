@@ -22,7 +22,7 @@
   display: inline-flex;
   align-items: center;
   gap: 0.6rem;
-  color: var(--brand-primary, #6B2D3E);
+  color: var(--brand-primary, #8B1A3A);
   text-decoration: none;
   font-weight: 600;
   padding: 0.75rem 1.5rem;
@@ -36,7 +36,7 @@
 }
 
 .backButton:hover {
-  background: linear-gradient(135deg, #6B2D3E, #8B3A4A);
+  background: linear-gradient(135deg, #8B1A3A, #8B3A4A);
   color: #fff;
   transform: translateX(-3px);
   box-shadow: 0 6px 20px rgba(107, 45, 62, 0.25);
@@ -57,7 +57,7 @@
   font-size: 2.25rem;
   font-weight: 700;
   font-family: var(--font-serif, 'Playfair Display', Georgia, serif);
-  background: linear-gradient(135deg, #6B2D3E, #D4A373);
+  background: linear-gradient(135deg, #8B1A3A, #D4A373);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -105,7 +105,7 @@
   top: 0;
   bottom: 0;
   width: 4px;
-  background: linear-gradient(180deg, #6B2D3E, #D4A373);
+  background: linear-gradient(180deg, #8B1A3A, #D4A373);
   border-radius: 4px 0 0 4px;
   opacity: 0;
   transition: opacity 0.3s ease;
@@ -174,7 +174,7 @@
 .itemPrice {
   font-size: 1.05rem;
   font-weight: 700;
-  color: #6B2D3E;
+  color: #8B1A3A;
   margin: 0.25rem 0 0;
 }
 
@@ -199,13 +199,13 @@
   border: none;
   border-radius: 50%;
   cursor: pointer;
-  color: #6B2D3E;
+  color: #8B1A3A;
   transition: all 0.2s ease;
   box-shadow: 0 1px 4px rgba(44, 24, 16, 0.06);
 }
 
 .quantityBtn:hover {
-  background: #6B2D3E;
+  background: #8B1A3A;
   color: #fff;
   transform: scale(1.1);
   box-shadow: 0 4px 12px rgba(107, 45, 62, 0.25);
@@ -297,7 +297,7 @@
   left: 0;
   right: 0;
   height: 4px;
-  background: linear-gradient(90deg, #6B2D3E, #D4A373, #C9A96E);
+  background: linear-gradient(90deg, #8B1A3A, #D4A373, #C9A96E);
 }
 
 .summaryTitle {
@@ -330,7 +330,7 @@
 }
 
 .totalRow span:last-child {
-  color: #6B2D3E;
+  color: #8B1A3A;
   font-family: var(--font-serif, 'Playfair Display', Georgia, serif);
   font-size: 1.4rem;
 }
@@ -344,7 +344,7 @@
   width: 100%;
   margin-top: 1.75rem;
   padding: 1.1rem 2rem;
-  background: linear-gradient(135deg, #6B2D3E 0%, #8B3A4A 100%);
+  background: linear-gradient(135deg, #8B1A3A 0%, #8B3A4A 100%);
   color: #fff;
   border: none;
   border-radius: 50px;
@@ -456,7 +456,7 @@
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
-  background: linear-gradient(135deg, #6B2D3E, #8B3A4A);
+  background: linear-gradient(135deg, #8B1A3A, #8B3A4A);
   color: #fff;
   text-decoration: none;
   padding: 1rem 2.5rem;

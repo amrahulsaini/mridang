@@ -14,7 +14,7 @@
 
 /* Hero */
 .hero {
-  background: linear-gradient(135deg, var(--brand-primary, #6B2D3E) 0%, #8B3A4A 50%, var(--brand-secondary, #D4A373) 100%);
+  background: linear-gradient(135deg, var(--brand-primary, #8B1A3A) 0%, #8B3A4A 50%, var(--brand-secondary, #D4A373) 100%);
   position: relative;
   overflow: hidden;
   padding: 5rem 0 4rem;
@@ -93,7 +93,7 @@
 .iconWrapper {
   width: 56px;
   height: 56px;
-  background: linear-gradient(135deg, var(--brand-primary, #6B2D3E), #8B3A4A);
+  background: linear-gradient(135deg, var(--brand-primary, #8B1A3A), #8B3A4A);
   border-radius: 0.75rem;
   display: flex;
   align-items: center;
@@ -125,7 +125,7 @@
 }
 
 .infoContent a:hover {
-  color: var(--brand-primary, #6B2D3E);
+  color: var(--brand-primary, #8B1A3A);
 }
 
 /* Contact Form Section */
@@ -201,7 +201,7 @@
 .formGroup input:focus,
 .formGroup textarea:focus,
 .formGroup select:focus {
-  border-color: var(--brand-primary, #6B2D3E);
+  border-color: var(--brand-primary, #8B1A3A);
   box-shadow: 0 0 0 3px rgba(107, 45, 62, 0.1);
 }
 
@@ -217,7 +217,7 @@
   gap: 0.5rem;
   width: 100%;
   padding: 1rem 2rem;
-  background: linear-gradient(135deg, var(--brand-primary, #6B2D3E), #8B3A4A);
+  background: linear-gradient(135deg, var(--brand-primary, #8B1A3A), #8B3A4A);
   color: #fff;
   border: none;
   border-radius: 0.75rem;
@@ -283,7 +283,7 @@
 
 /* WhatsApp Section */
 .whatsappSection {
-  background: linear-gradient(135deg, var(--brand-primary, #6B2D3E), #8B3A4A);
+  background: linear-gradient(135deg, var(--brand-primary, #8B1A3A), #8B3A4A);
   padding: 4rem 0;
   text-align: center;
 }

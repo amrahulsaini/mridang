@@ -146,11 +146,11 @@
   z-index: 10;
   transition: all 0.3s cubic-bezier(0.33, 1, 0.68, 1);
   box-shadow: 0 4px 16px rgba(44, 24, 16, 0.08);
-  color: #6B2D3E;
+  color: #8B1A3A;
 }
 
 .navButton:hover {
-  background: linear-gradient(135deg, #6B2D3E, #8B3A4A);
+  background: linear-gradient(135deg, #8B1A3A, #8B3A4A);
   color: white;
   transform: translateY(-50%) scale(1.08);
   box-shadow: 0 8px 28px rgba(107, 45, 62, 0.3);
@@ -204,7 +204,7 @@
 }
 
 .indicatorActive {
-  background: linear-gradient(135deg, #6B2D3E, #D4A373);
+  background: linear-gradient(135deg, #8B1A3A, #D4A373);
   width: 32px;
   border-radius: 6px;
   box-shadow: 0 0 12px rgba(107, 45, 62, 0.4);
@@ -224,7 +224,7 @@
 
 .progressFill {
   height: 100%;
-  background: linear-gradient(90deg, #6B2D3E 0%, #D4A373 100%);
+  background: linear-gradient(90deg, #8B1A3A 0%, #D4A373 100%);
   width: 100%;
   transform-origin: left;
 }
@@ -252,13 +252,13 @@
 }
 
 .thumbnail:hover {
-  border-color: #6B2D3E;
+  border-color: #8B1A3A;
   transform: translateY(-4px);
   box-shadow: 0 8px 20px rgba(107, 45, 62, 0.15);
 }
 
 .thumbnailActive {
-  border-color: #6B2D3E;
+  border-color: #8B1A3A;
   box-shadow: 0 6px 20px rgba(107, 45, 62, 0.2);
 }
 

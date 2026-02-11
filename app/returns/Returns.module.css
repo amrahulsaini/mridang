@@ -21,7 +21,7 @@
 /* ---------- Hero ---------- */
 .hero {
   position: relative;
-  background: linear-gradient(135deg, #6B2D3E 0%, #8B3A4A 50%, #5A2333 100%);
+  background: linear-gradient(135deg, #8B1A3A 0%, #8B3A4A 50%, #5A2333 100%);
   padding: 6rem 2rem 5rem;
   text-align: center;
   overflow: hidden;
@@ -140,7 +140,7 @@
   justify-content: center;
   margin: 0 auto 1.25rem;
   font-size: 1.5rem;
-  color: #6B2D3E;
+  color: #8B1A3A;
 }
 
 .description {
@@ -210,12 +210,12 @@
   font-size: 1.3rem;
   flex-shrink: 0;
   background: linear-gradient(135deg, rgba(107, 45, 62, 0.1), rgba(212, 163, 115, 0.12));
-  color: #6B2D3E;
+  color: #8B1A3A;
 }
 
 .conditionCard:nth-child(1) .conditionIcon {
   background: linear-gradient(135deg, rgba(107, 45, 62, 0.12), rgba(201, 169, 110, 0.15));
-  color: #6B2D3E;
+  color: #8B1A3A;
 }
 
 .conditionCard:nth-child(2) .conditionIcon {
@@ -309,7 +309,7 @@
   justify-content: center;
   margin: 0 auto 1rem;
   font-size: 1.35rem;
-  color: #6B2D3E;
+  color: #8B1A3A;
 }
 
 .stepNumber {
@@ -319,7 +319,7 @@
   width: 28px;
   height: 28px;
   border-radius: 50%;
-  background: linear-gradient(135deg, #6B2D3E, #8B3A4A);
+  background: linear-gradient(135deg, #8B1A3A, #8B3A4A);
   color: #fff;
   font-size: 0.8rem;
   font-weight: 700;
@@ -381,7 +381,7 @@
 }
 
 .noticeContent a {
-  color: #6B2D3E;
+  color: #8B1A3A;
   font-weight: 600;
   text-decoration: none;
   border-bottom: 1px solid rgba(107, 45, 62, 0.25);
@@ -483,7 +483,7 @@
   text-decoration: none;
   border: none;
   cursor: pointer;
-  background: linear-gradient(135deg, #6B2D3E, #8B3A4A);
+  background: linear-gradient(135deg, #8B1A3A, #8B3A4A);
   color: #fff;
   transition: transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94),
               box-shadow 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94),
@@ -501,7 +501,7 @@
   background: rgba(255, 255, 255, 0.85);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
-  color: #6B2D3E;
+  color: #8B1A3A;
   border: 1px solid rgba(107, 45, 62, 0.15);
   box-shadow: 0 2px 12px rgba(44, 24, 16, 0.05);
 }

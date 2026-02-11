@@ -16,7 +16,7 @@
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
-  color: var(--brand-primary, #6B2D3E);
+  color: var(--brand-primary, #8B1A3A);
   text-decoration: none;
   font-weight: 600;
   margin-bottom: 1rem;
@@ -28,7 +28,7 @@
 }
 
 .backBtn:hover {
-  background: var(--brand-primary, #6B2D3E);
+  background: var(--brand-primary, #8B1A3A);
   color: #fff;
   transform: translateX(-4px);
 }
@@ -40,7 +40,7 @@
   font-weight: 700;
   font-family: var(--font-serif, 'Playfair Display', Georgia, serif);
   margin: 0;
-  background: linear-gradient(135deg, var(--brand-primary, #6B2D3E), var(--brand-secondary, #D4A373));
+  background: linear-gradient(135deg, var(--brand-primary, #8B1A3A), var(--brand-secondary, #D4A373));
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -66,7 +66,7 @@
   width: 48px;
   height: 48px;
   border: 3px solid rgba(107, 45, 62, 0.1);
-  border-top-color: var(--brand-primary, #6B2D3E);
+  border-top-color: var(--brand-primary, #8B1A3A);
   border-radius: 50%;
   animation: spin 0.8s linear infinite;
 }
@@ -87,7 +87,7 @@
 .error h2 { color: #ef4444; margin-bottom: 1rem; }
 
 .retryBtn {
-  background: linear-gradient(135deg, var(--brand-primary, #6B2D3E), #8B3A4A);
+  background: linear-gradient(135deg, var(--brand-primary, #8B1A3A), #8B3A4A);
   color: #fff;
   border: none;
   padding: 0.75rem 1.5rem;
@@ -129,7 +129,7 @@
 
 .shopBtn {
   display: inline-block;
-  background: linear-gradient(135deg, var(--brand-primary, #6B2D3E), #8B3A4A);
+  background: linear-gradient(135deg, var(--brand-primary, #8B1A3A), #8B3A4A);
   color: #fff;
   text-decoration: none;
   padding: 1rem 2rem;
@@ -262,7 +262,7 @@
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  background: linear-gradient(135deg, var(--brand-primary, #6B2D3E), #8B3A4A);
+  background: linear-gradient(135deg, var(--brand-primary, #8B1A3A), #8B3A4A);
   color: #fff;
   border: none;
   padding: 0.75rem 1.5rem;
@@ -331,7 +331,7 @@
   transition: color 0.2s ease;
 }
 
-.closeBtn:hover { color: var(--brand-primary, #6B2D3E); }
+.closeBtn:hover { color: var(--brand-primary, #8B1A3A); }
 
 .modalContent { padding: 1.5rem; }
 
@@ -366,7 +366,7 @@
 }
 
 .customizationInfo h3 {
-  color: var(--brand-primary, #6B2D3E);
+  color: var(--brand-primary, #8B1A3A);
   margin-bottom: 1rem;
   font-size: 1.2rem;
   display: flex;
@@ -386,7 +386,7 @@
   border-left: 4px solid var(--brand-secondary, #D4A373);
 }
 
-.customItem strong { color: var(--brand-primary, #6B2D3E); font-size: 0.9rem; }
+.customItem strong { color: var(--brand-primary, #8B1A3A); font-size: 0.9rem; }
 .customItem span { color: var(--brand-dark, #2C1810); font-size: 1rem; font-weight: 500; }
 
 .infoGrid { display: grid; gap: 0.75rem; }
@@ -398,7 +398,7 @@
   color: var(--neutral-600, #57534e);
 }
 
-.infoIcon { width: 18px; height: 18px; color: var(--brand-primary, #6B2D3E); }
+.infoIcon { width: 18px; height: 18px; color: var(--brand-primary, #8B1A3A); }
 
 .productsList { margin-bottom: 2rem; }
 
@@ -436,7 +436,7 @@
 }
 
 .pricingRow.total {
-  border-top: 2px solid var(--brand-primary, #6B2D3E);
+  border-top: 2px solid var(--brand-primary, #8B1A3A);
   padding-top: 0.5rem;
   margin-top: 0.5rem;
   font-weight: 700;

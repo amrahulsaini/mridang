@@ -5,7 +5,8 @@ import Footer from '@/app/components/Footer'
 import CategoryContent from '@/app/category/[name]/CategoryContent'
 import styles from '../Category.module.css'
 
-export default function CategoryPage({ params }: { params: { name: string } }) {
+export default async function CategoryPage({ params }: { params: Promise<{ name: string }> }) {
+  const { name } = await params
   return (
     <div className={styles.categoryPage}>
       <TopBanner />
@@ -13,12 +14,16 @@ export default function CategoryPage({ params }: { params: { name: string } }) {
       <Suspense fallback={
         <div className={styles.container}>
           <div className={styles.loadingContainer}>
-            <div className={styles.spinner}></div>
+            <div className={styles.dotSpinner}>
+              <span className={styles.dot}></span>
+              <span className={styles.dot}></span>
+              <span className={styles.dot}></span>
+            </div>
             <p className={styles.loadingText}>Loading category...</p>
           </div>
         </div>
       }>
-        <CategoryContent categoryName={decodeURIComponent(params.name)} />
+        <CategoryContent categoryName={decodeURIComponent(name)} />
       </Suspense>
       <Footer />
     </div>

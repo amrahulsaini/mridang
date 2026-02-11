@@ -10,7 +10,7 @@
 /* ─── CSS Custom Properties (Design Tokens) ─── */
 :root {
   /* Brand Colors */
-  --brand-primary: #6B2D3E;
+  --brand-primary: #8B1A3A;
   --brand-secondary: #D4A373;
   --brand-accent: #C9A96E;
   --brand-dark: #2C1810;
@@ -342,7 +342,7 @@ p { line-height: 1.7; color: var(--neutral-600); }
   background: rgba(255, 255, 255, 0.85);
   backdrop-filter: blur(24px) saturate(180%);
   -webkit-backdrop-filter: blur(24px) saturate(180%);
-  border-bottom: 1px solid rgba(107, 45, 62, 0.06);
+  border-bottom: 1px solid rgba(139, 26, 58, 0.06);
   position: sticky;
   top: 0;
   z-index: 50;
@@ -447,7 +447,7 @@ p { line-height: 1.7; color: var(--neutral-600); }
 
 .nav-link:hover {
   color: var(--brand-primary);
-  background: rgba(107, 45, 62, 0.04);
+  background: rgba(139, 26, 58, 0.04);
 }
 
 .nav-link:hover::after { width: 70%; }
@@ -548,7 +548,7 @@ p { line-height: 1.7; color: var(--neutral-600); }
 }
 
 .category-dropdown-item:hover {
-  background: linear-gradient(90deg, rgba(107, 45, 62, 0.06), transparent);
+  background: linear-gradient(90deg, rgba(139, 26, 58, 0.06), transparent);
   color: var(--brand-primary);
   border-left-color: var(--brand-primary);
   padding-left: 1.5rem;
@@ -920,7 +920,7 @@ p { line-height: 1.7; color: var(--neutral-600); }
   font-weight: 600 !important;
   background: linear-gradient(135deg, var(--brand-primary), #8B3A4A) !important;
   border: none !important;
-  box-shadow: 0 2px 6px rgba(107, 45, 62, 0.2) !important;
+  box-shadow: 0 2px 6px rgba(139, 26, 58, 0.2) !important;
 }
 
 @media (max-width: 768px) {
@@ -1154,11 +1154,11 @@ p { line-height: 1.7; color: var(--neutral-600); }
 .btn-primary {
   background: linear-gradient(135deg, var(--brand-primary) 0%, #8B3A4A 100%);
   color: white;
-  box-shadow: 0 4px 14px rgba(107, 45, 62, 0.25);
+  box-shadow: 0 4px 14px rgba(139, 26, 58, 0.25);
 }
 
 .btn-primary:hover {
-  box-shadow: 0 8px 24px rgba(107, 45, 62, 0.35);
+  box-shadow: 0 8px 24px rgba(139, 26, 58, 0.35);
   filter: brightness(1.05);
 }
 
@@ -1172,7 +1172,7 @@ p { line-height: 1.7; color: var(--neutral-600); }
 .btn-secondary:hover {
   background: var(--brand-primary);
   color: white;
-  box-shadow: 0 4px 14px rgba(107, 45, 62, 0.25);
+  box-shadow: 0 4px 14px rgba(139, 26, 58, 0.25);
 }
 
 .btn-outline {
@@ -1206,13 +1206,13 @@ p { line-height: 1.7; color: var(--neutral-600); }
 
 .btn-icon.btn-primary:hover {
   transform: translateY(-2px) scale(1.1);
-  box-shadow: 0 8px 24px rgba(107, 45, 62, 0.4);
+  box-shadow: 0 8px 24px rgba(139, 26, 58, 0.4);
 }
 
 .btn-icon.btn-secondary {
   background: rgba(255, 255, 255, 0.95);
   color: var(--brand-primary);
-  border: 2px solid rgba(107, 45, 62, 0.15);
+  border: 2px solid rgba(139, 26, 58, 0.15);
 }
 
 .btn-icon.btn-secondary:hover {
@@ -1386,7 +1386,7 @@ p { line-height: 1.7; color: var(--neutral-600); }
    ═══════════════════════════════════════════════════════════ */
 .product-grid {
   display: flex;
-  gap: 0;
+  gap: 1rem;
   overflow-x: auto;
   padding: 0;
   scroll-behavior: auto;
@@ -1411,10 +1411,10 @@ p { line-height: 1.7; color: var(--neutral-600); }
   padding: 0;
   margin: 0;
   contain: layout style paint;
-  border-radius: 0;
+  border-radius: var(--radius-lg);
   overflow: hidden;
-  border: none;
-  box-shadow: none;
+  border: 1px solid var(--neutral-200);
+  box-shadow: var(--shadow-sm);
   transition: all 0.4s var(--ease-out);
   scroll-snap-align: start;
 }
@@ -1422,6 +1422,7 @@ p { line-height: 1.7; color: var(--neutral-600); }
 .product-card:hover {
   transform: translateY(-6px);
   box-shadow: 0 20px 48px rgba(44, 24, 16, 0.12);
+  border-color: var(--neutral-300);
 }
 
 .product-card::before, .product-card::after { content: none; display: none; }
@@ -1435,7 +1436,7 @@ p { line-height: 1.7; color: var(--neutral-600); }
   flex-shrink: 1 !important;
 }
 
-.grid { display: grid !important; gap: 0; width: 100%; }
+.grid { display: grid !important; gap: 1.25rem; width: 100%; }
 
 .grid-cols-1 { grid-template-columns: repeat(1, minmax(0, 1fr)); }
 .grid-cols-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
@@ -1467,7 +1468,7 @@ p { line-height: 1.7; color: var(--neutral-600); }
   contain: layout style paint;
   padding: 0;
   background: linear-gradient(180deg, var(--neutral-50) 0%, var(--neutral-100) 100%);
-  border-radius: 0;
+  border-radius: var(--radius-lg) var(--radius-lg) 0 0;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1478,7 +1479,7 @@ p { line-height: 1.7; color: var(--neutral-600); }
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: 0;
+  border-radius: var(--radius-lg) var(--radius-lg) 0 0;
   padding: 0;
 }
 
@@ -2142,7 +2143,7 @@ footer a:hover { color: var(--brand-secondary); text-decoration: none; }
 .about-hero .image-overlay {
   position: absolute;
   inset: 0;
-  background: linear-gradient(to bottom, transparent, rgba(107, 45, 62, 0.05));
+  background: linear-gradient(to bottom, transparent, rgba(139, 26, 58, 0.05));
 }
 
 /* Stats */
@@ -2244,7 +2245,7 @@ footer a:hover { color: var(--brand-secondary); text-decoration: none; }
   right: 0;
   bottom: 0;
   background: 
-    radial-gradient(ellipse at 15% 15%, rgba(107, 45, 62, 0.03) 0%, transparent 50%),
+    radial-gradient(ellipse at 15% 15%, rgba(139, 26, 58, 0.03) 0%, transparent 50%),
     radial-gradient(ellipse at 85% 85%, rgba(212, 163, 115, 0.04) 0%, transparent 50%),
     radial-gradient(ellipse at 50% 50%, rgba(201, 169, 110, 0.02) 0%, transparent 60%);
   pointer-events: none;
@@ -2312,7 +2313,7 @@ img { max-width: 100%; height: auto; }
 }
 .img-optimized:hover { transform: scale(1.03); }
 
-.card, .product-card, .category-card { border-radius: 0 !important; overflow: hidden; }
+.card, .product-card, .category-card { border-radius: var(--radius-lg) !important; overflow: hidden; }
 .btn, button:not(.no-radius) { border-radius: var(--radius-md) !important; }
 input:not([type="checkbox"]):not([type="radio"]), select, textarea { border-radius: var(--radius-md) !important; }
 
@@ -2387,7 +2388,7 @@ input:not([type="checkbox"]):not([type="radio"]), select, textarea { border-radi
   background: rgba(255, 255, 255, 0.85);
 }
 
-.usp-strip { background: linear-gradient(90deg, rgba(107, 45, 62, 0.04), rgba(212, 163, 115, 0.04)); padding: 1rem 0; }
+.usp-strip { background: linear-gradient(90deg, rgba(139, 26, 58, 0.04), rgba(212, 163, 115, 0.04)); padding: 1rem 0; }
 .usp-list { display: flex; gap: 2rem; justify-content: center; color: var(--neutral-600); font-weight: 600; }
 .usp-list li { display: inline-flex; align-items: center; gap: 0.5rem; }
 

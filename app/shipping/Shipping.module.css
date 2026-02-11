@@ -1,6 +1,6 @@
 /* ============================================================
    Shipping Page — Luxe Design System
-   Primary: #6B2D3E (wine)  Secondary: #D4A373 (warm gold)
+   Primary: #8B1A3A (wine)  Secondary: #D4A373 (warm gold)
    Accent: #C9A96E  Dark: #2C1810  Light: #F5EDE3
    ============================================================ */
 
@@ -17,7 +17,7 @@
 .hero {
   position: relative;
   padding: 6rem 2rem 5rem;
-  background: linear-gradient(135deg, #6B2D3E 0%, #8B3A4A 50%, #5A2333 100%);
+  background: linear-gradient(135deg, #8B1A3A 0%, #8B3A4A 50%, #5A2333 100%);
   text-align: center;
   overflow: hidden;
 }
@@ -117,7 +117,7 @@
   left: 0;
   right: 0;
   height: 4px;
-  background: linear-gradient(90deg, #6B2D3E, #D4A373);
+  background: linear-gradient(90deg, #8B1A3A, #D4A373);
   opacity: 0;
   transition: opacity 0.3s cubic-bezier(0.33, 1, 0.68, 1);
 }
@@ -150,7 +150,7 @@
   justify-content: center;
   margin-bottom: 1.25rem;
   font-size: 1.5rem;
-  color: #6B2D3E;
+  color: #8B1A3A;
 }
 
 .optionMeta {
@@ -161,7 +161,7 @@
 
 .time {
   font-size: 0.9rem;
-  color: #6B2D3E;
+  color: #8B1A3A;
   font-weight: 600;
   background: rgba(107, 45, 62, 0.06);
   padding: 0.3rem 0.75rem;
@@ -264,7 +264,7 @@
   justify-content: center;
   margin: 0 auto 1.25rem;
   font-size: 1.4rem;
-  color: #6B2D3E;
+  color: #8B1A3A;
 }
 
 /* ── Process Section ───────────────────────────────────────── */
@@ -290,7 +290,7 @@
 .stepNumber {
   width: 48px;
   height: 48px;
-  background: linear-gradient(135deg, #6B2D3E, #8B3A4A);
+  background: linear-gradient(135deg, #8B1A3A, #8B3A4A);
   color: #FAFAF8;
   border-radius: 50%;
   display: flex;
@@ -395,7 +395,7 @@
   align-items: center;
   gap: 0.5rem;
   padding: 0.85rem 2rem;
-  background: linear-gradient(135deg, #6B2D3E, #8B3A4A);
+  background: linear-gradient(135deg, #8B1A3A, #8B3A4A);
   color: #FAFAF8;
   border: none;
   border-radius: 3rem;
@@ -421,7 +421,7 @@
   background: rgba(255, 255, 255, 0.85);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
-  color: #6B2D3E;
+  color: #8B1A3A;
   border: 1px solid rgba(107, 45, 62, 0.15);
   border-radius: 3rem;
   font-family: var(--font-sans, 'Inter', sans-serif);

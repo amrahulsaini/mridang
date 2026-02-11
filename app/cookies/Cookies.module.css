@@ -1,6 +1,6 @@
 /* ============================================
    COOKIES POLICY — LUXE DESIGN SYSTEM
-   Primary: #6B2D3E (wine)
+   Primary: #8B1A3A (wine)
    Secondary: #D4A373 (warm gold)
    Accent: #C9A96E
    ============================================ */
@@ -24,7 +24,7 @@
 /* ---------- Hero ---------- */
 .hero {
   position: relative;
-  background: linear-gradient(135deg, #6B2D3E, #8B3A4A, #5A2333);
+  background: linear-gradient(135deg, #8B1A3A, #8B3A4A, #5A2333);
   padding: 6rem 2rem 5rem;
   text-align: center;
   overflow: hidden;
@@ -104,7 +104,7 @@
   justify-content: center;
   background: linear-gradient(135deg, rgba(107, 45, 62, 0.08), rgba(212, 163, 115, 0.12));
   border-radius: 1rem;
-  color: #6B2D3E;
+  color: #8B1A3A;
   font-size: 1.5rem;
 }
 
@@ -137,7 +137,7 @@
   background: rgba(107, 45, 62, 0.06);
   border-radius: 2rem;
   font-size: 0.875rem;
-  color: #6B2D3E;
+  color: #8B1A3A;
   font-weight: 500;
 }
 
@@ -214,7 +214,7 @@
   justify-content: center;
   background: linear-gradient(135deg, rgba(107, 45, 62, 0.08), rgba(212, 163, 115, 0.12));
   border-radius: 0.875rem;
-  color: #6B2D3E;
+  color: #8B1A3A;
   font-size: 1.35rem;
   margin-bottom: 1.25rem;
 }
@@ -298,7 +298,7 @@
   grid-template-columns: 1fr 1fr 2fr 1fr;
   gap: 1rem;
   padding: 1.25rem 2rem;
-  background: linear-gradient(135deg, #6B2D3E, #8B3A4A);
+  background: linear-gradient(135deg, #8B1A3A, #8B3A4A);
   color: #F5EDE3;
   font-weight: 600;
   font-size: 0.875rem;
@@ -340,7 +340,7 @@
 }
 
 .cookieType {
-  color: #6B2D3E;
+  color: #8B1A3A;
   font-weight: 500;
 }
 
@@ -410,7 +410,7 @@
   justify-content: center;
   background: linear-gradient(135deg, rgba(107, 45, 62, 0.08), rgba(212, 163, 115, 0.12));
   border-radius: 0.875rem;
-  color: #6B2D3E;
+  color: #8B1A3A;
   font-size: 1.35rem;
   margin-bottom: 1.25rem;
 }
@@ -456,7 +456,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(135deg, #6B2D3E, #8B3A4A);
+  background: linear-gradient(135deg, #8B1A3A, #8B3A4A);
   color: #F5EDE3;
   border-radius: 50%;
   font-size: 0.7rem;
@@ -574,7 +574,7 @@
 .contactItem svg {
   width: 32px;
   height: 32px;
-  color: #6B2D3E;
+  color: #8B1A3A;
   margin-bottom: 1rem;
 }
 
@@ -588,7 +588,7 @@
 
 .contactItem a {
   font-size: 0.95rem;
-  color: #6B2D3E;
+  color: #8B1A3A;
   text-decoration: none;
   font-weight: 500;
   transition: color 0.25s ease;

@@ -31,7 +31,7 @@ export const metadata: Metadata = {
     maximumScale: 5,
     userScalable: true,
   },
-  themeColor: "#6B2D3E",
+  themeColor: "#8B1A3A",
   openGraph: {
     type: "website",
     title: "Mridang - Handcrafted Premium Platters",

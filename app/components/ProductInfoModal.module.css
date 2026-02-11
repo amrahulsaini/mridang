@@ -80,13 +80,13 @@
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
   box-shadow: 0 4px 16px rgba(44, 24, 16, 0.12);
-  color: #6B2D3E;
+  color: #8B1A3A;
 }
 
 .closeButton:hover {
-  background: #6B2D3E;
+  background: #8B1A3A;
   color: #FAFAF8;
-  border-color: #6B2D3E;
+  border-color: #8B1A3A;
   transform: scale(1.1) rotate(90deg);
   box-shadow: 0 6px 20px rgba(107, 45, 62, 0.3);
 }
@@ -192,7 +192,7 @@
   font-family: var(--font-serif, 'Playfair Display', Georgia, serif);
   font-size: 2rem;
   font-weight: 700;
-  color: #6B2D3E;
+  color: #8B1A3A;
   letter-spacing: -0.02em;
 }
 
@@ -220,7 +220,7 @@
   font-family: var(--font-sans, 'Inter', sans-serif);
   font-size: 0.8125rem;
   font-weight: 600;
-  color: #6B2D3E;
+  color: #8B1A3A;
   text-transform: uppercase;
   letter-spacing: 0.08em;
 }
@@ -251,9 +251,9 @@
 }
 
 .quantityButton:hover:not(:disabled) {
-  background: #6B2D3E;
+  background: #8B1A3A;
   color: #FAFAF8;
-  border-color: #6B2D3E;
+  border-color: #8B1A3A;
   transform: translateY(-1px);
   box-shadow: 0 3px 10px rgba(107, 45, 62, 0.2);
 }
@@ -336,7 +336,7 @@
 
 /* Buy Now */
 .buyNowButton {
-  background: linear-gradient(135deg, #6B2D3E 0%, #8B3A4A 100%);
+  background: linear-gradient(135deg, #8B1A3A 0%, #8B3A4A 100%);
   color: #FAFAF8;
   border-color: transparent;
   box-shadow: 0 2px 8px rgba(107, 45, 62, 0.2);
@@ -351,12 +351,12 @@
 /* Add to Cart */
 .addToCartButton {
   background: #FAFAF8;
-  color: #6B2D3E;
-  border-color: #6B2D3E;
+  color: #8B1A3A;
+  border-color: #8B1A3A;
 }
 
 .addToCartButton:hover {
-  background: #6B2D3E;
+  background: #8B1A3A;
   color: #FAFAF8;
   transform: translateY(-2px);
   box-shadow: 0 8px 28px rgba(107, 45, 62, 0.22);
@@ -380,7 +380,7 @@
 /* More Details */
 .moreDetailsButton {
   background: transparent;
-  color: #6B2D3E;
+  color: #8B1A3A;
   border-color: rgba(212, 163, 115, 0.4);
 }
 

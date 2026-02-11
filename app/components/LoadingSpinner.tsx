@@ -52,19 +52,13 @@ export default function LoadingSpinner() {
   return (
     <div className={`loading-spinner-overlay ${fadeOut ? 'fade-out' : ''}`}>
       <div className="loading-spinner-container">
-        <div className="spinner-modern">
-          <div className="spinner-ring-outer"></div>
-          <div className="spinner-ring-middle"></div>
-          <div className="spinner-ring-inner"></div>
-          <div className="spinner-dot"></div>
-        </div>
         <div className="loading-text-wrapper">
           <p className="loading-text">Loading</p>
-          <div className="loading-dots">
-            <span className="dot dot-1">•</span>
-            <span className="dot dot-2">•</span>
-            <span className="dot dot-3">•</span>
-          </div>
+        </div>
+        <div className="spinner-dots">
+          <span className="spinner-dot-item spinner-dot-1"></span>
+          <span className="spinner-dot-item spinner-dot-2"></span>
+          <span className="spinner-dot-item spinner-dot-3"></span>
         </div>
       </div>
     </div>

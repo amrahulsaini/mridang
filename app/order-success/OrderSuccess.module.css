@@ -92,7 +92,7 @@
 }
 
 .primaryBtn {
-  background: linear-gradient(135deg, var(--brand-primary, #6B2D3E), #8B3A4A);
+  background: linear-gradient(135deg, var(--brand-primary, #8B1A3A), #8B3A4A);
   color: #fff;
   border: 2px solid transparent;
   box-shadow: 0 4px 16px rgba(107, 45, 62, 0.25);
@@ -105,12 +105,12 @@
 
 .secondaryBtn {
   background: transparent;
-  color: var(--brand-primary, #6B2D3E);
-  border: 2px solid var(--brand-primary, #6B2D3E);
+  color: var(--brand-primary, #8B1A3A);
+  border: 2px solid var(--brand-primary, #8B1A3A);
 }
 
 .secondaryBtn:hover {
-  background: var(--brand-primary, #6B2D3E);
+  background: var(--brand-primary, #8B1A3A);
   color: #fff;
 }
 

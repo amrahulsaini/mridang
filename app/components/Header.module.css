@@ -48,7 +48,7 @@
   letter-spacing: 0.02em;
   background: linear-gradient(
     135deg,
-    var(--brand-primary, #6B2D3E),
+    var(--brand-primary, #8B1A3A),
     var(--brand-secondary, #D4A373)
   );
   -webkit-background-clip: text;
@@ -92,7 +92,7 @@
 }
 
 .nav-link:hover {
-  color: var(--brand-primary, #6B2D3E);
+  color: var(--brand-primary, #8B1A3A);
 }
 
 .nav-link:hover::after {
@@ -100,7 +100,7 @@
 }
 
 .nav-link.active {
-  color: var(--brand-primary, #6B2D3E);
+  color: var(--brand-primary, #8B1A3A);
   font-weight: 600;
 }
 

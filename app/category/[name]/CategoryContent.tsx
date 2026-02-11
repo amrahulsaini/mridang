@@ -58,7 +58,11 @@ export default function CategoryContent({ categoryName }: CategoryContentProps) 
     return (
       <div className={styles.container}>
         <div className={styles.loadingContainer}>
-          <div className={styles.spinner}></div>
+          <div className={styles.dotSpinner}>
+            <span className={styles.dot}></span>
+            <span className={styles.dot}></span>
+            <span className={styles.dot}></span>
+          </div>
           <p className={styles.loadingText}>Loading {categoryName} products...</p>
         </div>
       </div>
