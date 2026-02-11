@@ -8,8 +8,6 @@ const nextConfig: NextConfig = {
     contentSecurityPolicy: "default-src 'self'; script-src 'none'; sandbox;",
     // Supported formats for modern browsers
     formats: ['image/webp', 'image/avif'],
-    // Quality setting for optimized images
-    quality: 85,
     // Device sizes for responsive images
     deviceSizes: [640, 750, 828, 1080, 1200, 1920, 2048, 3840],
     // Image sizes for different use cases
@@ -21,11 +19,9 @@ const nextConfig: NextConfig = {
   },
   // Enable compression
   compress: true,
-  // Optimize production builds
-  swcMinify: true,
   // Enable React strict mode for better development experience
   reactStrictMode: true,
-  // Power optimizations
+  // Remove powered by header
   poweredByHeader: false,
 };
 
