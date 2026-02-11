@@ -283,7 +283,8 @@ export default function ProductDetailsPage() {
           </div>
         </div>
       </div>
-    )\n  }
+    )
+  }
 
   if (error || !product) {
     return (
