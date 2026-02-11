@@ -69,51 +69,6 @@ const HeroSection = () => {
               <span className="hero-cursor">|</span>
             </span>
           </h1>
-
-          {/* Subtitle */}
-          <p className="hero-subtitle-modern">
-            Ring trays, haldi & mehendi platters, and custom designs — made to match your theme with exceptional craftsmanship.
-          </p>
-
-          {/* CTA Buttons */}
-          <motion.div 
-            className="hero-cta-modern"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.4, duration: 0.6 }}
-          >
-            <Link href="/shop" className="btn-hero-primary">
-              <ShoppingBag size={20} />
-              <span>Shop All Products</span>
-              <ArrowRight size={18} className="btn-arrow" />
-            </Link>
-            <Link href="/#categories" className="btn-hero-secondary">
-              <span>Browse Categories</span>
-            </Link>
-          </motion.div>
-
-          {/* Trust Indicators */}
-          <motion.div 
-            className="hero-trust-indicators"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.6, duration: 0.8 }}
-          >
-            <div className="trust-item">
-              <div className="trust-icon">✓</div>
-              <span>Premium Quality</span>
-            </div>
-            <div className="trust-divider"></div>
-            <div className="trust-item">
-              <div className="trust-icon">✓</div>
-              <span>Custom Designs</span>
-            </div>
-            <div className="trust-divider"></div>
-            <div className="trust-item">
-              <div className="trust-icon">✓</div>
-              <span>Fast Delivery</span>
-            </div>
-          </motion.div>
         </motion.div>
       </div>
 
