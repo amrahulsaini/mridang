@@ -233,55 +233,12 @@ export default function ProductDetailsPage() {
   if (loading) {
     return (
       <div className={styles.loadingOverlay}>
-        <div className={styles.loadingSpinnerWrapper}>
-          {/* Multi-ring modern spinner */}
-          <motion.div
-            className={styles.spinnerRingOuter}
-            animate={{ rotate: 360 }}
-            transition={{ duration: 1.8, repeat: Infinity, ease: "linear" }}
-          />
-          <motion.div
-            className={styles.spinnerRingMiddle}
-            animate={{ rotate: -360 }}
-            transition={{ duration: 2.4, repeat: Infinity, ease: "linear" }}
-          />
-          <motion.div
-            className={styles.spinnerRingInner}
-            animate={{ rotate: 360 }}
-            transition={{ duration: 1.2, repeat: Infinity, ease: "linear" }}
-          />
-          <motion.div
-            className={styles.spinnerDot}
-            animate={{ scale: [1, 1.3, 1] }}
-            transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
-          />
-        </div>
-        <div className={styles.loadingTextWrapper}>
-          <p className={styles.loadingText}>Loading Product</p>
-          <div className={styles.loadingDots}>
-            <motion.span
-              className={styles.dot}
-              animate={{ opacity: [0.4, 1, 0.4] }}
-              transition={{ duration: 1.4, repeat: Infinity, delay: 0 }}
-            >
-              •
-            </motion.span>
-            <motion.span
-              className={styles.dot}
-              animate={{ opacity: [0.4, 1, 0.4] }}
-              transition={{ duration: 1.4, repeat: Infinity, delay: 0.2 }}
-            >
-              •
-            </motion.span>
-            <motion.span
-              className={styles.dot}
-              animate={{ opacity: [0.4, 1, 0.4] }}
-              transition={{ duration: 1.4, repeat: Infinity, delay: 0.4 }}
-            >
-              •
-            </motion.span>
-          </div>
-        </div>
+        <motion.div
+          className={styles.simpleSpinner}
+          animate={{ rotate: 360 }}
+          transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
+        />
+        <p className={styles.loadingText}>Loading...</p>
       </div>
     )
   }

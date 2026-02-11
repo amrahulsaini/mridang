@@ -62,17 +62,6 @@ const HeroSection = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, ease: [0.4, 0, 0.2, 1] }}
         >
-          {/* Accent Badge */}
-          <motion.div 
-            className="hero-badge"
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ delay: 0.2, duration: 0.5 }}
-          >
-            <Sparkles size={16} className="hero-badge-icon" />
-            <span>Handcrafted with Love</span>
-          </motion.div>
-
           {/* Main Heading */}
           <h1 className="hero-title-modern">
             <span className="hero-typed-modern">
@@ -134,7 +123,7 @@ const HeroSection = () => {
           padding: 5rem 1.5rem;
           overflow: hidden;
           background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 50%, #e2e8f0 100%);
-          border-top: 3px solid #6366f1;
+          border-top: 3px solid #000000;
         }
 
         .hero-gradient-bg {
@@ -142,8 +131,8 @@ const HeroSection = () => {
           position: absolute;
           inset: 0;
           background: 
-            radial-gradient(circle at 20% 20%, rgba(99, 102, 241, 0.08) 0%, transparent 50%),
-            radial-gradient(circle at 80% 80%, rgba(139, 92, 246, 0.08) 0%, transparent 50%);
+            radial-gradient(circle at 20% 20%, rgba(0, 0, 0, 0.08) 0%, transparent 50%),
+            radial-gradient(circle at 80% 80%, rgba(212, 175, 55, 0.08) 0%, transparent 50%);
           pointer-events: none;
         }
 
@@ -160,14 +149,14 @@ const HeroSection = () => {
           align-items: center;
           gap: 0.625rem;
           padding: 0.75rem 1.5rem;
-          background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+          background: linear-gradient(135deg, #000000 0%, #d4af37 100%);
           border: none;
           border-radius: 100px;
           font-size: 0.9375rem;
           font-weight: 600;
           color: white;
           margin-bottom: 2rem;
-          box-shadow: 0 4px 16px rgba(99, 102, 241, 0.3);
+          box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
         }
 
         .hero-badge-icon {
@@ -193,7 +182,7 @@ const HeroSection = () => {
         }
 
         .hero-cursor {
-          color: #6366f1;
+          color: #000000;
           animation: blink 1s step-end infinite;
         }
 
@@ -226,14 +215,14 @@ const HeroSection = () => {
           align-items: center;
           gap: 0.75rem;
           padding: 1.125rem 2.25rem;
-          background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+          background: linear-gradient(135deg, #000000 0%, #d4af37 100%);
           color: white;
           border-radius: 16px;
           font-weight: 700;
           font-size: 1.0625rem;
           text-decoration: none;
           box-shadow: 
-            0 8px 24px rgba(99, 102, 241, 0.3),
+            0 8px 24px rgba(0, 0, 0, 0.3),
             0 4px 12px rgba(0, 0, 0, 0.08);
           transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
           position: relative;
@@ -248,7 +237,7 @@ const HeroSection = () => {
           transform: translateY(-3px);
           background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
           box-shadow: 
-            0 12px 36px rgba(99, 102, 241, 0.4),
+            0 12px 36px rgba(0, 0, 0, 0.4),
             0 6px 16px rgba(0, 0, 0, 0.12);
         }
 
@@ -265,8 +254,8 @@ const HeroSection = () => {
           align-items: center;
           padding: 1.125rem 2.25rem;
           background: rgba(255, 255, 255, 0.95);
-          color: #6366f1;
-          border: 2px solid rgba(99, 102, 241, 0.3);
+          color: #000000;
+          border: 2px solid rgba(0, 0, 0, 0.3);
           border-radius: 16px;
           font-weight: 700;
           font-size: 1.0625rem;
@@ -277,8 +266,8 @@ const HeroSection = () => {
         }
 
         .btn-hero-secondary:hover {
-          background: rgba(99, 102, 241, 0.05);
-          border-color: rgba(99, 102, 241, 0.5);
+          background: rgba(0, 0, 0, 0.05);
+          border-color: rgba(0, 0, 0, 0.5);
           transform: translateY(-3px);
           box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
         }
@@ -314,18 +303,18 @@ const HeroSection = () => {
           justify-content: center;
           width: 28px;
           height: 28px;
-          background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+          background: linear-gradient(135deg, #000000 0%, #d4af37 100%);
           color: white;
           border-radius: 50%;
           font-size: 0.875rem;
           font-weight: 700;
-          box-shadow: 0 2px 8px rgba(99, 102, 241, 0.3);
+          box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
         }
 
         .trust-divider {
           width: 1px;
           height: 28px;
-          background: linear-gradient(180deg, transparent 0%, rgba(99, 102, 241, 0.2) 50%, transparent 100%);
+          background: linear-gradient(180deg, transparent 0%, rgba(0, 0, 0, 0.2) 50%, transparent 100%);
         }
 
         @media (max-width: 768px) {
@@ -394,3 +383,4 @@ const HeroSection = () => {
 }
 
 export default HeroSection
+
