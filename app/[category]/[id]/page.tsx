@@ -232,19 +232,29 @@ export default function ProductDetailsPage() {
 
   if (loading) {
     return (
-      <div className={styles.container}>
-        <div className={styles.loading}>
+      <div className={styles.loadingOverlay}>
+        <div className={styles.loadingSpinnerWrapper}>
+          {/* Multi-ring modern spinner */}
           <motion.div
+            className={styles.spinnerRingOuter}
             animate={{ rotate: 360 }}
-            transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
-          >
-            <Package className="w-8 h-8" />
-          </motion.div>
-          <span className="ml-2">Loading product details...</span>
-        </div>
-      </div>
-    )
-  }
+            transition={{ duration: 1.8, repeat: Infinity, ease: "linear" }}
+          />
+          <motion.div
+            className={styles.spinnerRingMiddle}
+            animate={{ rotate: -360 }}
+            transition={{ duration: 2.4, repeat: Infinity, ease: "linear" }}
+          />
+          <motion.div
+            className={styles.spinnerRingInner}
+            animate={{ rotate: 360 }}
+            transition={{ duration: 1.2, repeat: Infinity, ease: "linear" }}
+          />
+          <motion.div
+            className={styles.spinnerDot}
+            animate={{ scale: [1, 1.3, 1] }}
+            transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+          />\n        </div>\n        <div className={styles.loadingTextWrapper}>\n          <p className={styles.loadingText}>Loading Product</p>\n          <div className={styles.loadingDots}>\n            <motion.span\n              className={styles.dot}\n              animate={{ opacity: [0.4, 1, 0.4] }}\n              transition={{ duration: 1.4, repeat: Infinity, delay: 0 }}\n            >\n              •\n            </motion.span>\n            <motion.span\n              className={styles.dot}\n              animate={{ opacity: [0.4, 1, 0.4] }}\n              transition={{ duration: 1.4, repeat: Infinity, delay: 0.2 }}\n            >\n              •\n            </motion.span>\n            <motion.span\n              className={styles.dot}\n              animate={{ opacity: [0.4, 1, 0.4] }}\n              transition={{ duration: 1.4, repeat: Infinity, delay: 0.4 }}\n            >\n              •\n            </motion.span>\n          </div>\n        </div>\n      </div>\n    )\n  }
 
   if (error || !product) {
     return (

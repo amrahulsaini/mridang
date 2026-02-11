@@ -16,7 +16,6 @@ export default function LoadingSpinner() {
     const handleStart = () => setLoading(true)
     const handleComplete = () => setLoading(false)
 
-    // Listen to Next.js router events
     window.addEventListener('beforeunload', handleStart)
     
     return () => {
@@ -29,13 +28,23 @@ export default function LoadingSpinner() {
   return (
     <div className="loading-spinner-overlay">
       <div className="loading-spinner-container">
-        <div className="spinner-ring">
-          <div></div>
-          <div></div>
-          <div></div>
-          <div></div>
+        {/* Multi-ring spinner */}
+        <div className="spinner-modern">
+          <div className="spinner-ring-outer"></div>
+          <div className="spinner-ring-middle"></div>
+          <div className="spinner-ring-inner"></div>
+          <div className="spinner-dot"></div>
         </div>
-        <p className="loading-text">Loading...</p>
+        
+        {/* Loading text with gradient */}
+        <div className="loading-text-wrapper">
+          <p className="loading-text">Loading</p>
+          <div className="loading-dots">
+            <span className="dot dot-1">•</span>
+            <span className="dot dot-2">•</span>
+            <span className="dot dot-3">•</span>
+          </div>
+        </div>
       </div>
     </div>
   )
