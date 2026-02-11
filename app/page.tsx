@@ -1,8 +1,6 @@
 ﻿import TopBanner from './components/TopBanner';
 import Header from './components/Header';
 import BannerShowcase from './components/BannerShowcase';
-import HeroSection from './components/HeroSection';
-import ProductMarquee from './components/ProductMarquee';
 import ProductGridWrapper from './components/ProductGridWrapper';
 import InstagramReels from './components/InstagramReels';
 import FAQAndReviews from './components/FAQAndReviews';
@@ -63,12 +61,6 @@ export default async function Home() {
       <TopBanner />
       <Header />
       <BannerShowcase />
-      <HeroSection />
-
-      {/* Product marquee with better spacing */}
-      <div className="section-spacing">
-        <ProductMarquee />
-      </div>
 
       {/* Categories with suspense boundary */}
       <div id="categories" className="section-spacing">

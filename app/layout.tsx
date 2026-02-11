@@ -4,7 +4,6 @@ import "./globals.css";
 import { CartProvider } from "./context/CartContext";
 import { NotificationProvider } from "./context/NotificationContext";
 import WhatsAppFloating from "./components/WhatsAppFloating";
-import LoadingSpinner from "./components/LoadingSpinner";
 
 const sora = Sora({
   variable: "--font-sora",
@@ -43,7 +42,6 @@ export default function RootLayout({
       <body
         className={`${sora.variable} antialiased`}
       >
-        <LoadingSpinner />
         <CartProvider>
           <NotificationProvider>
             {children}
