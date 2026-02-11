@@ -1,7 +1,7 @@
-/* Cart Page Styles */
+/* Modern Cart Page Styles */
 .container {
   min-height: 100vh;
-  background: linear-gradient(135deg, #fef7f7 0%, #faf7f0 50%, #fef7f7 100%);
+  background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 50%, #e2e8f0 100%);
   padding: 2rem 1rem;
   max-width: 1400px;
   margin: 0 auto;
@@ -14,45 +14,46 @@
   justify-content: space-between;
   margin-bottom: 2rem;
   padding-bottom: 1rem;
-  border-bottom: 2px solid rgba(128, 0, 32, 0.1);
+  border-bottom: 2px solid rgba(99, 102, 241, 0.1);
 }
 
 .backButton {
   display: flex;
   align-items: center;
   gap: 0.75rem;
-  padding: 1rem 2rem;
-  background: linear-gradient(135deg, #800020, #a0002a);
+  padding: 0.875rem 1.75rem;
+  background: linear-gradient(135deg, #6366f1, #8b5cf6);
   color: #ffffff;
   border: none;
-  border-radius: 1rem;
+  border-radius: 0.75rem;
   font-weight: 600;
   cursor: pointer;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   text-decoration: none;
-  box-shadow: 0 8px 25px rgba(128, 0, 32, 0.3);
+  box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
 }
 
 .backButton:hover {
-  background: linear-gradient(135deg, #600018, #800020);
-  transform: translateY(-3px) scale(1.02);
-  box-shadow: 0 12px 35px rgba(128, 0, 32, 0.4);
+  background: linear-gradient(135deg, #4f46e5, #7c3aed);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(99, 102, 241, 0.4);
 }
 
 .backIcon {
-  width: 1.25rem;
-  height: 1.25rem;
+  width: 1.125rem;
+  height: 1.125rem;
 }
 
 .pageTitle {
-  font-size: 2.5rem;
+  font-size: 2.25rem;
   font-weight: 800;
-  color: #1f2937;
-  background: linear-gradient(135deg, #800020, #a0002a);
+  color: #0f172a;
+  background: linear-gradient(135deg, #6366f1, #8b5cf6);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
   margin: 0;
+  letter-spacing: -0.02em;
 }
 
 /* Empty Cart */
@@ -65,34 +66,34 @@
 
 .emptyCartContent {
   text-align: center;
-  background: rgba(250, 247, 240, 0.9);
-  padding: 4rem 3rem;
-  border-radius: 2rem;
-  box-shadow: 0 20px 60px rgba(128, 0, 32, 0.1);
+  background: rgba(255, 255, 255, 0.95);
+  padding: 3.5rem 2.5rem;
+  border-radius: 1.5rem;
+  box-shadow: 0 10px 40px rgba(99, 102, 241, 0.1);
   backdrop-filter: blur(20px);
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  border: 1px solid rgba(226, 232, 240, 0.8);
 }
 
 .emptyCartIcon {
-  width: 5rem;
-  height: 5rem;
-  color: #800020;
-  margin-bottom: 2rem;
-  opacity: 0.7;
+  width: 4.5rem;
+  height: 4.5rem;
+  color: #6366f1;
+  margin-bottom: 1.5rem;
+  opacity: 0.8;
 }
 
 .emptyCartTitle {
-  font-size: 2.5rem;
+  font-size: 2rem;
   font-weight: 700;
-  color: #1f2937;
-  margin-bottom: 1rem;
+  color: #0f172a;
+  margin-bottom: 0.875rem;
 }
 
 .emptyCartText {
-  font-size: 1.1rem;
-  color: #6b7280;
+  font-size: 1rem;
+  color: #64748b;
   margin-bottom: 2rem;
-  max-width: 400px;
+  max-width: 380px;
 }
 
 .continueShoppingBtn {
