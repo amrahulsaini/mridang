@@ -1,205 +1,249 @@
-/* Cookie Policy Page Styles */
+/* ============================================
+   COOKIES POLICY — LUXE DESIGN SYSTEM
+   Primary: #6B2D3E (wine)
+   Secondary: #D4A373 (warm gold)
+   Accent: #C9A96E
+   ============================================ */
 
+/* ---------- Page Container ---------- */
 .pageContainer {
   min-height: 100vh;
-  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+  background-color: #FAFAF8;
+  font-family: var(--font-sans, 'Inter', sans-serif);
+  color: #292524;
+  overflow-x: hidden;
 }
 
+/* ---------- Container ---------- */
 .container {
-  max-width: 1280px;
+  max-width: 1200px;
   margin: 0 auto;
   padding: 0 2rem;
 }
 
-/* Hero Section */
+/* ---------- Hero ---------- */
 .hero {
   position: relative;
-  height: 300px;
-  background: linear-gradient(135deg, #800020 0%, #a0002a 50%, #c00030 100%);
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  background: linear-gradient(135deg, #6B2D3E, #8B3A4A, #5A2333);
+  padding: 6rem 2rem 5rem;
+  text-align: center;
   overflow: hidden;
 }
 
 .hero::before {
   content: '';
   position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="25" cy="25" r="1" fill="rgba(255,255,255,0.1)"/><circle cx="75" cy="75" r="1" fill="rgba(255,255,255,0.1)"/><circle cx="50" cy="10" r="0.5" fill="rgba(255,255,255,0.1)"/><circle cx="10" cy="50" r="0.5" fill="rgba(255,255,255,0.1)"/><circle cx="90" cy="30" r="0.5" fill="rgba(255,255,255,0.1)"/></pattern></defs><rect width="100" height="100" fill="url(%23grain)"/></svg>');
-  opacity: 0.3;
+  inset: 0;
+  background: radial-gradient(ellipse at 30% 50%, rgba(212, 163, 115, 0.15) 0%, transparent 70%),
+              radial-gradient(ellipse at 70% 50%, rgba(201, 169, 110, 0.1) 0%, transparent 60%);
+  pointer-events: none;
+  z-index: 0;
 }
 
 .heroContent {
   position: relative;
-  z-index: 2;
-  text-align: center;
-  color: white;
+  z-index: 1;
   max-width: 800px;
-  padding: 0 20px;
+  margin: 0 auto;
+}
+
+.heroText {
+  color: #F5EDE3;
 }
 
 .heroText h1 {
+  font-family: var(--font-serif, 'Playfair Display', Georgia, serif);
   font-size: 3rem;
   font-weight: 700;
   margin-bottom: 1rem;
-  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  letter-spacing: -0.02em;
+  line-height: 1.15;
+  color: #FFFFFF;
 }
 
 .heroText p {
-  font-size: 1.2rem;
-  opacity: 0.9;
-  line-height: 1.6;
-}
-
-/* Overview Section */
-.overviewSection {
-  padding: 4rem 0;
-  background: white;
-}
-
-.overviewSection .container {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 0 2rem;
-}
-
-.overviewCard {
-  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
-  border-radius: 16px;
-  padding: 3rem;
-  display: flex;
-  align-items: center;
-  gap: 2rem;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-}
-
-.overviewIcon {
-  background: linear-gradient(135deg, #800020, #a0002a);
-  color: white;
-  padding: 1rem;
-  border-radius: 12px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.overviewContent h2 {
-  font-size: 2rem;
-  font-weight: 700;
-  color: #333;
-  margin-bottom: 1rem;
-}
-
-.overviewContent p {
-  color: #4a5568;
-  line-height: 1.6;
-  margin-bottom: 1rem;
-  font-size: 1rem;
-}
-
-.lastUpdated {
-  color: #800020;
-  font-weight: 600;
-}
-
-/* Cookie Types */
-.cookieTypes {
-  padding: 4rem 0;
-  background: #f8f9fa;
-}
-
-.cookieTypes .container {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 0 2rem;
-}
-
-.sectionHeader {
-  text-align: center;
-  margin-bottom: 3rem;
-}
-
-.sectionHeader h2 {
-  font-size: 2.5rem;
-  font-weight: 700;
-  color: #333;
-  margin-bottom: 1rem;
-}
-
-.sectionHeader p {
-  font-size: 1.1rem;
-  color: #4a5568;
+  font-size: 1.15rem;
+  line-height: 1.7;
+  color: rgba(245, 237, 227, 0.85);
   max-width: 600px;
   margin: 0 auto;
 }
 
-.typesGrid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+/* ---------- Overview Section ---------- */
+.overviewSection {
+  padding: 5rem 0;
+  background: #FAFAF8;
+}
+
+.overviewSection .container {
+  display: flex;
+  align-items: center;
+  gap: 3rem;
+}
+
+.overviewCard {
+  display: flex;
+  align-items: flex-start;
   gap: 2rem;
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(107, 45, 62, 0.06);
+  border-radius: 1.5rem;
+  padding: 2.5rem;
+  box-shadow: 0 4px 24px rgba(44, 24, 16, 0.06);
+  transition: transform 0.35s ease, box-shadow 0.35s ease;
 }
 
-.typeCard {
-  background: white;
-  border-radius: 12px;
-  padding: 2rem;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.typeCard:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
-}
-
-.typeIcon {
-  background: linear-gradient(135deg, #800020, #a0002a);
-  color: white;
-  width: 60px;
-  height: 60px;
-  border-radius: 50%;
+.overviewIcon {
+  flex-shrink: 0;
+  width: 56px;
+  height: 56px;
   display: flex;
   align-items: center;
   justify-content: center;
-  margin: 0 auto 1.5rem;
+  background: linear-gradient(135deg, rgba(107, 45, 62, 0.08), rgba(212, 163, 115, 0.12));
+  border-radius: 1rem;
+  color: #6B2D3E;
+  font-size: 1.5rem;
+}
+
+.overviewContent {
+  flex: 1;
+}
+
+.overviewContent h2 {
+  font-family: var(--font-serif, 'Playfair Display', Georgia, serif);
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: #2C1810;
+  margin-bottom: 0.75rem;
+  letter-spacing: -0.01em;
+}
+
+.overviewContent p {
+  font-size: 1.05rem;
+  line-height: 1.75;
+  color: #6B6560;
+}
+
+/* ---------- Last Updated ---------- */
+.lastUpdated {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 1rem;
+  padding: 0.5rem 1.25rem;
+  background: rgba(107, 45, 62, 0.06);
+  border-radius: 2rem;
+  font-size: 0.875rem;
+  color: #6B2D3E;
+  font-weight: 500;
+}
+
+/* ---------- Cookie Types Section ---------- */
+.cookieTypes {
+  padding: 5rem 0;
+  background: #F5F3EF;
+}
+
+.cookieTypes .container {
+  max-width: 1200px;
+}
+
+/* ---------- Section Header ---------- */
+.sectionHeader {
+  text-align: center;
+  margin-bottom: 3.5rem;
+}
+
+.sectionHeader h2 {
+  font-family: var(--font-serif, 'Playfair Display', Georgia, serif);
+  font-size: 2.25rem;
+  font-weight: 700;
+  color: #2C1810;
+  margin-bottom: 0.75rem;
+  letter-spacing: -0.02em;
+}
+
+.sectionHeader p {
+  font-size: 1.1rem;
+  color: #6B6560;
+  max-width: 600px;
+  margin: 0 auto;
+  line-height: 1.7;
+}
+
+/* ---------- Types Grid ---------- */
+.typesGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 2rem;
+}
+
+/* ---------- Type Card ---------- */
+.typeCard {
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(107, 45, 62, 0.06);
+  border-radius: 1.5rem;
+  padding: 2rem;
+  box-shadow: 0 4px 24px rgba(44, 24, 16, 0.06);
+  transition: transform 0.35s ease, box-shadow 0.35s ease;
+}
+
+.typeCard:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 40px rgba(44, 24, 16, 0.12);
 }
 
 .typeCard h3 {
+  font-family: var(--font-serif, 'Playfair Display', Georgia, serif);
   font-size: 1.3rem;
   font-weight: 600;
-  color: #333;
-  margin-bottom: 1rem;
-  text-align: center;
-}
-
-.typeDescription {
-  color: #4a5568;
-  line-height: 1.6;
-  margin-bottom: 1.5rem;
-  text-align: center;
-}
-
-.typeDetails {
-  border-top: 1px solid #eee;
-  padding-top: 1.5rem;
-}
-
-.typeDetails h4 {
-  font-size: 1rem;
-  font-weight: 600;
-  color: #333;
+  color: #2C1810;
   margin-bottom: 0.5rem;
 }
 
+.typeIcon {
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, rgba(107, 45, 62, 0.08), rgba(212, 163, 115, 0.12));
+  border-radius: 0.875rem;
+  color: #6B2D3E;
+  font-size: 1.35rem;
+  margin-bottom: 1.25rem;
+}
+
+.typeDescription {
+  font-size: 0.975rem;
+  color: #6B6560;
+  line-height: 1.7;
+  margin-bottom: 1.25rem;
+}
+
+/* ---------- Type Details ---------- */
+.typeDetails {
+  border-top: 1px solid #E8E4DE;
+  padding-top: 1.25rem;
+}
+
+.typeDetails h4 {
+  font-family: var(--font-serif, 'Playfair Display', Georgia, serif);
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #44403C;
+  margin-bottom: 0.75rem;
+}
+
 .typeDetails p {
-  color: #4a5568;
-  line-height: 1.6;
-  margin-bottom: 1rem;
+  font-size: 0.925rem;
+  color: #6B6560;
+  line-height: 1.65;
 }
 
 .typeDetails ul {
@@ -209,64 +253,80 @@
 }
 
 .typeDetails li {
-  color: #4a5568;
-  line-height: 1.6;
-  margin-bottom: 0.25rem;
-  padding-left: 1rem;
   position: relative;
+  padding-left: 1.25rem;
+  font-size: 0.925rem;
+  color: #57534E;
+  line-height: 1.65;
+  margin-bottom: 0.4rem;
 }
 
 .typeDetails li::before {
-  content: '•';
-  color: #800020;
+  content: '';
   position: absolute;
   left: 0;
+  top: 0.55em;
+  width: 6px;
+  height: 6px;
+  background: #D4A373;
+  border-radius: 50%;
 }
 
-/* Cookie List Section */
+/* ---------- Cookie List Section ---------- */
 .cookieListSection {
-  padding: 4rem 0;
-  background: white;
+  padding: 5rem 0;
+  background: #FAFAF8;
 }
 
 .cookieListSection .container {
   max-width: 1200px;
-  margin: 0 auto;
-  padding: 0 20px;
 }
 
+/* ---------- Cookie Table ---------- */
 .cookieTable {
-  background: white;
-  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(107, 45, 62, 0.06);
+  border-radius: 1.5rem;
   overflow: hidden;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 24px rgba(44, 24, 16, 0.06);
 }
 
 .tableHeader {
   display: grid;
-  grid-template-columns: 2fr 1fr 3fr 1fr;
+  grid-template-columns: 1fr 1fr 2fr 1fr;
   gap: 1rem;
-  background: linear-gradient(135deg, #800020, #a0002a);
-  color: white;
-  padding: 1rem;
+  padding: 1.25rem 2rem;
+  background: linear-gradient(135deg, #6B2D3E, #8B3A4A);
+  color: #F5EDE3;
   font-weight: 600;
+  font-size: 0.875rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
 }
 
 .tableHeader div {
-  text-align: left;
+  font-family: var(--font-sans, 'Inter', sans-serif);
 }
 
 .tableRow {
   display: grid;
-  grid-template-columns: 2fr 1fr 3fr 1fr;
+  grid-template-columns: 1fr 1fr 2fr 1fr;
   gap: 1rem;
-  padding: 1rem;
-  border-bottom: 1px solid #eee;
-  transition: background-color 0.3s ease;
+  padding: 1.15rem 2rem;
+  border-bottom: 1px solid #E8E4DE;
+  font-size: 0.925rem;
+  color: #44403C;
+  transition: background-color 0.25s ease;
+}
+
+.tableRow:nth-child(even) {
+  background-color: rgba(245, 237, 227, 0.4);
 }
 
 .tableRow:hover {
-  background-color: #f8f9fa;
+  background-color: rgba(212, 163, 115, 0.08);
 }
 
 .tableRow:last-child {
@@ -275,37 +335,33 @@
 
 .cookieName {
   font-weight: 600;
-  color: #333;
+  color: #2C1810;
+  word-break: break-word;
 }
 
 .cookieType {
-  background: #e9ecef;
-  color: #495057;
-  padding: 0.25rem 0.5rem;
-  border-radius: 4px;
-  font-size: 0.9rem;
-  text-align: center;
+  color: #6B2D3E;
+  font-weight: 500;
 }
 
 .cookiePurpose {
-  color: #4a5568;
+  color: #57534E;
+  line-height: 1.55;
 }
 
 .cookieDuration {
-  color: #4a5568;
-  font-size: 0.9rem;
+  color: #A09A94;
+  font-size: 0.875rem;
 }
 
-/* Controls Section */
+/* ---------- Controls Section ---------- */
 .controlsSection {
-  padding: 4rem 0;
-  background: #f8f9fa;
+  padding: 5rem 0;
+  background: #F5F3EF;
 }
 
 .controlsSection .container {
   max-width: 1200px;
-  margin: 0 auto;
-  padding: 0 20px;
 }
 
 .controlsGrid {
@@ -314,247 +370,316 @@
   gap: 2rem;
 }
 
+/* ---------- Control Card ---------- */
 .controlCard {
-  background: white;
-  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(107, 45, 62, 0.06);
+  border-radius: 1.5rem;
   padding: 2rem;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  box-shadow: 0 4px 24px rgba(44, 24, 16, 0.06);
+  transition: transform 0.35s ease, box-shadow 0.35s ease;
 }
 
 .controlCard:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
-}
-
-.controlIcon {
-  font-size: 2rem;
-  margin-bottom: 1rem;
-  text-align: center;
+  transform: translateY(-3px);
+  box-shadow: 0 12px 40px rgba(44, 24, 16, 0.12);
 }
 
 .controlCard h3 {
-  font-size: 1.2rem;
+  font-family: var(--font-serif, 'Playfair Display', Georgia, serif);
+  font-size: 1.25rem;
   font-weight: 600;
-  color: #333;
-  margin-bottom: 1rem;
-  text-align: center;
+  color: #2C1810;
+  margin-bottom: 0.5rem;
 }
 
 .controlCard p {
-  color: #4a5568;
-  line-height: 1.6;
-  margin-bottom: 1.5rem;
-  text-align: center;
+  font-size: 0.95rem;
+  color: #6B6560;
+  line-height: 1.7;
+  margin-bottom: 1rem;
 }
 
+.controlIcon {
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, rgba(107, 45, 62, 0.08), rgba(212, 163, 115, 0.12));
+  border-radius: 0.875rem;
+  color: #6B2D3E;
+  font-size: 1.35rem;
+  margin-bottom: 1.25rem;
+}
+
+/* ---------- Control Steps ---------- */
 .controlSteps {
-  border-top: 1px solid #eee;
-  padding-top: 1.5rem;
+  border-top: 1px solid #E8E4DE;
+  padding-top: 1.25rem;
 }
 
 .controlSteps h4 {
-  font-size: 1rem;
+  font-family: var(--font-serif, 'Playfair Display', Georgia, serif);
+  font-size: 0.95rem;
   font-weight: 600;
-  color: #333;
-  margin-bottom: 0.5rem;
+  color: #44403C;
+  margin-bottom: 0.75rem;
 }
 
 .controlSteps ol {
   list-style: none;
   padding: 0;
   margin: 0;
-  counter-reset: step-counter;
+  counter-reset: steps;
 }
 
 .controlSteps li {
-  color: #4a5568;
-  line-height: 1.6;
-  margin-bottom: 0.5rem;
-  padding-left: 2rem;
   position: relative;
-  counter-increment: step-counter;
+  padding-left: 2rem;
+  font-size: 0.9rem;
+  color: #57534E;
+  line-height: 1.65;
+  margin-bottom: 0.5rem;
+  counter-increment: steps;
 }
 
 .controlSteps li::before {
-  content: counter(step-counter) '.';
-  color: #800020;
-  font-weight: 600;
+  content: counter(steps);
   position: absolute;
   left: 0;
-}
-
-/* Notice Section */
-.noticeSection {
-  padding: 4rem 0;
-  background: white;
-}
-
-.noticeSection .container {
-  max-width: 1000px;
-  margin: 0 auto;
-  padding: 0 20px;
-}
-
-.noticeCard {
-  background: linear-gradient(135deg, #fff3cd 0%, #ffeaa7 100%);
-  border: 1px solid #f39c12;
-  border-radius: 12px;
-  padding: 2rem;
-  display: flex;
-  align-items: flex-start;
-  gap: 1.5rem;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
-}
-
-.noticeIcon {
-  background: #f39c12;
-  color: white;
-  padding: 0.75rem;
-  border-radius: 8px;
+  top: 0;
+  width: 22px;
+  height: 22px;
   display: flex;
   align-items: center;
   justify-content: center;
+  background: linear-gradient(135deg, #6B2D3E, #8B3A4A);
+  color: #F5EDE3;
+  border-radius: 50%;
+  font-size: 0.7rem;
+  font-weight: 700;
+}
+
+/* ---------- Notice Section ---------- */
+.noticeSection {
+  padding: 5rem 0;
+  background: #FAFAF8;
+}
+
+.noticeSection .container {
+  max-width: 900px;
+}
+
+.noticeCard {
+  display: flex;
+  align-items: flex-start;
+  gap: 2rem;
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(107, 45, 62, 0.06);
+  border-radius: 1.5rem;
+  padding: 2.5rem;
+  box-shadow: 0 4px 24px rgba(44, 24, 16, 0.06);
+}
+
+.noticeIcon {
   flex-shrink: 0;
+  width: 56px;
+  height: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, rgba(212, 163, 115, 0.15), rgba(201, 169, 110, 0.2));
+  border-radius: 1rem;
+  color: #C9A96E;
+  font-size: 1.5rem;
+}
+
+.noticeContent {
+  flex: 1;
 }
 
 .noticeContent h2 {
+  font-family: var(--font-serif, 'Playfair Display', Georgia, serif);
   font-size: 1.5rem;
-  font-weight: 600;
-  color: #333;
-  margin-bottom: 1rem;
+  font-weight: 700;
+  color: #2C1810;
+  margin-bottom: 0.75rem;
 }
 
 .noticeContent p {
-  color: #4a5568;
-  line-height: 1.6;
-  margin-bottom: 1rem;
+  font-size: 1rem;
+  line-height: 1.75;
+  color: #6B6560;
 }
 
-/* Contact Section */
+/* ---------- Contact Section ---------- */
 .contactSection {
-  padding: 4rem 0;
-  background: linear-gradient(135deg, #800020 0%, #a0002a 100%);
-  color: white;
+  padding: 5rem 0 6rem;
+  background: linear-gradient(180deg, #FAFAF8 0%, #F5F3EF 100%);
 }
 
 .contactSection .container {
-  max-width: 800px;
-  margin: 0 auto;
-  padding: 0 20px;
+  max-width: 1000px;
+}
+
+.contactContent {
   text-align: center;
+  margin-bottom: 3rem;
 }
 
 .contactContent h2 {
+  font-family: var(--font-serif, 'Playfair Display', Georgia, serif);
   font-size: 2rem;
   font-weight: 700;
-  margin-bottom: 1rem;
+  color: #2C1810;
+  margin-bottom: 0.75rem;
 }
 
 .contactContent p {
-  font-size: 1.1rem;
-  opacity: 0.9;
-  margin-bottom: 2rem;
-  line-height: 1.6;
+  font-size: 1.05rem;
+  color: #6B6560;
+  max-width: 550px;
+  margin: 0 auto;
+  line-height: 1.7;
 }
 
 .contactGrid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
   gap: 2rem;
-  margin-bottom: 2rem;
 }
 
 .contactItem {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-  background: rgba(255, 255, 255, 0.1);
-  padding: 1.5rem;
-  border-radius: 8px;
-  backdrop-filter: blur(10px);
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(107, 45, 62, 0.06);
+  border-radius: 1.25rem;
+  padding: 2rem;
+  text-align: center;
+  box-shadow: 0 4px 24px rgba(44, 24, 16, 0.06);
+  transition: transform 0.35s ease, box-shadow 0.35s ease;
+}
+
+.contactItem:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 40px rgba(44, 24, 16, 0.12);
 }
 
 .contactItem svg {
-  color: #ffd700;
-}
-
-.contactItem h4 {
-  font-size: 1rem;
-  font-weight: 600;
-  margin-bottom: 0.25rem;
-}
-
-.contactItem a {
-  color: white;
-  text-decoration: none;
-  opacity: 0.9;
-  transition: opacity 0.3s ease;
-}
-
-.contactItem a:hover {
-  opacity: 1;
-}
-
-.contactAddress {
-  background: rgba(255, 255, 255, 0.1);
-  padding: 2rem;
-  border-radius: 8px;
-  backdrop-filter: blur(10px);
-}
-
-.contactAddress h4 {
-  font-size: 1.2rem;
-  font-weight: 600;
+  width: 32px;
+  height: 32px;
+  color: #6B2D3E;
   margin-bottom: 1rem;
 }
 
-.contactAddress p {
-  line-height: 1.6;
-  opacity: 0.9;
+.contactItem h4 {
+  font-family: var(--font-serif, 'Playfair Display', Georgia, serif);
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #2C1810;
+  margin-bottom: 0.5rem;
 }
 
-/* Responsive Design */
+.contactItem a {
+  font-size: 0.95rem;
+  color: #6B2D3E;
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.25s ease;
+}
+
+.contactItem a:hover {
+  color: #D4A373;
+}
+
+.contactAddress {
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(107, 45, 62, 0.06);
+  border-radius: 1.25rem;
+  padding: 2rem;
+  text-align: center;
+  box-shadow: 0 4px 24px rgba(44, 24, 16, 0.06);
+}
+
+.contactAddress h4 {
+  font-family: var(--font-serif, 'Playfair Display', Georgia, serif);
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #2C1810;
+  margin-bottom: 0.5rem;
+}
+
+.contactAddress p {
+  font-size: 0.95rem;
+  color: #6B6560;
+  line-height: 1.7;
+}
+
+/* ============================================
+   RESPONSIVE — 768px
+   ============================================ */
 @media (max-width: 768px) {
+  .hero {
+    padding: 4.5rem 1.5rem 3.5rem;
+  }
+
   .heroText h1 {
-    font-size: 2rem;
+    font-size: 2.25rem;
   }
 
   .heroText p {
-    font-size: 1rem;
+    font-size: 1.05rem;
+  }
+
+  .overviewSection .container {
+    flex-direction: column;
   }
 
   .overviewCard {
     flex-direction: column;
-    text-align: center;
+    gap: 1.25rem;
     padding: 2rem;
   }
 
-  .overviewIcon {
-    margin-bottom: 1rem;
-  }
-
   .sectionHeader h2 {
-    font-size: 2rem;
+    font-size: 1.85rem;
   }
 
-  .typesGrid,
-  .controlsGrid {
+  .typesGrid {
     grid-template-columns: 1fr;
   }
 
   .tableHeader,
   .tableRow {
-    grid-template-columns: 1fr;
+    grid-template-columns: 1fr 1fr;
     gap: 0.5rem;
   }
 
-  .tableHeader div {
-    font-size: 0.9rem;
+  .cookiePurpose,
+  .cookieDuration {
+    grid-column: span 2;
   }
 
-  .cookieType {
-    text-align: left;
+  .tableHeader {
+    font-size: 0.8rem;
+  }
+
+  .controlsGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .noticeCard {
+    flex-direction: column;
+    gap: 1.25rem;
+    padding: 2rem;
   }
 
   .contactGrid {
@@ -562,62 +687,78 @@
   }
 
   .contactContent h2 {
-    font-size: 1.5rem;
-  }
-
-  .noticeCard {
-    flex-direction: column;
-    text-align: center;
-  }
-
-  .noticeIcon {
-    align-self: center;
-  }
-}
-
-@media (max-width: 480px) {
-  .hero {
-    height: 250px;
-  }
-
-  .heroText h1 {
-    font-size: 1.5rem;
-  }
-
-  .overviewCard {
-    padding: 1.5rem;
-    margin: 0 1rem;
-  }
-
-  .overviewContent h2 {
-    font-size: 1.5rem;
-  }
-
-  .sectionHeader h2 {
-    font-size: 1.8rem;
-  }
-
-  .typeCard,
-  .controlCard {
-    padding: 1.5rem;
-    margin: 0 0.5rem;
-  }
-
-  .cookieTable {
-    font-size: 0.9rem;
-    overflow-x: auto;
-  }
-
-  .contactSection {
-    padding: 3rem 1rem;
-  }
-
-  .noticeCard {
-    padding: 1.5rem;
-    margin: 0 1rem;
+    font-size: 1.65rem;
   }
 
   .container {
-    padding: 0 1rem !important;
+    padding: 0 1.25rem;
+  }
+}
+
+/* ============================================
+   RESPONSIVE — 480px
+   ============================================ */
+@media (max-width: 480px) {
+  .hero {
+    padding: 3.5rem 1rem 2.5rem;
+  }
+
+  .heroText h1 {
+    font-size: 1.75rem;
+  }
+
+  .heroText p {
+    font-size: 0.95rem;
+  }
+
+  .overviewSection,
+  .cookieTypes,
+  .cookieListSection,
+  .controlsSection,
+  .noticeSection,
+  .contactSection {
+    padding: 3rem 0;
+  }
+
+  .overviewCard,
+  .typeCard,
+  .controlCard,
+  .noticeCard,
+  .contactItem,
+  .contactAddress {
+    padding: 1.5rem;
+    border-radius: 1rem;
+  }
+
+  .sectionHeader h2 {
+    font-size: 1.5rem;
+  }
+
+  .sectionHeader p {
+    font-size: 0.95rem;
+  }
+
+  .tableHeader,
+  .tableRow {
+    grid-template-columns: 1fr;
+    padding: 1rem 1.25rem;
+  }
+
+  .cookiePurpose,
+  .cookieDuration {
+    grid-column: span 1;
+  }
+
+  .tableHeader div:nth-child(3),
+  .tableHeader div:nth-child(4) {
+    display: none;
+  }
+
+  .contactContent h2 {
+    font-size: 1.4rem;
+  }
+
+  .container {
+    padding: 0 1rem;
   }
 }

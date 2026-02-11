@@ -1,148 +1,180 @@
+/* SuccessDialog – Luxe Design System */
+
 .overlay {
   position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: rgba(0, 0, 0, 0.6);
+  inset: 0;
+  z-index: 1000;
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 1000;
-  padding: 1rem;
+  background: rgba(44, 24, 16, 0.5);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  animation: fadeIn 0.3s ease;
 }
 
 .dialog {
-  background: white;
-  border-radius: 16px;
-  max-width: 400px;
-  width: 100%;
   position: relative;
-  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+  width: 90%;
+  max-width: 440px;
+  background: #fffcf9;
+  border-radius: 1.25rem;
+  box-shadow: 0 12px 40px rgba(44, 24, 16, 0.18),
+    0 2px 8px rgba(107, 45, 62, 0.08);
+  animation: slideUp 0.35s ease;
   overflow: hidden;
 }
 
 .closeBtn {
   position: absolute;
-  top: 1rem;
-  right: 1rem;
-  background: none;
+  top: 0.75rem;
+  right: 0.75rem;
+  width: 2rem;
+  height: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
   border: none;
-  color: #6b7280;
-  cursor: pointer;
-  padding: 0.5rem;
   border-radius: 50%;
-  transition: all 0.2s ease;
-  z-index: 10;
+  color: #6B2D3E;
+  font-size: 1.25rem;
+  cursor: pointer;
+  transition: background 0.25s ease, color 0.25s ease;
 }
 
 .closeBtn:hover {
-  background: #f3f4f6;
-  color: #374151;
+  background: rgba(107, 45, 62, 0.1);
+  color: #2C1810;
 }
 
 .content {
-  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 2.5rem 2rem 2rem;
   text-align: center;
 }
 
 .icon {
+  width: 4rem;
+  height: 4rem;
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-bottom: 1.5rem;
+  background: #ecfdf5;
+  border-radius: 50%;
+  margin-bottom: 1.25rem;
+  box-shadow: 0 2px 10px rgba(5, 150, 105, 0.12);
 }
 
 .checkIcon {
-  width: 64px;
-  height: 64px;
-  color: #10b981;
-  stroke-width: 1.5;
+  width: 2rem;
+  height: 2rem;
+  color: #059669;
 }
 
 .title {
+  font-family: var(--font-serif, 'Playfair Display', Georgia, serif);
   font-size: 1.5rem;
   font-weight: 700;
-  color: #1f2937;
-  margin: 0 0 1rem 0;
+  color: #2C1810;
+  margin: 0 0 0.75rem;
+  letter-spacing: 0.01em;
 }
 
 .message {
-  color: #6b7280;
+  margin: 0 0 1.25rem;
+  font-family: var(--font-sans, 'Inter', sans-serif);
+  font-size: 0.938rem;
   line-height: 1.6;
-  margin-bottom: 2rem;
+  color: #5a4a42;
 }
 
 .message p {
-  margin: 0.5rem 0;
+  margin: 0.25rem 0;
 }
 
 .orderId {
-  background: #f8fafc;
-  border: 1px solid #e2e8f0;
-  border-radius: 8px;
-  padding: 1rem;
-  margin: 1rem 0;
-  font-family: 'Courier New', monospace;
-  font-size: 1.1rem;
-  color: #1f2937;
+  display: inline-block;
+  font-family: var(--font-sans, 'Inter', sans-serif);
+  font-size: 0.85rem;
+  color: #6B2D3E;
+  background: rgba(107, 45, 62, 0.07);
+  padding: 0.4rem 1rem;
+  border-radius: 0.5rem;
+  margin-bottom: 1.5rem;
+  letter-spacing: 0.02em;
+  font-weight: 500;
 }
 
 .actions {
+  width: 100%;
   display: flex;
-  justify-content: center;
+  flex-direction: column;
+  gap: 0.625rem;
 }
 
 .confirmBtn {
-  background: linear-gradient(135deg, #8b4513, #d2691e);
-  color: white;
-  border: none;
-  padding: 0.875rem 2rem;
-  border-radius: 8px;
+  width: 100%;
+  padding: 0.8rem 1.5rem;
+  font-family: var(--font-sans, 'Inter', sans-serif);
+  font-size: 0.95rem;
   font-weight: 600;
-  font-size: 1rem;
+  color: #fff;
+  background: linear-gradient(135deg, #6B2D3E, #8B3A4A);
+  border: none;
+  border-radius: 0.75rem;
   cursor: pointer;
-  transition: all 0.3s ease;
-  box-shadow: 0 4px 14px 0 rgba(139, 69, 19, 0.25);
+  letter-spacing: 0.02em;
+  transition: transform 0.2s ease, box-shadow 0.25s ease, opacity 0.25s ease;
+  box-shadow: 0 4px 14px rgba(107, 45, 62, 0.25);
 }
 
 .confirmBtn:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 20px 0 rgba(139, 69, 19, 0.35);
+  transform: translateY(-1px);
+  box-shadow: 0 6px 20px rgba(107, 45, 62, 0.35);
+  opacity: 0.95;
 }
 
 .confirmBtn:active {
   transform: translateY(0);
-  box-shadow: 0 2px 8px 0 rgba(139, 69, 19, 0.25);
+  box-shadow: 0 2px 8px rgba(107, 45, 62, 0.2);
 }
 
-/* Mobile responsiveness */
+/* Animations */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(24px) scale(0.97); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+/* Responsive */
 @media (max-width: 480px) {
   .dialog {
-    margin: 1rem;
-    max-width: none;
+    width: 95%;
+    border-radius: 1rem;
   }
 
   .content {
-    padding: 1.5rem;
+    padding: 2rem 1.25rem 1.5rem;
   }
 
   .title {
-    font-size: 1.25rem;
+    font-size: 1.3rem;
+  }
+
+  .icon {
+    width: 3.5rem;
+    height: 3.5rem;
   }
 
   .checkIcon {
-    width: 48px;
-    height: 48px;
-  }
-
-  .orderId {
-    padding: 0.75rem;
-    font-size: 1rem;
-  }
-
-  .confirmBtn {
-    width: 100%;
-    padding: 1rem;
+    width: 1.75rem;
+    height: 1.75rem;
   }
 }

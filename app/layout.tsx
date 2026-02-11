@@ -1,14 +1,22 @@
 import type { Metadata } from "next";
-import { Sora } from "next/font/google";
+import { Inter, Playfair_Display } from "next/font/google";
 import "./globals.css";
 import { CartProvider } from "./context/CartContext";
 import { NotificationProvider } from "./context/NotificationContext";
 import WhatsAppFloating from "./components/WhatsAppFloating";
+import LoadingSpinner from "./components/LoadingSpinner";
 
-const sora = Sora({
-  variable: "--font-sora",
+const inter = Inter({
+  variable: "--font-sans",
   subsets: ["latin"],
-  weight: ["100", "200", "300", "400", "500", "600", "700", "800"],
+  weight: ["300", "400", "500", "600", "700", "800"],
+  display: "swap",
+});
+
+const playfair = Playfair_Display({
+  variable: "--font-serif",
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700", "800", "900"],
   display: "swap",
 });
 
@@ -23,7 +31,7 @@ export const metadata: Metadata = {
     maximumScale: 5,
     userScalable: true,
   },
-  themeColor: "#800020",
+  themeColor: "#6B2D3E",
   openGraph: {
     type: "website",
     title: "Mridang - Handcrafted Premium Platters",
@@ -40,10 +48,11 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${sora.variable} antialiased`}
+        className={`${inter.variable} ${playfair.variable} antialiased`}
       >
         <CartProvider>
           <NotificationProvider>
+            <LoadingSpinner />
             {children}
             <WhatsAppFloating />
           </NotificationProvider>

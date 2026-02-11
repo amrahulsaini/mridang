@@ -1,24 +1,29 @@
+/* Order Success Page - Luxe Theme */
+
 .container {
   min-height: 100vh;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+  background: linear-gradient(135deg, var(--brand-light, #F5EDE3) 0%, #FAF8F4 50%, var(--brand-light, #F5EDE3) 100%);
   padding: 20px;
+  font-family: var(--font-sans, 'Inter', sans-serif);
 }
 
 .successCard {
-  background: white;
-  border-radius: 20px;
-  padding: 40px;
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(16px);
+  border-radius: 1.5rem;
+  padding: 3rem;
   text-align: center;
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 20px 60px rgba(44, 24, 16, 0.1);
+  border: 1px solid rgba(107, 45, 62, 0.08);
   max-width: 500px;
   width: 100%;
 }
 
 .successIcon {
-  margin-bottom: 20px;
+  margin-bottom: 1.5rem;
 }
 
 .icon {
@@ -28,46 +33,48 @@
 }
 
 .title {
-  font-size: 28px;
+  font-size: 1.75rem;
   font-weight: 700;
-  color: #1f2937;
-  margin-bottom: 20px;
+  font-family: var(--font-serif, 'Playfair Display', Georgia, serif);
+  color: var(--brand-dark, #2C1810);
+  margin-bottom: 1.25rem;
 }
 
 .orderInfo {
-  margin-bottom: 30px;
+  margin-bottom: 2rem;
 }
 
 .message {
-  font-size: 16px;
-  color: #6b7280;
-  margin-bottom: 20px;
+  font-size: 1rem;
+  color: var(--neutral-600, #57534e);
+  margin-bottom: 1.25rem;
   line-height: 1.6;
 }
 
 .orderId {
-  background: #f3f4f6;
-  padding: 12px 20px;
-  border-radius: 8px;
-  font-size: 18px;
-  color: #1f2937;
-  margin-bottom: 20px;
+  background: var(--brand-light, #F5EDE3);
+  padding: 0.875rem 1.5rem;
+  border-radius: 0.75rem;
+  font-size: 1.1rem;
+  color: var(--brand-dark, #2C1810);
+  margin-bottom: 1.25rem;
   font-family: 'Courier New', monospace;
+  border: 1px solid rgba(107, 45, 62, 0.1);
 }
 
 .details {
-  font-size: 14px;
-  color: #6b7280;
+  font-size: 0.9rem;
+  color: var(--neutral-500, #6B6560);
   line-height: 1.5;
 }
 
 .details p {
-  margin-bottom: 8px;
+  margin-bottom: 0.5rem;
 }
 
 .actions {
   display: flex;
-  gap: 15px;
+  gap: 1rem;
   flex-direction: column;
 }
 
@@ -76,57 +83,45 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: 12px 24px;
-  border-radius: 8px;
+  padding: 0.875rem 1.5rem;
+  border-radius: 0.75rem;
   font-weight: 600;
   text-decoration: none;
   transition: all 0.3s ease;
-  font-size: 16px;
+  font-size: 1rem;
 }
 
 .primaryBtn {
-  background: #8B4513;
-  color: white;
-  border: 2px solid #8B4513;
+  background: linear-gradient(135deg, var(--brand-primary, #6B2D3E), #8B3A4A);
+  color: #fff;
+  border: 2px solid transparent;
+  box-shadow: 0 4px 16px rgba(107, 45, 62, 0.25);
 }
 
 .primaryBtn:hover {
-  background: #6d3610;
-  border-color: #6d3610;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 28px rgba(107, 45, 62, 0.35);
 }
 
 .secondaryBtn {
   background: transparent;
-  color: #8B4513;
-  border: 2px solid #8B4513;
+  color: var(--brand-primary, #6B2D3E);
+  border: 2px solid var(--brand-primary, #6B2D3E);
 }
 
 .secondaryBtn:hover {
-  background: #8B4513;
-  color: white;
+  background: var(--brand-primary, #6B2D3E);
+  color: #fff;
 }
 
 .btnIcon {
   width: 18px;
   height: 18px;
-  margin-right: 8px;
+  margin-right: 0.5rem;
 }
 
 @media (max-width: 480px) {
-  .successCard {
-    padding: 30px 20px;
-  }
-
-  .title {
-    font-size: 24px;
-  }
-
-  .actions {
-    flex-direction: column;
-  }
-
-  .primaryBtn,
-  .secondaryBtn {
-    width: 100%;
-  }
+  .successCard { padding: 2rem 1.5rem; }
+  .title { font-size: 1.5rem; }
+  .primaryBtn, .secondaryBtn { width: 100%; }
 }

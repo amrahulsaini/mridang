@@ -1,42 +1,63 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useCallback } from 'react'
 import { usePathname } from 'next/navigation'
 import './LoadingSpinner.css'
 
 export default function LoadingSpinner() {
   const [loading, setLoading] = useState(false)
+  const [fadeOut, setFadeOut] = useState(false)
   const pathname = usePathname()
 
+  // Hide spinner when pathname changes (navigation complete)
   useEffect(() => {
-    setLoading(false)
+    if (loading) {
+      setFadeOut(true)
+      const timer = setTimeout(() => {
+        setLoading(false)
+        setFadeOut(false)
+      }, 400)
+      return () => clearTimeout(timer)
+    }
   }, [pathname])
 
+  // Intercept all link clicks for SPA navigation
   useEffect(() => {
-    const handleStart = () => setLoading(true)
-    const handleComplete = () => setLoading(false)
-
-    window.addEventListener('beforeunload', handleStart)
-    
-    return () => {
-      window.removeEventListener('beforeunload', handleStart)
+    const handleClick = (e: MouseEvent) => {
+      const anchor = (e.target as HTMLElement).closest('a')
+      if (!anchor) return
+      const href = anchor.getAttribute('href')
+      if (!href || href.startsWith('#') || href.startsWith('http') || href.startsWith('mailto:') || href.startsWith('tel:')) return
+      if (href === pathname) return
+      setLoading(true)
+      setFadeOut(false)
     }
+
+    document.addEventListener('click', handleClick, true)
+    return () => document.removeEventListener('click', handleClick, true)
+  }, [pathname])
+
+  // Also handle beforeunload for full page navigations
+  useEffect(() => {
+    const handleBeforeUnload = () => {
+      setLoading(true)
+      setFadeOut(false)
+    }
+    window.addEventListener('beforeunload', handleBeforeUnload)
+    return () => window.removeEventListener('beforeunload', handleBeforeUnload)
   }, [])
 
   if (!loading) return null
 
   return (
-    <div className="loading-spinner-overlay">
+    <div className={`loading-spinner-overlay ${fadeOut ? 'fade-out' : ''}`}>
       <div className="loading-spinner-container">
-        {/* Multi-ring spinner */}
         <div className="spinner-modern">
           <div className="spinner-ring-outer"></div>
           <div className="spinner-ring-middle"></div>
           <div className="spinner-ring-inner"></div>
           <div className="spinner-dot"></div>
         </div>
-        
-        {/* Loading text with gradient */}
         <div className="loading-text-wrapper">
           <p className="loading-text">Loading</p>
           <div className="loading-dots">

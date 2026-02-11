@@ -1,253 +1,327 @@
-/* Terms of Service Page Styles */
+/* ============================================================
+   Terms & Conditions — Luxe Design System
+   Primary: #6B2D3E (wine) · Secondary: #D4A373 (warm gold)
+   Accent: #C9A96E · Dark: #2C1810 · Light: #F5EDE3
+   ============================================================ */
 
+/* ── Page Container ──────────────────────────────────────────── */
 .pageContainer {
   min-height: 100vh;
-  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+  background-color: #FAFAF8;
+  font-family: var(--font-sans, 'Inter', sans-serif);
+  color: #292524;
+  overflow-x: hidden;
 }
 
-.container {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 0 2rem;
-}
-
-/* Hero Section */
+/* ── Hero ─────────────────────────────────────────────────────── */
 .hero {
   position: relative;
-  height: 300px;
-  background: linear-gradient(135deg, #800020 0%, #a0002a 50%, #c00030 100%);
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  background: linear-gradient(135deg, #6B2D3E, #8B3A4A, #5A2333);
+  padding: 6rem 2rem 5rem;
+  text-align: center;
   overflow: hidden;
 }
 
 .hero::before {
   content: '';
   position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="25" cy="25" r="1" fill="rgba(255,255,255,0.1)"/><circle cx="75" cy="75" r="1" fill="rgba(255,255,255,0.1)"/><circle cx="50" cy="10" r="0.5" fill="rgba(255,255,255,0.1)"/><circle cx="10" cy="50" r="0.5" fill="rgba(255,255,255,0.1)"/><circle cx="90" cy="30" r="0.5" fill="rgba(255,255,255,0.1)"/></pattern></defs><rect width="100" height="100" fill="url(%23grain)"/></svg>');
-  opacity: 0.3;
+  inset: 0;
+  background: linear-gradient(
+    120deg,
+    rgba(201, 169, 110, 0) 0%,
+    rgba(201, 169, 110, 0.12) 40%,
+    rgba(201, 169, 110, 0) 60%
+  );
+  background-size: 200% 100%;
+  animation: heroShimmer 6s ease-in-out infinite;
+  pointer-events: none;
+  z-index: 1;
+}
+
+@keyframes heroShimmer {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
 }
 
 .heroContent {
   position: relative;
   z-index: 2;
-  text-align: center;
-  color: white;
   max-width: 800px;
-  padding: 0 20px;
+  margin: 0 auto;
+}
+
+.heroText {
+  color: #fff;
 }
 
 .heroText h1 {
+  font-family: var(--font-serif, 'Playfair Display', Georgia, serif);
   font-size: 3rem;
   font-weight: 700;
   margin-bottom: 1rem;
-  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  letter-spacing: -0.02em;
+  line-height: 1.15;
+  color: #fff;
 }
 
 .heroText p {
-  font-size: 1.2rem;
-  opacity: 0.9;
-  line-height: 1.6;
+  font-size: 1.15rem;
+  line-height: 1.7;
+  color: rgba(255, 255, 255, 0.85);
+  max-width: 600px;
+  margin: 0 auto;
+  font-weight: 400;
 }
 
-/* Overview Section */
+/* ── Shared Container ────────────────────────────────────────── */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 2rem;
+}
+
+/* ── Overview Section ────────────────────────────────────────── */
 .overviewSection {
   padding: 4rem 0;
-  background: white;
+  background: #F5EDE3;
 }
 
 .overviewSection .container {
-  max-width: 1280px;
+  max-width: 1200px;
   margin: 0 auto;
   padding: 0 2rem;
 }
 
 .overviewCard {
-  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
-  border-radius: 16px;
-  padding: 3rem;
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   gap: 2rem;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-radius: 1.5rem;
+  padding: 2.5rem;
+  border: 1px solid rgba(107, 45, 62, 0.06);
+  box-shadow: 0 4px 24px rgba(44, 24, 16, 0.06);
 }
 
 .overviewIcon {
-  background: linear-gradient(135deg, #800020, #a0002a);
-  color: white;
-  padding: 1rem;
-  border-radius: 12px;
+  flex-shrink: 0;
+  width: 56px;
+  height: 56px;
+  background: linear-gradient(135deg, #6B2D3E, #8B3A4A);
+  border-radius: 1rem;
   display: flex;
   align-items: center;
   justify-content: center;
+  color: #fff;
+  font-size: 1.5rem;
+}
+
+.overviewContent {
+  flex: 1;
 }
 
 .overviewContent h2 {
-  font-size: 2rem;
+  font-family: var(--font-serif, 'Playfair Display', Georgia, serif);
+  font-size: 1.75rem;
   font-weight: 700;
-  color: #333;
-  margin-bottom: 1rem;
+  color: #2C1810;
+  margin-bottom: 0.75rem;
+  letter-spacing: -0.01em;
 }
 
 .overviewContent p {
-  color: #4a5568;
-  line-height: 1.6;
-  margin-bottom: 1rem;
-  font-size: 1rem;
+  font-size: 1.05rem;
+  line-height: 1.75;
+  color: #57534E;
 }
 
+/* ── Last Updated Badge ──────────────────────────────────────── */
 .lastUpdated {
-  color: #800020;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: rgba(107, 45, 62, 0.08);
+  color: #6B2D3E;
+  font-size: 0.85rem;
   font-weight: 600;
+  padding: 0.45rem 1rem;
+  border-radius: 2rem;
+  margin-top: 1.25rem;
+  letter-spacing: 0.02em;
 }
 
-/* Terms Overview */
+/* ── Terms Overview Section ──────────────────────────────────── */
 .termsOverview {
-  padding: 4rem 0;
-  background: #f8f9fa;
+  padding: 5rem 0;
+  background: #FAFAF8;
 }
 
 .termsOverview .container {
-  max-width: 1280px;
+  max-width: 1200px;
   margin: 0 auto;
   padding: 0 2rem;
 }
 
+/* ── Section Header ──────────────────────────────────────────── */
 .sectionHeader {
   text-align: center;
   margin-bottom: 3rem;
 }
 
 .sectionHeader h2 {
-  font-size: 2.5rem;
+  font-family: var(--font-serif, 'Playfair Display', Georgia, serif);
+  font-size: 2.25rem;
   font-weight: 700;
-  color: #333;
-  margin-bottom: 1rem;
+  color: #2C1810;
+  margin-bottom: 0.75rem;
+  letter-spacing: -0.02em;
 }
 
 .sectionHeader p {
-  font-size: 1.1rem;
-  color: #4a5568;
+  font-size: 1.05rem;
+  line-height: 1.7;
+  color: #6B6560;
   max-width: 600px;
   margin: 0 auto;
 }
 
+/* ── Terms Grid & Cards ──────────────────────────────────────── */
 .termsGrid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-  gap: 2rem;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.75rem;
 }
 
 .termCard {
-  background: white;
-  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-radius: 1.25rem;
   padding: 2rem;
-  text-align: center;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  border: 1px solid rgba(107, 45, 62, 0.06);
+  box-shadow: 0 2px 16px rgba(44, 24, 16, 0.04);
+  transition: all 0.3s cubic-bezier(0.33, 1, 0.68, 1);
 }
 
 .termCard:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
-}
-
-.sectionIcon {
-  background: linear-gradient(135deg, #800020, #a0002a);
-  color: white;
-  width: 60px;
-  height: 60px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin: 0 auto 1.5rem;
+  transform: translateY(-3px);
+  box-shadow: 0 12px 32px rgba(44, 24, 16, 0.1);
+  border-color: rgba(107, 45, 62, 0.12);
 }
 
 .termCard h3 {
-  font-size: 1.3rem;
-  font-weight: 600;
-  color: #333;
-  margin-bottom: 1rem;
+  font-family: var(--font-serif, 'Playfair Display', Georgia, serif);
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #2C1810;
+  margin-bottom: 0.75rem;
+  letter-spacing: -0.01em;
 }
 
 .termCard p {
-  color: #4a5568;
-  line-height: 1.6;
+  font-size: 0.95rem;
+  line-height: 1.7;
+  color: #6B6560;
 }
 
-/* Obligations Section */
+.sectionIcon {
+  width: 44px;
+  height: 44px;
+  background: linear-gradient(135deg, rgba(107, 45, 62, 0.1), rgba(107, 45, 62, 0.05));
+  border-radius: 0.85rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 1.25rem;
+  color: #6B2D3E;
+  font-size: 1.2rem;
+}
+
+/* ── Obligations Section ─────────────────────────────────────── */
 .obligationsSection {
-  padding: 4rem 0;
-  background: white;
+  padding: 5rem 0;
+  background: #F5EDE3;
 }
 
 .obligationsSection .container {
-  max-width: 1280px;
+  max-width: 1200px;
   margin: 0 auto;
   padding: 0 2rem;
 }
 
 .obligationsGrid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 2rem;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.75rem;
 }
 
 .obligationCard {
-  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
-  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-radius: 1.25rem;
   padding: 2rem;
-  text-align: center;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  border: 1px solid rgba(107, 45, 62, 0.06);
+  box-shadow: 0 2px 16px rgba(44, 24, 16, 0.04);
+  transition: all 0.3s cubic-bezier(0.33, 1, 0.68, 1);
 }
 
 .obligationCard:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
-}
-
-.obligationIcon {
-  font-size: 2rem;
-  margin-bottom: 1rem;
+  transform: translateY(-3px);
+  box-shadow: 0 12px 32px rgba(44, 24, 16, 0.1);
+  border-color: rgba(107, 45, 62, 0.12);
 }
 
 .obligationCard h3 {
+  font-family: var(--font-serif, 'Playfair Display', Georgia, serif);
   font-size: 1.2rem;
-  font-weight: 600;
-  color: #333;
-  margin-bottom: 1rem;
+  font-weight: 700;
+  color: #2C1810;
+  margin-bottom: 0.75rem;
+  letter-spacing: -0.01em;
 }
 
 .obligationCard p {
-  color: #4a5568;
-  line-height: 1.6;
+  font-size: 0.95rem;
+  line-height: 1.7;
+  color: #6B6560;
 }
 
-/* Prohibited Activities Section */
+.obligationIcon {
+  width: 44px;
+  height: 44px;
+  background: linear-gradient(135deg, rgba(212, 163, 115, 0.2), rgba(212, 163, 115, 0.08));
+  border-radius: 0.85rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 1.25rem;
+  color: #D4A373;
+  font-size: 1.2rem;
+}
+
+/* ── Prohibited Section ──────────────────────────────────────── */
 .prohibitedSection {
-  padding: 4rem 0;
-  background: #f8f9fa;
+  padding: 5rem 0;
+  background: #FAFAF8;
 }
 
 .prohibitedSection .container {
   max-width: 1200px;
   margin: 0 auto;
-  padding: 0 20px;
+  padding: 0 2rem;
 }
 
 .prohibitedCard {
-  background: white;
-  border-radius: 12px;
-  padding: 3rem;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-radius: 1.5rem;
+  padding: 2.5rem;
+  border: 1px solid rgba(107, 45, 62, 0.06);
+  box-shadow: 0 4px 24px rgba(44, 24, 16, 0.06);
   max-width: 800px;
   margin: 0 auto;
 }
@@ -256,210 +330,214 @@
   list-style: none;
   padding: 0;
   margin: 0;
+  display: grid;
+  gap: 1rem;
 }
 
 .prohibitedList li {
-  color: #4a5568;
-  line-height: 1.6;
-  margin-bottom: 1rem;
-  padding-left: 1.5rem;
   position: relative;
+  padding-left: 1.75rem;
+  font-size: 0.95rem;
+  line-height: 1.7;
+  color: #57534E;
 }
 
 .prohibitedList li::before {
-  content: '🚫';
+  content: '✕';
   position: absolute;
   left: 0;
-  font-size: 0.8rem;
+  top: 0;
+  color: #6B2D3E;
+  font-weight: 700;
+  font-size: 0.85rem;
 }
 
-/* Liability Section */
+/* ── Liability Section ───────────────────────────────────────── */
 .liabilitySection {
-  padding: 4rem 0;
-  background: white;
+  padding: 5rem 0;
+  background: #F5EDE3;
 }
 
 .liabilitySection .container {
   max-width: 1200px;
   margin: 0 auto;
-  padding: 0 20px;
+  padding: 0 2rem;
 }
 
 .liabilityGrid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 2rem;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.75rem;
 }
 
 .liabilityCard {
-  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
-  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-radius: 1.25rem;
   padding: 2rem;
-  text-align: center;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  border: 1px solid rgba(107, 45, 62, 0.06);
+  box-shadow: 0 2px 16px rgba(44, 24, 16, 0.04);
+  transition: all 0.3s cubic-bezier(0.33, 1, 0.68, 1);
 }
 
 .liabilityCard:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
-}
-
-.liabilityIcon {
-  font-size: 2rem;
-  margin-bottom: 1rem;
+  transform: translateY(-3px);
+  box-shadow: 0 12px 32px rgba(44, 24, 16, 0.1);
+  border-color: rgba(107, 45, 62, 0.12);
 }
 
 .liabilityCard h3 {
+  font-family: var(--font-serif, 'Playfair Display', Georgia, serif);
   font-size: 1.2rem;
-  font-weight: 600;
-  color: #333;
-  margin-bottom: 1rem;
+  font-weight: 700;
+  color: #2C1810;
+  margin-bottom: 0.75rem;
+  letter-spacing: -0.01em;
 }
 
 .liabilityCard p {
-  color: #4a5568;
-  line-height: 1.6;
+  font-size: 0.95rem;
+  line-height: 1.7;
+  color: #6B6560;
 }
 
-/* Contact Section */
+.liabilityIcon {
+  width: 44px;
+  height: 44px;
+  background: linear-gradient(135deg, rgba(201, 169, 110, 0.2), rgba(201, 169, 110, 0.08));
+  border-radius: 0.85rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 1.25rem;
+  color: #C9A96E;
+  font-size: 1.2rem;
+}
+
+/* ── Contact Section ─────────────────────────────────────────── */
 .contactSection {
-  padding: 4rem 0;
-  background: linear-gradient(135deg, #800020 0%, #a0002a 100%);
-  color: white;
+  padding: 5rem 0;
+  background: linear-gradient(135deg, #6B2D3E, #8B3A4A, #5A2333);
 }
 
 .contactSection .container {
-  max-width: 800px;
+  max-width: 1200px;
   margin: 0 auto;
-  padding: 0 20px;
+  padding: 0 2rem;
+}
+
+.contactContent {
   text-align: center;
+  margin-bottom: 3rem;
 }
 
 .contactContent h2 {
-  font-size: 2rem;
+  font-family: var(--font-serif, 'Playfair Display', Georgia, serif);
+  font-size: 2.25rem;
   font-weight: 700;
-  margin-bottom: 1rem;
+  color: #fff;
+  margin-bottom: 0.75rem;
+  letter-spacing: -0.02em;
 }
 
 .contactContent p {
-  font-size: 1.1rem;
-  opacity: 0.9;
-  margin-bottom: 2rem;
-  line-height: 1.6;
+  font-size: 1.05rem;
+  line-height: 1.7;
+  color: rgba(255, 255, 255, 0.8);
+  max-width: 550px;
+  margin: 0 auto;
 }
 
 .contactGrid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 2rem;
-  margin-bottom: 2rem;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.75rem;
 }
 
 .contactItem {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
   background: rgba(255, 255, 255, 0.1);
-  padding: 1.5rem;
-  border-radius: 8px;
-  backdrop-filter: blur(10px);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-radius: 1.25rem;
+  padding: 2rem;
+  text-align: center;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  transition: all 0.3s cubic-bezier(0.33, 1, 0.68, 1);
 }
 
 .contactItem svg {
-  color: #ffd700;
+  width: 28px;
+  height: 28px;
+  color: #D4A373;
+  margin-bottom: 1rem;
 }
 
 .contactItem h4 {
-  font-size: 1rem;
-  font-weight: 600;
-  margin-bottom: 0.25rem;
+  font-family: var(--font-serif, 'Playfair Display', Georgia, serif);
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #fff;
+  margin-bottom: 0.5rem;
 }
 
 .contactItem a {
-  color: white;
+  font-size: 0.95rem;
+  color: rgba(255, 255, 255, 0.8);
   text-decoration: none;
-  opacity: 0.9;
-  transition: opacity 0.3s ease;
+  transition: color 0.3s cubic-bezier(0.33, 1, 0.68, 1);
 }
 
 .contactItem a:hover {
-  opacity: 1;
+  color: #D4A373;
 }
 
 .contactAddress {
   background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-radius: 1.25rem;
   padding: 2rem;
-  border-radius: 8px;
-  backdrop-filter: blur(10px);
+  text-align: center;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  grid-column: 1 / -1;
+  margin-top: 0.5rem;
 }
 
 .contactAddress h4 {
-  font-size: 1.2rem;
-  font-weight: 600;
-  margin-bottom: 1rem;
+  font-family: var(--font-serif, 'Playfair Display', Georgia, serif);
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #fff;
+  margin-bottom: 0.5rem;
 }
 
 .contactAddress p {
-  line-height: 1.6;
-  opacity: 0.9;
+  font-size: 0.95rem;
+  line-height: 1.7;
+  color: rgba(255, 255, 255, 0.8);
 }
 
-/* Responsive Design */
+/* ══════════════════════════════════════════════════════════════
+   Responsive — Tablet (≤ 768px)
+   ══════════════════════════════════════════════════════════════ */
 @media (max-width: 768px) {
+  .hero {
+    padding: 4.5rem 1.5rem 3.5rem;
+  }
+
   .heroText h1 {
-    font-size: 2rem;
+    font-size: 2.25rem;
   }
 
   .heroText p {
-    font-size: 1rem;
+    font-size: 1.05rem;
   }
 
   .overviewCard {
     flex-direction: column;
-    text-align: center;
     padding: 2rem;
-  }
-
-  .overviewIcon {
-    margin-bottom: 1rem;
-  }
-
-  .sectionHeader h2 {
-    font-size: 2rem;
-  }
-
-  .termsGrid,
-  .obligationsGrid,
-  .liabilityGrid {
-    grid-template-columns: 1fr;
-  }
-
-  .contactGrid {
-    grid-template-columns: 1fr;
-  }
-
-  .contactContent h2 {
-    font-size: 1.5rem;
-  }
-
-  .prohibitedCard {
-    padding: 2rem;
-  }
-}
-
-@media (max-width: 480px) {
-  .hero {
-    height: 250px;
-  }
-
-  .heroText h1 {
-    font-size: 1.5rem;
-  }
-
-  .overviewCard {
-    padding: 1.5rem;
-    margin: 0 0.5rem;
+    gap: 1.25rem;
   }
 
   .overviewContent h2 {
@@ -467,21 +545,173 @@
   }
 
   .sectionHeader h2 {
-    font-size: 1.8rem;
+    font-size: 1.85rem;
   }
 
-  .termCard,
-  .obligationCard,
-  .liabilityCard {
-    padding: 1.5rem;
-    margin: 0 0.5rem;
+  .termsGrid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.25rem;
   }
 
+  .obligationsGrid {
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+  }
+
+  .liabilityGrid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.25rem;
+  }
+
+  .contactGrid {
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+  }
+
+  .contactContent h2 {
+    font-size: 1.85rem;
+  }
+
+  .termsOverview,
+  .obligationsSection,
+  .prohibitedSection,
+  .liabilitySection,
   .contactSection {
-    padding: 3rem 1rem;
+    padding: 3.5rem 0;
+  }
+
+  .overviewSection {
+    padding: 3rem 0;
+  }
+}
+
+/* ══════════════════════════════════════════════════════════════
+   Responsive — Mobile (≤ 480px)
+   ══════════════════════════════════════════════════════════════ */
+@media (max-width: 480px) {
+  .hero {
+    padding: 3.5rem 1rem 2.5rem;
+  }
+
+  .heroText h1 {
+    font-size: 1.75rem;
+  }
+
+  .heroText p {
+    font-size: 0.95rem;
   }
 
   .container {
-    padding: 0 0.5rem !important;
+    padding: 0 1rem;
+  }
+
+  .overviewSection .container,
+  .termsOverview .container,
+  .obligationsSection .container,
+  .prohibitedSection .container,
+  .liabilitySection .container,
+  .contactSection .container {
+    padding: 0 1rem;
+  }
+
+  .overviewCard {
+    padding: 1.5rem;
+    border-radius: 1rem;
+  }
+
+  .overviewContent h2 {
+    font-size: 1.3rem;
+  }
+
+  .overviewContent p {
+    font-size: 0.95rem;
+  }
+
+  .sectionHeader h2 {
+    font-size: 1.5rem;
+  }
+
+  .sectionHeader p {
+    font-size: 0.95rem;
+  }
+
+  .termsGrid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .termCard {
+    padding: 1.5rem;
+    border-radius: 1rem;
+  }
+
+  .termCard h3 {
+    font-size: 1.1rem;
+  }
+
+  .obligationsGrid {
+    gap: 1rem;
+  }
+
+  .obligationCard {
+    padding: 1.5rem;
+    border-radius: 1rem;
+  }
+
+  .obligationCard h3 {
+    font-size: 1.05rem;
+  }
+
+  .prohibitedCard {
+    padding: 1.5rem;
+    border-radius: 1rem;
+  }
+
+  .prohibitedList li {
+    font-size: 0.9rem;
+  }
+
+  .liabilityGrid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .liabilityCard {
+    padding: 1.5rem;
+    border-radius: 1rem;
+  }
+
+  .liabilityCard h3 {
+    font-size: 1.05rem;
+  }
+
+  .contactGrid {
+    gap: 1rem;
+  }
+
+  .contactItem {
+    padding: 1.5rem;
+    border-radius: 1rem;
+  }
+
+  .contactAddress {
+    padding: 1.5rem;
+    border-radius: 1rem;
+  }
+
+  .contactContent h2 {
+    font-size: 1.5rem;
+  }
+
+  .termsOverview,
+  .obligationsSection,
+  .prohibitedSection,
+  .liabilitySection,
+  .contactSection {
+    padding: 2.5rem 0;
+  }
+
+  .overviewSection {
+    padding: 2rem 0;
   }
 }
