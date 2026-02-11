@@ -134,23 +134,31 @@ const ProductCard: React.FC<Product & { onInfoClick?: (product: Product) => void
       </div>
 
       {/* Product Info */}
-      <div className="p-5">
+      <div className="product-card-info">
+        {/* Product Name */}
+        <h3 className="product-card-name" title={name}>{name}</h3>
+        
         {/* Price: show cut and original prices */}
-        <div className="flex items-center gap-3 mb-4 justify-center">
+        <div className="product-card-pricing">
           {cut_price && (
-            <span className="text-xl font-bold text-gray-900">
+            <span className="product-card-price">
               ₹{cut_price.toLocaleString()}
             </span>
           )}
           {original_price && (
-            <span className={`text-sm text-gray-500 ${cut_price ? 'line-through' : ''}`}>
+            <span className={`product-card-original ${cut_price ? 'has-discount' : ''}`}>
               ₹{original_price.toLocaleString()}
+            </span>
+          )}
+          {cut_price && original_price && cut_price < original_price && (
+            <span className="product-card-discount">
+              {Math.round(((original_price - cut_price) / original_price) * 100)}% OFF
             </span>
           )}
         </div>
 
         {/* Action Buttons */}
-        <div className="flex gap-3 justify-center relative">
+        <div className="product-card-actions">
           {!isInCart ? (
             <button 
               className="btn-icon btn-primary" 

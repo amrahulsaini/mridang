@@ -14,25 +14,24 @@
 }
 
 .container {
-  max-width: 1480px;
-  margin: 0 auto;
-  padding: 0 1.25rem;
+  max-width: 100%;
+  margin: 0;
+  padding: 0;
 }
 
 /* ─── Main Wrapper ─── */
 .bannerWrapper {
   position: relative;
   width: 100%;
-  max-width: 1440px;
   height: clamp(440px, 54vh, 640px);
-  border-radius: 24px;
+  border-radius: 0;
   overflow: hidden;
-  box-shadow: 0 8px 40px rgba(44, 24, 16, 0.10);
-  margin: 2rem auto;
+  box-shadow: none;
+  margin: 0;
   background: #FAFAF8;
   opacity: 0;
   transition: opacity 0.6s cubic-bezier(0.33, 1, 0.68, 1);
-  border: 1px solid rgba(107, 45, 62, 0.06);
+  border: none;
   will-change: opacity;
 }
 
@@ -275,13 +274,13 @@
 /* ─── Tablet ─── */
 @media (max-width: 1024px) {
   .container {
-    padding: 0 1rem;
+    padding: 0;
   }
 
   .bannerWrapper {
-    height: clamp(340px, 44vh, 500px);
-    border-radius: 20px;
-    margin: 1.5rem auto;
+    height: clamp(320px, 44vh, 480px);
+    border-radius: 0;
+    margin: 0;
   }
 
   .navButton {
@@ -302,14 +301,14 @@
   }
 
   .container {
-    padding: 0 0.75rem;
+    padding: 0;
   }
 
   .bannerWrapper {
     height: 280px;
-    border-radius: 16px;
-    margin: 1rem auto;
-    box-shadow: 0 8px 32px rgba(44, 24, 16, 0.12);
+    border-radius: 0;
+    margin: 0;
+    box-shadow: none;
   }
 
   .imageWrapper {
@@ -371,13 +370,13 @@
 /* ─── Small Mobile ─── */
 @media (max-width: 480px) {
   .container {
-    padding: 0 0.5rem;
+    padding: 0;
   }
 
   .bannerWrapper {
-    height: 240px;
-    border-radius: 12px;
-    margin: 0.75rem auto;
+    height: 220px;
+    border-radius: 0;
+    margin: 0;
   }
 
   .bannerImage {
@@ -423,9 +422,9 @@
 /* ─── Large Screens ─── */
 @media (min-width: 1400px) {
   .bannerWrapper {
-    height: clamp(500px, 56vh, 680px);
-    border-radius: 28px;
-    margin: 2.5rem auto;
+    height: clamp(500px, 56vh, 720px);
+    border-radius: 0;
+    margin: 0;
   }
 
   .navButton {
@@ -434,11 +433,11 @@
   }
 
   .navButtonLeft {
-    left: 36px;
+    left: 48px;
   }
 
   .navButtonRight {
-    right: 36px;
+    right: 48px;
   }
 
   .thumbnail {
