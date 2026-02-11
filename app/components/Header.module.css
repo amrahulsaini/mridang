@@ -1,11 +1,15 @@
-g.header {
-  background: #fff;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+.header {
+  background: rgba(255, 255, 255, 0.98);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  box-shadow: 0 2px 16px rgba(0, 0, 0, 0.04);
   position: sticky;
   top: 0;
   z-index: 50;
   width: 100%;
   min-height: 100px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.04);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 @media (max-width: 768px) {
@@ -38,6 +42,12 @@ g.header {
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
+  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.06));
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.logo-image:hover {
+  transform: scale(1.02);
 }
 
 @media (max-width: 768px) {

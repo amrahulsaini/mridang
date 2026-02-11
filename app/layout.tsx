@@ -13,13 +13,22 @@ const sora = Sora({
 });
 
 export const metadata: Metadata = {
-  title: "Mridang - Handcrafted with Love",
-  description: "Beautiful handcrafted ring platters, haldi platters, and mehendi platters for your special occasions. Custom designs available.",
+  title: "Mridang - Handcrafted with Love | Premium Ring & Haldi Platters",
+  description: "Beautiful handcrafted ring platters, haldi platters, and mehendi platters for your special occasions. Custom designs available with premium quality craftsmanship.",
+  keywords: "ring platters, haldi platters, mehendi platters, wedding platters, handcrafted platters, custom platters, ceremony platters",
+  authors: [{ name: "Mridang" }],
   viewport: {
     width: "device-width",
     initialScale: 1,
     maximumScale: 5,
     userScalable: true,
+  },
+  themeColor: "#800020",
+  openGraph: {
+    type: "website",
+    title: "Mridang - Handcrafted Premium Platters",
+    description: "Beautiful handcrafted platters for your special occasions",
+    siteName: "Mridang",
   },
 };
 

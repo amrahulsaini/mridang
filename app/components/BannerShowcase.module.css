@@ -1,8 +1,11 @@
 .bannerShowcase {
   width: 100%;
-  background: linear-gradient(135deg, #fef3e2 0%, #faf8f3 100%);
+  background: transparent;
   padding: 0;
   overflow: hidden;
+  margin-bottom: -4rem;
+  position: relative;
+  z-index: 1;
 }
 
 .container {
@@ -14,12 +17,18 @@
 .bannerWrapper {
   position: relative;
   width: 100%;
-  height: 500px;
+  height: 600px;
   border-radius: 0;
   overflow: hidden;
-  box-shadow: none;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
   margin-bottom: 0;
   background: #000;
+  opacity: 0;
+  transition: opacity 0.6s ease-out;
+}
+
+.bannerWrapper.loaded {
+  opacity: 1;
 }
 
 .bannerLayer {
@@ -59,7 +68,7 @@
 .bannersTrack {
   display: flex;
   height: 100%;
-  transition: transform 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .bannerSlide {
@@ -81,11 +90,12 @@
   object-position: center;
   width: 100%;
   height: 100%;
-  transition: transform 0.3s ease;
+  transition: transform 8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  will-change: transform;
 }
 
 .bannerSlide:hover .bannerImage {
-  transform: scale(1.05);
+  transform: scale(1.08);
 }
 
 .gradientOverlay {
@@ -93,44 +103,131 @@
   inset: 0;
   background: linear-gradient(
     to top,
-    rgba(0, 0, 0, 0.3) 0%,
-    transparent 50%
+    rgba(0, 0, 0, 0.5) 0%,
+    rgba(0, 0, 0, 0.2) 30%,
+    transparent 70%
   );
   pointer-events: none;
-  z-index: 1;
+  z-index: 2;
+}
+
+.gradientOverlayTop {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 120px;
+  background: linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0.3) 0%,
+    transparent 100%
+  );
+  pointer-events: none;
+  z-index: 2;
+}
+
+/* Navigation Arrows */
+.navButton {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(8px);
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+  color: #2d2d2d;
+}
+
+.navButton:hover {
+  background: white;
+  transform: translateY(-50%) scale(1.08);
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.2);
+}
+
+.navButton:active {
+  transform: translateY(-50%) scale(0.95);
+}
+
+.navButtonLeft {
+  left: 24px;
+}
+
+.navButtonRight {
+  right: 24px;
 }
 
 /* Dot Indicators */
 .indicators {
   position: absolute;
-  bottom: 20px;
+  bottom: 28px;
   left: 50%;
   transform: translateX(-50%);
   display: flex;
-  gap: 10px;
+  gap: 12px;
   z-index: 10;
+  padding: 12px 24px;
+  background: rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(12px);
+  border-radius: 100px;
 }
 
 .indicator {
-  width: 12px;
-  height: 12px;
+  width: 10px;
+  height: 10px;
   border-radius: 50%;
-  background: rgba(255, 255, 255, 0.5);
-  border: 2px solid white;
+  background: rgba(255, 255, 255, 0.6);
+  border: none;
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   padding: 0;
 }
 
 .indicator:hover {
-  background: rgba(255, 255, 255, 0.8);
-  transform: scale(1.2);
+  background: rgba(255, 255, 255, 0.9);
+  transform: scale(1.3);
 }
 
 .indicatorActive {
   background: white;
-  width: 32px;
+  width: 36px;
   border-radius: 6px;
+}
+
+/* Progress Bar */
+.progressBar {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: rgba(255, 255, 255, 0.2);
+  z-index: 10;
+  overflow: hidden;
+}
+
+.progressFill {
+  height: 100%;
+  background: linear-gradient(90deg, #d4a574 0%, #c89b68 100%);
+  width: 100%;
+  transform-origin: left;
+}
+
+@keyframes progress {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
 }
 
 /* Thumbnail Preview */
@@ -202,28 +299,44 @@
   }
 
   .bannerWrapper {
-    height: 280px;
+    height: 360px;
     border-radius: 0;
     margin-bottom: 0;
   }
 
+  .navButton {
+    width: 44px;
+    height: 44px;
+  }
+
+  .navButtonLeft {
+    left: 12px;
+  }
+
+  .navButtonRight {
+    right: 12px;
+  }
+
   .indicators {
-    bottom: 12px;
-    gap: 6px;
+    bottom: 16px;
+    gap: 8px;
+    padding: 8px 16px;
   }
 
   .indicator {
     width: 8px;
     height: 8px;
-    border-width: 1.5px;
   }
 
   .indicatorActive {
-    width: 24px;
-    border-radius: 4px;
+    width: 28px;
+    border-radius: 5px;
   }
 
-  /* Hide thumbnails on mobile */
+  .progressBar {
+    height: 3px;
+  }
+
   .thumbnailsWrapper {
     display: none;
   }
@@ -232,20 +345,27 @@
 /* Small Mobile */
 @media (max-width: 480px) {
   .bannerWrapper {
-    height: 220px;
+    height: 280px;
     border-radius: 0;
   }
 
   .navButton {
-    width: 32px;
-    height: 32px;
+    width: 36px;
+    height: 36px;
   }
 
   .navButton svg {
-    width: 16px;
-    height: 16px;
+    width: 20px;
+    height: 20px;
   }
 
+  .navButtonLeft {
+    left: 8px;
+  }
+
+  .navButtonRight {
+    right: 8px;
+  }
 }
 
 /* Tablet Portrait - Show 2 columns for thumbnails */

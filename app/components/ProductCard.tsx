@@ -112,11 +112,11 @@ const ProductCard: React.FC<Product & { onInfoClick?: (product: Product) => void
             alt={name}
             style={{ 
               width: '100%', 
-              height: 'auto', 
-              maxWidth: '100%',
-              objectFit: 'contain', 
+              height: '100%', 
+              objectFit: 'cover', 
               objectPosition: 'center',
-              display: 'block' 
+              display: 'block',
+              borderRadius: '16px 16px 0 0'
             }}
             loading="lazy"
           />
@@ -124,10 +124,11 @@ const ProductCard: React.FC<Product & { onInfoClick?: (product: Product) => void
           <Image
             src={productImage}
             alt={name}
-            width={420}
-            height={420}
-            className="w-full h-auto object-contain"
-            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+            fill
+            className="object-cover"
+            sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
+            quality={85}
+            loading="lazy"
           />
         )}
       </div>

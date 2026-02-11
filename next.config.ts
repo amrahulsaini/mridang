@@ -2,17 +2,31 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   images: {
-    // Disable built-in optimization so any remote URLs (even with query params like `url=`) just load.
-    unoptimized: true,
-    // In case you switch back to optimized later, this keeps SVGs allowed
+    // Enable optimization for better performance
+    unoptimized: false,
     dangerouslyAllowSVG: true,
     contentSecurityPolicy: "default-src 'self'; script-src 'none'; sandbox;",
-    // Loosen remote patterns so external images load regardless of host
+    // Supported formats for modern browsers
+    formats: ['image/webp', 'image/avif'],
+    // Quality setting for optimized images
+    quality: 85,
+    // Device sizes for responsive images
+    deviceSizes: [640, 750, 828, 1080, 1200, 1920, 2048, 3840],
+    // Image sizes for different use cases
+    imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
     remotePatterns: [
       { protocol: 'https', hostname: '**' },
       { protocol: 'http', hostname: '**' },
     ],
   },
+  // Enable compression
+  compress: true,
+  // Optimize production builds
+  swcMinify: true,
+  // Enable React strict mode for better development experience
+  reactStrictMode: true,
+  // Power optimizations
+  poweredByHeader: false,
 };
 
 export default nextConfig;
