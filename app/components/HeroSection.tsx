@@ -137,22 +137,7 @@ const HeroSection = () => {
         }
 
         .hero-gradient-bg {
-          position: absolute;
-          top: -50%;
-          left: -10%;
-          width: 120%;
-          height: 200%;
-          background: 
-            radial-gradient(circle at 30% 40%, rgba(255, 220, 180, 0.15) 0%, transparent 50%),
-            radial-gradient(circle at 70% 60%, rgba(255, 240, 210, 0.12) 0%, transparent 50%);
-          animation: float 20s ease-in-out infinite;
-          pointer-events: none;
-        }
-
-        @keyframes float {
-          0%, 100% { transform: translate(0, 0) rotate(0deg); }
-          33% { transform: translate(30px, -30px) rotate(2deg); }
-          66% { transform: translate(-20px, 20px) rotate(-2deg); }
+          display: none;
         }
 
         .hero-content-modern {
@@ -180,12 +165,6 @@ const HeroSection = () => {
 
         .hero-badge-icon {
           color: #d4a574;
-          animation: sparkle 2s ease-in-out infinite;
-        }
-
-        @keyframes sparkle {
-          0%, 100% { opacity: 1; transform: scale(1); }
-          50% { opacity: 0.7; transform: scale(1.1); }
         }
 
         .hero-title-modern {
@@ -253,18 +232,7 @@ const HeroSection = () => {
         }
 
         .btn-hero-primary::before {
-          content: '';
-          position: absolute;
-          top: 0;
-          left: -100%;
-          width: 100%;
-          height: 100%;
-          background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-          transition: left 0.5s;
-        }
-
-        .btn-hero-primary:hover::before {
-          left: 100%;
+          display: none;
         }
 
         .btn-hero-primary:hover {
