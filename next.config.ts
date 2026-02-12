@@ -12,9 +12,12 @@ const nextConfig: NextConfig = {
     deviceSizes: [640, 750, 828, 1080, 1200, 1920, 2048, 3840],
     // Image sizes for different use cases
     imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
+    // Only allow specific domains for external images (improved security & performance)
     remotePatterns: [
-      { protocol: 'https', hostname: '**' },
-      { protocol: 'http', hostname: '**' },
+      { protocol: 'https', hostname: 'dl.dropboxusercontent.com' },
+      { protocol: 'https', hostname: 'www.dropbox.com' },
+      { protocol: 'https', hostname: 'cdninstagram.com' },
+      { protocol: 'https', hostname: '*.cdninstagram.com' },
     ],
   },
   // Enable compression

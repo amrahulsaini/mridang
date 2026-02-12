@@ -6,7 +6,9 @@
     "dev": "next dev --turbopack",
     "build": "next build --turbopack",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "migrate:dropbox": "tsx scripts/migrate-dropbox-images.ts",
+    "verify:migration": "tsx scripts/verify-migration-status.ts"
   },
   "dependencies": {
     "@types/nodemailer": "^7.0.1",
@@ -28,6 +30,7 @@
     "@types/react-dom": "^19.1.9",
     "eslint": "^9",
     "eslint-config-next": "15.5.3",
+    "tsx": "^4.19.2",
     "typescript": "^5"
   }
 }
